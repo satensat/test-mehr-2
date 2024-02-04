@@ -1,0 +1,27 @@
+
+.productPageTop{
+ background:#FDFDFD;
+box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+}
+.BrandListItem {
+    background-color: var(--color3);
+    border: 3px solid var(--color3);
+    border-radius: 10px;
+    transition: 0.4s;
+   cursor: pointer;
+}
+.BrandListItem svg {
+    transition: 0.4s;
+}
+.BrandListItem:hover svg {
+    filter: brightness(0) invert(1);
+}
+.productPageTop ul:nth-of-type(1) .BrandListItem:hover{
+    border: 3px solid var(--color1);
+}
+.productPageTop ul:nth-of-type(2) .BrandListItem:hover{
+    background-color: var(--color1);
+    color: #fff;
+}
+
+

@@ -1,0 +1,99 @@
+ .card::before {
+  content: "";
+  transition: all 0.5s ease-in-out;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  background-color: #2a978e;
+
+}
+.card:hover::before{
+  width: 100%;
+}
+
+/* .card{
+  transition: all 0.5s ease-in-out;
+ 
+} */ 
+.card:hover{
+
+  /* box-shadow: #2a978e 0px 8px 24px; */
+  box-shadow: 0px 1px 8px 0px #2a978e;
+}
+/* 
+.innerCard span {
+  position: absolute;
+  display: block;
+}
+
+
+
+
+.innerCard span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 0px;
+  background: linear-gradient(90deg, transparent, #2a978e);
+}
+
+
+
+.innerCard:hover span:nth-child(1) {
+  left: 100%;
+  transition: 1s;
+  height: 2px;
+}
+
+
+.innerCard span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 0px;
+  background: linear-gradient(270deg, transparent, #2a978e);
+}
+
+.innerCard:hover span:nth-child(3) {
+  right: 100%;
+  transition: 1s;
+  transition-delay: 0.5s;
+  height: 2px;
+}
+
+
+
+.innerCard span:nth-child(2) {
+  top: -100%;
+  right: 0;
+  width: 0px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #2a978e);
+}
+
+.innerCard:hover span:nth-child(2) {
+  top: 100%;
+  transition: 1s;
+  transition-delay: 0.25s;
+  width: 2px;
+}
+
+
+
+.innerCard span:nth-child(4) {
+  bottom: -100%;
+  left: -1%;
+  width: 0px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #2a978e);
+}
+
+.innerCard:hover span:nth-child(4) {
+  bottom: 100%;
+  width: 3px;
+  transition: 1s;
+  transition-delay: 0.75s;
+} */

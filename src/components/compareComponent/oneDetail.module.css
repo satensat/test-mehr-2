@@ -1,0 +1,10 @@
+.list_of_detail li:nth-of-type(even){
+background-color: #E6E6E6;
+min-width: max-content;
+}
+
+.list_of_detail li:nth-child(even):hover{
+    background-color: #d6d6d6;
+    min-width: max-content;
+    }
+/* #d6d6d6 */

@@ -1,0 +1,11 @@
+.section_cta_box{
+    background-color: var(--color2);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+}
+.section_cta_box>div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

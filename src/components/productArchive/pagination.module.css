@@ -1,0 +1,6 @@
+.pagination_item svg path{
+    fill:var(--color1);
+} 
+.pagination_item_left{
+    transform: rotateY(180deg);
+}

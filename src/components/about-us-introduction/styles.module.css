@@ -1,0 +1,231 @@
+.container{
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: "";
+    width: 100%;
+    background: url(/home/Vector.svg) no-repeat;
+    position: absolute;
+    opacity: 0.25;
+    background-repeat: no-repeat;
+    /* background-position: top; */
+    filter: brightness(0) invert(1);
+    width: 826px;
+    height: 826px;
+    transform: rotateY(180deg);
+    background-size: contain;
+    top: -413px;
+    right: -62px;
+    background-position: left;
+    max-width: 70%;
+}
+.container::after {
+    content: "";
+    width: 100%;
+    background: url(/home/Vector.svg) no-repeat;
+    position: absolute;
+    opacity: 0.25;
+    background-repeat: no-repeat;
+    /* background-position: top; */
+    filter: brightness(0) invert(1);
+    width: 826px;
+    height: 826px;
+    /* transform: rotateY(0deg); */
+    background-size: contain;
+    top: -413px;
+    left:-62px;
+    /* right:413px; */
+    background-position: left;
+    max-width: 70%;
+  }
+  @media (min-width:  400px) {
+    .container::before {
+        right:-58px;
+        max-width: 50%;
+    }
+
+    .container::after {
+        left:-58px;
+        max-width: 50%;
+      }
+  }
+  @media (min-width:  560px) {
+    .container::before {
+        right:-50px;
+        max-width: 50%;
+    }
+
+    .container::after {
+        left:-50px;
+        max-width: 50%;
+      }
+  }
+
+  @media (min-width:  992px) {
+    .container::before {
+        right:0;
+        max-width: 50%;
+    }
+
+    .container::after {
+        left:0;
+        max-width: 50%;
+      }
+  }
+
+
+/* 
+  @media (max-width:  400px) {
+    .container::before {
+        right:0%;
+        top:0%;
+        background-size: 30%;
+    }
+
+    .container::after {
+        left:0%;
+        top:0%;
+        background-size: 30%;
+      }
+  }
+  @media (max-width:  768px) {
+    .container::before {
+        right:-70%;
+    }
+
+    .container::after {
+        left:-70%;
+      }
+  }
+  @media (max-width: 992px) {
+    .container::before {
+        right:-50%;
+    }
+
+    .container::after {
+        left:-50%;
+      }
+  }
+  @media (max-width: 1200px) {
+    .container::before {
+        right:-50%;
+    }
+    .container::after {
+        left:-50%;
+      }
+} */
+  /* @media (min-width: 992px) {
+  }
+  @media (max-width: 1200px) {
+  }
+  @media (max-width: 998px) {
+  }
+  
+  
+  @media (min-width: 992px) and (max-width: 1280px) {
+  }
+  @media (max-width: 992px) {
+  }
+  @media (max-width: 768px) {
+  }
+  @media (max-width: 400px) {
+  } */
+
+
+
+  /* content: "";
+  width: 100%;
+  background: url(/home/Vector.svg) no-repeat;
+  position: absolute;
+  opacity: 0.25;
+  background-repeat: no-repeat;
+  background-position: top;
+  filter: brightness(0) invert(1);
+  width: 800px;
+  height: 800px;
+  transform: rotateY(180deg);
+  background-size: contain;
+  top: -400px;
+  right: -28px !important;
+  background-position: left;
+  max-width: 41%; */
+
+
+
+/* 
+
+  .container::before {
+    content: "";
+    width: 100%;
+    background: url("/home/Vector.svg") no-repeat ;
+    position: absolute;
+    opacity: 0.25;
+    background-repeat: no-repeat;
+    background-position:top ;
+    filter: brightness(0) invert(1);
+    width: 826px;
+    height: 826px;
+    transform:  rotate(135deg);
+    background-size: 50%;
+    top:-15%;
+    right:-20%;
+  }
+  .container::after {
+      content: "";
+      width: 100%;
+      background: url("/home/Vector.svg") no-repeat ;
+      position: absolute;
+      opacity: 0.25;
+      background-repeat: no-repeat;
+      background-position:top ;
+      filter: brightness(0) invert(1);
+      width: 826px;
+      height: 826px;
+      transform:  rotate(45deg);
+      background-size: 50%;
+      top:-15%;
+      left:-20%;
+    }
+  
+  
+    @media (max-width:  400px) {
+      .container::before {
+          right:0%;
+          top:0%;
+          background-size: 30%;
+      }
+  
+      .container::after {
+          left:0%;
+          top:0%;
+          background-size: 30%;
+        }
+    }
+    @media (max-width:  768px) {
+      .container::before {
+          right:-70%;
+      }
+  
+      .container::after {
+          left:-70%;
+        }
+    }
+    @media (max-width: 992px) {
+      .container::before {
+          right:-50%;
+      }
+  
+      .container::after {
+          left:-50%;
+        }
+    }
+    @media (max-width: 1200px) {
+      .container::before {
+          right:-50%;
+      }
+      .container::after {
+          left:-50%;
+        }
+  } */

@@ -1,0 +1,125 @@
+.product_card_box{
+   padding: 14px 12px;
+   margin-bottom: 24px;
+   box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08); 
+}
+
+.product_card_button{
+    color: var(--color1);
+    border:1px solid var(--color1);
+    padding: 4px 12px; 
+    margin: 5px auto 16px auto;
+    display: flex;
+    width: max-content;
+    transition: 0.4s;
+}
+.product_card_button:hover{
+background-color: var(--color1);
+color: #fff;
+}
+.product_card_compare_box{
+    display: none;
+    color:#525252;
+    border-top: 1px solid #E6E6E6;
+}
+.product_card_compare_clk{
+    display: flex;
+    align-items: center;
+    padding: 13px 0 5px;
+}
+.product_card_compare_clk  span{
+    border:2px solid #808080;
+    width: 16px ;
+    height: 16px;
+    border-radius: 5px;
+    display: inline-flex;
+    margin-left: 9px;
+}
+
+.product_card_img img{
+    height: 150px;
+  width: auto;
+}
+.product_card_img::after{
+    content: "";
+    width: 100%;
+    height: 100%;
+   position: absolute;  
+  background-image: url("../../../public/home/prdback.png");
+    background-position: center;
+    background-repeat: no-repeat;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  background-size: contain;
+  opacity: 0.25;
+  transition: 0.4s;
+}
+.product_card_box:hover .product_card_img::after{
+    opacity: 1;
+}
+.product_card_brand{
+    display: flex;
+  justify-content: center;
+  padding: 7px;
+}
+.product_card_detail{
+    border-top: 1px solid #E6E6E6;
+    display: flex;
+    justify-content: center;
+    color: #696969;
+    font-size: 12px; 
+    height: 44px;
+}
+
+.product_card_detail >span{
+    display: flex;
+padding: 5px 15px;
+flex-direction: column;
+align-items: center; 
+}
+.product_card_title{
+    font-size: 13px;
+    padding: 5px 0;
+    font-weight: 600;
+    line-height: 22px;
+    transition: 0.4s;
+    word-break: break-word;
+    min-height: 52px;
+    text-align: left;
+}
+.product_card_box:hover .product_card_title{
+color: var(--color1);
+}
+@media (max-width: 640px) { 
+    .product_card_compare_box{
+        order: 3;
+    }
+    .product_card_title{
+        order: 0;
+    }
+    .product_card_img img{
+        height: auto;
+      width: 50px;
+    }
+    .product_card_button{
+        display: none;
+    }
+    .product_card_box{
+        display: flex;
+    }
+    .product_card_box_bottom{
+        display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 8px;
+  width: 100%;
+    }
+    .product_card_detail{
+        border: none;
+        order: 1;
+    }
+    .product_card_detail >span{
+    padding: 2px 10px;
+    }
+}

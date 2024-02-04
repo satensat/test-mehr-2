@@ -1,0 +1,58 @@
+.section_service_box {
+  margin: 49px auto 59px;
+}
+.service_title_box {
+  color: #3b3b3b;
+}
+.service_title_box >svg {
+  margin-left: 10px;
+}
+.service_title_box h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 16px;
+}
+.service_title_box a {
+  color: var(--color4);
+  font-size: 16px;
+
+  transition: 0.45s;
+}
+.service_title_box a:hover{
+  color: var(--color1);
+}
+.service_title_box a svg path {
+  fill: var(--color4);
+  transition: 0.45s;
+}
+.service_title_box a:hover svg path {
+  fill: var(--color1);
+}
+.serviceCardWrap {
+  max-width: calc(50% - 10px);
+}
+
+@media (max-width: 768px) { 
+  .section_service_box{
+    margin: 30px 0;
+  }
+  .service_title_box h4{
+      font-size: 16px;
+  }
+  
+  .service_title_box >svg  {
+      width: 30px;
+height: 30px;
+margin-left: 0;
+  }
+  .service_title_box a{
+    font-size: 14px
+  }
+  
+  .service_title_box a svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    
+}

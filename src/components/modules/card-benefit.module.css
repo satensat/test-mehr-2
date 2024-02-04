@@ -1,0 +1,67 @@
+.benefit_card_box{
+    margin: auto;
+    width: 170px;
+}
+.benefit_card_box a{
+    text-align: center;
+    background: #FFFDFA;
+    overflow: hidden;
+    width: 100%;
+    width:100%;
+    border-radius: 100%;
+    min-height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    color: #3B3B3B;
+    position: relative;
+    z-index: 0;
+}
+.benefit_card_box a::before{
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url("../../../public/home/benefit.svg");
+    background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  transition: 0.55s;
+}
+.benefit_card_box a:hover::before{
+    filter: invert(1);
+  opacity: 0.3;
+  transform: scale(1.2);
+}
+.benefit_card_box a svg{
+    transition: 0.45s;
+  }
+.benefit_card_box a:hover svg{
+  transform: scale(1.2);
+}
+.benefit_card_box a h2{
+    font-weight: 700;
+}
+@media (max-width: 500px) { 
+.benefit_card_box{
+    width: 150px;
+    font-size: 12px;
+}
+.benefit_card_box a{
+    min-height: 150px;}
+}
+
+@media (max-width: 400px) { 
+    .benefit_card_box{
+        width: 135px;
+    }
+    .benefit_card_box a{
+        min-height: 135px;}
+    }
+

@@ -1,0 +1,20 @@
+.notfoundPrdBox{
+    position: relative;
+}
+.notfoundPrdBox::before{
+    content: "";
+  width: 250px;
+  height: 250px;
+  max-width: 100%; 
+  max-height: 100%;
+  position: absolute;
+  background-image: url("../../../public/product/notprd.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50% , -50%);
+  background-size: contain;
+  opacity: 0.35;
+  
+}

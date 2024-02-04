@@ -1,0 +1,23 @@
+.product_category_box{
+    box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.08);
+    background-color: #FDFDFD;
+    border-radius:  24px;
+    overflow: hidden;
+}
+.product_category_box >ul> li{
+    background-color: #F7F7F7;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.product_category_box li a svg{
+    width: 24px;
+    height: 24px;
+    margin-left: 5px;
+}
+
+.product_category_box li:last-of-type {
+    margin-bottom: 0px;
+  }
+

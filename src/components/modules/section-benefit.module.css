@@ -1,0 +1,29 @@
+.section_benefit_box{
+    border-radius: 30px;
+    background:  radial-gradient(50% 50% at 50% 50%, #FFDDB0 0%, #E59D00 100%);
+    padding: 64px 0px;
+}
+.section_benefit_title{
+    text-align: center;
+}
+.section_benefit_title h4{
+    color: #3B3B3B;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.section_benefit_title p{
+    color: #525252;
+  margin-bottom: 12px;
+}
+@media (max-width: 400px) { 
+  .section_benefit_box{
+    padding: 30px 0px;
+  }
+  .section_benefit_title h4{
+  font-size: 18px;
+}
+.section_benefit_title p{
+  font-size: 13px;
+}
+  }

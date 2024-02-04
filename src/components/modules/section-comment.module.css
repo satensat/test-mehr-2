@@ -1,0 +1,120 @@
+.section_comment_box{
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+    padding: 40px 0 ;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+}
+.swipperAllowBox{
+  display: flex;
+  justify-content: center;
+}
+.swipperAllowBox >button{
+  margin:  10px 15px 0 ;
+}
+.section_comment_box_back{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50% , -50%);
+  top: 50%;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 1;
+  transition: 2s;
+  z-index: -1;
+  width: 100%;
+}
+.section_comment_title img{
+    margin: 0 auto 8px auto;
+}
+.section_comment_title h4{
+    text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 42px;
+}
+.comment_card_item{
+overflow: hidden;
+padding: 30px 25px;
+    border-radius: 64px;
+background: var(--color3);
+box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+text-align: center;
+color: #525252;
+min-height: 207px;
+  max-width: 207px;
+  transition: 0.4s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment_card_item_msg{
+    font-size: 10px; 
+color: #3B3B3B;
+text-align: justify;
+height: 0;
+
+overflow: hidden;
+opacity: 0;
+visibility: hidden;
+}
+.comment_card_item_name{
+    font-weight: bold;
+    font-size: 16px; 
+    line-height: 28px;
+}
+.comment_card_item_img{
+    background: linear-gradient(0deg, rgba(0,127,110,1) 0%, rgba(245,168,0,1) 30%, rgba(0,127,110,1) 70%, rgba(245,168,0,1) 100%);
+    width: max-content;
+    padding: 3px;
+    border-radius: 50%;
+    margin: 14px auto;
+    position: relative;
+    z-index: 0;
+}
+.comment_card_item_img::before{
+    content: "";
+    width: 175px;
+    height: 175px;
+    position: absolute;
+    background-image: url("../../../public/home/prdback.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50% , -50%);
+    background-size: contain;
+    opacity: 1;
+    transition: 0.4s;
+    z-index: -1;
+    opacity: 0.15;
+  filter: invert(56%) sepia(81%) saturate(2080%) hue-rotate(13deg) brightness(104%) contrast(102%);
+}
+.comment_card_item_img img{
+    border-radius: 50%;
+    border: 3px solid #fff;
+}
+.comment_card_item_pos{
+    font-size: 12px;
+  line-height: 20px;
+  height: 0;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
+@media (max-width: 992px) {
+  .section_comment_box{
+    min-height: auto;
+  }
+}
+@media (max-width: 768px) {
+    .section_comment_title h4{
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+}

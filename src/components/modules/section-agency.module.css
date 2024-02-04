@@ -1,0 +1,54 @@
+.section_agency_box{
+    margin :48px auto 54px auto;
+}
+.service_tisection_agency_titletle_box{
+    color:#3B3B3B;
+}
+.section_agency_title svg{
+    margin-left: 10px;
+}
+.section_agency_title h4{
+    font-size: 18px; 
+    font-weight: bold;
+    margin-left: 16px;
+}
+.section_agency_title a{
+color: var(--color1);
+font-size: 16px;
+
+transition: 0.45s;
+}
+.section_agency_title a:hover{
+    color: var(--color4);
+  }
+.section_agency_title a svg path {
+    transition: 0.45s;
+    fill: var(--color1);
+  }
+  .section_agency_title a:hover svg path {
+    fill: var(--color4);
+  }
+  @media (max-width: 768px) { 
+    .section_agency_box{
+      margin: 30px 0;
+    }
+    .agency_title_box h4{
+        font-size: 16px;
+    }
+    
+    .agency_title_box >svg  {
+        width: 30px;
+  height: 30px;
+  margin-left: 0;
+    }
+    .agency_title_box a{
+      font-size: 14px
+    }
+    
+    .agency_title_box a svg {
+        width: 20px;
+        height: 20px;
+      }
+      
+      
+  }

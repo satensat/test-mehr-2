@@ -1,0 +1,234 @@
+.editor_content {
+  padding: 12px;
+}
+.editor_content h1 {
+  color: #696969;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 12px;
+}
+.editor_content h2 {
+  color: #696969;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 12px;
+}
+
+.editor_content h3 {
+  color: #696969;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 12px;
+}
+.editor_content h4 {
+  color: #696969;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 12px;
+}
+.editor_content h5 {
+  color: #696969;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 12px;
+}
+.editor_content h6 {
+  color: #696969;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 12px;
+}
+.editor_content p {
+  color: #808080;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  margin: 24px 0;
+  text-align: justify;
+}
+.editor_content img {
+  border-radius: 12px;
+  margin: 30px auto;
+  max-width: 100%;
+}
+
+.editor_content strong {
+  color: #808080;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.editor_content a {
+  color: #13625c;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  text-decoration-line: underline;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.editor_content a:hover {
+  color: #0b978b;
+}
+.editor_content ul {
+  list-style: none;
+}
+.editor_content ul li {
+  color: #808080;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  transition: all 0.2s ease;
+  margin: 20px 0;
+}
+.editor_content ul li::before {
+  content: "● ";
+  color: #007f70;
+  font-weight: 500;
+  display: inline-block;
+  width: 1em;
+}
+.editor_content ol {
+  font-family: "IRANSansXFaNum-Regular";
+  list-style: none;
+  counter-reset: li;
+}
+.editor_content ol li {
+  font-family: "IRANSansXFaNum-Regular";
+  counter-increment: li;
+  color: #808080;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  transition: all 0.2s ease;
+  margin: 20px 0;
+}
+
+.editor_content  ol li::before {
+  font-family: "IRANSansXFaNum-Regular";
+  content: counter(li) ".";
+  display: inline-block;
+  color: #007f70;
+  width: 1em;
+  font-weight: 700;
+}
+.editor_content dl {
+  color: #808080;
+}
+
+.editor_content dl dt {
+  font-weight: bold;
+}
+
+.editor_content dl dd {
+  margin-right: 40px;
+  margin-bottom: 10px;
+}
+
+
+.editor_content table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.editor_content  td, .editor_content  th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.editor_content  tr:nth-child(even){background-color: #f2f2f2;}
+
+.editor_content  tr:hover {background-color: #ddd;}
+
+.editor_content  th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: right;
+  background-color: #007f70;
+  color: white;
+  padding: 8px;
+}
+
+.editor_content  td {
+  text-align: right;
+  padding: 8px;
+}
+/*---------------------- chexkbox button for control height  serverside for seo ----------------------*/
+
+.custom_checkbox input {
+  display: none;
+}
+
+.custom_checkbox_button {
+  user-select: none;
+}
+
+.custom_checkbox_button:hover {
+
+  background-color: #13625c;
+  color: white;
+}
+
+.custom_checkbox_icon {
+  transition: ease-in-out 0.5s;
+}
+
+.custom_checkbox_button:hover .custom_checkbox_icon {
+  filter: brightness(0) invert(1);
+}
+
+
+.custom_checkbox input:checked ~ .custom_checkbox_button .custom_checkbox_icon {
+  transform: rotate(180deg);
+}
+
+.custom_checkbox_text_open {
+  display: none;
+}
+.custom_checkbox input:checked ~ .custom_checkbox_button .custom_checkbox_text_open {
+  display: block;
+}
+.custom_checkbox_text_close{
+  display: block;
+}
+.custom_checkbox input:checked ~ .custom_checkbox_button .custom_checkbox_text_close {
+  display: none;
+}
+
+.editor_height_container {
+  max-height: 812px;
+  overflow: hidden;
+}
+
+.custom_checkbox input:checked + .editor_height_container {
+  height: auto;
+}
+.custom_checkbox input:checked + .editor_height_container::before {
+  content: "";
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .editor_height_container {
+    height: 510px;
+  }
+}

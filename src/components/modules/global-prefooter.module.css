@@ -1,0 +1,122 @@
+.prefooter_Introduction_box{
+    border-radius: 32px;
+    background-color: var(--color4);
+    padding: 24px 32px;
+    position: relative;
+    margin-bottom: 24px;
+    overflow: hidden;
+    z-index: 0;
+}
+.prefooter_Introduction_box >*{
+    position: relative;
+    z-index: 4;
+}
+.prefooter_Introduction_box::before{
+    content: "";
+    background-image: url("../../../public/home/Vector.svg");
+    transform: rotateY(180deg);
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    right: 0;
+    background-position: left center;
+    opacity: 0.6;
+    filter: brightness(0) invert(1);
+    background-size: 25%;
+}
+.prefooter_Introduction_box p{
+font-size: 12px;
+color: #0D0D0D;
+line-height: 20px; 
+padding: 12px 0;
+}
+.prefooter_Introduction_btn{
+    display: flex;
+  color: #1B887F;
+  text-align: center;
+  font-size: 16px;
+  align-items: center;
+  width: max-content;
+  margin: auto;
+  line-height: 48px;
+  transition: 0.45s;
+}
+.prefooter_Introduction_btn:hover{
+    color: #0D0D0D;
+}
+.prefooter_Introduction_btn svg path {
+    fill: #1B887F;
+    transition: 0.45s;
+  }
+  .prefooter_Introduction_btn:hover svg path {
+    fill:  #0D0D0D;
+  }
+.prefooter_social_box{
+    border-radius: 32px;
+    background-color: #E6E6E6;
+    overflow: hidden;
+    padding: 24px 32px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.prefooter_social_box p{
+    font-weight: 700;
+    font-size: 16px;
+    color: #3B3B3B;
+}
+.prefooter_social_list{
+    display: flex;
+    justify-content: space-between;
+} 
+.prefooter_social_list li{
+    margin-right: 24px;
+}
+@media (max-width: 1200px) {
+    .prefooter_Introduction_box{
+        padding: 15px; 
+
+    }
+    .prefooter_social_box p{
+        font-size: 14px;
+    }
+    .prefooter_social_box{
+        padding: 15px; 
+    }
+ }
+ @media (max-width: 768px){
+    .prefooter_Introduction_btn{
+      color: var(--color4);
+
+    }
+    .prefooter_Introduction_btn svg path {
+        fill:var(--color4);
+      }
+    .prefooter_Introduction_box{
+       margin: 0;
+    }
+    .prefooter_Wrapper{
+        max-width: 100%;
+        padding: 0;
+    }
+    .prefooter_social_box{
+        background-color: var(--color4);
+    }
+    .prefooter_social_box p{
+        font-size: 12px;
+    }
+    .prefooter_Introduction_box{
+        background: var(--color3);
+    }
+    .prefooter_Introduction_box::before {
+        opacity: 0.2;
+     filter: invert(58%) sepia(60%) saturate(1105%) hue-rotate(7deg) brightness(104%);
+    }
+    .prefooter_Introduction_box p{
+        color: #525252;
+    }
+ }

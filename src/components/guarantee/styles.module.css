@@ -1,0 +1,28 @@
+.container {
+    position: relative;
+    /* overflow: hidden; */
+  }
+  
+  .container::before {
+    content: "";
+    /* width: 100%; */
+    background: url("/single-product/full-sun-bg-single-product-header.svg")
+      no-repeat;
+    position: absolute;
+    opacity: 0.25;
+    background-repeat: no-repeat;
+    /* background-position: top; */
+    filter: brightness(0) invert(1);
+    width: 276px;
+    height: 278px;
+    transform: rotateY(180deg);
+    background-size: contain;
+    /* top: -413px;
+      right: -62px; */
+    /* transform-origin: 50% 50%; */
+    background-position: center;
+    top: -138px;
+    right: -138px;
+    /* max-width: 30%; */
+    z-index: 0;
+  }

@@ -1,0 +1,14 @@
+.breadcrumb_box li a{
+    color:#808080;
+    transition: 0.4s;
+}
+.breadcrumb_box li a:hover{
+    color: var(--color1);
+}
+.breadcrumb_box li a::after{
+    content: "/";
+    margin-right: 8px;
+}
+.filterCategoryMobile svg path{
+    fill: white;
+}
