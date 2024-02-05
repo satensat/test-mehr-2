@@ -1,14 +1,18 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const CountDownTimer = () => {
-  const [time, setTime] = useState({ minutes: 2, seconds: 0 });
-
+const CountDownTimer = ({ startTimer,setEnablePhoneSend }) => {
+  const [time, setTime] = useState({ minutes: 0, seconds: 0 });
+  useEffect(() => {
+    if (startTimer) {
+      setTime({ minutes: 2, seconds: 0 });
+    }
+  }, [startTimer]);
   useEffect(() => {
     const interval = setInterval(() => {
       if (time.minutes === 0 && time.seconds === 0) {
         clearInterval(interval);
-
+        setEnablePhoneSend(true);
       } else {
         setTime((prevTime) => {
           if (prevTime.seconds === 0) {
@@ -21,11 +25,13 @@ const CountDownTimer = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [time]);
+  }, [time,setEnablePhoneSend]);
 
   return (
-    <div >
-      {`${String(time.minutes).padStart(2, '0')}:${String(time.seconds).padStart(2, '0')}`}
+    <div>
+      {`${String(time.minutes).padStart(2, "0")}:${String(
+        time.seconds
+      ).padStart(2, "0")}`}
     </div>
   );
 };

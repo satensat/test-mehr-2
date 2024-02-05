@@ -176,13 +176,16 @@
   transform: translate(0%, -50%);
   z-index: 0;
 }
-
-.progressBar.fullAnimation35::after {
-  animation: 1.5s linear widthIncrease35;
+.progressBar.fullAnimation25::after {
+  animation: 1.5s linear widthIncrease25;
   animation-fill-mode: forwards;
 }
-.progressBar.fullAnimation70::after {
-  animation: 1.5s linear widthIncrease70;
+.progressBar.fullAnimation50::after {
+  animation: 1.5s linear widthIncrease50;
+  animation-fill-mode: forwards;
+}
+.progressBar.fullAnimation75::after {
+  animation: 1.5s linear widthIncrease75;
   animation-fill-mode: forwards;
 }
 
@@ -191,20 +194,28 @@
   animation-fill-mode: forwards;
 }
 
-@keyframes widthIncrease35 {
+@keyframes widthIncrease25 {
   from {
     width: 0%;
   }
   to {
-    width: 35%;
+    width: 25%;
   }
 }
-@keyframes widthIncrease70 {
+@keyframes widthIncrease50 {
   from {
     width: 0%;
   }
   to {
-    width: 68%;
+    width: 50%;
+  }
+}
+@keyframes widthIncrease75 {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 72%;
   }
 }
 

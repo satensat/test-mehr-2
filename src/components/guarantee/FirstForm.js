@@ -11,6 +11,7 @@ import PlusIcon from "@/icon/PlusIcon";
 import RecordsCourses from "./RecordsCourses";
 import RightArrowBack from "@/icon2/RightArrowBack";
 import ArrowOpinion from "@/icon/ArrowOpinion";
+import PhoneNumberInputsList from "./PhoneNumberInputsList";
 
 const validationSchema = yup.object({
   firstName: yup.string().trim().required("نام را وارد کنید"),
@@ -19,11 +20,28 @@ const validationSchema = yup.object({
   education: yup.string().trim().required("تحصیلات را وارد کنید"),
   fieldEDU: yup.string().trim().required("رشته را وارد کنید"),
   birthDate: yup.string().trim().required(" تاریخ تولد را وارد کنید"),
+  // phoneNumbers: yup
+  // .array()
+  // .length(1, 'You must provide exactly one phone number')
+  // .of(
+  //   yup
+  //     .string()
+  //     .matches(/^\d{10}$/, 'Phone number must be a valid 10-digit number') ,
   //   email: yup.string().email("ایمیل نامعتبر است").required("ایمیل را وارد کنید"),
+
+  fixed_number: yup
+    .array()
+    .length(1, "حداقل یک شماره ثابت الزامی است.")
+    .of(
+      yup
+        .string()
+        // .matches(/^\d{10}$/, "شماره ثابت را به درستی وارد کنید")
+        .required("  شماره ثابت را وارد کنید.")
+    ),
   description: yup.string().trim().required("پیام را وارد نمایید"),
 });
 
-export default function FirstForm() {
+export default function FirstForm({ setActiveTab }) {
   const [selectedDate, setSelectedDate] = useState(null);
 
   const formik = useFormik({
@@ -37,6 +55,7 @@ export default function FirstForm() {
       fieldEDU: "",
       phone: "",
       birthDate: "",
+      fixed_number: [""],
       description: "",
     },
     onSubmit: (values) => {
@@ -82,10 +101,33 @@ export default function FirstForm() {
     },
     validationSchema,
   });
+
+
+
+
+  const [phoneNumbers, setPhoneNumbers] = useState([]); 
+
+  const addPhoneNumberField = () => {
+    console.log([...phoneNumbers, ''])
+    setPhoneNumbers([...phoneNumbers, '']); 
+  };
+
+  const handleAddItem = () => {
+    formik.setValues({
+      ...formik.values,
+      fixed_number: [...formik.values.fixed_number,''],
+    });
+  };
+
   return (
     <div className=" flex flex-col  items-center justify-center   ">
       <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-start gap-[10px] ">
-        <RightArrowBack />
+        <button
+          className="cursor-pointer"
+          onClick={() => setActiveTab("verification")}
+        >
+          <RightArrowBack />
+        </button>
         اطلاعات نماینده (صاحب امضا)
       </div>
 
@@ -106,7 +148,7 @@ export default function FirstForm() {
         <label className=" absolute top-3 right-4  pointer-events-none">
           نام
         </label>
-        {formik.errors.firstName && (
+        {formik.errors.firstName && formik.touched.firstName && (
           <div className="text-mainRed text-xs pt-1 ">
             {formik.errors.firstName}
           </div>
@@ -129,7 +171,7 @@ export default function FirstForm() {
         <label className=" absolute top-3 right-4  pointer-events-none">
           نام خانوادگی
         </label>
-        {formik.errors.lastName && (
+        {formik.errors.lastName && formik.touched.lastName && (
           <div className="text-mainRed text-xs pt-1 ">
             {formik.errors.lastName}
           </div>
@@ -152,7 +194,7 @@ export default function FirstForm() {
         <label className=" absolute top-3 right-4  pointer-events-none">
           کد ملی
         </label>
-        {formik.errors.nationalId && (
+        {formik.errors.nationalId && formik.touched.nationalId && (
           <div className="text-mainRed text-xs pt-1 ">
             {formik.errors.nationalId}
           </div>
@@ -160,6 +202,7 @@ export default function FirstForm() {
       </div>
       <div className="mb-6 w-full flex flex-col items-center">
         <div
+          onBlur={() => formik.setFieldTouched("birthDate")}
           className={
             styles.datePicker +
             "  " +
@@ -183,7 +226,7 @@ export default function FirstForm() {
             <ArrowDownIcon />
           </div>
         </div>
-        {formik.errors.birthDate && (
+        {formik.errors.birthDate && formik.touched.birthDate && (
           <div className="text-mainRed text-xs pt-1 w-[80%] ">
             {formik.errors.birthDate}
           </div>
@@ -206,7 +249,7 @@ export default function FirstForm() {
         <label className=" absolute top-3 right-4  pointer-events-none">
           تحصیلات
         </label>
-        {formik.errors.education && (
+        {formik.errors.education && formik.touched.education && (
           <div className="text-mainRed text-xs pt-1 ">
             {formik.errors.education}
           </div>
@@ -229,7 +272,7 @@ export default function FirstForm() {
         <label className=" absolute top-3 right-4  pointer-events-none">
           رشته
         </label>
-        {formik.errors.fieldEDU && (
+        {formik.errors.fieldEDU && formik.touched.fieldEDU && (
           <div className="text-mainRed text-xs pt-1 ">
             {formik.errors.fieldEDU}
           </div>
@@ -238,13 +281,14 @@ export default function FirstForm() {
 
       <div className="w-[80%]  mb-6 relative ">
         <input
-          name="fieldEDU"
-          value={formik.values.fieldEDU}
+        
+          value={formik.values.fixed_number[0]}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
+          name={`fixed_number[${0}]`}
           className={
-            (formik.values.fieldEDU.length > 0
+            (formik.values.fixed_number[0].length > 0
               ? " input-label-pos-active "
               : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -253,14 +297,14 @@ export default function FirstForm() {
         <label className=" absolute top-3 right-4  pointer-events-none">
           شماره تلفن ثابت
         </label>
-        {formik.errors.fieldEDU && (
+        {formik.errors?.fixed_number && formik.touched?.fixed_number && formik.errors?.fixed_number[0] && formik.touched?.fixed_number[0] && (
           <div className="text-mainRed text-xs pt-1 ">
-            {formik.errors.fieldEDU}
+            {formik.errors?.fixed_number[0]}
           </div>
         )}
       </div>
-
-      <button className="group transition ease-in-out duration-500 text-center rounded-xl font-bold text-sm leading-6 text-mainGreen1 flex flex-row  items-center px-3 py-1 hover:bg-mainGreen1 hover:text-white mb-2 ">
+      <PhoneNumberInputsList formik={formik}  />
+      <button onClick={handleAddItem} className="group transition ease-in-out duration-500 text-center rounded-xl font-bold text-sm leading-6 text-mainGreen1 flex flex-row  items-center px-3 py-1 hover:bg-mainGreen1 hover:text-white mb-2 ">
         اضافه کردن شماره تلفن ثابت دیگر
         <div className="transition ease-in-out duration-500 mr-1 group-hover:brightness-0 group-hover:invert ">
           <PlusIcon color={"#13625C"} width={"16"} height={"16"} />
@@ -284,7 +328,7 @@ export default function FirstForm() {
         <label className=" absolute top-3 right-4  pointer-events-none">
           شماره تلفن همراه
         </label>
-        {formik.errors.fieldEDU && (
+        {formik.errors.fieldEDU && formik.touched.fieldEDU && (
           <div className="text-mainRed text-xs pt-1 ">
             {formik.errors.fieldEDU}
           </div>

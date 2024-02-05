@@ -9,14 +9,15 @@ import VerificationForm from "./VerificationForm";
 import LastForm from "./LastForm";
 
 export default function ProgressBar() {
+  const [mainData, setMainData] = useState({});
+
   ////////points animation
-  const aniamtionPartDone = styles.fullsize + " " + styles.fullsizeTick;
+  const aniamtionPartDone =
+    styles.points + " " + styles.fullsize + " " + styles.fullsizeTick;
   const pointNotComplete = styles.points;
   const pointBlank = styles.points_blank;
-
-  const [styleChange, setStyleChange] = useState(pointNotComplete);
-  const [styleAnimation, setStyleAnimation] = useState("");
-  const [counter, setcounter] = useState(0);
+  /////step counter
+  const [stepCounter, setStepCounter] = useState("0");
   /////points style
   const [firstPoint, setFirstPoint] = useState(pointNotComplete);
   const [secondPoint, setSecondPoint] = useState(pointBlank);
@@ -24,14 +25,11 @@ export default function ProgressBar() {
   const [fourthPoint, setFourthPoint] = useState(pointBlank);
   const [lastPoint, setLastPoint] = useState(pointBlank);
 
-  const handleChange = () => {
-    setStyleChange(pointNotComplete);
-    setStyleAnimation(aniamtionPartDone);
-  };
   //////progres animation
 
-  const progress35 = styles.fullAnimation35;
-  const progress70 = styles.fullAnimation70;
+  const progress25 = styles.fullAnimation25;
+  const progress50 = styles.fullAnimation50;
+  const progress75 = styles.fullAnimation75;
   const progressFull = styles.fullAnimation;
   const [progressAnimation, setProgressAnimation] = useState("");
 
@@ -43,11 +41,15 @@ export default function ProgressBar() {
 
   const [activeTab, setActiveTab] = useState("verification");
 
-
-  const handleClickVarification=()=>{
-
-  }
-
+  const handleClickVarification = () => {};
+  const verificationToFirstFormDone = () => {
+    setProgressAnimation(progress25);
+    setFirstPoint(aniamtionPartDone);
+    setSecondPoint(pointNotComplete);
+    setTextActive(2);
+    setActiveTab("first");
+    setStepCounter("1");
+  };
   return (
     <div className="p-3 w-full  h-fit ">
       <div className="min-h-[70px] flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
@@ -62,7 +64,7 @@ export default function ProgressBar() {
         >
           {/* <div className={pointNotComplete + " " +aniamtionPartDone}> */}
           <div
-            className={firstPoint}
+            className={"cursor-pointer" + " " + firstPoint}
             onClick={() => setActiveTab("verification")}
           >
             <div
@@ -75,7 +77,14 @@ export default function ProgressBar() {
               احراز هویت
             </div>
           </div>
-          <div className={secondPoint} onClick={() => setActiveTab("first")}>
+          <div
+            className={"cursor-pointer" + " " + secondPoint}
+            onClick={() => {
+              // if (+stepCounter >= 1) {
+                setActiveTab("first");
+              // }
+            }}
+          >
             <div
               className={
                 styles.textPart +
@@ -86,7 +95,14 @@ export default function ProgressBar() {
               اطلاعات نماینده
             </div>
           </div>
-          <div className={thirdPoint} onClick={() => setActiveTab("second")}>
+          <div
+            className={"cursor-pointer" + " " + thirdPoint}
+            onClick={() => {
+              // if (+stepCounter >= 2) {
+                setActiveTab("second");
+              // }
+            }}
+          >
             <div
               className={
                 styles.textPart +
@@ -97,7 +113,14 @@ export default function ProgressBar() {
               اطلاعات فروشگاه
             </div>
           </div>
-          <div className={thirdPoint} onClick={() => setActiveTab("third")}>
+          <div
+            className={"cursor-pointer" + " " + fourthPoint}
+            onClick={() => {
+              // if (+stepCounter >= 3) {
+                setActiveTab("third");
+              // }
+            }}
+          >
             <div
               className={
                 styles.textPart +
@@ -108,13 +131,25 @@ export default function ProgressBar() {
               بارگذاری مدارک
             </div>
           </div>
-          <div className={lastPoint} onClick={() => setActiveTab("last")}>
+          <div
+            className={"cursor-pointer" + " " + lastPoint}
+            onClick={() => {
+              // if (+stepCounter >= 4) {
+                setActiveTab("last");
+              // }
+            }}
+          >
             <div
               className={
                 styles.textPart +
                 " " +
                 ` ${textActive === 5 ? styles.active : " "}`
               }
+              onClick={() => {
+                // if (+stepCounter >= 5) {
+                  setActiveTab("last");
+                // }
+              }}
             >
               تایید و ارسال
             </div>
@@ -136,7 +171,7 @@ export default function ProgressBar() {
           <VerificationForm />
         </div>
       )} */}
-{/* 
+      {/* 
       {activeTab === "first" && (
         <div
           className={
@@ -197,9 +232,15 @@ export default function ProgressBar() {
           <LastForm />
         </div>
       )} */}
-      
-      {activeTab === "verification" && < VerificationForm/>}
-      {activeTab === "first" && <FirstForm />}
+
+      {activeTab === "verification" && (
+        <VerificationForm
+          verificationToFirstFormDone={verificationToFirstFormDone}
+          mainData={mainData}
+          setMainData={setMainData}
+        />
+      )}
+      {activeTab === "first" && <FirstForm setActiveTab={setActiveTab} />}
       {activeTab === "second" && <SecondForm />}
       {activeTab === "third" && <ThirdForm />}
       {activeTab === "last" && <LastForm />}
