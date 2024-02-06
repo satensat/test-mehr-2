@@ -240,7 +240,8 @@ export default function ProgressBar() {
           setMainData={setMainData}
         />
       )}
-      {activeTab === "first" && <FirstForm setActiveTab={setActiveTab} />}
+      {activeTab === "first" && <FirstForm setActiveTab={setActiveTab}           mainData={mainData}
+          setMainData={setMainData} />}
       {activeTab === "second" && <SecondForm />}
       {activeTab === "third" && <ThirdForm />}
       {activeTab === "last" && <LastForm />}

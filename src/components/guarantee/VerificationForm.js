@@ -160,10 +160,14 @@ export default function VerificationForm({
         {message.content}
       </ToastBox>
 
-      <div className=" flex flex-col pb-3">
+      <div className=" flex flex-col pb-3 ">
         <div className="py-3 leading-6 font-bold text-base ">احراز هویت</div>
+        <div className="text-[#525252] leading-6 text-sm font-normal pb-3 ">
+          ابتدا شماره همراه خود را وارد کنید؛ پس از دریافت کد تایید، آن را در
+          فیلد مورد نظر بنویسید.
+        </div>
         <div className="flex flex-col items-center justify-center mt-2">
-          <div className="w-full flex flex-col mb-6">
+          <div className="w-full flex flex-col mb-1">
             <div className="w-full flex flex-row items-center justify-between ">
               <div className="flex-grow pl-3  relative  ">
                 <input
@@ -205,12 +209,21 @@ export default function VerificationForm({
                 دریافت کد تایید
               </button>
             </div>
-            {formik.errors.phone_number && formik.touched.phone_number && (
-              <div className="text-mainRed text-xs pt-1 flex flex-row gap-1 items-center">
-                <DangerIcon />
-                {formik.errors.phone_number}
-              </div>
-            )}
+
+            <div
+              className={
+                "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                " " +
+                `${
+                  formik.errors.phone_number && formik.touched.phone_number
+                    ? " opacity-100 "
+                    : " opacity-0 "
+                }`
+              }
+            >
+              <DangerIcon />
+              {formik.errors.phone_number}
+            </div>
           </div>
           <div className="pb-4 flex flex-col items-center  ">
             <div className="text-[#808080] leading-4 text-[10px] text-center font-bold ">
@@ -227,7 +240,7 @@ export default function VerificationForm({
             </div>
           </div>
 
-          <div className="w-[80%] pl-3 mb-5 relative  ">
+          <div className="w-[80%] pl-3 mb-1 relative  ">
             <input
               name="loginCode"
               disabled={disabledCodeSend}
@@ -254,19 +267,27 @@ export default function VerificationForm({
             <label className=" absolute top-3 right-4  pointer-events-none  text-[#525252]">
               کد تایید
             </label>
-            {formikLoginCode.errors.loginCode &&
-              formikLoginCode.touched.loginCode && (
-                <div className="text-mainRed text-xs pt-1  flex flex-row gap-1 items-center">
-                  <DangerIcon />
-                  {formikLoginCode.errors.loginCode}
-                </div>
-              )}
-            {disabledCodeSend && (
-              <div className="text-[#525252] text-xs pt-1  flex flex-row gap-1 items-center cursor-pointer">
+
+            <div
+              className={
+                "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                " " +
+                `${
+                  formikLoginCode.errors.loginCode &&
+                  formikLoginCode.touched.loginCode
+                    ? " opacity-100 "
+                    : " opacity-0 "
+                }`
+              }
+            >
+              <DangerIcon />
+              {formikLoginCode.errors.loginCode}
+            </div>
+
+            {/* <div className={"text-[#525252] text-xs pt-1  flex flex-row gap-1 items-center cursor-pointer" + " " + `${disabledCodeSend ? " opacity-100 " : " opacity-0"}`}>
                 <DangerIcon color={"#525252"} />
                 {"لطفاً ابتدا شماره تلفن همراه خود را وارد کنید."}
-              </div>
-            )}
+              </div> */}
           </div>
 
           <div className="w-full flex flex-col  before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-3 items-center ">
