@@ -10,90 +10,40 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import DangerIcon from "@/icon2/DangerIcon";
 
-// firstName: yup.string().trim().required("نام را وارد کنید"),
-//   lastName: yup.string().trim().required("نام خانوادگی را وارد کنید"),
-//   nationalId: yup.string().trim().required("کد ملی را وارد کنید"),
-//   education: yup.string().trim().required("تحصیلات را وارد کنید"),
-//   fieldEDU: yup.string().trim().required("رشته را وارد کنید"),
-//   birthDate: yup.string().trim().required(" تاریخ تولد را وارد کنید"),
-//   // phoneNumbers: yup
-//   // .array()
-//   // .length(1, 'You must provide exactly one phone number')
-//   // .of(
-//   //   yup
-//   //     .string()
-//   //     .matches(/^\d{10}$/, 'Phone number must be a valid 10-digit number') ,
-//   //   email: yup.string().email("ایمیل نامعتبر است").required("ایمیل را وارد کنید"),
-//   fixed_number_main: yup
-//     .string()
-//     // .matches(/^\d{10}$/, "شماره ثابت را به درستی وارد کنید")
-//     .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-//     .min(12, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-//     .max(12, "شماره تلفن ثابت نباید بیشنر از 12 تا شماره داشته باشد.")
-//     .required("  شماره ثابت را وارد کنید."),
-//   fixed_number: yup
-//     .array()
-//     // .length(1, "حداقل یک شماره ثابت الزامی است.")
-//     .of(
-//       yup
-//         .string()
-//         // .matches(/^\d{10}$/, "شماره ثابت را به درستی وارد کنید")
-//         .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-//         .min(12, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-//         .max(12, "شماره تلفن ثابت نباید بیشنر از 12 تا شماره داشته باشد.")
-//       // .required("  شماره ثابت را وارد کنید.")
-//     ),
-//   phone_number: yup
-//     .string()
-//     .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-//     .min(12, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-//     .max(12, "شماره تلفن ثابت نباید بیشنر از 12 تا شماره داشته باشد.")
-//     .required("  شماره ثابت را وارد کنید."),
-//   phone_number_list: yup.array().of(
-//     yup
-//       .string()
-//       .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-//       .min(12, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-//       .max(12, "شماره تلفن ثابت نباید بیشنر از 12 تا شماره داشته باشد.")
-//   ),
-//   work_experience: yup.string(),
-//   // skill_records: yup.array().of(yup.object().shape({
-//   //   skill: yup.string(),
-//   // })),
-//   // courses: yup.array().of(
-//   //   yup.object().shape({
-//   //     name: yup.string(),
-//   //     institution_name: yup.string(),
-//   //     start_date: yup.string(),
-//   //     end_date: yup.string(),
-//   //     description: yup.string(),
-//   //   })
-//   // ),
-
-const validationSchema = yup.object({
-  name: yup.string().required("نام دوره را وارد کنید"),
-  institution_name: yup.string(),
-  start_date: yup.string().when("end_date", {
-    is: '',
-    then: yup.string().required(),
-    otherwise: () => yup.string().notRequired(),
-  }),
-//    yup.string(),
-  end_date: yup.string().when("start_date", {
-    is: '',
-    then: yup.string().required(),
-    otherwise: () => yup.string().notRequired(),
-  }),
-  description: yup.string(),
-//   start_date: yup.date().nullable().when('end_date', (end_date, schema) => {
-//     return end_date ? schema.required('Start date is required') : schema;
+// const validationSchema33 = yup.object({
+//   name: yup.string().required("نام دوره را وارد کنید"),
+//   institution_name: yup.string(),
+//   start_date: yup.string().when("end_date", {
+//     is: '',
+//     then: yup.string().required(),
+//     otherwise: () => yup.string().notRequired(),
 //   }),
-//   end_date: yup.date().nullable().when('start_date', (start_date, schema) => {
-//     return start_date ? schema.min(start_date, 'End date must be after start date').required('End date is required') : schema;
+// //    yup.string(),
+//   end_date: yup.string().when("start_date", {
+//     is: '',
+//     then: yup.string().required(),
+//     otherwise: () => yup.string().notRequired(),
 //   }),
-});
+//   description: yup.string(),
+// //   start_date: yup.date().nullable().when('end_date', (end_date, schema) => {
+// //     return end_date ? schema.required('Start date is required') : schema;
+// //   }),
+// //   end_date: yup.date().nullable().when('start_date', (start_date, schema) => {
+// //     return start_date ? schema.min(start_date, 'End date must be after start date').required('End date is required') : schema;
+// //   }),
+// });
 
-export default function CoursesForm() {
+const validationSchema = yup.lazy((values) =>
+  yup.object({
+    name: yup.string().required("نام دوره را وارد کنید"),
+    institution_name: yup.string(),
+    start_date: yup.string(),
+    end_date: yup.string(),
+    description: yup.string(),
+  })
+);
+
+export default function CoursesForm({ setCurseList, courseList }) {
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -102,11 +52,30 @@ export default function CoursesForm() {
       end_date: "",
       description: "",
     },
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      // const handleAddItemMobileNumber = () => {
+      //   if (formik.values.phone_number_list.length < 2) {
+      //     formik.setValues({
+      //       ...formik.values,
+      //       phone_number_list: [...formik.values.phone_number_list, ""],
+      //     });
+      //   }
+      // };
+      setCurseList((prev) => [...prev, values]);
+    },
     validationSchema,
   });
+
+  const handleDeleteCourse = (item, index) => {
+    const filteredList = courseList.filter(
+      (element, elementIndex) =>
+        elementIndex !== index
+    );
+    setCurseList(() => [...filteredList]);
+  };
+
   return (
-    <div className="bg-[#FDFDFD]  rounded-xl gap-[8px] p-3 flex flex-col ">
+    <form className="bg-[#FDFDFD]  rounded-xl gap-[8px] p-3 flex flex-col ">
       <div className="text-[#242424] leading-6 text-sm">دوره آموزشی:</div>
       <div className="flex flex-col items-center">
         <div className="w-full  mb-3 relative group ">
@@ -254,29 +223,32 @@ export default function CoursesForm() {
               accentColor="#1b887f"
               className="font-costumFaNum relative  "
               name="end_date"
-            //   defaultValue="timestamp"
-            //   customShowDateFormat={"YYYY MMMM DD"}
+              //   defaultValue="timestamp"
+              //   customShowDateFormat={"YYYY MMMM DD"}
               onChange={(event) => {
                 // console.log(Date.parse( new Date(event.value).toUTCString()))
-                console.log(new Date(event.value).toUTCString())
+                console.log(new Date(event.value).toUTCString());
                 // console.log(event)
-                console.log(Date.parse(event.value))
-                formik.setFieldValue("end_date", new Date(event.value).toUTCString());
+                console.log(Date.parse(event.value));
+                formik.setFieldValue(
+                  "end_date",
+                  new Date(event.value).toUTCString()
+                );
 
-//                 // 1707658708000
-// const compareDates = (d1, d2) => {
-//     let date1 = new Date(d1).getTime();
-//     let date2 = new Date(d2).getTime();
-  
-//     if (date1 < date2) {
-//       console.log(`${d1} is less than ${d2}`);
-//     } else if (date1 > date2) {
-//       console.log(`${d1} is greater than ${d2}`);
-//     } else {
-//       console.log(`Both dates are equal`);
-//     }
-//   };
-//   compareDates("Mon, 12 Feb 2024 13:44:31 GMT", "Wed, 07 Feb 2024 13:44:31 GMT");
+                //                 // 1707658708000
+                // const compareDates = (d1, d2) => {
+                //     let date1 = new Date(d1).getTime();
+                //     let date2 = new Date(d2).getTime();
+
+                //     if (date1 < date2) {
+                //       console.log(`${d1} is less than ${d2}`);
+                //     } else if (date1 > date2) {
+                //       console.log(`${d1} is greater than ${d2}`);
+                //     } else {
+                //       console.log(`Both dates are equal`);
+                //     }
+                //   };
+                //   compareDates("Mon, 12 Feb 2024 13:44:31 GMT", "Wed, 07 Feb 2024 13:44:31 GMT");
               }}
             />
             <label
@@ -347,6 +319,7 @@ export default function CoursesForm() {
       </div>
 
       <button
+        type="submit"
         onClick={formik.handleSubmit}
         className="group transition ease-in-out duration-500 text-center w-fit rounded-xl font-bold text-sm leading-6 text-mainGreen1 flex flex-row  items-center px-3 py-1 hover:bg-mainGreen1 hover:text-white mb-2 mx-auto "
       >
@@ -355,32 +328,36 @@ export default function CoursesForm() {
           <PlusIcon color={"#13625C"} width={"16"} height={"16"} />
         </div>
       </button>
-      <div className="w-full flex flex-col gap-3  before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] ">
-        <div className="bg-[#F7F7F7] flex flex-row p-3  rounded-xl items-center ">
-          <div className="text-[#242424] leading-5 text-xs flex-grow">
-            دوره 1
-          </div>
-          <button className="group transition ease-in-out duration-500 text-center rounded-xl font-bold text-xs leading-6 text-mainGreen1 flex flex-row  items-center px-3 py-1 hover:bg-mainGreen1 hover:text-white  ">
-            حذف
-            <div className="transition ease-in-out duration-500 mr-1 group-hover:brightness-0 group-hover:invert ">
-              <CloseModal color={"#13625C"} width={"16"} height={"16"} />
-            </div>
-          </button>
-        </div>
 
-        <div className="bg-[#F7F7F7] flex flex-row p-3  rounded-xl items-center ">
-          <div className="text-[#242424] leading-5 text-xs flex-grow">
-            اجرای خدمات
-          </div>
-          <button className="group transition ease-in-out duration-500 text-center rounded-xl font-bold text-xs leading-6 text-mainGreen1 flex flex-row  items-center px-3 py-1 hover:bg-mainGreen1 hover:text-white  ">
-            حذف
-            <div className="transition ease-in-out duration-500 mr-1 group-hover:brightness-0 group-hover:invert ">
-              <CloseModal color={"#13625C"} width={"16"} height={"16"} />
+      <div
+        className={
+          "w-full flex flex-col gap-3  before:transition-all before:duration-500   before:content-['']   before:h-[1px] before:w-0   before:bg-[#E6E6E6] " +
+          " " +
+          `${courseList?.length > 0 ? " before:w-full  " : "  "}`
+        }
+      >
+        {courseList?.map((item, index) => {
+          return (
+            <div
+              key={`${index}-${item}`}
+              className="bg-[#F7F7F7] flex flex-row p-3  rounded-xl items-center "
+            >
+              <div className="text-[#242424] leading-5 text-xs flex-grow">
+                {item.name}
+              </div>
+              <button
+                onClick={() => handleDeleteCourse(index)}
+                className="group transition ease-in-out duration-500 text-center rounded-xl font-bold text-xs leading-6 text-mainGreen1 flex flex-row  items-center px-3 py-1 hover:bg-mainGreen1 hover:text-white  "
+              >
+                حذف
+                <div className="transition ease-in-out duration-500 mr-1 group-hover:brightness-0 group-hover:invert ">
+                  <CloseModal color={"#13625C"} width={"16"} height={"16"} />
+                </div>
+              </button>
             </div>
-          </button>
-        </div>
+          );
+        })}
       </div>
-    </div>
+    </form>
   );
 }
-

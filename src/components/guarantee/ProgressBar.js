@@ -7,6 +7,7 @@ import SecondForm from "./SecondForm";
 import ThirdForm from "./ThirdForm";
 import VerificationForm from "./VerificationForm";
 import LastForm from "./LastForm";
+import EmpthyTick from "@/icon2/EmpthyTick";
 
 export default function ProgressBar() {
   const [mainData, setMainData] = useState({});
@@ -139,6 +140,9 @@ export default function ProgressBar() {
               // }
             }}
           >
+            <div>
+              <EmpthyTick  width={"32"} height={"32"}/>
+            </div>
             <div
               className={
                 styles.textPart +

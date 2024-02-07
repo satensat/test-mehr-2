@@ -78,7 +78,10 @@ const validationSchema = yup.object({
 });
 
 export default function FirstForm({ setActiveTab, mainData, setMainData }) {
-  const [selectedDate, setSelectedDate] = useState(null);
+  // const [selectedDate, setSelectedDate] = useState(null);
+  const [courseList, setCurseList] = useState([]);
+
+
 
   const formik = useFormik({
     initialValues: {
@@ -102,7 +105,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
     },
     onSubmit: (values) => {
       try {
-        const res = fetch(`http://192.168.10.195:8090/v1/api/contact/to/us/`, {
+        const res = fetch(`http://192.168.10.195:8090/v1/api/applicators/`, {
           method: "POST",
           body: JSON.stringify({
             subject: values.subject,
@@ -620,10 +623,10 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         }
       >
         <DangerIcon color={"#525252"} />
-        محدود تا سه شماره تلفن ثابت
+        محدود تا سه  شماره تلفن همراه
       </div>
 
-      <RecordsCourses formik={formik} />
+      <RecordsCourses formik={formik} setCurseList={setCurseList} courseList={courseList}/>
       <div className="flex flex-col w-[80%] before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto ">
         <div className="flex flex-row items-center justify-center p-3 gap-8 ">
           <button

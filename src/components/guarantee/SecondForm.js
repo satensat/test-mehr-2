@@ -5,67 +5,94 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import ArrowDownIcon from "@/icon/arrow-down";
-import { Calendar, CalendarProvider, DatePicker, TimePicker } from "zaman";
-import styles from "./form.module.css";
 import PlusIcon from "@/icon/PlusIcon";
-import RecordsCourses from "./RecordsCourses";
 import RightArrowBack from "@/icon2/RightArrowBack";
 import ArrowOpinion from "@/icon/ArrowOpinion";
 import formStyles from "./formcheckbox.module.css";
 import MinusIcon from "@/icon2/MinusIcon";
+import ClickOutside from "./ClickOutside";
+import DangerIcon from "@/icon2/DangerIcon";
 
 const validationSchema = yup.object({
-  firstName: yup.string().trim().required("نام را وارد کنید"),
-  lastName: yup.string().trim().required("نام خانوادگی را وارد کنید"),
-  nationalId: yup.string().trim().required("کد ملی را وارد کنید"),
-  education: yup.string().trim().required("تحصیلات را وارد کنید"),
-  fieldEDU: yup.string().trim().required("رشته را وارد کنید"),
-  birthDate: yup.string().trim().required(" تاریخ تولد را وارد کنید"),
-  //   email: yup.string().email("ایمیل نامعتبر است").required("ایمیل را وارد کنید"),
-  description: yup.string().trim().required("پیام را وارد نمایید"),
+  name: yup.string().required("نام فروشگاه را وارد نمایید"),
+  province: yup.string().required(" استان را وارد نمایید."),
+  city: yup.string().trim().required("شهر را وارد نمایید"),
+  is_owner: yup.boolean().required("وضعیت ملک را وارد انتخاب کنید."),
+  area: yup.string().required("  متراژ ملک را وارد نمایید"),
+  business_type: yup.object().shape({
+    is_distribution: yup.boolean(),
+    is_manufacturing: yup.boolean(),
+    is_technical: yup.boolean(),
+    is_service: yup.boolean(),
+  }),
+  number_of_staff: yup
+    .number()
+    .required("تعداد افراد شاغل را وارد نمایید.")
+    .positive("تعداد افراد شاغل باید مثبت باشد."),
+  address: yup.string().required("آدرس کامل فروشگاه را وارد نمایید"),
+  reception_status: yup.string(),
+  repair_features: yup.string().required("تجهیزات تست و تعمیر را وارد نمایید"),
+  workplace_features: yup.object().shape({
+    sofa: yup.boolean(),
+    network: yup.boolean(),
+    fixed_number: yup.boolean(),
+    reception_feature: yup.boolean(),
+  }),
 });
 
 export default function SecondForm() {
-  const [checkedValue, setCheckedValue] = React.useState(false);
-
-  const handleCheckBox = () => {
-    setCheckedValue(!checkedValue);
+  const [statusProvince, setStatusProvince] = useState(false);
+  const handleCloseProvinceList = () => {
+    setStatusProvince(false);
   };
 
-  const handleCheckChange = () => {
-    setCheckedValue(checkedValue);
-  };
+  const [statusCity, setStatusCity] = useState(false);
 
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [status, setStatus] = useState(false);
+  const handleCloseCityList = () => {
+    setStatusCity(false);
+  };
   const formik = useFormik({
     initialValues: {
-      subject: "",
-      email: "",
-      firstName: "",
-      lastName: "",
-      education: "",
-      nationalId: "",
-      fieldEDU: "",
-      phone: "",
-      birthDate: "",
-      description: "",
+      name: "",
+      province: "",
+      city: "",
+      is_owner: "",
+      area: "",
+      business_type: {
+        is_distribution: false,
+        is_manufacturing: false,
+        is_technical: false,
+        is_service: false,
+      },
+      number_of_staff: 0,
+      address: "",
+      reception_status: "",
+      repair_features: "",
+      workplace_features: {
+        sofa: false,
+        network: false,
+        fixed_number: false,
+        reception_feature: false,
+      },
     },
     onSubmit: (values) => {
       try {
-        const res = fetch(`http://192.168.10.195:8090/v1/api/contact/to/us/`, {
-          method: "POST",
-          body: JSON.stringify({
-            subject: values.subject,
-            name: values.name,
-            email_address: values.email,
-            phone_number: values.phone,
-            description: values.description,
-          }),
-          headers: {
-            "content-type": "application/json",
-          },
-        })
+        const res = fetch(
+          `http://192.168.10.195:8090/v1/api/shop/informations/`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              subject: values.subject,
+              name: values.name,
+              email_address: values.email,
+              phone_number: values.phone,
+              description: values.description,
+            }),
+            headers: {
+              "content-type": "application/json",
+            },
+          }
+        )
           .then((response) =>
             response
               .json()
@@ -94,6 +121,13 @@ export default function SecondForm() {
     },
     validationSchema,
   });
+
+  const [visible, setVisible] = useState(false);
+
+  const toggleText = () => {
+    setVisible((prev) => !prev);
+  };
+
   return (
     <div className=" flex flex-col  items-center justify-center   ">
       <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-start gap-[10px] ">
@@ -101,44 +135,64 @@ export default function SecondForm() {
         اطلاعات فروشگاه
       </div>
 
-      <div className="w-[80%]  mb-6 relative  ">
+      <div className="w-[80%]  mt-1  mb-3 relative group  ">
         <input
-          name="firstName"
-          value={formik.values.firstName}
+          name="name"
+          value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.firstName.length > 0
-              ? " input-label-pos-active "
-              : " ") +
+            (formik.values.name.length > 0 ? " input-label-pos-active " : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
           }
         />
-        <label className=" absolute top-3 right-4  pointer-events-none">
+        <label
+          className={
+            " absolute top-4 right-4  pointer-events-none text-sm group-focus-within:text-xs" +
+            " " +
+            `${formik.values.name.length > 0 ? "text-xs" : ""}`
+          }
+        >
           نام فروشگاه
         </label>
-        {formik.errors.firstName && (
-          <div className="text-mainRed text-xs pt-1 ">
-            {formik.errors.firstName}
-          </div>
-        )}
+        <div
+          className={
+            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+            " " +
+            `${
+              formik.errors.name && formik.touched.name
+                ? " opacity-100 "
+                : " opacity-0 "
+            }`
+          }
+        >
+          <DangerIcon />
+          {formik.errors.name}
+        </div>
       </div>
       <div className="w-[80%]  mb-6 relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
         <div className="font-normal text-sm leading-6 text-[#242424] py-1 ">
           نوع جواز کسب:
         </div>
+        {/* DISTRIBUTION, MANUFACTURING, TECHNICAL, SERVICE */}
         <div className="flex flex-col gap-3 pt-2">
           <div className="bg-[#FDFDFD] rounded-xl py-2 px-3 ">
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.container} `}
-                onClick={handleCheckBox}
+                onClick={() =>
+                  formik.setFieldValue(
+                    "business_type.is_distribution",
+                    !formik.values.business_type.is_distribution
+                  )
+                }
               >
                 <input
-                  type="radio"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  type="checkbox"
+                  name="business_type.is_distribution"
+                  checked={formik.values.business_type.is_distribution}
+                  onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
               </div>
@@ -151,12 +205,18 @@ export default function SecondForm() {
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.container} `}
-                onClick={handleCheckBox}
+                onClick={() =>
+                  formik.setFieldValue(
+                    "business_type.is_manufacturing",
+                    !formik.values.business_type.is_manufacturing
+                  )
+                }
               >
                 <input
-                  type="radio"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  type="checkbox"
+                  name="business_type.is_manufacturing"
+                  checked={formik.values.business_type.is_manufacturing}
+                  onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
               </div>
@@ -169,12 +229,18 @@ export default function SecondForm() {
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.container} `}
-                onClick={handleCheckBox}
+                onClick={() =>
+                  formik.setFieldValue(
+                    "business_type.is_technical",
+                    !formik.values.business_type.is_technical
+                  )
+                }
               >
                 <input
-                  type="radio"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  type="checkbox"
+                  name="business_type.is_technical"
+                  checked={formik.values.business_type.is_technical}
+                  onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
               </div>
@@ -187,12 +253,18 @@ export default function SecondForm() {
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.container} `}
-                onClick={handleCheckBox}
+                onClick={() =>
+                  formik.setFieldValue(
+                    "business_type.is_service",
+                    !formik.values.business_type.is_service
+                  )
+                }
               >
                 <input
-                  type="radio"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  type="checkbox"
+                  name="business_type.is_service"
+                  checked={formik.values.business_type.is_service}
+                  onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
               </div>
@@ -203,39 +275,63 @@ export default function SecondForm() {
           </div>
         </div>
       </div>
-      <div className="w-[80%] mb-6 flex flex-row gap-2 items-center">
-        <button className="p-3 ">
-          <PlusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
-        </button>
-
-        <div className="   relative flex-grow  ">
-          <input
-            name="firstName"
-            value={formik.values.firstName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            type="number"
-            className={
-              (formik.values.firstName.length > 0
-                ? " input-label-pos-active "
-                : " ") +
-              " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
+      <div className="flex flex-col w-[80%] mt-1  mb-3 relative group ">
+        <div className=" flex flex-row gap-2 items-center">
+          <button
+            className="p-3 "
+            onClick={() =>
+              formik.setFieldValue(
+                "number_of_staff",
+                formik.values.number_of_staff + 1
+              )
             }
-          />
-          <label className=" absolute top-3 right-4  pointer-events-none">
-            تعداد افراد شاغل
-          </label>
-          {formik.errors.firstName && (
-            <div className="text-mainRed text-xs pt-1 ">
-              {formik.errors.firstName}
-            </div>
-          )}
-        </div>
-        <button className="p-3 ">
-          <MinusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
-        </button>
-      </div>
+          >
+            <PlusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
+          </button>
 
+          <div className="   relative flex-grow  ">
+            <input
+              name="number_of_staff"
+              value={formik.values.number_of_staff}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              type="number"
+              className={
+                (true ? " input-label-pos-active " : " ") +
+                " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
+              }
+            />
+            <label className=" absolute top-3 right-4  pointer-events-none">
+              تعداد افراد شاغل
+            </label>
+          </div>
+          <button
+            className="p-3 "
+            onClick={() =>
+              formik.setFieldValue(
+                "number_of_staff",
+                formik.values.number_of_staff - 1
+              )
+            }
+          >
+            <MinusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
+          </button>
+        </div>
+        <div
+          className={
+            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+            " " +
+            `${
+              formik.errors.number_of_staff && formik.touched.number_of_staff
+                ? " opacity-100 "
+                : " opacity-0 "
+            }`
+          }
+        >
+          <DangerIcon />
+          {formik.errors.number_of_staff}
+        </div>
+      </div>
       <div className="w-[80%]  mb-6 relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
         <div className="font-normal text-sm leading-6 text-[#242424] py-1 ">
           وضعیت ملک:
@@ -245,12 +341,12 @@ export default function SecondForm() {
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.containerRadio} `}
-                onClick={handleCheckBox}
+                onClick={() => formik.setFieldValue("is_owner", true)}
               >
                 <input
                   type="radio"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  checked={formik.values.is_owner === true}
+                  onChange={() => formik.setFieldValue("is_owner", true)}
                 />
                 <div className={formStyles.checkmarkRadio}></div>
               </div>
@@ -263,12 +359,12 @@ export default function SecondForm() {
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.containerRadio} `}
-                onClick={handleCheckBox}
+                onClick={() => formik.setFieldValue("is_owner", false)}
               >
                 <input
                   type="radio"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  checked={formik.values.is_owner === false}
+                  onChange={() => formik.setFieldValue("is_owner", false)}
                 />
                 <div className={formStyles.checkmarkRadio}></div>
               </div>
@@ -279,11 +375,24 @@ export default function SecondForm() {
           </div>
         </div>
       </div>
-
+      <div
+        className={
+          "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+          " " +
+          `${
+            formik.errors.is_owner && formik.touched.is_owner
+              ? " opacity-100 "
+              : " opacity-0 "
+          }`
+        }
+      >
+        <DangerIcon />
+        {formik.errors.is_owner}
+      </div>
       <div className="w-[80%]  mb-6 relative  ">
         <input
-          name="firstName"
-          value={formik.values.firstName}
+          name="area"
+          value={formik.values.area}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
@@ -296,112 +405,226 @@ export default function SecondForm() {
         <label className=" absolute top-3 right-4  pointer-events-none">
           متراژ ملک
         </label>
-        {formik.errors.firstName && (
-          <div className="text-mainRed text-xs pt-1 ">
-            {formik.errors.firstName}
-          </div>
-        )}
-      </div>
-
-      <div className="w-[80%] mb-8 relative   ">
-        <input
-          type="text "
-          name="subject"
-          value={
-            (formik.values.subject == "SUGGESTIONS" ? "پیشنهاد " : "") ||
-            (formik.values.subject == "CRITICISMS" ? " انتقاد " : "") ||
-            (formik.values.subject == "OTHER_TOPICS" ? "سایر موضوعات " : "")
-          }
-          id="subject"
-          readOnly
-          onFocus={() => setStatus(true)}
-          onBlur={() => setStatus(false)}
+        <div
           className={
-            (formik.values.subject.length > 0
-              ? " input-label-pos-active "
-              : " ") +
-            " w-full relative z-[7]  px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
-          }
-        />
-
-        <label className=" absolute top-3 origin-center right-4  z-10 pointer-events-none">
-          موضوع پیام
-        </label>
-        <span
-          className={
-            (status ? "rotate-180 " : "rotate-0 ") +
-            " absolute top-4 z-10 left-4 "
+            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+            " " +
+            `${
+              formik.errors.area && formik.touched.area
+                ? " opacity-100 "
+                : " opacity-0 "
+            }`
           }
         >
-          <ArrowDownIcon />
-        </span>
-        {formik.errors.subject && (
-          <div className="text-mainRed text-xs pt-1 ">
-            {formik.errors.subject}
+          <DangerIcon />
+          {formik.errors.area}
+        </div>
+      </div>
+
+      <ClickOutside
+        onClick={handleCloseProvinceList}
+        className={" w-[80%] flex flex-row mx-auto "}
+      >
+        <div
+          className={
+            formStyles.styled_select +
+            " " +
+            "group   w-full  relative my-5" +
+            "  " +
+            `${statusProvince ? " z-[2]  " : "  z-[1] "}`
+          }
+        >
+          <label
+            for="province"
+            className={
+              " absolute  z-[3] top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
+              " " +
+              `${
+                formik.values.province.length > 0
+                  ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
+                  : ""
+              }`
+            }
+          >
+            استان
+          </label>
+          <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
+            <ArrowDownIcon />
           </div>
-        )}
-        {status ? (
-          <div className="flex flex-col bg-[#F7F7F7] absolute z-[5] left-0 right-0 top-[39px] pt-3   rounded-b-3xl input-selected">
-            <div className=" px-3 py-2  ">
-              <label for="SUGGESTIONS" className="flex items-center relative">
-                <input
-                  type="radio"
-                  id="SUGGESTIONS"
-                  name="subject"
-                  onClick={() => setStatus(!status)}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value="SUGGESTIONS"
-                  className="opacity-0 pointer-events-none absolute"
-                />
-                <span class="checkmark inline-flex w-6 h-6 rounded-3xl ml-2"></span>
-                پیشنهاد
-              </label>
+
+          <input
+            value={formik.values.province}
+            onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+            onFocus={() => setStatusProvince(true)}
+            className={
+              (formik.values.province.length > 0
+                ? " input-label-pos-active "
+                : " ") +
+              " w-full px-4 relative  z-[2]  placeholder-gray    placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
+            }
+            id="province"
+            name="province"
+          ></input>
+
+          {statusProvince ? (
+            <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer ">
+              <div
+                value={"1"}
+                onClick={() => {
+                  formik.setFieldValue("province", "d");
+                  setStatusProvince(false);
+                }}
+                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
+              >
+                ggg
+              </div>
+              <div
+                value={"2"}
+                onClick={() => {
+                  formik.setFieldValue("province", "2");
+                  setStatusProvince(false);
+                }}
+                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl"
+              >
+                mmm
+              </div>
+              <div
+                value={"3"}
+                onClick={() => {
+                  formik.setFieldValue("province", "3");
+                  setStatusProvince(false);
+                }}
+                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
+              >
+                ggg
+              </div>
             </div>
-            <div className=" px-3 py-2 ">
-              <label for="CRITICISMS" className="flex items-center relative">
-                <input
-                  type="radio"
-                  id="CRITICISMS"
-                  name="subject"
-                  onClick={() => setStatus(!status)}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value="CRITICISMS"
-                  className="opacity-0 pointer-events-none absolute"
-                />
-                <span class="checkmark inline-flex w-6 h-6 rounded-3xl ml-2"></span>
-                انتقاد
-              </label>
-            </div>
-            <div className=" px-3 py-2 ">
-              <label for="OTHER_TOPICS" className="flex items-center relative">
-                <input
-                  name="subject"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  type="radio"
-                  id="OTHER_TOPICS"
-                  value="OTHER_TOPICS"
-                  className="opacity-0 pointer-events-none absolute"
-                />
-                <span class="checkmark inline-flex w-6 h-6 rounded-3xl ml-2 "></span>
-                سایر موضوعات
-              </label>
-            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      </ClickOutside>
+      <div
+        className={
+          "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+          " " +
+          `${
+            formik.errors.province && formik.touched.province
+              ? " opacity-100 "
+              : " opacity-0 "
+          }`
+        }
+      >
+        <DangerIcon />
+        {formik.errors.province}
+      </div>
+      <ClickOutside
+        onClick={handleCloseCityList}
+        className={" w-[80%] flex flex-row mx-auto "}
+      >
+        <div
+          className={
+            formStyles.styled_select +
+            " " +
+            "group   w-full  relative my-5" +
+            "  " +
+            `${statusCity ? " z-[2]  " : "  z-[1] "}`
+          }
+        >
+          <label
+            for="city"
+            className={
+              " absolute  z-[3] top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
+              " " +
+              `${
+                formik.values.city.length > 0
+                  ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
+                  : ""
+              }`
+            }
+          >
+            شهر
+          </label>
+          <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
+            <ArrowDownIcon />
           </div>
-        ) : (
-          ""
-        )}
+
+          <input
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+            onFocus={() => setStatusCity(true)}
+            className={
+              (formik.values.city.length > 0
+                ? " input-label-pos-active "
+                : " ") +
+              " w-full px-4 relative  z-[2]  placeholder-gray    placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
+            }
+            id="city"
+            name="city"
+          ></input>
+
+          {statusCity ? (
+            <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer ">
+              <div
+                value={"1"}
+                onClick={() => {
+                  formik.setFieldValue("city", "d");
+                  setStatusCity(false);
+                }}
+                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
+              >
+                ggg
+              </div>
+              <div
+                value={"2"}
+                onClick={() => {
+                  formik.setFieldValue("city", "2");
+                  setStatusCity(false);
+                }}
+                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl"
+              >
+                mmm
+              </div>
+              <div
+                value={"3"}
+                onClick={() => {
+                  formik.setFieldValue("city", "3");
+                  setStatusCity(false);
+                }}
+                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
+              >
+                ggg
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      </ClickOutside>
+      <div
+        className={
+          "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+          " " +
+          `${
+            formik.errors.city && formik.touched.city
+              ? " opacity-100 "
+              : " opacity-0 "
+          }`
+        }
+      >
+        <DangerIcon />
+        {formik.errors.city}
       </div>
       <div className="w-[80%]  relative my-5">
         <textarea
-          name="description"
-          value={formik.values.description}
+          name="address"
+          value={formik.values.address}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           className={
-            (formik.values.description.length > 0
+            (formik.values.address.length > 0
               ? " input-label-pos-active "
               : " ") +
             " min-h-32 w-full px-4 placeholder-gray resize-y   h-12   border border-gray-300 rounded-2xl bg-white input-label-pos pt-3"
@@ -410,11 +633,20 @@ export default function SecondForm() {
         <label className=" absolute top-3 right-4  pointer-events-none rounded-2xl ">
           آدرس کامل فروشگاه
         </label>
-        {formik.errors.description && (
-          <div className="text-mainRed text-xs pt-1 ">
-            {formik.errors.description}
-          </div>
-        )}
+        <div
+          className={
+            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+            " " +
+            `${
+              formik.errors.address && formik.touched.address
+                ? " opacity-100 "
+                : " opacity-0 "
+            }`
+          }
+        >
+          <DangerIcon />
+          {formik.errors.address}
+        </div>
       </div>
 
       <div className="w-[80%]  mb-6 relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
@@ -426,12 +658,18 @@ export default function SecondForm() {
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.container} `}
-                onClick={handleCheckBox}
+                onClick={() =>
+                  formik.setFieldValue(
+                    "workplace_features.sofa",
+                    !formik.values.workplace_features.sofa
+                  )
+                }
               >
                 <input
                   type="checkbox"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  name="workplace_features.sofa"
+                  checked={formik.values.workplace_features.sofa}
+                  onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
               </div>
@@ -444,12 +682,18 @@ export default function SecondForm() {
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.container} `}
-                onClick={handleCheckBox}
+                onClick={() =>
+                  formik.setFieldValue(
+                    "workplace_features.network",
+                    !formik.values.workplace_features.network
+                  )
+                }
               >
                 <input
                   type="checkbox"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  name="workplace_features.network"
+                  checked={formik.values.workplace_features.network}
+                  onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
               </div>
@@ -462,12 +706,18 @@ export default function SecondForm() {
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.container} `}
-                onClick={handleCheckBox}
+                onClick={() =>
+                  formik.setFieldValue(
+                    "workplace_features.fixed_number",
+                    !formik.values.workplace_features.fixed_number
+                  )
+                }
               >
                 <input
                   type="checkbox"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  name="workplace_features.fixed_number"
+                  checked={formik.values.workplace_features.fixed_number}
+                  onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
               </div>
@@ -480,12 +730,18 @@ export default function SecondForm() {
             <div className=" flex flex-row items-center gap-2 ">
               <div
                 className={`${formStyles.container} `}
-                onClick={handleCheckBox}
+                onClick={() =>
+                  formik.setFieldValue(
+                    "workplace_features.reception_feature",
+                    !formik.values.workplace_features.reception_feature
+                  )
+                }
               >
                 <input
                   type="checkbox"
-                  checked={checkedValue}
-                  onChange={handleCheckChange}
+                  name="workplace_features.reception_feature"
+                  checked={formik.values.workplace_features.reception_feature}
+                  onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
               </div>
@@ -496,14 +752,15 @@ export default function SecondForm() {
           </div>
         </div>
       </div>
+
       <div className="w-[80%]  relative my-5">
         <textarea
-          name="description"
-          value={formik.values.description}
+          name="repair_features"
+          value={formik.values.repair_features}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           className={
-            (formik.values.description.length > 0
+            (formik.values.repair_features.length > 0
               ? " input-label-pos-active "
               : " ") +
             " min-h-32 w-full px-4 placeholder-gray resize-y   h-12   border border-gray-300 rounded-2xl bg-white input-label-pos pt-3"
@@ -512,21 +769,30 @@ export default function SecondForm() {
         <label className=" absolute top-3 right-4  pointer-events-none rounded-2xl ">
           تجهیزات تست و تعمیر
         </label>
-        {formik.errors.description && (
-          <div className="text-mainRed text-xs pt-1 ">
-            {formik.errors.description}
-          </div>
-        )}
+        <div
+          className={
+            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+            " " +
+            `${
+              formik.errors.repair_features && formik.touched.repair_features
+                ? " opacity-100 "
+                : " opacity-0 "
+            }`
+          }
+        >
+          <DangerIcon />
+          {formik.errors.repair_features}
+        </div>
       </div>
 
       <div className="w-[80%]  relative my-5">
         <textarea
-          name="description"
-          value={formik.values.description}
+          name="reception_status"
+          value={formik.values.reception_status}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           className={
-            (formik.values.description.length > 0
+            (formik.values.reception_status.length > 0
               ? " input-label-pos-active "
               : " ") +
             " min-h-32 w-full px-4 placeholder-gray resize-y   h-12   border border-gray-300 rounded-2xl bg-white input-label-pos pt-3"
@@ -535,11 +801,20 @@ export default function SecondForm() {
         <label className=" absolute top-3 right-4  pointer-events-none rounded-2xl ">
           شرح وضعیت پذیرایی (اختیاری)
         </label>
-        {formik.errors.description && (
-          <div className="text-mainRed text-xs pt-1 ">
-            {formik.errors.description}
-          </div>
-        )}
+        <div
+          className={
+            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+            " " +
+            `${
+              formik.errors.reception_status && formik.touched.reception_status
+                ? " opacity-100 "
+                : " opacity-0 "
+            }`
+          }
+        >
+          <DangerIcon />
+          {formik.errors.reception_status}
+        </div>
       </div>
 
       <div className="flex flex-col w-[80%] before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto ">

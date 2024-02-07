@@ -10,7 +10,7 @@ import DangerIcon from "@/icon2/DangerIcon";
 import SkillRecordsForm from "./SkillRecordsForm";
 import CoursesForm from "./CoursesForm";
 
-export default function RecordsCourses({ formik }) {
+export default function RecordsCourses({ formik,setCurseList,courseList }) {
   const [open, setOpen] = useState(true);
 
   const handleOpenClick = () => {
@@ -100,7 +100,7 @@ export default function RecordsCourses({ formik }) {
             {formik.errors.firstName}
           </div>
         </div>
-        <CoursesForm formik={formik}/>
+        <CoursesForm formik={formik} setCurseList={setCurseList} courseList={courseList}/>
       </div>
     </div>
   );
