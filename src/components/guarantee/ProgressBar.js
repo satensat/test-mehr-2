@@ -36,8 +36,6 @@ export default function ProgressBar() {
 
   ///text active
 
-  const [textActive, setTextActive] = useState(1);
-
   ////tab active
 
   const [activeTab, setActiveTab] = useState("verification");
@@ -47,10 +45,34 @@ export default function ProgressBar() {
     setProgressAnimation(progress25);
     setFirstPoint(aniamtionPartDone);
     setSecondPoint(pointNotComplete);
-    setTextActive(2);
     setActiveTab("first");
     setStepCounter("1");
   };
+
+  const firstFormDoneToSecondForm = () => {
+    setProgressAnimation(progress50);
+    setSecondPoint(aniamtionPartDone);
+    setThirdPoint(pointNotComplete);
+    setActiveTab("second");
+    setStepCounter("2");
+  };
+
+  const secondFormDoneToThirdForm = () => {
+    setProgressAnimation(progress75);
+    setThirdPoint(aniamtionPartDone);
+    setFourthPoint(pointNotComplete);
+    setActiveTab("third");
+    setStepCounter("3");
+  };
+
+  const thirdFormDoneToFourthForm = () => {
+    setProgressAnimation(progressFull);
+    setFourthPoint(aniamtionPartDone);
+    setLastPoint(pointNotComplete);
+    setActiveTab("forth");
+    setStepCounter("4");
+  };
+
   return (
     <div className="p-3 w-full  h-fit ">
       <div className="min-h-[70px] flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
@@ -72,7 +94,7 @@ export default function ProgressBar() {
               className={
                 styles.textPart +
                 " " +
-                ` ${textActive === 1 ? styles.active : " "}`
+                ` ${activeTab === "verification" ? styles.active : " "}`
               }
             >
               احراز هویت
@@ -82,7 +104,7 @@ export default function ProgressBar() {
             className={"cursor-pointer" + " " + secondPoint}
             onClick={() => {
               // if (+stepCounter >= 1) {
-                setActiveTab("first");
+              setActiveTab("first");
               // }
             }}
           >
@@ -90,7 +112,7 @@ export default function ProgressBar() {
               className={
                 styles.textPart +
                 " " +
-                ` ${textActive === 2 ? styles.active : " "}`
+                ` ${activeTab === "first" ? styles.active : " "}`
               }
             >
               اطلاعات نماینده
@@ -100,7 +122,7 @@ export default function ProgressBar() {
             className={"cursor-pointer" + " " + thirdPoint}
             onClick={() => {
               // if (+stepCounter >= 2) {
-                setActiveTab("second");
+              setActiveTab("second");
               // }
             }}
           >
@@ -108,7 +130,7 @@ export default function ProgressBar() {
               className={
                 styles.textPart +
                 " " +
-                ` ${textActive === 3 ? styles.active : " "}`
+                ` ${activeTab === "second" ? styles.active : " "}`
               }
             >
               اطلاعات فروشگاه
@@ -118,7 +140,7 @@ export default function ProgressBar() {
             className={"cursor-pointer" + " " + fourthPoint}
             onClick={() => {
               // if (+stepCounter >= 3) {
-                setActiveTab("third");
+              setActiveTab("third");
               // }
             }}
           >
@@ -126,7 +148,7 @@ export default function ProgressBar() {
               className={
                 styles.textPart +
                 " " +
-                ` ${textActive === 4 ? styles.active : " "}`
+                ` ${activeTab === "third" ? styles.active : " "}`
               }
             >
               بارگذاری مدارک
@@ -136,22 +158,22 @@ export default function ProgressBar() {
             className={"cursor-pointer" + " " + lastPoint}
             onClick={() => {
               // if (+stepCounter >= 4) {
-                setActiveTab("last");
+              setActiveTab("last");
               // }
             }}
           >
-            <div>
+            {/* <div className={" absolute top-[50%]  left-[50%] -translate-x-1/2  -translate-y-1/2 "+styles.tickIcon}>
               <EmpthyTick  width={"32"} height={"32"}/>
-            </div>
+            </div> */}
             <div
               className={
                 styles.textPart +
                 " " +
-                ` ${textActive === 5 ? styles.active : " "}`
+                ` ${activeTab === "last" ? styles.active : " "}`
               }
               onClick={() => {
                 // if (+stepCounter >= 5) {
-                  setActiveTab("last");
+                setActiveTab("last");
                 // }
               }}
             >
@@ -244,10 +266,27 @@ export default function ProgressBar() {
           setMainData={setMainData}
         />
       )}
-      {activeTab === "first" && <FirstForm setActiveTab={setActiveTab}           mainData={mainData}
-          setMainData={setMainData} />}
-      {activeTab === "second" && <SecondForm />}
-      {activeTab === "third" && <ThirdForm />}
+      {activeTab === "first" && (
+        <FirstForm
+          mainData={mainData}
+          firstFormDoneToSecondForm={firstFormDoneToSecondForm}
+          setMainData={setMainData}
+        />
+      )}
+      {activeTab === "second" && (
+        <SecondForm
+          secondFormDoneToThirdForm={secondFormDoneToThirdForm}
+          mainData={mainData}
+          setMainData={setMainData}
+        />
+      )}
+      {activeTab === "third" && (
+        <ThirdForm
+          thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
+          mainData={mainData}
+          setMainData={setMainData}
+        />
+      )}
       {activeTab === "last" && <LastForm />}
     </div>
   );

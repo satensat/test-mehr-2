@@ -1,10 +1,10 @@
 "use client";
 import ToastBox from "../global/toast";
 import ArrowLeftIcon from "@/icon/arrow-left";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import ArrowDownIcon from "@/icon/arrow-down";
+import ArrowDownIcon from "@/icon/ArrowDown";
 import PlusIcon from "@/icon/PlusIcon";
 import RightArrowBack from "@/icon2/RightArrowBack";
 import ArrowOpinion from "@/icon/ArrowOpinion";
@@ -14,11 +14,22 @@ import ClickOutside from "./ClickOutside";
 import DangerIcon from "@/icon2/DangerIcon";
 
 const validationSchema = yup.object({
-  name: yup.string().required("نام فروشگاه را وارد نمایید"),
-  province: yup.string().required(" استان را وارد نمایید."),
-  city: yup.string().trim().required("شهر را وارد نمایید"),
+  name: yup.string().required("نام فروشگاه را وارد نمایید."),
+  // province: yup.string().required(" استان را وارد نمایید."),
+  province: yup.object().shape({
+    id: yup.string().required("استان را انتخاب نمایید."),
+    name: yup.string().required("استان را انتخاب نمایید."),
+  }),
+  city: yup.object().shape({
+    id: yup.string().required("شهر را وارد نمایید."),
+    name: yup.string().required("شهر را وارد نمایید."),
+  }),
+  // city: yup.string().required("شهر را وارد نمایید."),
   is_owner: yup.boolean().required("وضعیت ملک را وارد انتخاب کنید."),
-  area: yup.string().required("  متراژ ملک را وارد نمایید"),
+  area: yup
+    .number()
+    .typeError("لطفا عدد وارد کنید.")
+    .required("  متراژ ملک را وارد نمایید."),
   business_type: yup.object().shape({
     is_distribution: yup.boolean(),
     is_manufacturing: yup.boolean(),
@@ -29,9 +40,9 @@ const validationSchema = yup.object({
     .number()
     .required("تعداد افراد شاغل را وارد نمایید.")
     .positive("تعداد افراد شاغل باید مثبت باشد."),
-  address: yup.string().required("آدرس کامل فروشگاه را وارد نمایید"),
+  address: yup.string().required("آدرس کامل فروشگاه را وارد نمایید."),
   reception_status: yup.string(),
-  repair_features: yup.string().required("تجهیزات تست و تعمیر را وارد نمایید"),
+  repair_features: yup.string().required("تجهیزات تست و تعمیر را وارد نمایید."),
   workplace_features: yup.object().shape({
     sofa: yup.boolean(),
     network: yup.boolean(),
@@ -51,11 +62,114 @@ export default function SecondForm() {
   const handleCloseCityList = () => {
     setStatusCity(false);
   };
+
+  const [provinceListItemsSource, setProvinceListitemsSource] = useState([]);
+  const [cityListItemsSource, setCityListitemsSource] = useState([]);
+
+  const [provinceInput, setProvinceInput] = useState("");
+  const [cityListInput, setCityInput] = useState("");
+
+  const [filteredProvinces, setFilteredProvinces] = useState([]);
+  const [filteredCities, setFilteredCities] = useState([]);
+  const handleChangeInputProvinceAutoComplete = (event) => {
+    console.log(event);
+    setProvinceInput(() => event.target.value);
+    const filteredProvinces = provinceListItemsSource.filter((province) =>
+      province.name.includes(event.target.value)
+    );
+    console.log(filteredProvinces);
+    setFilteredProvinces(filteredProvinces);
+    console.log(filteredProvinces.length === 1);
+    if (filteredProvinces.length === 1) {
+      console.log(filteredProvinces[0]);
+      // const timeoutID =
+      setTimeout(() => {
+        console.log("this is the first message");
+        fetchCityListitemsDependsProvince(filteredProvinces[0].id);
+        formik.setFieldValue("province.name", filteredProvinces[0].name);
+        formik.setFieldValue("province.id", filteredProvinces[0].id);
+        setProvinceInput(filteredProvinces[0].name);
+        setStatusProvince(false);
+      }, 500);
+      // timeoutID();
+      // clearTimeout(timeoutID);
+    }
+  };
+
+  const handleChangeInputCityAutoComplete = (event) => {
+    console.log(event);
+    setCityInput(() => event.target.value);
+    const filteredCity = cityListItemsSource.filter((province) =>
+      province.name.includes(event.target.value)
+    );
+    console.log(filteredCity);
+    setFilteredCities(filteredCity);
+    console.log(filteredCity.length === 1);
+    console.log(filteredCity[0] === event.target.value);
+    if (filteredCity.length === 1) {
+      console.log(filteredCity[0]);
+      // const timeoutID =
+      setTimeout(() => {
+        formik.setFieldValue("city.name", filteredCity[0].name);
+        formik.setFieldValue("city.id", filteredCity[0].id);
+        setCityInput(filteredCity[0].name);
+        setStatusCity(false);
+      }, 500);
+      // timeoutID();
+      // clearTimeout(timeoutID);
+    }
+  };
+
+  useEffect(() => {
+    // http://192.168.10.195:8090/v1/api/province/
+    async function fetchProvinceListitems() {
+      try {
+        const myDataQ = await fetch(
+          `http://192.168.10.195:8090/v1/api/province/`
+        );
+        console.log(myDataQ);
+
+        if (myDataQ.status == 200) {
+          const test = await myDataQ.json();
+          setProvinceListitemsSource(test);
+          setFilteredProvinces(test);
+
+          // console.log(test);
+        }
+        // return  { detail : await myDataQ.json() , status :   myDataQ.status };
+      } catch {
+        return "";
+      }
+    }
+
+    fetchProvinceListitems();
+  }, []);
+
+  async function fetchCityListitemsDependsProvince(provinceID) {
+    console.log(provinceID);
+    try {
+      const myDataQ = await fetch(
+        `http://192.168.10.195:8090/v1/api/province/cities/${provinceID}/`
+      );
+      console.log(myDataQ);
+
+      if (myDataQ.status == 200) {
+        const test = await myDataQ.json();
+        setCityListitemsSource(test);
+        setFilteredCities(test);
+        console.log(test);
+      }
+      // return  { detail : await myDataQ.json() , status :   myDataQ.status };
+    } catch {
+      return "";
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       name: "",
-      province: "",
-      city: "",
+      province: { id: "", name: "" },
+      city: { id: "", name: "" },
       is_owner: "",
       area: "",
       business_type: {
@@ -332,7 +446,7 @@ export default function SecondForm() {
           {formik.errors.number_of_staff}
         </div>
       </div>
-      <div className="w-[80%]  mb-6 relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
+      <div className="w-[80%]  mt-1   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
         <div className="font-normal text-sm leading-6 text-[#242424] py-1 ">
           وضعیت ملک:
         </div>
@@ -377,7 +491,7 @@ export default function SecondForm() {
       </div>
       <div
         className={
-          "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+          "w-[80%] mb-3  text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
             formik.errors.is_owner && formik.touched.is_owner
@@ -389,7 +503,7 @@ export default function SecondForm() {
         <DangerIcon />
         {formik.errors.is_owner}
       </div>
-      <div className="w-[80%]  mb-6 relative  ">
+      <div className="w-[80%]  mt-1  mb-3 relative  ">
         <input
           name="area"
           value={formik.values.area}
@@ -423,13 +537,13 @@ export default function SecondForm() {
 
       <ClickOutside
         onClick={handleCloseProvinceList}
-        className={" w-[80%] flex flex-row mx-auto "}
+        className={" w-[80%] flex flex-row mx-auto mt-1   "}
       >
         <div
           className={
             formStyles.styled_select +
             " " +
-            "group   w-full  relative my-5" +
+            "group   w-full  relative " +
             "  " +
             `${statusProvince ? " z-[2]  " : "  z-[1] "}`
           }
@@ -440,7 +554,7 @@ export default function SecondForm() {
               " absolute  z-[3] top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
               " " +
               `${
-                formik.values.province.length > 0
+                provinceInput.length > 0
                   ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                   : ""
               }`
@@ -453,14 +567,12 @@ export default function SecondForm() {
           </div>
 
           <input
-            value={formik.values.province}
-            onChange={formik.handleChange}
-            // onBlur={formik.handleBlur}
+            value={provinceInput}
+            onChange={(e) => handleChangeInputProvinceAutoComplete(e)}
+            onBlur={formik.handleBlur}
             onFocus={() => setStatusProvince(true)}
             className={
-              (formik.values.province.length > 0
-                ? " input-label-pos-active "
-                : " ") +
+              (provinceInput.length > 0 ? " input-label-pos-active " : " ") +
               " w-full px-4 relative  z-[2]  placeholder-gray    placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
             }
             id="province"
@@ -468,37 +580,25 @@ export default function SecondForm() {
           ></input>
 
           {statusProvince ? (
-            <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer ">
-              <div
-                value={"1"}
-                onClick={() => {
-                  formik.setFieldValue("province", "d");
-                  setStatusProvince(false);
-                }}
-                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
-              >
-                ggg
-              </div>
-              <div
-                value={"2"}
-                onClick={() => {
-                  formik.setFieldValue("province", "2");
-                  setStatusProvince(false);
-                }}
-                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl"
-              >
-                mmm
-              </div>
-              <div
-                value={"3"}
-                onClick={() => {
-                  formik.setFieldValue("province", "3");
-                  setStatusProvince(false);
-                }}
-                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
-              >
-                ggg
-              </div>
+            <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+              {filteredProvinces.map((item, index) => {
+                return (
+                  <div
+                    key={item.id}
+                    value={item.id}
+                    onClick={async () => {
+                      formik.setFieldValue("province.name", item.name);
+                      formik.setFieldValue("province.id", item.id);
+                      await fetchCityListitemsDependsProvince(item.id);
+                      setProvinceInput(item.name);
+                      setStatusProvince(false);
+                    }}
+                    className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
+                  >
+                    {item.name}
+                  </div>
+                );
+              })}
             </div>
           ) : (
             ""
@@ -507,27 +607,30 @@ export default function SecondForm() {
       </ClickOutside>
       <div
         className={
-          "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+          "w-[80%] mb-3 text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            formik.errors.province && formik.touched.province
+            formik.errors.province &&
+            formik.touched.province &&
+            formik.errors.province.name &&
+            formik.touched.province.name
               ? " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.province}
+        {formik.errors.province?.name}
       </div>
       <ClickOutside
         onClick={handleCloseCityList}
-        className={" w-[80%] flex flex-row mx-auto "}
+        className={" w-[80%] flex flex-row mx-auto mt-1   "}
       >
         <div
           className={
             formStyles.styled_select +
             " " +
-            "group   w-full  relative my-5" +
+            "group   w-full  relative " +
             "  " +
             `${statusCity ? " z-[2]  " : "  z-[1] "}`
           }
@@ -538,27 +641,30 @@ export default function SecondForm() {
               " absolute  z-[3] top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
               " " +
               `${
-                formik.values.city.length > 0
+                formik.values.city.name.length > 0
                   ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                   : ""
-              }`
+              }` +
+              " " +
+              `${formik.values.province.name === "" ? " text-[#ababab]  " : ""}`
             }
           >
             شهر
           </label>
           <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
-            <ArrowDownIcon />
+            <ArrowDownIcon
+              color={`${formik.values.province.name === "" ? "#ababab" : ""}`}
+            />
           </div>
 
           <input
-            value={formik.values.city}
-            onChange={formik.handleChange}
+            disabled={formik.values.province.name === ""}
+            value={cityListInput}
+            onChange={(e) => handleChangeInputCityAutoComplete(e)}
             // onBlur={formik.handleBlur}
             onFocus={() => setStatusCity(true)}
             className={
-              (formik.values.city.length > 0
-                ? " input-label-pos-active "
-                : " ") +
+              (cityListInput.length > 0 ? " input-label-pos-active " : " ") +
               " w-full px-4 relative  z-[2]  placeholder-gray    placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
             }
             id="city"
@@ -566,37 +672,24 @@ export default function SecondForm() {
           ></input>
 
           {statusCity ? (
-            <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer ">
-              <div
-                value={"1"}
-                onClick={() => {
-                  formik.setFieldValue("city", "d");
-                  setStatusCity(false);
-                }}
-                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
-              >
-                ggg
-              </div>
-              <div
-                value={"2"}
-                onClick={() => {
-                  formik.setFieldValue("city", "2");
-                  setStatusCity(false);
-                }}
-                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl"
-              >
-                mmm
-              </div>
-              <div
-                value={"3"}
-                onClick={() => {
-                  formik.setFieldValue("city", "3");
-                  setStatusCity(false);
-                }}
-                className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
-              >
-                ggg
-              </div>
+            <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+              {filteredCities.map((item, index) => {
+                return (
+                  <div
+                    key={item.id}
+                    value={item.id}
+                    onClick={() => {
+                      formik.setFieldValue("city.name", item.name);
+                      formik.setFieldValue("city.id", item.id);
+                      setCityInput(item.name);
+                      setStatusCity(false);
+                    }}
+                    className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
+                  >
+                    {item.name}
+                  </div>
+                );
+              })}
             </div>
           ) : (
             ""
@@ -605,19 +698,22 @@ export default function SecondForm() {
       </ClickOutside>
       <div
         className={
-          "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+          "w-[80%] mb-3  text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            formik.errors.city && formik.touched.city
+            formik.errors.city &&
+            formik.touched.city &&
+            formik.errors.city.name &&
+            formik.touched.city.name
               ? " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.city}
+        {formik.errors.city?.name}
       </div>
-      <div className="w-[80%]  relative my-5">
+      <div className="w-[80%]  relative mt-2 mb-3">
         <textarea
           name="address"
           value={formik.values.address}
@@ -649,7 +745,7 @@ export default function SecondForm() {
         </div>
       </div>
 
-      <div className="w-[80%]  mb-6 relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
+      <div className="w-[80%] mt-1  relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
         <div className="font-normal text-sm leading-6 text-[#242424] py-1 ">
           امکانات فروشگاه:
         </div>
@@ -752,8 +848,22 @@ export default function SecondForm() {
           </div>
         </div>
       </div>
-
-      <div className="w-[80%]  relative my-5">
+      <div
+        className={
+          "w-[80%] mb-3  text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+          " " +
+          `${
+            formik.errors.workplace_features &&
+            formik.touched.workplace_features
+              ? " opacity-100 "
+              : " opacity-0 "
+          }`
+        }
+      >
+        <DangerIcon />
+        {formik.errors.repair_features}
+      </div>
+      <div className="w-[80%]  relative mt-1  mb-3">
         <textarea
           name="repair_features"
           value={formik.values.repair_features}
@@ -785,7 +895,7 @@ export default function SecondForm() {
         </div>
       </div>
 
-      <div className="w-[80%]  relative my-5">
+      <div className="w-[80%]  relative mt-1  mb-3 ">
         <textarea
           name="reception_status"
           value={formik.values.reception_status}
@@ -822,7 +932,10 @@ export default function SecondForm() {
           <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white ">
             بازگشت به قبل
           </button>
-          <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] ">
+          <button
+            onClick={formik.handleSubmit}
+            className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] "
+          >
             مرحله بعد
             <div className="transition ease-in-out duration-500  group-hover:scale-110  brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
               <ArrowOpinion />

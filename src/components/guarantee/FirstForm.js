@@ -98,6 +98,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
       fixed_number: [],
       description: "",
       phone_number: mainData?.phone_number ? mainData?.phone_number : "",
+      applicator:mainData?.phone_number ? mainData?.phone_number : "",
       phone_number_list: [],
       work_experience: "",
       // courses: [],

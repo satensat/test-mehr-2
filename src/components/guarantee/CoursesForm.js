@@ -33,16 +33,126 @@ import DangerIcon from "@/icon2/DangerIcon";
 // //   }),
 // });
 
-const validationSchema = yup.lazy((values) =>
-  yup.object({
-    name: yup.string().required("نام دوره را وارد کنید"),
-    institution_name: yup.string(),
-    start_date: yup.string(),
-    end_date: yup.string(),
-    description: yup.string(),
-  })
-);
+// const validationSchema =  yup.object({
+//     name: yup.string().required("نام دوره را وارد کنید"),
+//     institution_name: yup.string(),
+//     start_date: yup.string(),
+//     end_date: yup.string(),
+//     description: yup.string(),
+//     start_date: yup.date(),
+//     end_date: yup.date()
+//       .when('start_date', (start_date, schema) => {
+//         return start_date
+//           ? schema.min(start_date, 'End date must be after start date').required('End date is required')
+//           : schema;
+//       }),
+    // start_date: yup.date().when("end_date", (endDate, schema) => {
+    //   return endDate
+    //     ? schema.required("Start date is required when end date is filled").max(endDate, "Start date must be before end date")
+    //     : schema;
+    // }),
+  // end_date: yup.lazy((value, schema) => {
+  //   if (value) {
+  //     return schema.date().min(schema.parent.start_date, "End date must be after start date");
+  //   }
+  //   return schema;
+  // }),
+  // })
 
+  const validationSchema = yup.object({
+    name: yup.string().required("نام دوره را وارد کنید."),
+    institution_name: yup.string(),
+    start_date: yup.date().nullable(),
+    end_date: yup.date()
+      .when('start_date', (startDate, schema) => {
+        // console.log(schema)
+        return startDate
+          ? schema.min(startDate, 'تاریخ پایان باید بعد از تاریخ شروع باشد.').required('تاریخ پایان الزامی است.')
+          : schema;
+      }) .nullable(),
+      // end_date: yup.date().test(
+      //   "same_dates_test",
+      //   "Start and end dates must not be equal.",
+      //   function (value) {
+      //     const { start_date } = this.parent;
+      //     return value.getTime() !== start_date.getTime();
+      //   }
+      // ),
+      // end_date:yup.date().min(
+      //   yup.ref('start_date'),
+      //   ({ min }) => `Date needs to be before !!`,
+      // ),
+      // end_date:yup.date().when('start_date', (start_date) => {
+      //   if (start_date) {
+      //       return yup.date()
+      //           .min(start_date, 'End Date must be after Start Date')
+      //           .typeError('End Date is required')
+      //   }
+      // }),
+      // end_date: yup.date().when("start_date", {
+      //   // is: "range",
+      //   is: true,
+      //   then: (start_date) => yup.min(start_date, 'تاریخ پایان باید بعد از تاریخ شروع باشد.').required('تاریخ پایان الزامی است.'),
+      //   otherwise: () => yup.string().notRequired(),
+      // }),
+    description: yup.string(),
+  }).required();
+  // const validationSchema = yup.object({
+  //   name: yup.string().required("نام دوره را وارد کنید."),
+  //   institution_name: yup.string(),
+  //   start_date: yup.date().when('end_date', {
+  //     is: (endDate) => endDate && endDate.trim() !== '', // Check if end date has a value
+  //     then: yup.date().required("تاریخ شروع الزامی است."), // If end date has a value, start date is required
+  //     otherwise: yup.date() // Otherwise, start date is optional
+  //   }),
+  //   end_date: yup.date()
+  //     .when('start_date', (startDate, schema) => {
+  //       return startDate
+  //         ? schema.min(startDate, 'تاریخ پایان باید بعد از تاریخ شروع باشد.').required('تاریخ پایان الزامی است.')
+  //         : schema;
+  //     }),
+  //   description: yup.string(),
+  // });
+
+  // const validationSchema = yup.object({
+  //   name: yup.string().required("نام دوره را وارد کنید"),
+  //   institution_name: yup.string(),
+  //   end_date: yup.date().when('start_date', {
+  //     is: (start_date) => start_date && start_date.trim() !== '', // Check if end date has a value
+  //     then:(start_date) => yup.date().min(start_date, 'تاریخ پایان باید بعد از تاریخ شروع باشد').required('تاریخ پایان الزامی است'),
+  //     otherwise: yup.date() // Otherwise, start date is optional
+  //   }),
+  //   start_date: yup.date(),
+  //   description: yup.string(),
+  // });
+
+  // const validationSchema = yup.object({
+  //   name: yup.string().required("نام دوره را وارد کنید"),
+  //   institution_name: yup.string(),
+  //   end_date: yup.date().when('start_date', {
+  //     is: (start_date) => start_date && start_date.trim() !== '', // Check if end date has a value
+  //     then:(start_date) => yup.date().min(start_date, 'تاریخ پایان باید بعد از تاریخ شروع باشد').required('تاریخ پایان الزامی است'),
+  //     otherwise: yup.date() // Otherwise, start date is optional
+  //   }),
+  //   start_date: yup.date(),
+  //   description: yup.string(),
+  // });
+
+
+// const validationSchema = yup.object().shape({
+//   start_date: yup.date()
+//     .when("end_date", (endDate, schema) => {
+//       return endDate
+//         ? schema.max(endDate, "Start date must be before end date")
+//         : schema;
+//     }),
+//   end_date: yup.lazy((value, schema) => {
+//     if (value) {
+//       return schema.date().min(schema.parent.start_date, "End date must be after start date");
+//     }
+//     return schema;
+//   }),
+// });
 export default function CoursesForm({ setCurseList, courseList }) {
   const formik = useFormik({
     initialValues: {

@@ -492,3 +492,8 @@ input:-webkit-autofill:focus {
   background-color: #808080;
   width: 20px;
 }
+
+
+input[type="file"]::file-selector-button {
+display: none;
+}

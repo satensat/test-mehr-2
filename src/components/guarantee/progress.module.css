@@ -81,6 +81,31 @@
   }
 }
 
+/* .points .tickIcon {
+  /* top-[50%]  left-[50%] -translate-x-1/2  -translate-y-1/2 
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  animation: 1s linear bigTickIcon;
+  animation-fill-mode: forwards;
+  animation-delay: 0.5s;
+  transform-origin: center;
+}
+@keyframes bigTickIcon {
+  from {
+    top:50%;
+    left:50%;
+    transform: scale(0) translate(-50%,-50%);
+    opacity: 0;
+  }
+  to {
+    top:50%;
+    left:50%;
+    transform: scale(1) translate(-50%,-50%) ;
+    opacity: 1;
+  }
+} */
+
 .points::after {
   content: "";
   position: absolute;
@@ -228,11 +253,7 @@
   }
 }
 
-
-
-
-
-@media (min-width:  992px) {
+@media (min-width: 992px) {
   .points .textPart {
     width: 96px;
     font-size: 12px;
@@ -243,4 +264,4 @@
     font-size: 12px;
     line-height: 24px;
   }
-} 
+}
