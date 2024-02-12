@@ -191,14 +191,12 @@ export default function ThirdForm() {
         const res = fetch(`http://192.168.10.195:8090/v1/api/contact/to/us/`, {
           method: "POST",
           body: JSON.stringify({
-            subject: values.subject,
-            name: values.name,
-            email_address: values.email,
-            phone_number: values.phone,
-            description: values.description,
+            tax_statement:"",
+            informathic_certificate:"",
+            workplace_images:"",
           }),
           headers: {
-            "content-type": "application/json",
+            "content-type": "multipart/form-data",
           },
         })
           .then((response) =>

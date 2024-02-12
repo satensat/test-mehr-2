@@ -52,7 +52,7 @@ const validationSchema = yup.object({
   }),
 });
 
-export default function SecondForm() {
+export default function SecondForm({ mainData, setMainData}) {
   const [statusProvince, setStatusProvince] = useState(false);
   const handleCloseProvinceList = () => {
     setStatusProvince(false);
@@ -226,11 +226,28 @@ export default function SecondForm() {
           {
             method: "POST",
             body: JSON.stringify({
-              subject: values.subject,
               name: values.name,
-              email_address: values.email,
-              phone_number: values.phone,
-              description: values.description,
+              province: values.province.id,
+              city: values.city.id,
+              is_owner: values.is_owner,
+              area: values.area,
+              business_type: {
+                is_distribution: values.business_type.is_distribution,
+                is_manufacturing: values.business_type.is_manufacturing,
+                is_technical: values.business_type.is_technical,
+                is_service: values.business_type.is_service
+              },
+              number_of_staff: values.number_of_staff,
+              address: values.address,
+              reception_status: values.reception_status,
+              repair_features: values.repair_features,
+              applicator: mainData?.varificationForm?.phone_number,
+              workplace_features: {
+                sofa: values.workplace_features.sofa,
+                network: values.workplace_features.network,
+                fixed_number: values.workplace_features.fixed_number,
+                reception_feature: values.workplace_features.reception_feature
+              },
             }),
             headers: {
               "content-type": "application/json",
@@ -251,11 +268,17 @@ export default function SecondForm() {
                 featureEntries.map((item) => setMessage(item[1]));
               }
             }
-            if (detail.status == "201") {
+            if (detail.status == "200" || detail.status == "201") {
               setMessage(
                 "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
               );
               setSubmitted(true);
+              setMainData({
+                ...mainData,
+                secondForm: {
+                  ...values,
+                },
+              });
             }
           })
           .catch((err) => console.log(err));
