@@ -77,7 +77,10 @@ const validationSchema = yup
         if (startDate < valueOfDate) {
           return true;
         }
-      }),
+        // if(!props.parent.start_date){
+        //   return true
+        // }
+      }).required("تاریخ پایان  را وارد کنید."),
     // end_date: yup.date()
     // .when('start_date', (start_date, schema) => {
     //   if (start_date) {
@@ -85,6 +88,7 @@ const validationSchema = yup
     //   }
     //   return schema;
     // }).nullable(),
+    
     // end_date: yup.date()
     //   .when('start_date', (start_date, schema) => {
     //     console.log(schema)
