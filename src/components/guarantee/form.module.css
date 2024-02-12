@@ -22,7 +22,7 @@
   width: 100%;
   position: relative;
 }
-.datePickerDetail input {
+.datePickerInputStyle {
   width: 100%;
   height: 48px;
   padding: 16px;
@@ -30,6 +30,17 @@
   border: 1px solid #d1d5db;
   background-color: white;
   border-radius: 16px;
+}
+ .datePickerMainInputHide{
+  all:unset;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  opacity: 0;
 }
 .datePickerDetail.activeLabel label{
   transform: translateY(-24px);
