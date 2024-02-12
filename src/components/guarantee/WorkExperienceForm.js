@@ -1,9 +1,8 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import ArrowDownIcon from "@/icon/ArrowDown";
 import CloseModal from "@/icon/CloseModal";
 import PlusIcon from "@/icon/PlusIcon";
-
 import { DatePicker } from "zaman";
 import styles from "./form.module.css";
 import { useFormik } from "formik";
@@ -12,8 +11,7 @@ import DangerIcon from "@/icon2/DangerIcon";
 
 const validationSchema = yup
   .object({
-    name: yup.string().required("نام دوره را وارد کنید."),
-    institution_name: yup.string().required("نام موسسه را وارد کنید."),
+    name: yup.string().required("نام محل کار را وارد کنید."),
     start_date: yup.date().nonNullable().required("تاریخ شروع  را وارد کنید."),
     end_date: yup
       .date()
@@ -30,10 +28,8 @@ const validationSchema = yup
     description: yup.string(),
   })
   .required();
-
-export default function CoursesForm({ setCurseList, courseList }) {
-  // const endDateRef = useRef(null);
-  const [calendarValue, setCalendarValue] = useState(undefined);
+//   workExperienceList} setWorkExperienceList
+export default function WorkExperienceForm({ setWorkExperienceList, workExperienceList }) {
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -51,27 +47,22 @@ export default function CoursesForm({ setCurseList, courseList }) {
       //     });
       //   }
       // };
-      setCurseList((prev) => [...prev, values]);
+      setWorkExperienceList((prev) => [...prev, values]);
       actions.resetForm();
-      // formik.setFieldValue("end_date", "");
-      // formik.setFieldValue("start_date", "");
-      // endDateRef.current.value="";
-      let inputF = document.getElementById("endDate");
-      inputF.value = "";
     },
     validationSchema,
   });
 
   const handleDeleteCourse = (item, index) => {
-    const filteredList = courseList.filter(
+    const filteredList = workExperienceList.filter(
       (element, elementIndex) => elementIndex !== index
     );
-    setCurseList(() => [...filteredList]);
+    setWorkExperienceList(() => [...filteredList]);
   };
 
   return (
-    <form className="bg-[#FDFDFD]  rounded-xl gap-[8px] p-3 flex flex-col ">
-      <div className="text-[#242424] leading-6 text-sm">دوره آموزشی:</div>
+    <form className="bg-[#FDFDFD]  rounded-xl gap-[8px] p-3 flex flex-col mb-3 ">
+      <div className="text-[#242424] leading-6 text-sm">سابقه کاری:</div>
       <div className="flex flex-col items-center">
         <div className="w-full  mb-3 relative group ">
           <input
@@ -94,7 +85,7 @@ export default function CoursesForm({ setCurseList, courseList }) {
               `${formik.values.name.length > 0 ? "text-xs" : ""}`
             }
           >
-            نام دوره
+            نام محل کار
           </label>
           <div
             className={
@@ -111,46 +102,6 @@ export default function CoursesForm({ setCurseList, courseList }) {
             {formik.errors.name}
           </div>
         </div>
-        <div className="w-full  mb-3 relative group ">
-          <input
-            name="institution_name"
-            value={formik.values.institution_name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            type="text"
-            className={
-              (formik.values.institution_name.length > 0
-                ? " input-label-pos-active "
-                : " ") +
-              " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
-            }
-          />
-          <label
-            className={
-              " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
-              " " +
-              `${formik.values.institution_name.length > 0 ? "text-xs" : ""}`
-            }
-          >
-            نام موسسه
-          </label>
-          <div
-            className={
-              "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
-              " " +
-              `${
-                formik.errors.institution_name &&
-                formik.touched.institution_name
-                  ? " opacity-100 "
-                  : " opacity-0 "
-              }`
-            }
-          >
-            <DangerIcon />
-            {formik.errors.institution_name}
-          </div>
-        </div>
-
         <div className="mb-3 w-full flex flex-col ">
           <div
             onBlur={() => formik.setFieldTouched("start_date")}
@@ -246,16 +197,12 @@ export default function CoursesForm({ setCurseList, courseList }) {
               inputClass={" " + " " + styles.datePickerMainInputHide}
               onChange={(event) => {
                 // console.log(Date.parse( new Date(event.value).toUTCString()))
-                // console.log(new Date(event.value).toUTCString());
+                console.log(new Date(event.value).toUTCString());
                 // console.log(event);
                 // console.log(Date.parse(event.value));
-                // const date = new Date(new Date(event.value).toUTCString());
-                // const formattedDate = date.toISOString().slice(0, 10); // Get YYYY-MM-DD format
-
-                // console.log(new Date(event.value).toISOString().slice(0, 10));
                 formik.setFieldValue(
                   "end_date",
-                  new Date(event.value).toISOString().slice(0, 10)
+                  new Date(event.value).toUTCString()
                 );
               }}
             />
@@ -291,50 +238,13 @@ export default function CoursesForm({ setCurseList, courseList }) {
             {formik.errors.end_date}
           </div>
         </div>
-        <div className="w-full  relative  group">
-          <textarea
-            name="description"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={
-              (formik.values.description.length > 0
-                ? " input-label-pos-active "
-                : " ") +
-              " min-h-32 w-full px-4 placeholder-gray resize-y   h-12   border border-gray-300 rounded-2xl bg-white input-label-pos pt-3"
-            }
-          ></textarea>
-          <label
-            className={
-              " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
-              " " +
-              `${formik.values.description.length > 0 ? " text-xs " : ""}`
-            }
-          >
-            توضیحات
-          </label>
-          <div
-            className={
-              "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
-              " " +
-              `${
-                formik.errors.description && formik.touched.description
-                  ? " opacity-100 "
-                  : " opacity-0 "
-              }`
-            }
-          >
-            <DangerIcon />
-            {formik.errors.description}
-          </div>
-        </div>
       </div>
       <button
         type="submit"
         onClick={formik.handleSubmit}
         className="group transition ease-in-out duration-500 text-center w-fit rounded-xl font-bold text-sm leading-6 text-mainGreen1 flex flex-row  items-center px-3 py-1 hover:bg-mainGreen1 hover:text-white mb-2 mx-auto "
       >
-        اضافه کردن دوره
+        اضافه کردن سابقه کاری
         <div className="transition ease-in-out duration-500 mr-1 group-hover:brightness-0 group-hover:invert ">
           <PlusIcon color={"#13625C"} width={"16"} height={"16"} />
         </div>
@@ -343,10 +253,10 @@ export default function CoursesForm({ setCurseList, courseList }) {
         className={
           "w-full flex flex-col gap-3  before:transition-all before:duration-500   before:content-['']   before:h-[1px] before:w-0   before:bg-[#E6E6E6] " +
           " " +
-          `${courseList?.length > 0 ? " before:w-full  " : "  "}`
+          `${workExperienceList?.length > 0 ? " before:w-full  " : "  "}`
         }
       >
-        {courseList?.map((item, index) => {
+        {workExperienceList?.map((item, index) => {
           return (
             <div
               key={`${index}-${item}`}

@@ -4,7 +4,7 @@ import CloseModal from "@/icon/CloseModal";
 import PlusIcon from "@/icon/PlusIcon";
 import DangerIcon from "@/icon2/DangerIcon";
 
-export default function SkillRecordsForm() {
+export default function SkillRecordsForm({formik,mainData,skillRecords, setSkillRecords}) {
   const [skill, setSkill] = useState("");
   const [skillInputCheck, setSkillInputCheck] = useState(true);
 
@@ -12,7 +12,7 @@ export default function SkillRecordsForm() {
     setSkill(event.target.value);
   };
 
-  const [skillRecords, setSkillRecords] = useState([]);
+  
   const handleAddSkillRecord = () => {
     // if(skill.length<8){
     //   setSkillInputCheck(false);

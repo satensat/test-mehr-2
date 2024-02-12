@@ -30,14 +30,14 @@ const validationSchema = yup.object({
   //     .string()
   //     .matches(/^\d{10}$/, 'Phone number must be a valid 10-digit number') ,
   //   email: yup.string().email("ایمیل نامعتبر است").required("ایمیل را وارد کنید"),
-  fixed_number_main: yup
+  fixed_number: yup
     .string()
     // .matches(/^\d{10}$/, "شماره ثابت را به درستی وارد کنید")
     .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
     .min(12, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
     .max(12, "شماره تلفن ثابت نباید بیشنر از 12 تا شماره داشته باشد.")
     .required("  شماره ثابت را وارد کنید."),
-  fixed_number: yup
+  fixed_number_list: yup
     .array()
     // .length(1, "حداقل یک شماره ثابت الزامی است.")
     .of(
@@ -81,26 +81,39 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
   // const [selectedDate, setSelectedDate] = useState(null);
   const [courseList, setCurseList] = useState([]);
 
+  // workExperienceList,setWorkExperienceList
+  const [workExperienceList, setWorkExperienceList] = useState([]);
 
+  const [skillRecords, setSkillRecords] = useState([]);
 
+  const handleDateConvert = (dateInput) => {
+    //"26-02-2012" format to timestamp
+    const [y, m, d] = dateInput.split(/-|\//);
+    const test = new Date(
+      parseInt(y, 10),
+      parseInt(m, 10) - 1,
+      parseInt(d),
+      10
+    ).getTime();
+    return test;
+  };
   const formik = useFormik({
     initialValues: {
-      subject: "",
-      email: "",
       firstName: "",
       lastName: "",
       education: "",
       nationalId: "",
       fieldEDU: "",
-      phone: "",
       birthDate: "",
-      fixed_number_main: "",
-      fixed_number: [],
+      fixed_number: "",
+      fixed_number_list: [],
       description: "",
-      phone_number: mainData?.phone_number ? mainData?.phone_number : "",
-      applicator:mainData?.phone_number ? mainData?.phone_number : "",
+      phone_number: mainData?.varificationForm?.phone_number
+        ? mainData?.varificationForm?.phone_number
+        : "",
+      // applicator:mainData?.varificationForm.phone_number ? mainData?.varificationForm.phone_number : "",
       phone_number_list: [],
-      work_experience: "",
+      // work_experience: "",
       // courses: [],
       // skill_records:[]
     },
@@ -109,11 +122,27 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         const res = fetch(`http://192.168.10.195:8090/v1/api/applicators/`, {
           method: "POST",
           body: JSON.stringify({
-            subject: values.subject,
-            name: values.name,
-            email_address: values.email,
-            phone_number: values.phone,
-            description: values.description,
+            phone_number: values.phone_number,
+            code: mainData?.varificationForm?.code,
+            first_name: values.firstName,
+            last_name: values.lastName,
+            national_id: values.nationalId,
+            fixed_number: values.fixed_number,
+            phone_numbers: values.phone_number_list,
+            fixed_numbers: values.fixed_number_list,
+            birth_day: values.birthDate,
+            degree: string,
+            experiences: [
+              {
+                work_experience: workExperienceList,
+                courses: courseList,
+                skill_records: [
+                  {
+                    skill: string,
+                  },
+                ],
+              },
+            ],
           }),
           headers: {
             "content-type": "application/json",
@@ -133,11 +162,19 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
                 featureEntries.map((item) => setMessage(item[1]));
               }
             }
-            if (detail.status == "201") {
+            if (detail.status == "200" || detail.status == "201") {
               setMessage(
                 "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
               );
               setSubmitted(true);
+              setMainData({
+                ...mainData,
+                firstForm: {
+                  ...values,
+                  courseList,
+                  workExperienceList,
+                },
+              });
             }
           })
           .catch((err) => console.log(err));
@@ -149,20 +186,20 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
   });
 
   const handleAddItemFixedPhone = () => {
-    if (formik.values.fixed_number.length < 2) {
+    if (formik.values.fixed_number_list.length < 2) {
       formik.setValues({
         ...formik.values,
-        fixed_number: [...formik.values.fixed_number, ""],
+        fixed_number_list: [...formik.values.fixed_number_list, ""],
       });
     }
   };
   const handleDeleteFixedPhone = (indexField) => {
-    const filteredList = formik.values.fixed_number.filter(
+    const filteredList = formik.values.fixed_number_list.filter(
       (item, index) => index !== indexField
     );
     formik.setValues({
       ...formik.values,
-      fixed_number: [...filteredList],
+      fixed_number_list: [...filteredList],
     });
   };
 
@@ -319,17 +356,26 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             "group   " +
             styles.datePicker +
             "  " +
-            `${formik.values.birthDate.length > 0 ? styles.activeLabel : " "}`
+            `${(formik.values.birthDate.length > 0  )? styles.activeLabel : " "}`
           }
         >
           <DatePicker
+            defaultValue={
+              mainData?.firstForm?.birthDate
+                ? handleDateConvert(mainData?.firstForm?.birthDate)
+                : undefined
+            }
+
             round="x4"
             position="center"
             accentColor="#1b887f"
             className="font-costumFaNum relative  "
             name="birthDate"
             onChange={(event) => {
-              formik.setFieldValue("birthDate", event.value.toString());
+              formik.setFieldValue(
+                "birthDate",
+                new Date(event.value).toISOString().slice(0, 10)
+              );
             }}
           />
           <label
@@ -442,13 +488,13 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
 
       <div className="group mt-1  mb-3 w-[80%]   relative ">
         <input
-          value={formik.values.fixed_number_main}
+          value={formik.values.fixed_number}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
-          name={`fixed_number_main`}
+          name={`fixed_number`}
           className={
-            (formik.values.fixed_number_main.length > 0
+            (formik.values.fixed_number.length > 0
               ? " input-label-pos-active "
               : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -458,7 +504,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
           className={
             " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs" +
             " " +
-            `${formik.values.fixed_number_main.length > 0 ? "text-xs" : ""}`
+            `${formik.values.fixed_number.length > 0 ? "text-xs" : ""}`
           }
         >
           شماره تلفن ثابت
@@ -468,15 +514,14 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.fixed_number_main &&
-              formik.touched.fixed_number_main
+              formik.errors.fixed_number && formik.touched.fixed_number
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.fixed_number_main}
+          {formik.errors.fixed_number}
         </div>
       </div>
       <PhoneNumberInputsList
@@ -486,12 +531,12 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
 
       <button
         onClick={handleAddItemFixedPhone}
-        disabled={formik.values.fixed_number.length === 2}
+        disabled={formik.values.fixed_number_list.length === 2}
         className={
           " transition ease-in-out duration-500 text-center rounded-xl font-bold text-sm leading-6  flex flex-row  items-center px-3 py-1  mb-2 " +
           " " +
           `${
-            formik.values.fixed_number.length === 2
+            formik.values.fixed_number_list.length === 2
               ? " bg-[#E6E6E6] cursor-not-allowed text-[#696969] "
               : "group text-mainGreen1 cursor-pointer hover:bg-mainGreen1 hover:text-white"
           }`
@@ -503,7 +548,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             " transition ease-in-out duration-500 mr-1   " +
             " " +
             `${
-              formik.values.fixed_number.length === 2
+              formik.values.fixed_number_list.length === 2
                 ? "  "
                 : " group-hover:brightness-0 group-hover:invert "
             }`
@@ -513,7 +558,9 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             width={"16"}
             height={"16"}
             color={
-              formik.values.fixed_number.length === 2 ? "#696969" : "#13625c"
+              formik.values.fixed_number_list.length === 2
+                ? "#696969"
+                : "#13625c"
             }
           />
         </div>
@@ -523,7 +570,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
           "text-[#525252] text-xs  flex  flex-row w-[80%] gap-1  items-center cursor-pointer transition-all duration-500  " +
           " " +
           `${
-            formik.values.fixed_number.length === 2
+            formik.values.fixed_number_list.length === 2
               ? " opacity-100 pb-3  "
               : "  opacity-0 "
           }`
@@ -624,10 +671,19 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         }
       >
         <DangerIcon color={"#525252"} />
-        محدود تا سه  شماره تلفن همراه
+        محدود تا سه شماره تلفن همراه
       </div>
 
-      <RecordsCourses formik={formik} setCurseList={setCurseList} courseList={courseList}/>
+      <RecordsCourses
+        formik={formik}
+        setCurseList={setCurseList}
+        courseList={courseList}
+        mainData={mainData}
+        skillRecords={skillRecords}
+        setSkillRecords={setSkillRecords}
+        workExperienceList={workExperienceList}
+        setWorkExperienceList={setWorkExperienceList}
+      />
       <div className="flex flex-col w-[80%] before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto ">
         <div className="flex flex-row items-center justify-center p-3 gap-8 ">
           <button

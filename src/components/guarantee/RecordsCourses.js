@@ -1,16 +1,20 @@
 "use client";
 import React, { useState } from "react";
 import ArrowDownIcon from "@/icon/arrow-down";
-import PlusIcon from "@/icon/PlusIcon";
-import CloseIcon from "@/icon/close";
-import CloseModal from "@/icon/CloseModal";
-import { DatePicker } from "zaman";
-import styles from "./form.module.css";
-import DangerIcon from "@/icon2/DangerIcon";
 import SkillRecordsForm from "./SkillRecordsForm";
 import CoursesForm from "./CoursesForm";
+import WorkExperienceForm from "./WorkExperienceForm";
 
-export default function RecordsCourses({ formik,setCurseList,courseList }) {
+export default function RecordsCourses({
+  formik,
+  mainData,
+  setCurseList,
+  courseList,
+  workExperienceList,
+  setWorkExperienceList,
+  skillRecords,
+  setSkillRecords,
+}) {
   const [open, setOpen] = useState(true);
 
   const handleOpenClick = () => {
@@ -55,15 +59,19 @@ export default function RecordsCourses({ formik,setCurseList,courseList }) {
         } `}
       >
         {/* <div className="w-full flex flex-col  text-[#808080]  leading-6 text-justify text-sm"></div> */}
-        <div className="bg-[#FDFDFD]  rounded-xl  p-3 flex flex-col ">
+        <div className="bg-[#FDFDFD]  rounded-xl  p-3 flex flex-col mb-3 ">
           <div className="text-[#808080] leading-6 text-sm mb-2">
             سوابق مهارتی، مهارت‌های فنی و نرم شما میباشد مثل تعمیرات، کار با
             سخت‌افزار و یا ارتباط قوی با مشتری
           </div>
 
-          <SkillRecordsForm />
+          <SkillRecordsForm
+            mainData={mainData}
+            skillRecords={skillRecords}
+            setSkillRecords={setSkillRecords}
+          />
         </div>
-        <div className="w-full  mt-4 my-1 relative group">
+        {/* <div className="w-full  mt-4 my-1 relative group">
           <textarea
             name="work_experience"
             value={formik.values.work_experience}
@@ -99,8 +107,19 @@ export default function RecordsCourses({ formik,setCurseList,courseList }) {
             <DangerIcon />
             {formik.errors.firstName}
           </div>
-        </div>
-        <CoursesForm formik={formik} setCurseList={setCurseList} courseList={courseList}/>
+        </div> */}
+        <WorkExperienceForm
+          formik={formik}
+          workExperienceList={workExperienceList}
+          setWorkExperienceList={setWorkExperienceList}
+          mainData={mainData}
+        />
+        <CoursesForm
+          formik={formik}
+          setCurseList={setCurseList}
+          courseList={courseList}
+          mainData={mainData}
+        />
       </div>
     </div>
   );

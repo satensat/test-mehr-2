@@ -30,40 +30,127 @@ function isValidFileType(fileName, fileType) {
 function getAllowedExt(type) {
   return validFileExtensions[type].map((e) => `.${e}`).toString();
 }
-const MAX_FILE_SIZE = 102400;
+const MAX_FILE_SIZE = 4194304;
+// 102400
+//  4194304 ----- 4MB
+//  3145728 ----- 3MB
 
-
-  // first: yup
-  //   .array()
-  //   .of(
-  //     yup.mixed().test("fileType", "File must be a PDF or image", (value) => {
-  //       if (!value) return true; // If no file is selected, validation passes
-  //       const supportedTypes = ["image/jpeg","image/gif","image/jpeg","image/jpeg", "image/png", "application/pdf"];
-  //       return supportedTypes.includes(value.type);
-  //     })
-  //   )
-  //   .max(5, "You can upload a maximum of 5 files"), // Adjust the maximum number of files as needed
-const validationSchema = yup.object({
-  first: yup.array(),
-  // .of(
-  //   yup
-  //     .mixed()
-  //     .test("is-valid-type", "Not a valid image type", (value) =>
-  //       isValidFileType(value && value.name.toLowerCase(), "image")
-  //     )
-  //     .test(
-  //       "is-valid-size",
-  //       "Max allowed size is 100KB",
-  //       (value) => value && value.size <= MAX_FILE_SIZE
-  //     )
-  // ),
-  second: yup.array(),
-  last: yup.array(),
-});
+const validationSchema = yup
+  .object()
+  .shape({
+    first: yup
+      .array()
+      .min(1, "تصویر مدرک اظهارنامه مالیات بر ارزش افزوده خود را وارد کنید. ")
+      .max(
+        1,
+        "تنها یک تصویر از مدرک اظهارنامه مالیات بر ارزش افزوده باید وارد کنید."
+      )
+      .of(
+        yup
+          .mixed()
+          .required("تصویر مدرک اظهارنامه مالیات بر ارزش افزوده الزامی است.")
+          .test(
+            "fileFormat",
+            "فقط فایل های jpg، jpeg، webp، pdf و png مجاز هستند.",
+            (value) => {
+              if (value) {
+                // const supportedFormats = ['pdf'];
+                // return supportedFormats.includes(value.name.split('.').pop());
+                return validFileExtensions.file.includes(
+                  value.name.split(".").pop()
+                );
+              }
+              return true;
+            }
+          )
+          .test(
+            "fileSize",
+            "حجم فایل نباید بیشتر از 4 مگابایت باشد",
+            (value) => {
+              if (value) {
+                return value.size <= MAX_FILE_SIZE;
+              }
+              return true;
+            }
+          )
+      )
+      .required("تصویر مدرک اظهارنامه مالیات بر ارزش افزوده الزامی است."),
+    second: yup
+      .array()
+      .min(1, "تصویر مدرک گواهینامه شورای انفورماتیک خود را وارد کنید. ")
+      .max(
+        1,
+        "تنها یک تصویر از مدرک گواهینامه شورای انفورماتیک باید وارد کنید."
+      )
+      .of(
+        yup
+          .mixed()
+          .required("تصویر مدرک گواهینامه شورای انفورماتیک خود را الزامی است.")
+          .test(
+            "fileFormat",
+            "فقط فایل های jpg، jpeg، webp، pdf و png مجاز هستند.",
+            (value) => {
+              if (value) {
+                return validFileExtensions.file.includes(
+                  value.name.split(".").pop()
+                );
+              }
+              return true;
+            }
+          )
+          .test(
+            "fileSize",
+            "حجم فایل نباید بیشتر از 4 مگابایت باشد",
+            (value) => {
+              if (value) {
+                return value.size <= MAX_FILE_SIZE;
+              }
+              return true;
+            }
+          )
+      )
+      .required("تصویر مدرک گواهینامه شورای انفورماتیک خود را الزامی است."),
+    last: yup
+      .array()
+      .min(1, "تصاویر محل کار خود را وارد کنید. ")
+      .max(6, "  6 تصویر از محل کار کافی است.")
+      .of(
+        yup
+          .mixed()
+          .required("تصاویر محل کار الزامی است.")
+          .test(
+            "fileFormat",
+            "فقط فایل های jpg، jpeg، webp، pdf و png مجاز هستند.",
+            (value) => {
+              if (value) {
+                return validFileExtensions.file.includes(
+                  value.name.split(".").pop()
+                );
+              }
+              return true;
+            }
+          )
+          .test("fileSize", "حجم فایل نباید بیشتر از 4 مگابایت باشد", (value) => {
+            if (value) {
+              return value.size <= MAX_FILE_SIZE;
+            }
+            return true;
+          })
+      ).required("تصاویر محل کار الزامی است."),
+  })
+  .required("First array is required");
 
 export default function ThirdForm() {
-  const openFilePicker = () => {
-    document.getElementById("fileInput").click();
+  const openFilePickerFirst = () => {
+    document.getElementById("fileInputFirst").click();
+  };
+
+  const openFilePickerSecond = () => {
+    document.getElementById("fileInputSecond").click();
+  };
+
+  const openFilePickerLast = () => {
+    document.getElementById("fileInputLast").click();
   };
   const handleFileChange = (event) => {
     const files = event.target.files;
@@ -73,24 +160,23 @@ export default function ThirdForm() {
 
   const handleFileDeleteFromListFirst = (fileClicked, indexClicked) => {
     const filtered = formik.values.first.filter(
-      (file, index) => (file.name !== fileClicked.name && indexClicked !== index)
+      (file, index) => file.name !== fileClicked.name && indexClicked !== index
     );
     formik.setFieldValue("first", filtered);
   };
 
-  const  handleFileDeleteFromListSecond= (fileClicked, indexClicked) => {
+  const handleFileDeleteFromListSecond = (fileClicked, indexClicked) => {
     const filtered = formik.values.second.filter(
-      (file, index) => (file.name !== fileClicked.name && indexClicked !== index)
+      (file, index) => file.name !== fileClicked.name && indexClicked !== index
     );
     formik.setFieldValue("second", filtered);
   };
-  const  handleFileDeleteFromListLast= (fileClicked, indexClicked) => {
-    const filtered = formik.values.second.filter(
-      (file, index) => (file.name !== fileClicked.name && indexClicked !== index)
+  const handleFileDeleteFromListLast = (fileClicked, indexClicked) => {
+    const filtered = formik.values.last.filter(
+      (file, index) => file.name !== fileClicked.name && indexClicked !== index
     );
-    formik.setFieldValue("second", filtered);
+    formik.setFieldValue("last", filtered);
   };
-
 
   const formik = useFormik({
     initialValues: {
@@ -98,7 +184,9 @@ export default function ThirdForm() {
       second: [],
       last: [],
     },
+    validationSchema,
     onSubmit: (values) => {
+      console.log(values);
       try {
         const res = fetch(`http://192.168.10.195:8090/v1/api/contact/to/us/`, {
           method: "POST",
@@ -139,7 +227,6 @@ export default function ThirdForm() {
         console.log(error);
       }
     },
-    validationSchema,
   });
   return (
     <div className=" flex flex-col  items-center justify-center   ">
@@ -153,11 +240,13 @@ export default function ThirdForm() {
           میتوانید فایل های متعدد بارگذاری کنید.
         </div>
         <div className="flex flex-col gap-3 pt-2">
-          <div className={"bg-[#F7F7F7] rounded-xl   pt-4 px-3 "+
-                  " " +
-                  `${
-                    formik.values.first.length > 0 ? " pb-3  " : "  "
-                  }`}>
+          <div
+            className={
+              "bg-[#F7F7F7] rounded-xl   pt-4 px-3 " +
+              " " +
+              `${formik.values.first.length > 0 ? " pb-3  " : "  "}`
+            }
+          >
             <div className=" flex flex-col items-start gap-2  ">
               <div
                 className={
@@ -185,8 +274,7 @@ export default function ThirdForm() {
                     onBlur={formik.handleBlur}
                     type="file"
                     placeholder="فایل را آپلود کنید."
-                    id="fileInput"
-                    // accept="image/png, image/jpg, image/jpeg, application/pdf"
+                    id="fileInputFirst"
                     accept={getAllowedExt("file")}
                     multiple
                     className={
@@ -202,7 +290,7 @@ export default function ThirdForm() {
                   </label>
                   <button
                     className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%]  cursor-pointer"
-                    onClick={openFilePicker}
+                    onClick={openFilePickerFirst}
                   >
                     <PlusIcon width={"24"} height={"24"} color={"#13625C"} />
                   </button>
@@ -213,7 +301,7 @@ export default function ThirdForm() {
 
                 <div
                   className={
-                    "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                    "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500  font-costumFaNum  " +
                     " " +
                     `${
                       formik.errors.first && formik.touched.first
@@ -253,13 +341,13 @@ export default function ThirdForm() {
             </div>
           </div>
 
-
-
-          <div className={"bg-[#F7F7F7] rounded-xl   pt-4 px-3 "+
-                  " " +
-                  `${
-                    formik.values.second.length > 0 ? " pb-3  " : "  "
-                  }`}>
+          <div
+            className={
+              "bg-[#F7F7F7] rounded-xl   pt-4 px-3 " +
+              " " +
+              `${formik.values.second.length > 0 ? " pb-3  " : "  "}`
+            }
+          >
             <div className=" flex flex-col items-start gap-2  ">
               <div
                 className={
@@ -287,10 +375,9 @@ export default function ThirdForm() {
                     onBlur={formik.handleBlur}
                     type="file"
                     placeholder="فایل را آپلود کنید."
-                    id="fileInput"
+                    id="fileInputSecond"
                     // accept="image/png, image/jpg, image/jpeg, application/pdf"
                     accept={getAllowedExt("file")}
-                    multiple
                     className={
                       (true ? " input-label-pos-active " : " ") +
                       " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white  opacity-0 "
@@ -300,11 +387,11 @@ export default function ThirdForm() {
                     className=" absolute top-3 right-4  pointer-events-none rounded-2xl "
                     htmlFor="fileInput"
                   >
-                                     گواهینامه شورای انفورماتیک
+                    گواهینامه شورای انفورماتیک
                   </label>
                   <button
                     className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%]  cursor-pointer"
-                    onClick={openFilePicker}
+                    onClick={openFilePickerSecond}
                   >
                     <PlusIcon width={"24"} height={"24"} color={"#13625C"} />
                   </button>
@@ -315,7 +402,7 @@ export default function ThirdForm() {
 
                 <div
                   className={
-                    "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                    "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 font-costumFaNum " +
                     " " +
                     `${
                       formik.errors.second && formik.touched.second
@@ -355,13 +442,13 @@ export default function ThirdForm() {
             </div>
           </div>
 
-
-
-          <div className={"bg-[#F7F7F7] rounded-xl   pt-4 px-3 " +
-                  " " +
-                  `${
-                    formik.values.last.length > 0 ? " pb-3  " : "  "
-                  }`}>
+          <div
+            className={
+              "bg-[#F7F7F7] rounded-xl   pt-4 px-3 " +
+              " " +
+              `${formik.values.last.length > 0 ? " pb-3  " : "  "}`
+            }
+          >
             <div className=" flex flex-col items-start gap-2  ">
               <div
                 className={
@@ -389,7 +476,7 @@ export default function ThirdForm() {
                     onBlur={formik.handleBlur}
                     type="file"
                     placeholder="فایل را آپلود کنید."
-                    id="fileInput"
+                    id="fileInputLast"
                     // accept="image/png, image/jpg, image/jpeg, application/pdf"
                     accept={getAllowedExt("file")}
                     multiple
@@ -402,11 +489,11 @@ export default function ThirdForm() {
                     className=" absolute top-3 right-4  pointer-events-none rounded-2xl "
                     htmlFor="fileInput"
                   >
-                                  تصاویر محل کار
+                    تصاویر محل کار
                   </label>
                   <button
                     className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%]  cursor-pointer"
-                    onClick={openFilePicker}
+                    onClick={openFilePickerLast}
                   >
                     <PlusIcon width={"24"} height={"24"} color={"#13625C"} />
                   </button>
@@ -417,7 +504,7 @@ export default function ThirdForm() {
 
                 <div
                   className={
-                    "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                    "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 font-costumFaNum  " +
                     " " +
                     `${
                       formik.errors.last && formik.touched.last
@@ -456,18 +543,18 @@ export default function ThirdForm() {
               ))}
             </div>
           </div>
-
-
-
         </div>
       </div>
 
       <div className="flex flex-col w-[80%] before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto ">
         <div className="flex flex-row items-center justify-center p-3 gap-8 ">
-          <button onClick={formik.handleSubmit} className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white ">
+          <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white ">
             بازگشت به قبل
           </button>
-          <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] ">
+          <button
+            onClick={formik.handleSubmit}
+            className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] "
+          >
             مرحله بعد
             <div className="transition ease-in-out duration-500  group-hover:scale-110  brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
               <ArrowOpinion />

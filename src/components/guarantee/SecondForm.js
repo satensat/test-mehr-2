@@ -12,6 +12,7 @@ import formStyles from "./formcheckbox.module.css";
 import MinusIcon from "@/icon2/MinusIcon";
 import ClickOutside from "./ClickOutside";
 import DangerIcon from "@/icon2/DangerIcon";
+import styles from "./form.module.css";
 
 const validationSchema = yup.object({
   name: yup.string().required("نام فروشگاه را وارد نمایید."),
@@ -80,22 +81,38 @@ export default function SecondForm() {
     console.log(filteredProvinces);
     setFilteredProvinces(filteredProvinces);
     console.log(filteredProvinces.length === 1);
-    if (filteredProvinces.length === 1) {
-      console.log(filteredProvinces[0]);
-      // const timeoutID =
-      setTimeout(() => {
-        console.log("this is the first message");
-        fetchCityListitemsDependsProvince(filteredProvinces[0].id);
-        formik.setFieldValue("province.name", filteredProvinces[0].name);
-        formik.setFieldValue("province.id", filteredProvinces[0].id);
-        setProvinceInput(filteredProvinces[0].name);
-        setStatusProvince(false);
-      }, 500);
-      // timeoutID();
-      // clearTimeout(timeoutID);
+
+    // if (filteredProvinces.length === 1) {
+    //   console.log(filteredProvinces[0]);
+    // const timeoutID =
+    // setTimeout(() => {
+    //   console.log("this is the first message");
+    //   fetchCityListitemsDependsProvince(filteredProvinces[0].id);
+    //   formik.setFieldValue("province.name", filteredProvinces[0].name);
+    //   formik.setFieldValue("province.id", filteredProvinces[0].id);
+    //   setProvinceInput(filteredProvinces[0].name);
+    //   setStatusProvince(false);
+    // }, 500);
+    // timeoutID();
+    // clearTimeout(timeoutID);
+    // }
+  };
+  const handleEnterKeyPress = (event) => {
+    setProvinceInput(() => event.target.value);
+    const filteredProvinces = provinceListItemsSource.filter((province) =>
+      province.name.includes(event.target.value)
+    );
+
+    setFilteredProvinces(filteredProvinces);
+
+    if (event.key === "Enter") {
+      fetchCityListitemsDependsProvince(filteredProvinces[0].id);
+      formik.setFieldValue("province.name", filteredProvinces[0].name);
+      formik.setFieldValue("province.id", filteredProvinces[0].id);
+      setProvinceInput(filteredProvinces[0].name);
+      setStatusProvince(false);
     }
   };
-
   const handleChangeInputCityAutoComplete = (event) => {
     console.log(event);
     setCityInput(() => event.target.value);
@@ -106,20 +123,33 @@ export default function SecondForm() {
     setFilteredCities(filteredCity);
     console.log(filteredCity.length === 1);
     console.log(filteredCity[0] === event.target.value);
-    if (filteredCity.length === 1) {
-      console.log(filteredCity[0]);
-      // const timeoutID =
-      setTimeout(() => {
-        formik.setFieldValue("city.name", filteredCity[0].name);
-        formik.setFieldValue("city.id", filteredCity[0].id);
-        setCityInput(filteredCity[0].name);
-        setStatusCity(false);
-      }, 500);
-      // timeoutID();
-      // clearTimeout(timeoutID);
-    }
+    // if (filteredCity.length === 1) {
+    //   console.log(filteredCity[0]);
+    // const timeoutID =
+    // setTimeout(() => {
+    //   formik.setFieldValue("city.name", filteredCity[0].name);
+    //   formik.setFieldValue("city.id", filteredCity[0].id);
+    //   setCityInput(filteredCity[0].name);
+    //   setStatusCity(false);
+    // }, 500);
+    // timeoutID();
+    // clearTimeout(timeoutID);
+    // }
   };
+  const handleEnterKeyPressCity = (event) => {
+    setCityInput(() => event.target.value);
+    const filteredCity = cityListItemsSource.filter((province) =>
+      province.name.includes(event.target.value)
+    );
+    setFilteredCities(filteredCity);
+    if (event.key === "Enter") {
+      formik.setFieldValue("city.name", filteredCity[0].name);
+      formik.setFieldValue("city.id", filteredCity[0].id);
+      setCityInput(filteredCity[0].name);
+      setStatusCity(false);
 
+    }
+  }
   useEffect(() => {
     // http://192.168.10.195:8090/v1/api/province/
     async function fetchProvinceListitems() {
@@ -393,17 +423,18 @@ export default function SecondForm() {
         <div className=" flex flex-row gap-2 items-center">
           <button
             className="p-3 "
-            onClick={() =>
+            onClick={() => {
+              formik.setFieldTouched("number_of_staff", true);
               formik.setFieldValue(
                 "number_of_staff",
                 formik.values.number_of_staff + 1
-              )
-            }
+              );
+            }}
           >
             <PlusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
           </button>
 
-          <div className="   relative flex-grow  ">
+          <div className={"   relative flex-grow  " + styles.formNumInput}>
             <input
               name="number_of_staff"
               value={formik.values.number_of_staff}
@@ -421,12 +452,13 @@ export default function SecondForm() {
           </div>
           <button
             className="p-3 "
-            onClick={() =>
+            onClick={() => {
+              formik.setFieldTouched("number_of_staff", true);
               formik.setFieldValue(
                 "number_of_staff",
                 formik.values.number_of_staff - 1
-              )
-            }
+              );
+            }}
           >
             <MinusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
           </button>
@@ -503,7 +535,7 @@ export default function SecondForm() {
         <DangerIcon />
         {formik.errors.is_owner}
       </div>
-      <div className="w-[80%]  mt-1  mb-3 relative  ">
+      <div className={"w-[80%]  mt-1  mb-3 relative  "}>
         <input
           name="area"
           value={formik.values.area}
@@ -568,6 +600,7 @@ export default function SecondForm() {
 
           <input
             value={provinceInput}
+            onKeyDown={handleEnterKeyPress}
             onChange={(e) => handleChangeInputProvinceAutoComplete(e)}
             onBlur={formik.handleBlur}
             onFocus={() => setStatusProvince(true)}
@@ -660,6 +693,7 @@ export default function SecondForm() {
           <input
             disabled={formik.values.province.name === ""}
             value={cityListInput}
+            onKeyDown={handleEnterKeyPressCity}
             onChange={(e) => handleChangeInputCityAutoComplete(e)}
             // onBlur={formik.handleBlur}
             onFocus={() => setStatusCity(true)}

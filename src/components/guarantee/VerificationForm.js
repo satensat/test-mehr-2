@@ -141,8 +141,8 @@ export default function VerificationForm({
               verificationToFirstFormDone();
               setMainData({
                 ...mainData,
-                phone_number: formik.values.phone_number,
-                code: values.loginCode,
+               varificationForm:{ phone_number: formik.values.phone_number,
+                code: values.loginCode,}
               });
             }
           })

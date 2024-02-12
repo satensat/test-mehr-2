@@ -39,7 +39,6 @@
   right: 0;
   width: 100%;
   height: 100%;
-  z-index: 2;
   opacity: 0;
 }
 .datePickerDetail.activeLabel label{
@@ -47,4 +46,16 @@
   background: #fff;
   padding: 0 5px;
   transition: 0.4s;
+}
+
+
+.formNumInput input::-webkit-outer-spin-button,
+.formNumInput input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.formNumInput input[type=number] {
+  -moz-appearance: textfield;
 }
