@@ -9,7 +9,17 @@ import styles from "./form.module.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import DangerIcon from "@/icon2/DangerIcon";
-
+const handleDateConvert = (dateInput) => {
+  //"26-02-2012" format to timestamp
+  const [y, m, d] = dateInput.split(/-|\//);
+  const test = new Date(
+    parseInt(y, 10),
+    parseInt(m, 10) - 1,
+    parseInt(d),
+    10
+  ).getTime();
+  return test;
+};
 const validationSchema = yup
   .object({
     name: yup.string().required("نام دوره را وارد کنید."),
@@ -32,8 +42,7 @@ const validationSchema = yup
   .required();
 
 export default function CoursesForm({ setCurseList, courseList }) {
-  // const endDateRef = useRef(null);
-  const [calendarValue, setCalendarValue] = useState(undefined);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -51,13 +60,20 @@ export default function CoursesForm({ setCurseList, courseList }) {
       //     });
       //   }
       // };
+      // const backendDataStructure={
+      //   name: "",
+      //   institution_name: "",
+      //   start_date: "",
+      //   end_date: "",
+      //   description: "",
+      // }
       setCurseList((prev) => [...prev, values]);
       actions.resetForm();
       // formik.setFieldValue("end_date", "");
       // formik.setFieldValue("start_date", "");
       // endDateRef.current.value="";
-      let inputF = document.getElementById("endDate");
-      inputF.value = "";
+      // let inputF = document.getElementById("endDate");
+      // inputF.value = "";
     },
     validationSchema,
   });
@@ -172,8 +188,14 @@ export default function CoursesForm({ setCurseList, courseList }) {
                     )
               }
               className={"   " + styles.datePickerInputStyle}
+              readOnly
             />
             <DatePicker
+              // defaultValue={
+              //   formik.values.start_date !== ""
+              //     ? handleDateConvert(formik.values.start_date)
+              //     : undefined
+              // }
               round="x4"
               position="center"
               accentColor="#1b887f"
@@ -181,7 +203,10 @@ export default function CoursesForm({ setCurseList, courseList }) {
               name="start_date"
               inputClass={" " + " " + styles.datePickerMainInputHide}
               onChange={(event) => {
-                formik.setFieldValue("start_date", event.value.toString());
+                formik.setFieldValue(
+                  "start_date",
+                  new Date(event.value).toISOString().slice(0, 10)
+                );
               }}
             />
             <label
@@ -235,6 +260,7 @@ export default function CoursesForm({ setCurseList, courseList }) {
                   ? ""
                   : new Date(formik.values.end_date).toLocaleDateString("fa-IR")
               }
+              readOnly
               className={"   " + styles.datePickerInputStyle}
             />
             <DatePicker

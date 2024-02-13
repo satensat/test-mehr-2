@@ -5,7 +5,7 @@ import React from "react";
 import { useState } from "react";
 import Points from "./Points";
 
-export default function ModalGuarantee() {
+export default function ModalSales() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleModalOpen = () => {

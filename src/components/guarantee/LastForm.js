@@ -1,71 +1,65 @@
 "use client";
-import ToastBox from "../global/toast";
-import ArrowLeftIcon from "@/icon/arrow-left";
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import ArrowDownIcon from "@/icon/arrow-down";
-import { Calendar, CalendarProvider, DatePicker, TimePicker } from "zaman";
-import styles from "./form.module.css";
-import PlusIcon from "@/icon/PlusIcon";
-import RecordsCourses from "./RecordsCourses";
 import RightArrowBack from "@/icon2/RightArrowBack";
 import ArrowOpinion from "@/icon/ArrowOpinion";
-import formStyles from "./formcheckbox.module.css";
-import MinusIcon from "@/icon2/MinusIcon";
-import CloseModal from "@/icon/CloseModal";
 import DetailPart from "./DetailPart";
 import FirstFormInformation from "./FirstFormInformation";
 import StoreInfo from "./StoreInfo";
 import DocumentsInfo from "./DocumentsInfo";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ButtonCoverLoader from "./ButtonCoverLoader";
+function processDone(massage) {
+  toast.success(massage, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+}
+
+function processFail(massage) {
+  toast.error(massage, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+}
 
 const validationSchema = yup.object({
-  firstName: yup.string().trim().required("نام را وارد کنید"),
-  lastName: yup.string().trim().required("نام خانوادگی را وارد کنید"),
-  nationalId: yup.string().trim().required("کد ملی را وارد کنید"),
-  education: yup.string().trim().required("تحصیلات را وارد کنید"),
-  fieldEDU: yup.string().trim().required("رشته را وارد کنید"),
-  birthDate: yup.string().trim().required(" تاریخ تولد را وارد کنید"),
-  //   email: yup.string().email("ایمیل نامعتبر است").required("ایمیل را وارد کنید"),
-  description: yup.string().trim().required("پیام را وارد نمایید"),
+  subject: yup.string().trim().required("نام را وارد کنید"),
 });
 
-export default function LastForm() {
-  const [checkedValue, setCheckedValue] = React.useState(false);
+export default function LastForm({
+  formik,
+  mainData,
+  setMainData,
+  setActiveTab,
+  doneLastForm,
+}) {
+  ////----------------------loading state for send data button to go next step
 
-  const handleCheckBox = () => {
-    setCheckedValue(!checkedValue);
-  };
+  const [loadingButton, setLoadingButton] = useState(false);
 
-  const handleCheckChange = () => {
-    setCheckedValue(checkedValue);
-  };
-
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [status, setStatus] = useState(false);
-  const formik = useFormik({
+  const formiktest = useFormik({
     initialValues: {
       subject: "",
-      email: "",
-      firstName: "",
-      lastName: "",
-      education: "",
-      nationalId: "",
-      fieldEDU: "",
-      phone: "",
-      birthDate: "",
-      description: "",
     },
     onSubmit: (values) => {
       try {
-        const res = fetch(`http://192.168.10.195:8090/v1/api/contact/to/us/`, {
+        const res = fetch(`http://192.168.10.195:8090/v1/api/after/sale/`, {
           method: "POST",
           body: JSON.stringify({
             subject: values.subject,
-            name: values.name,
-            email_address: values.email,
-            phone_number: values.phone,
-            description: values.description,
           }),
           headers: {
             "content-type": "application/json",
@@ -107,26 +101,36 @@ export default function LastForm() {
       </div>
       <div className="w-full flex flex-col gap-4 py-3 items-center">
         <DetailPart title={"اطلاعات نماینده (صاحب امضا)"}>
-          <FirstFormInformation />
+          <FirstFormInformation mainData={mainData} />
         </DetailPart>
         <DetailPart title={"اطلاعات فروشگاه"}>
-          <StoreInfo />
+          <StoreInfo mainData={mainData} />
         </DetailPart>
         <DetailPart title={"بارگذاری مدارک"}>
-          <DocumentsInfo />
+          <DocumentsInfo mainData={mainData} />
         </DetailPart>
       </div>
 
       <div className="flex flex-col w-[80%] before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto ">
         <div className="flex flex-row items-center justify-center p-3 gap-8 ">
-          <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white ">
+          <button
+            onClick={() => setActiveTab("third")}
+            className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white "
+          >
             بازگشت به قبل
           </button>
-          <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] ">
+          <button
+            className={
+              "group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] " +
+              " " +
+              `${loadingButton ? "pointer-events-none" : " "}`
+            }
+          >
             تایید و ارسال
             <div className="transition ease-in-out duration-500  group-hover:scale-110  brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
               <ArrowOpinion />
             </div>
+            {loadingButton && <ButtonCoverLoader />}
           </button>
         </div>
       </div>

@@ -11,7 +11,7 @@ import DangerIcon from "@/icon2/DangerIcon";
 
 const validationSchema = yup
   .object({
-    name: yup.string().required("نام محل کار را وارد کنید."),
+    title: yup.string().required("نام محل کار را وارد کنید."),
     start_date: yup.date().nonNullable().required("تاریخ شروع  را وارد کنید."),
     end_date: yup
       .date()
@@ -32,11 +32,9 @@ const validationSchema = yup
 export default function WorkExperienceForm({ setWorkExperienceList, workExperienceList }) {
   const formik = useFormik({
     initialValues: {
-      name: "",
-      institution_name: "",
+      title: "",
       start_date: "",
       end_date: "",
-      description: "",
     },
     onSubmit: (values, actions) => {
       // const handleAddItemMobileNumber = () => {
@@ -66,13 +64,13 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
       <div className="flex flex-col items-center">
         <div className="w-full  mb-3 relative group ">
           <input
-            name="name"
-            value={formik.values.name}
+            name="title"
+            value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.name.length > 0
+              (formik.values.title.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -82,7 +80,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
             className={
               " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
               " " +
-              `${formik.values.name.length > 0 ? "text-xs" : ""}`
+              `${formik.values.title.length > 0 ? "text-xs" : ""}`
             }
           >
             نام محل کار
@@ -92,14 +90,14 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.name && formik.touched.name
+                formik.errors.title && formik.touched.title
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.name}
+            {formik.errors.title}
           </div>
         </div>
         <div className="mb-3 w-full flex flex-col ">
@@ -122,6 +120,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
                       "fa-IR"
                     )
               }
+              readOnly
               className={"   " + styles.datePickerInputStyle}
             />
             <DatePicker
@@ -132,7 +131,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
               name="start_date"
               inputClass={" " + " " + styles.datePickerMainInputHide}
               onChange={(event) => {
-                formik.setFieldValue("start_date", event.value.toString());
+                formik.setFieldValue("start_date",    new Date(event.value).toISOString().slice(0, 10));
               }}
             />
             <label
@@ -186,6 +185,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
                   ? ""
                   : new Date(formik.values.end_date).toLocaleDateString("fa-IR")
               }
+              readOnly
               className={"   " + styles.datePickerInputStyle}
             />
             <DatePicker
@@ -197,12 +197,12 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
               inputClass={" " + " " + styles.datePickerMainInputHide}
               onChange={(event) => {
                 // console.log(Date.parse( new Date(event.value).toUTCString()))
-                console.log(new Date(event.value).toUTCString());
+                // console.log(new Date(event.value).toUTCString());
                 // console.log(event);
                 // console.log(Date.parse(event.value));
                 formik.setFieldValue(
                   "end_date",
-                  new Date(event.value).toUTCString()
+                  new Date(event.value).toISOString().slice(0, 10)
                 );
               }}
             />
@@ -263,7 +263,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
               className="bg-[#F7F7F7] flex flex-row p-3  rounded-xl items-center "
             >
               <div className="text-[#242424] leading-5 text-xs flex-grow">
-                {item.name}
+                {item.title}
               </div>
               <button
                 onClick={() => handleDeleteCourse(item, index)}

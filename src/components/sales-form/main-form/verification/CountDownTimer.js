@@ -26,7 +26,7 @@ const CountDownTimer = ({ startTimer,setEnablePhoneSend,setsStartTimer }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [time,setEnablePhoneSend]);
+  }, [time,setEnablePhoneSend,setsStartTimer]);
 
   return (
     <div>

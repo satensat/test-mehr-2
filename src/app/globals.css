@@ -497,3 +497,8 @@ input:-webkit-autofill:focus {
 input[type="file"]::file-selector-button {
 display: none;
 }
+
+
+.focus-outline-black-2px:focus-within{
+outline: 2px solid black;
+}

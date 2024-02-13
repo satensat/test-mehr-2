@@ -1,0 +1,267 @@
+.points_blank {
+  width: 32px;
+  height: 32px;
+  border: #cccccc solid 2px;
+  border-radius: 50%;
+  background-color: #fdfdfd;
+  z-index: 2;
+  position: relative;
+}
+.points_blank .textPart {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 50px;
+  font-size: 10px;
+  line-height: 16px;
+  font-family: IRANSansX-Regular;
+  text-align: center;
+  color: #13625c;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  font-weight: 400;
+}
+.points_blank .textPart.active {
+  font-weight: 700;
+}
+.points {
+  width: 32px;
+  height: 32px;
+  border: #1b887f solid 2px;
+  border-radius: 50%;
+  background-color: #fdfdfd;
+  z-index: 2;
+  position: relative;
+}
+
+.points::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #13625c;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.points .textPart {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 50px;
+  font-size: 10px;
+  font-family: IRANSansX-Regular;
+  line-height: 16px;
+  text-align: center;
+  color: #13625c;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  font-weight: 400;
+}
+
+.points .textPart.active {
+  font-weight: 700;
+}
+.points.fullsize::before {
+  animation: 1s linear bigDotDone;
+  animation-fill-mode: forwards;
+}
+@keyframes bigDotDone {
+  from {
+    width: 10px;
+    height: 10px;
+    background-color: #13625c;
+  }
+  to {
+    width: 32px;
+    height: 32px;
+    background-color: #1b887f;
+  }
+}
+
+/* .points .tickIcon {
+  /* top-[50%]  left-[50%] -translate-x-1/2  -translate-y-1/2 
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  animation: 1s linear bigTickIcon;
+  animation-fill-mode: forwards;
+  animation-delay: 0.5s;
+  transform-origin: center;
+}
+@keyframes bigTickIcon {
+  from {
+    top:50%;
+    left:50%;
+    transform: scale(0) translate(-50%,-50%);
+    opacity: 0;
+  }
+  to {
+    top:50%;
+    left:50%;
+    transform: scale(1) translate(-50%,-50%) ;
+    opacity: 1;
+  }
+} */
+
+.points::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 5px;
+  /* width: 10px;
+  height: 16px; */
+  width: 10px;
+  height: 16px;
+  opacity: 0;
+  border: solid white;
+  /* border-width: 0 0.127rem 0.127rem 0; */
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border-radius: 0px 0px 3px 0px;
+  z-index: 2;
+  /* transform: scale(0); */
+}
+
+.points.fullsizeTick::after {
+  animation: 0.5s linear bigTick;
+  animation-fill-mode: forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes bigTick {
+  from {
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  to {
+    width: 10px;
+    height: 16px;
+    opacity: 1;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
+
+/* 
+  content: '';
+  position: absolute;
+  /* left: 12px;
+  top: 6px; 
+  top:50%;
+  left:50%;
+  width: 10px;
+  height: 16px;
+  border: solid white;
+  /* border-width: 0 0.127rem 0.127rem 0; 
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg) translate(-50%,-50%);
+  -ms-transform: rotate(45deg) translate(-50%,-50%);
+  transform: rotate(45deg) translate(-50%,-50%);
+  transform-origin: center;
+  border-radius:0px 0px 3px 0px;
+  z-index: 1; */
+
+.progressBar {
+  position: relative;
+  z-index: 0;
+}
+.progressBar::before {
+  content: "";
+  position: absolute;
+  width: 98%;
+  height: 2px;
+  background-color: #cccccc;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translate(0%, -50%);
+  z-index: 0;
+}
+
+.progressBar::after {
+  content: "";
+  position: absolute;
+  /* width: 100%; */
+  width: 0%;
+  height: 2px;
+  background-color: #1b887f;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translate(0%, -50%);
+  z-index: 0;
+}
+.progressBar.fullAnimation25::after {
+  animation: 1.5s linear widthIncrease25;
+  animation-fill-mode: forwards;
+}
+.progressBar.fullAnimation50::after {
+  animation: 1.5s linear widthIncrease50;
+  animation-fill-mode: forwards;
+}
+.progressBar.fullAnimation75::after {
+  animation: 1.5s linear widthIncrease75;
+  animation-fill-mode: forwards;
+}
+
+.progressBar.fullAnimation::after {
+  animation: 1.5s linear widthIncrease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes widthIncrease25 {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 25%;
+  }
+}
+@keyframes widthIncrease50 {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 50%;
+  }
+}
+@keyframes widthIncrease75 {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 72%;
+  }
+}
+
+@keyframes widthIncrease {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 98%;
+  }
+}
+
+@media (min-width: 992px) {
+  .points .textPart {
+    width: 96px;
+    font-size: 12px;
+    line-height: 24px;
+  }
+  .points_blank .textPart {
+    width: 96px;
+    font-size: 12px;
+    line-height: 24px;
+  }
+}

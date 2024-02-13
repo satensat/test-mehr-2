@@ -1,11 +1,9 @@
 "use client";
-import ToastBox from "../global/toast";
-import ArrowLeftIcon from "@/icon/arrow-left";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import ArrowDownIcon from "@/icon/arrow-down";
-import { Calendar, CalendarProvider, DatePicker, TimePicker } from "zaman";
+import { DatePicker } from "zaman";
 import styles from "./form.module.css";
 import PlusIcon from "@/icon/PlusIcon";
 import RecordsCourses from "./RecordsCourses";
@@ -14,14 +12,54 @@ import ArrowOpinion from "@/icon/ArrowOpinion";
 import PhoneNumberInputsList from "./PhoneNumberInputsList";
 import DangerIcon from "@/icon2/DangerIcon";
 import MobilePhoneNumberInputsList from "./MobilePhoneNumberInputsList ";
+import ButtonCoverLoader from "./ButtonCoverLoader";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+function processDone(massage) {
+  toast.success(massage, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+}
 
+function processFail(massage) {
+  toast.error(massage, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+}
 const validationSchema = yup.object({
-  firstName: yup.string().trim().required("نام را وارد کنید"),
-  lastName: yup.string().trim().required("نام خانوادگی را وارد کنید"),
-  nationalId: yup.string().trim().required("کد ملی را وارد کنید"),
-  education: yup.string().trim().required("تحصیلات را وارد کنید"),
-  fieldEDU: yup.string().trim().required("رشته را وارد کنید"),
-  birthDate: yup.string().trim().required(" تاریخ تولد را وارد کنید"),
+  firstName: yup
+    .string()
+    .max(225, "نام را وارد کنید.")
+    .required("نام را وارد کنید."),
+  lastName: yup
+    .string()
+    .max(225, "نام خانوادگی  نباید بیشتر از 225 کاراکتر باشد.")
+    .required("نام خانوادگی را وارد کنید."),
+  nationalId: yup
+    .string()
+    .min(10, "کد ملی نباید کمتر از ۱۰ عدد داشته باشد.")
+    .max(10, "کد ملی نباید بیشتر از ۱۰ عدد داشته باشد.")
+    .trim()
+    .matches(/^[0-9]+$/, "کد ملی باید فقط شامل اعداد باشد.")
+    .required("کد ملی را وارد کنید."),
+  degree: yup
+    .string()
+    .max(225, "تحصیلات نباید بیشتر از 225 کاراکتر باشد.")
+    .required("تحصیلات را وارد کنید."),
+  fieldEDU: yup.string().required("رشته را وارد کنید."),
+  birth_day: yup.string().trim().required(" تاریخ تولد را وارد کنید."),
   // phoneNumbers: yup
   // .array()
   // .length(1, 'You must provide exactly one phone number')
@@ -34,10 +72,10 @@ const validationSchema = yup.object({
     .string()
     // .matches(/^\d{10}$/, "شماره ثابت را به درستی وارد کنید")
     .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-    .min(12, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-    .max(12, "شماره تلفن ثابت نباید بیشنر از 12 تا شماره داشته باشد.")
+    .min(11, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
+    .max(12, "شماره تلفن ثابت نباید بیشتر از 12 تا شماره داشته باشد.")
     .required("  شماره ثابت را وارد کنید."),
-  fixed_number_list: yup
+  fixed_numbers: yup
     .array()
     // .length(1, "حداقل یک شماره ثابت الزامی است.")
     .of(
@@ -45,23 +83,21 @@ const validationSchema = yup.object({
         .string()
         // .matches(/^\d{10}$/, "شماره ثابت را به درستی وارد کنید")
         .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-        .min(12, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-        .max(12, "شماره تلفن ثابت نباید بیشنر از 12 تا شماره داشته باشد.")
+        .min(11, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
+        .max(12, "شماره تلفن ثابت نباید بیشتر از 12 تا شماره داشته باشد.")
       // .required("  شماره ثابت را وارد کنید.")
     ),
   phone_number: yup
     .string()
-    .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-    .min(12, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-    .max(12, "شماره تلفن ثابت نباید بیشنر از 12 تا شماره داشته باشد.")
-    .required("  شماره ثابت را وارد کنید."),
-  phone_number_list: yup.array().of(
-    yup
-      .string()
-      .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-      .min(12, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-      .max(12, "شماره تلفن ثابت نباید بیشنر از 12 تا شماره داشته باشد.")
-  ),
+    .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه را صحیح وارد کنید.")
+    .required("  شماره همراه را وارد کنید."),
+  phone_numbers: yup
+    .array()
+    .of(
+      yup
+        .string()
+        .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه را صحیح وارد کنید.")
+    ),
   work_experience: yup.string(),
   // skill_records: yup.array().of(yup.object().shape({
   //   skill: yup.string(),
@@ -77,14 +113,26 @@ const validationSchema = yup.object({
   // ),
 });
 
-export default function FirstForm({ setActiveTab, mainData, setMainData }) {
-  // const [selectedDate, setSelectedDate] = useState(null);
+export default function FirstForm({
+  setActiveTab,
+  mainData,
+  setMainData,
+  firstFormDoneToSecondForm,
+}) {
+  ////----------------------course list items sending to RecordsCourses component then course component
   const [courseList, setCurseList] = useState([]);
 
-  // workExperienceList,setWorkExperienceList
+  ////----------------------work-experience list items sending to RecordsCourses component then work-experience component
+
   const [workExperienceList, setWorkExperienceList] = useState([]);
 
+  ////----------------------skill list items sending to RecordsCourses component then skill component
+
   const [skillRecords, setSkillRecords] = useState([]);
+
+  ////----------------------loading state for send data button to go next step
+
+  const [loadingButton, setLoadingButton] = useState(false);
 
   const handleDateConvert = (dateInput) => {
     //"26-02-2012" format to timestamp
@@ -97,127 +145,170 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
     ).getTime();
     return test;
   };
+
+  useEffect(() => {
+    if (mainData.experiences instanceof Array) {
+      console.log("experienc")
+      setWorkExperienceList(mainData.experiences);
+    }
+    if (mainData.courses instanceof Array) {
+      setCurseList(mainData.courses);
+      console.log("2")
+    }
+    if (mainData.skill_records instanceof Array) {
+      console.log("3")
+      setSkillRecords(mainData.skill_records);
+    }
+  }, [
+    mainData,
+  ]);
+
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
-      education: "",
-      nationalId: "",
-      fieldEDU: "",
-      birthDate: "",
-      fixed_number: "",
-      fixed_number_list: [],
-      description: "",
-      phone_number: mainData?.varificationForm?.phone_number
-        ? mainData?.varificationForm?.phone_number
-        : "",
+      firstName: mainData.first_name ? mainData.first_name : "",
+      lastName: mainData.last_name ? mainData.last_name : "",
+      degree: mainData.degree ? mainData.degree : "",
+      nationalId: mainData.national_id ? mainData.national_id : "",
+      fieldEDU: mainData.fieldEDU ? mainData.fieldEDU : "",
+      birth_day: mainData.birth_day ? mainData.birth_day : "",
+      fixed_number: mainData.fixed_number ? mainData.fixed_number : "",
+      fixed_numbers: mainData.fixed_numbers ? mainData.fixed_numbers : [],
+      phone_number: mainData?.phone_number ? mainData?.phone_number : "",
       // applicator:mainData?.varificationForm.phone_number ? mainData?.varificationForm.phone_number : "",
-      phone_number_list: [],
+      phone_numbers: mainData.phone_numbers ? mainData.phone_numbers : [],
       // work_experience: "",
       // courses: [],
       // skill_records:[]
     },
     onSubmit: (values) => {
-      try {
-        const res = fetch(`http://192.168.10.195:8090/v1/api/applicators/`, {
-          method: "POST",
-          body: JSON.stringify({
-            phone_number: values.phone_number,
-            code: mainData?.varificationForm?.code,
-            first_name: values.firstName,
-            last_name: values.lastName,
-            national_id: values.nationalId,
-            fixed_number: values.fixed_number,
-            phone_numbers: values.phone_number_list,
-            fixed_numbers: values.fixed_number_list,
-            birth_day: values.birthDate,
-            degree: string,
-            experiences: [
-              {
-                work_experience: workExperienceList,
-                courses: courseList,
-                skill_records: [
-                  {
-                    skill: string,
-                  },
-                ],
-              },
-            ],
-          }),
-          headers: {
-            "content-type": "application/json",
-          },
-        })
-          .then((response) =>
-            response
-              .json()
-              .then((data) => ({ status: response.status, body: data }))
-          )
-          .then((detail) => {
-            console.log(detail.status);
-            if (detail.status == "400") {
-              setToast(true);
-              const featureEntries = Object.entries(detail.body);
-              {
-                featureEntries.map((item) => setMessage(item[1]));
-              }
-            }
-            if (detail.status == "200" || detail.status == "201") {
-              setMessage(
-                "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
-              );
-              setSubmitted(true);
-              setMainData({
-                ...mainData,
-                firstForm: {
-                  ...values,
-                  courseList,
-                  workExperienceList,
-                },
-              });
-            }
-          })
-          .catch((err) => console.log(err));
-      } catch (error) {
-        console.log(error);
-      }
+
+
+      setLoadingButton(true);
+      firstFormDoneToSecondForm();
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+      setMainData({
+        ...mainData,
+        first_name: values.firstName,
+        last_name: values.lastName,
+        national_id: values.nationalId,
+        fixed_number: values.fixed_number,
+        phone_numbers: values.phone_numbers,
+        fixed_numbers: values.fixed_numbers,
+        fieldEDU:values.fieldEDU,
+        birth_day: values.birth_day,
+        degree: values.degree,
+        experiences: workExperienceList,
+        courses: courseList,
+        skill_records: skillRecords,
+      });
+      // try {
+      //   const res = fetch(
+      //     `http://192.168.10.195:8090/v1/api/after/sale/applicators/`,
+      //     {
+      //       method: "POST",
+      //       body: JSON.stringify({
+      //         phone_number: values.phone_number,
+      //         code: mainData?.code,
+      //         first_name: values.firstName,
+      //         last_name: values.lastName,
+      //         national_id: values.nationalId,
+      //         fixed_number: values.fixed_number,
+      //         phone_numbers: values.phone_numbers,
+      //         fixed_numbers: values.fixed_numbers,
+      //         birth_day: values.birth_day,
+      //         degree: values.degree,
+      //         experiences: workExperienceList,
+      //         courses: courseList,
+      //         skill_records: skillRecords,
+      //       }),
+      //       headers: {
+      //         "content-type": "application/json",
+      //       },
+      //     }
+      //   )
+      //     .then((response) =>
+      //       response
+      //         .json()
+      //         .then((data) => ({ status: response.status, body: data }))
+      //     )
+      //     .then((detail) => {
+      //       console.log(detail);
+      //       if (detail.status == "400") {
+      //         // setToast(true);
+      //         const featureEntries = Object.entries(detail.body);
+      //         {
+      //           featureEntries.map((item) => setMessage(item[1]));
+      //         }
+      //       }
+      //       if (detail.status == "200" || detail.status == "201") {
+      //         setMainData({
+      //           ...mainData,
+      //           first_name: values.firstName,
+      //           last_name: values.lastName,
+      //           national_id: values.nationalId,
+      //           fixed_number: values.fixed_number,
+      //           phone_numbers: values.phone_numbers,
+      //           fixed_numbers: values.fixed_numbers,
+      //           birth_day: values.birth_day,
+      //           degree: values.degree,
+      //           experiences: workExperienceList,
+      //           courses: courseList,
+      //           skill_records: skillRecords,
+      //         });
+      //         processDone("اطلاعات با موفقیت ثبت شد.");
+      //         firstFormDoneToSecondForm();
+      //         window.scrollTo({
+      //           top: 0,
+      //           left: 0,
+      //           behavior: "smooth",
+      //         });
+      //       }
+      //     })
+      //     .catch((err) => console.log(err));
+      // } catch (error) {
+      //   console.log(error);
+      // }
     },
     validationSchema,
   });
 
   const handleAddItemFixedPhone = () => {
-    if (formik.values.fixed_number_list.length < 2) {
+    if (formik.values.fixed_numbers.length < 2) {
       formik.setValues({
         ...formik.values,
-        fixed_number_list: [...formik.values.fixed_number_list, ""],
+        fixed_numbers: [...formik.values.fixed_numbers, ""],
       });
     }
   };
   const handleDeleteFixedPhone = (indexField) => {
-    const filteredList = formik.values.fixed_number_list.filter(
+    const filteredList = formik.values.fixed_numbers.filter(
       (item, index) => index !== indexField
     );
     formik.setValues({
       ...formik.values,
-      fixed_number_list: [...filteredList],
+      fixed_numbers: [...filteredList],
     });
   };
 
   const handleAddItemMobileNumber = () => {
-    if (formik.values.phone_number_list.length < 2) {
+    if (formik.values.phone_numbers.length < 2) {
       formik.setValues({
         ...formik.values,
-        phone_number_list: [...formik.values.phone_number_list, ""],
+        phone_numbers: [...formik.values.phone_numbers, ""],
       });
     }
   };
   const handleDeleteMobileNumber = (indexField) => {
-    const filteredList = formik.values.phone_number_list.filter(
+    const filteredList = formik.values.phone_numbers.filter(
       (item, index) => index !== indexField
     );
     formik.setValues({
       ...formik.values,
-      phone_number_list: [...filteredList],
+      phone_numbers: [...filteredList],
     });
   };
   return (
@@ -231,7 +322,6 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         </button>
         اطلاعات نماینده (صاحب امضا)
       </div>
-
       <div className="w-[80%] mt-1  mb-3 relative group ">
         <input
           name="firstName"
@@ -255,7 +345,6 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         >
           نام
         </label>
-
         <div
           className={
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
@@ -294,7 +383,6 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         >
           نام خانوادگی
         </label>
-
         <div
           className={
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
@@ -333,7 +421,6 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         >
           کد ملی
         </label>
-
         <div
           className={
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
@@ -351,29 +438,28 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
       </div>
       <div className="mb-3 mt-1 w-full flex flex-col items-center">
         <div
-          onBlur={() => formik.setFieldTouched("birthDate")}
+          onBlur={() => formik.setFieldTouched("birth_day")}
           className={
             "group   " +
             styles.datePicker +
             "  " +
-            `${(formik.values.birthDate.length > 0  )? styles.activeLabel : " "}`
+            `${formik.values.birth_day.length > 0 ? styles.activeLabel : " "}`
           }
         >
           <DatePicker
             defaultValue={
-              mainData?.firstForm?.birthDate
-                ? handleDateConvert(mainData?.firstForm?.birthDate)
+              mainData?.birth_day
+                ? handleDateConvert(mainData?.birth_day)
                 : undefined
             }
-
             round="x4"
             position="center"
             accentColor="#1b887f"
             className="font-costumFaNum relative  "
-            name="birthDate"
+            name="birth_day"
             onChange={(event) => {
               formik.setFieldValue(
-                "birthDate",
+                "birth_day",
                 new Date(event.value).toISOString().slice(0, 10)
               );
             }}
@@ -382,7 +468,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             className={
               " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px]   group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
               " " +
-              `${formik.values.birthDate.length > 0 ? "text-xs" : ""}`
+              `${formik.values.birth_day.length > 0 ? "text-xs" : ""}`
             }
           >
             تاریخ تولد
@@ -391,31 +477,30 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             <ArrowDownIcon />
           </div>
         </div>
-
         <div
           className={
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 w-[80%] " +
             " " +
             `${
-              formik.errors.birthDate && formik.touched.birthDate
+              formik.errors.birth_day && formik.touched.birth_day
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.birthDate}
+          {formik.errors.birth_day}
         </div>
       </div>
       <div className="group mt-1  mb-3 w-[80%]   relative ">
         <input
-          name="education"
-          value={formik.values.education}
+          name="degree"
+          value={formik.values.degree}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.education.length > 0
+            (formik.values.degree.length > 0
               ? " input-label-pos-active "
               : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -425,25 +510,24 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
           className={
             " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs" +
             " " +
-            `${formik.values.education.length > 0 ? "text-xs" : ""}`
+            `${formik.values.degree.length > 0 ? "text-xs" : ""}`
           }
         >
           تحصیلات
         </label>
-
         <div
           className={
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.education && formik.touched.education
+              formik.errors.degree && formik.touched.degree
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.education}
+          {formik.errors.degree}
         </div>
       </div>
       <div className="group mt-1  mb-3 w-[80%]   relative ">
@@ -469,7 +553,6 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         >
           رشته
         </label>
-
         <div
           className={
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
@@ -485,7 +568,6 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
           {formik.errors.fieldEDU}
         </div>
       </div>
-
       <div className="group mt-1  mb-3 w-[80%]   relative ">
         <input
           value={formik.values.fixed_number}
@@ -528,15 +610,14 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         formik={formik}
         handleDeleteFixedPhone={handleDeleteFixedPhone}
       />
-
       <button
         onClick={handleAddItemFixedPhone}
-        disabled={formik.values.fixed_number_list.length === 2}
+        disabled={formik.values.fixed_numbers.length === 2}
         className={
           " transition ease-in-out duration-500 text-center rounded-xl font-bold text-sm leading-6  flex flex-row  items-center px-3 py-1  mb-2 " +
           " " +
           `${
-            formik.values.fixed_number_list.length === 2
+            formik.values.fixed_numbers.length === 2
               ? " bg-[#E6E6E6] cursor-not-allowed text-[#696969] "
               : "group text-mainGreen1 cursor-pointer hover:bg-mainGreen1 hover:text-white"
           }`
@@ -548,7 +629,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             " transition ease-in-out duration-500 mr-1   " +
             " " +
             `${
-              formik.values.fixed_number_list.length === 2
+              formik.values.fixed_numbers.length === 2
                 ? "  "
                 : " group-hover:brightness-0 group-hover:invert "
             }`
@@ -558,9 +639,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             width={"16"}
             height={"16"}
             color={
-              formik.values.fixed_number_list.length === 2
-                ? "#696969"
-                : "#13625c"
+              formik.values.fixed_numbers.length === 2 ? "#696969" : "#13625c"
             }
           />
         </div>
@@ -570,7 +649,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
           "text-[#525252] text-xs  flex  flex-row w-[80%] gap-1  items-center cursor-pointer transition-all duration-500  " +
           " " +
           `${
-            formik.values.fixed_number_list.length === 2
+            formik.values.fixed_numbers.length === 2
               ? " opacity-100 pb-3  "
               : "  opacity-0 "
           }`
@@ -579,7 +658,6 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         <DangerIcon color={"#525252"} />
         محدود تا سه شماره تلفن ثابت
       </div>
-
       <div className="group mt-1  mb-3 w-[80%]   relative ">
         <input
           value={formik.values.phone_number}
@@ -622,15 +700,14 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         formik={formik}
         handleDeleteFixedPhone={handleDeleteMobileNumber}
       />
-
       <button
         onClick={handleAddItemMobileNumber}
-        disabled={formik.values.phone_number_list.length === 2}
+        disabled={formik.values.phone_numbers.length === 2}
         className={
           " transition ease-in-out duration-500 text-center rounded-xl font-bold text-sm leading-6  flex flex-row  items-center px-3 py-1  mb-2 " +
           " " +
           `${
-            formik.values.phone_number_list.length === 2
+            formik.values.phone_numbers.length === 2
               ? " bg-[#E6E6E6] cursor-not-allowed text-[#696969] "
               : "group text-mainGreen1 cursor-pointer hover:bg-mainGreen1 hover:text-white"
           }`
@@ -642,7 +719,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             " transition ease-in-out duration-500 mr-1   " +
             " " +
             `${
-              formik.values.phone_number_list.length === 2
+              formik.values.phone_numbers.length === 2
                 ? "  "
                 : " group-hover:brightness-0 group-hover:invert "
             }`
@@ -652,9 +729,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
             width={"16"}
             height={"16"}
             color={
-              formik.values.phone_number_list.length === 2
-                ? "#696969"
-                : "#13625c"
+              formik.values.phone_numbers.length === 2 ? "#696969" : "#13625c"
             }
           />
         </div>
@@ -664,7 +739,7 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
           "text-[#525252] text-xs  flex  flex-row w-[80%] gap-1  items-center cursor-pointer transition-all duration-500  " +
           " " +
           `${
-            formik.values.phone_number_list.length === 2
+            formik.values.phone_numbers.length === 2
               ? " opacity-100 pb-3  "
               : "  opacity-0 "
           }`
@@ -673,7 +748,6 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         <DangerIcon color={"#525252"} />
         محدود تا سه شماره تلفن همراه
       </div>
-
       <RecordsCourses
         formik={formik}
         setCurseList={setCurseList}
@@ -688,18 +762,64 @@ export default function FirstForm({ setActiveTab, mainData, setMainData }) {
         <div className="flex flex-row items-center justify-center p-3 gap-8 ">
           <button
             onClick={() => setActiveTab("verification")}
-            className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white "
+            className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white  "
           >
             بازگشت به قبل
           </button>
-          <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] ">
+          <button
+            type="submit"
+            onClick={formik.handleSubmit}
+            className={
+              "group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] relative " +
+              " " +
+              `${loadingButton ? "pointer-events-none" : " "}`
+            }
+          >
             مرحله بعد
             <div className="transition ease-in-out duration-500  group-hover:scale-110  brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
               <ArrowOpinion />
             </div>
+            {loadingButton && <ButtonCoverLoader />}
           </button>
         </div>
       </div>
     </div>
   );
 }
+
+// setMainData({
+//   ...mainData,
+//   firstForm: {
+//     phone_number: values.phone_number,
+//     code: mainData?.varificationForm?.code,
+//     first_name: values.firstName,
+//     last_name: values.lastName,
+//     national_id: values.nationalId,
+//     fixed_number: values.fixed_number,
+//     phone_numbers: values.phone_numbers,
+//     fixed_numbers: values.fixed_numbers,
+//     birth_day: values.birth_day,
+//     degree: values.degree,
+//     experiences: workExperienceList,
+//     courses: courseList,
+//     skill_records: skillRecords,
+//   },
+// });
+// setMainData({
+//   ...mainData,
+//   firstForm: {
+//     phone_number: values.phone_number,
+//     code: mainData?.varificationForm?.code,
+//     first_name: values.firstName,
+//     last_name: values.lastName,
+//     national_id: values.nationalId,
+//     fixed_number: values.fixed_number,
+//     phone_numbers: values.phone_numbers,
+//     fixed_numbers: values.fixed_numbers,
+//     birth_day: values.birth_day,
+//     degree: values.degree,
+//     experiences: workExperienceList,
+//     courses: courseList,
+//     skill_records: skillRecords,
+//   },
+// });

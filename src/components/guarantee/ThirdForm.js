@@ -1,20 +1,39 @@
 "use client";
-import ToastBox from "../global/toast";
-import ArrowLeftIcon from "@/icon/arrow-left";
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import ArrowDownIcon from "@/icon/arrow-down";
-import { Calendar, CalendarProvider, DatePicker, TimePicker } from "zaman";
-import styles from "./form.module.css";
 import PlusIcon from "@/icon/PlusIcon";
-import RecordsCourses from "./RecordsCourses";
 import RightArrowBack from "@/icon2/RightArrowBack";
 import ArrowOpinion from "@/icon/ArrowOpinion";
-import formStyles from "./formcheckbox.module.css";
-import MinusIcon from "@/icon2/MinusIcon";
 import CloseModal from "@/icon/CloseModal";
 import DangerIcon from "@/icon2/DangerIcon";
+import ButtonCoverLoader from "./ButtonCoverLoader";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+function processDone(massage) {
+  toast.success(massage, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+}
+
+function processFail(massage) {
+  toast.error(massage, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+}
 
 const validFileExtensions = {
   file: ["jpg", "gif", "png", "jpeg", "svg", "webp", "pdf"],
@@ -30,10 +49,16 @@ function isValidFileType(fileName, fileType) {
 function getAllowedExt(type) {
   return validFileExtensions[type].map((e) => `.${e}`).toString();
 }
-const MAX_FILE_SIZE = 4194304;
 // 102400
 //  4194304 ----- 4MB
 //  3145728 ----- 3MB
+const MAX_FILE_SIZE = 4194304;
+
+///------------------------------------------------data name
+//first tax_statement
+//second  informathic_certificate	
+//last   workplape_images
+///------------------------------------------------
 
 const validationSchema = yup
   .object()
@@ -140,7 +165,14 @@ const validationSchema = yup
   })
   .required("First array is required");
 
-export default function ThirdForm() {
+export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthForm}) {
+
+
+    ////----------------------loading state for send data button to go next step
+
+    const [loadingButton, setLoadingButton] = useState(false);
+
+
   const openFilePickerFirst = () => {
     document.getElementById("fileInputFirst").click();
   };
@@ -180,50 +212,80 @@ export default function ThirdForm() {
 
   const formik = useFormik({
     initialValues: {
-      first: [],
-      second: [],
-      last: [],
+      applicator:mainData?.phone_number ? mainData?.phone_number:"",
+      shop_id:mainData?.shop_id ? mainData?.shop_id:"",
+      first: mainData?.documents?.tax_statement instanceof Array ? mainData?.documents?.tax_statement:[],
+      second: mainData?.documents?.informathic_certificate instanceof Array ? mainData?.documents?.informathic_certificate:[],
+      last: mainData?.workplace_images instanceof Array ? mainData?.workplace_images:[],
     },
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      try {
-        const res = fetch(`http://192.168.10.195:8090/v1/api/contact/to/us/`, {
-          method: "POST",
-          body: JSON.stringify({
-            tax_statement:"",
-            informathic_certificate:"",
-            workplace_images:"",
-          }),
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        })
-          .then((response) =>
-            response
-              .json()
-              .then((data) => ({ status: response.status, body: data }))
-          )
-          .then((detail) => {
-            console.log(detail.status);
-            if (detail.status == "400") {
-              setToast(true);
-              const featureEntries = Object.entries(detail.body);
-              {
-                featureEntries.map((item) => setMessage(item[1]));
-              }
-            }
-            if (detail.status == "201") {
-              setMessage(
-                "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
-              );
-              setSubmitted(true);
-            }
-          })
-          .catch((err) => console.log(err));
-      } catch (error) {
-        console.log(error);
+      setMainData({
+        ...mainData,
+        documents:{
+          tax_statement:values.first,
+          informathic_certificate:values.second,
+        },
+        workplace_images:values.last
+      })
+      console.log(mainData)
+      const formData = new FormData();
+
+      formData.append("applicator", values.applicator);
+      formData.append("shop_id", values.shop_id);
+      formData.append("tax_statement", values.first[0]);
+      formData.append("informathic_certificate", values.second[0]);
+
+      for (let i = 0; i < values.last.length; i++) {
+        // console.log(values.last[i]);
+        formData.append("workplace_images", values.last[i]);
       }
+      console.log(formData)
+      thirdFormDoneToFourthForm();
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      })
+      // try {
+      //   const res = fetch(`http://192.168.10.195:8090/v1/api/after/sale/upload/documents/`, {
+      //     method: "POST",
+      //     body: formData,
+      //     headers: {
+      //       "content-type": "multipart/form-data",
+      //     },
+      //   })
+      //     .then((response) =>
+      //       response
+      //         .json()
+      //         .then((data) => ({ status: response.status, body: data }))
+      //     )
+      //     .then((detail) => {
+      //       console.log(detail.status);
+      //       if (detail.status == "400") {
+      //         setToast(true);
+      //         const featureEntries = Object.entries(detail.body);
+      //         {
+      //           featureEntries.map((item) => setMessage(item[1]));
+      //         }
+      //       }
+      //       if (detail.status == "201") {
+      //         setMessage(
+      //           "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
+      //         );
+      //         setSubmitted(true);
+      //       }
+      // window.scrollTo({
+      //   top: 0,
+      //   left: 0,
+      //   behavior: "smooth",
+      // })
+      //     })
+      //     .catch((err) => console.log(err));
+      // } catch (error) {
+      //   console.log(error);
+      // }
     },
   });
   return (
@@ -232,7 +294,6 @@ export default function ThirdForm() {
         <RightArrowBack />
         بارگذاری مدارک
       </div>
-
       <div className="w-[80%]  mb-6 relative  rounded-xl px-3 pb-3 ">
         <div className="font-normal text-sm leading-6 text-[#242424] py-1 ">
           میتوانید فایل های متعدد بارگذاری کنید.
@@ -274,7 +335,7 @@ export default function ThirdForm() {
                     placeholder="فایل را آپلود کنید."
                     id="fileInputFirst"
                     accept={getAllowedExt("file")}
-                    multiple
+                    multiple={false}
                     className={
                       (true ? " input-label-pos-active " : " ") +
                       " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white  opacity-0 "
@@ -319,7 +380,7 @@ export default function ThirdForm() {
                   className="bg-[#FDFDFD] flex flex-row p-3  rounded-xl items-center w-full "
                 >
                   <div className="text-[#242424] leading-5 text-xs flex-grow">
-                    {item.name}
+                  {item.name.substring(0,24)+"..."}
                   </div>
                   <button
                     onClick={() => handleFileDeleteFromListFirst(item, index)}
@@ -338,7 +399,6 @@ export default function ThirdForm() {
               ))}
             </div>
           </div>
-
           <div
             className={
               "bg-[#F7F7F7] rounded-xl   pt-4 px-3 " +
@@ -374,7 +434,6 @@ export default function ThirdForm() {
                     type="file"
                     placeholder="فایل را آپلود کنید."
                     id="fileInputSecond"
-                    // accept="image/png, image/jpg, image/jpeg, application/pdf"
                     accept={getAllowedExt("file")}
                     className={
                       (true ? " input-label-pos-active " : " ") +
@@ -420,7 +479,7 @@ export default function ThirdForm() {
                   className="bg-[#FDFDFD] flex flex-row p-3  rounded-xl items-center w-full "
                 >
                   <div className="text-[#242424] leading-5 text-xs flex-grow">
-                    {item.name}
+                  {item.name.substring(0,24)+"..."}
                   </div>
                   <button
                     onClick={() => handleFileDeleteFromListSecond(item, index)}
@@ -522,7 +581,7 @@ export default function ThirdForm() {
                   className="bg-[#FDFDFD] flex flex-row p-3  rounded-xl items-center w-full "
                 >
                   <div className="text-[#242424] leading-5 text-xs flex-grow">
-                    {item.name}
+                    {item.name.substring(0,24)+"..."}
                   </div>
                   <button
                     onClick={() => handleFileDeleteFromListLast(item, index)}
@@ -543,7 +602,6 @@ export default function ThirdForm() {
           </div>
         </div>
       </div>
-
       <div className="flex flex-col w-[80%] before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto ">
         <div className="flex flex-row items-center justify-center p-3 gap-8 ">
           <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white ">
@@ -551,12 +609,15 @@ export default function ThirdForm() {
           </button>
           <button
             onClick={formik.handleSubmit}
-            className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] "
+            className={"group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] "+
+            " " +
+            `${loadingButton ? "pointer-events-none" : " "}`}
           >
             مرحله بعد
             <div className="transition ease-in-out duration-500  group-hover:scale-110  brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
               <ArrowOpinion />
             </div>
+            {loadingButton && <ButtonCoverLoader />}
           </button>
         </div>
       </div>

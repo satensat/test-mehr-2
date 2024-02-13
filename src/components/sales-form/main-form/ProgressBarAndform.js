@@ -1,17 +1,11 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./progress.module.css";
-import FirstForm from "./FirstForm";
-
-import SecondForm from "./SecondForm";
-import ThirdForm from "./ThirdForm";
-import VerificationForm from "./VerificationForm";
-import LastForm from "./LastForm";
 import EmpthyTick from "@/icon2/EmpthyTick";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import VerificationForm from "./verification/VerificationForm";
+import RepresentativeInformation from "./Representative-information/RepresentativeInformation";
 
-export default function ProgressBar() {
+export default function ProgressBarAndform() {
   const [mainData, setMainData] = useState({});
 
   ////////points animation
@@ -81,7 +75,6 @@ export default function ProgressBar() {
   };
   return (
     <div className="p-3 w-full  h-fit ">
-      <ToastContainer />
       <div className="min-h-[70px] flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
         <div
           className={
@@ -274,37 +267,32 @@ export default function ProgressBar() {
         />
       )}
       {activeTab === "first" && (
-        <FirstForm
+        <RepresentativeInformation
           mainData={mainData}
           firstFormDoneToSecondForm={firstFormDoneToSecondForm}
           setMainData={setMainData}
           setActiveTab={setActiveTab}
         />
       )}
-      {activeTab === "second" && (
+      {/* {activeTab === "second" && (
         <SecondForm
           secondFormDoneToThirdForm={secondFormDoneToThirdForm}
           mainData={mainData}
           setMainData={setMainData}
           setActiveTab={setActiveTab}
         />
-      )}
-      {activeTab === "third" && (
+      )} */}
+      {/* {activeTab === "third" && (
         <ThirdForm
           thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
           mainData={mainData}
           setMainData={setMainData}
           setActiveTab={setActiveTab}
         />
-      )}
-      {activeTab === "last" && (
-        <LastForm
-          setActiveTab={setActiveTab}
-          doneLastForm={doneLastForm}
-          mainData={mainData}
-          setMainData={setMainData}
-        />
-      )}
+      )} */}
+      {/* {activeTab === "last" && (
+        <LastForm setActiveTab={setActiveTab} doneLastForm={doneLastForm} />
+      )} */}
     </div>
   );
 }

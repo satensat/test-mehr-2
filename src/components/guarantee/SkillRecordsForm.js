@@ -4,7 +4,12 @@ import CloseModal from "@/icon/CloseModal";
 import PlusIcon from "@/icon/PlusIcon";
 import DangerIcon from "@/icon2/DangerIcon";
 
-export default function SkillRecordsForm({formik,mainData,skillRecords, setSkillRecords}) {
+export default function SkillRecordsForm({
+  formik,
+  mainData,
+  skillRecords,
+  setSkillRecords,
+}) {
   const [skill, setSkill] = useState("");
   const [skillInputCheck, setSkillInputCheck] = useState(true);
 
@@ -12,7 +17,6 @@ export default function SkillRecordsForm({formik,mainData,skillRecords, setSkill
     setSkill(event.target.value);
   };
 
-  
   const handleAddSkillRecord = () => {
     // if(skill.length<8){
     //   setSkillInputCheck(false);
@@ -21,32 +25,55 @@ export default function SkillRecordsForm({formik,mainData,skillRecords, setSkill
     //   setSkillRecords((prevState) => [{ skill }, ...prevState]);
     //   setSkill("");
     // }
-
-    setSkillInputCheck(true);
-    setSkillRecords((prevState) => [{ skill }, ...prevState]);
-    setSkill("");
+    if (skill.length > 1) {
+      setSkillInputCheck(true);
+      console.log(skillRecords);
+      setSkillRecords((prevState) => [{ skill }, ...prevState]);
+      setSkill("");
+    } else {
+      setSkillInputCheck(false);
+    }
+  };
+  const handleKeyDownInput = (event) => {
+    if (event.key === "Enter") {
+      if (skill.length > 1) {
+        setSkillInputCheck(true);
+        console.log(skillRecords);
+        setSkillRecords((prevState) => [{ skill }, ...prevState]);
+        setSkill("");
+      } else {
+        setSkillInputCheck(false);
+      }
+    }
   };
 
   const handleDeleteSkillRecord = (item, index) => {
     // element.skill !== item.skill &&
     const filteredList = skillRecords.filter(
-      (element, elementIndex) =>
-         elementIndex !== index
+      (element, elementIndex) => elementIndex !== index
     );
     setSkillRecords(() => [...filteredList]);
   };
   return (
     <>
-      <div className="w-full   relative mt-1 ">
+      <div
+        className="w-full   relative mt-1 pr-4 pl-2  border border-gray-300 rounded-2xl h-12 bg-white flex flex-row items-center 
+      focus-within:outline-black
+      focus-within:outline-2
+      focus-within:outline
+      focus-within:border-transparent
+     "
+      >
         <input
           name={`skill`}
           value={skill}
           onChange={handleChangeSkill}
+          onKeyDown={handleKeyDownInput}
           type="text"
           placeholder="مثلا کار با سخت‌افزار"
           className={
             (true ? " input-label-pos-active " : " ") +
-            " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
+            " w-full h-full  placeholder-gray border-none  resize-none  input-label-pos  focus-visible:outline-none focus-visible:ring-transparent  "
           }
         />
         <label
@@ -60,7 +87,8 @@ export default function SkillRecordsForm({formik,mainData,skillRecords, setSkill
         </label>
         <button
           onClick={handleAddSkillRecord}
-          className="w-fit h-fit absolute top-[50%] left-2 translate-y-[-50%] cursor-pointer p-2 z-[1]"
+          className="w-fit h-fit  cursor-pointer p-2 "
+          // absolute top-[50%] left-2 translate-y-[-50%]
         >
           <PlusIcon color={"#13625C"} width={"24"} height={"24"} />
         </button>
@@ -80,7 +108,7 @@ export default function SkillRecordsForm({formik,mainData,skillRecords, setSkill
         className={
           "flex flex-col gap-3 mt-1 before:transition-all before:duration-500   before:content-['']   before:h-[1px] before:w-0   before:bg-[#E6E6E6] " +
           " " +
-          `${skillRecords.length > 0 ? " before:w-full  " : "  "}`
+          `${skillRecords?.length > 0 ? " before:w-full  " : "  "}`
         }
       >
         {skillRecords?.map((item, index) => {
