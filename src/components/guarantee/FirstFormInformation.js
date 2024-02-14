@@ -6,37 +6,37 @@ export default function FirstFormInformation({ mainData }) {
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4">نام</div>
         <div className="text-[#242424] text-xs leading-5">
-          {mainData.first_name}
+          {mainData?.first_name}
         </div>
       </div>
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4">نام خانوادگی</div>
         <div className="text-[#242424] text-xs leading-5">
-          {mainData.last_name}
+          {mainData?.last_name}
         </div>
       </div>
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4">کد ملی</div>
         <div className="text-[#242424] text-xs leading-5">
-          {mainData.national_id}
+          {mainData?.national_id}
         </div>
       </div>
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4">تاریخ تولد</div>
         <div className="text-[#242424] text-xs leading-5">
-          {mainData.birth_day}
+          {mainData?.birth_day}
         </div>
       </div>
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4"> تحصیلات</div>
         <div className="text-[#242424] text-xs leading-5">
-          {mainData.degree}
+          {mainData?.degree}
         </div>
       </div>
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4"> رشته</div>
         <div className="text-[#242424] text-xs leading-5">
-          {mainData.fieldEDU}
+          {mainData?.fieldEDU}
         </div>
       </div>
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
@@ -44,10 +44,10 @@ export default function FirstFormInformation({ mainData }) {
           شماره تلفن ثابت
         </div>
         <div className="text-[#242424] text-xs leading-5">
-          {mainData.fixed_number}
+          {mainData?.fixed_number}
         </div>
       </div>
-      {mainData.fixed_numbers.map((item, index) => {
+      {mainData?.fixed_numbers?.map((item, index) => {
         return (
           <div
             key={item}
@@ -65,10 +65,10 @@ export default function FirstFormInformation({ mainData }) {
           شماره تلفن همراه
         </div>
         <div className="text-[#242424] text-xs leading-5">
-          {mainData.phone_number}
+          {mainData?.phone_number}
         </div>
       </div>
-      {mainData.phone_numbers.map((item, index) => {
+      {mainData?.phone_numbers?.map((item, index) => {
         return (
           <div
             key={item}
@@ -84,7 +84,7 @@ export default function FirstFormInformation({ mainData }) {
 
       <div className="flex flex-col gap-2 p-3 bg-[#FDFDFD] rounded-2xl ">
         <div className="text-[#242424] text-sm leading-4">سوابق مهارتی:</div>
-        {mainData?.skill_records.map((item) => {
+        {mainData?.skill_records?.map((item) => {
           return (
             <div
               key={item.skill}
@@ -98,8 +98,8 @@ export default function FirstFormInformation({ mainData }) {
 
       <div className="flex flex-col gap-2 p-3 bg-[#FDFDFD] rounded-2xl ">
         <div className="text-[#242424] text-sm leading-4">سابقه کاری :</div>
-        {mainData.experiences.map((item, index) => {
-          console.log(item);
+        {mainData?.experiences?.map((item, index) => {
+          // console.log(item);
           return (
             <div
               key={item.name + "--" + `${index}`}
@@ -130,7 +130,7 @@ export default function FirstFormInformation({ mainData }) {
                   {new Date(item.end_date).toLocaleDateString("fa-IR")}
                 </div>
               </div>
-              {+mainData.experiences.length > +index + 1 && (
+              {+mainData?.experiences?.length > +index + 1 && (
                 <span className="w-full h-[1px] bg-[#E6E6E6] "></span>
               )}
             </div>
@@ -141,7 +141,7 @@ export default function FirstFormInformation({ mainData }) {
       <div className="flex flex-col gap-2 p-3 bg-[#FDFDFD] rounded-2xl ">
         <div className="text-[#242424] text-sm leading-4">دوره آموزشی:</div>
 
-        {mainData.courses.map((item, index) => {
+        {mainData?.courses?.map((item, index) => {
           return (
             <div
               key={item.name + "--" + `${index}`}
@@ -187,7 +187,7 @@ export default function FirstFormInformation({ mainData }) {
                   {item.description}
                 </div>
               </div>
-              {+mainData.courses.length > +index + 1 && (
+              {+mainData?.courses?.length > +index + 1 && (
                 <span className="w-full h-[1px] bg-[#E6E6E6] "></span>
               )}
             </div>

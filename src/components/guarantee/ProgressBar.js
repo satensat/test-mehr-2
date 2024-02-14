@@ -71,7 +71,7 @@ export default function ProgressBar() {
     setProgressAnimation(progressFull);
     setFourthPoint(aniamtionPartDone);
     setLastPoint(pointNotComplete);
-    setActiveTab("forth");
+    setActiveTab("last");
     setStepCounter("4");
   };
   const doneLastForm = () => {

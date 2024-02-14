@@ -63,7 +63,8 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
       <div className="text-[#242424] leading-6 text-sm">سابقه کاری:</div>
       <div className="flex flex-col items-center">
         <div className="w-full  mb-3 relative group ">
-          <input
+          <input 
+          autocomplete="on"
             name="title"
             value={formik.values.title}
             onChange={formik.handleChange}
@@ -100,6 +101,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
             {formik.errors.title}
           </div>
         </div>
+        {/* <button onClick={()=}>test</button> */}
         <div className="mb-3 w-full flex flex-col ">
           <div
             onBlur={() => formik.setFieldTouched("start_date")}
@@ -112,7 +114,8 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
               }`
             }
           >
-            <input
+            <input 
+            autocomplete="on"
               value={
                 formik.values.start_date === ""
                   ? ""
@@ -129,6 +132,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
               accentColor="#1b887f"
               className="font-costumFaNum "
               name="start_date"
+             defaultValue={"2020/11/02"}
               inputClass={" " + " " + styles.datePickerMainInputHide}
               onChange={(event) => {
                 formik.setFieldValue("start_date",    new Date(event.value).toISOString().slice(0, 10));
@@ -179,7 +183,8 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
               }`
             }
           >
-            <input
+            <input 
+            autocomplete="on"
               value={
                 formik.values.end_date === ""
                   ? ""
@@ -198,7 +203,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
               onChange={(event) => {
                 // console.log(Date.parse( new Date(event.value).toUTCString()))
                 // console.log(new Date(event.value).toUTCString());
-                // console.log(event);
+                console.log(event);
                 // console.log(Date.parse(event.value));
                 formik.setFieldValue(
                   "end_date",

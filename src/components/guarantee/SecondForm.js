@@ -790,7 +790,7 @@ export default function SecondForm({
                       setProvinceInput(item.name);
                       setStatusProvince(false);
                     }}
-                    className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
+                    className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl text-right "
                   >
                     {item.name}
                   </button>
@@ -882,7 +882,7 @@ export default function SecondForm({
                       setCityInput(item.name);
                       setStatusCity(false);
                     }}
-                    className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl "
+                    className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl text-right  "
                   >
                     {item.name}
                   </button>
