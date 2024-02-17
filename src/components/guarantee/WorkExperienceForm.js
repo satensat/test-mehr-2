@@ -64,7 +64,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
       <div className="flex flex-col items-center">
         <div className="w-full  mb-3 relative group ">
           <input 
-          autocomplete="on"
+          autoComplete="on"
             name="title"
             value={formik.values.title}
             onChange={formik.handleChange}
@@ -115,7 +115,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
             }
           >
             <input 
-            autocomplete="on"
+            autoComplete="on"
               value={
                 formik.values.start_date === ""
                   ? ""
@@ -184,7 +184,7 @@ export default function WorkExperienceForm({ setWorkExperienceList, workExperien
             }
           >
             <input 
-            autocomplete="on"
+            autoComplete="on"
               value={
                 formik.values.end_date === ""
                   ? ""

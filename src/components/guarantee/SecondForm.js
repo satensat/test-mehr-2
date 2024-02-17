@@ -1,6 +1,4 @@
 "use client";
-import ToastBox from "../global/toast";
-import ArrowLeftIcon from "@/icon/arrow-left";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -41,89 +39,88 @@ function processFail(massage) {
   });
 }
 
-const validationSchema = yup.object({
-  name: yup.string().required("نام فروشگاه را وارد نمایید."),
-  province: yup.string().required(" استان را وارد نمایید."),
-  // province: yup.object().shape({
-  //   id: yup.string().required("استان را انتخاب نمایید."),
-  //   name: yup.string().required("استان را انتخاب نمایید."),
-  // }),
-  // city: yup.object().shape({
-  //   id: yup.string().required("شهر را وارد نمایید."),
-  //   name: yup.string().required("شهر را وارد نمایید."),
-  // }),
-  city: yup.string().required("شهر را وارد نمایید."),
-  is_owner: yup.boolean().required("وضعیت ملک را وارد انتخاب کنید."),
-  area: yup
-    .number()
-    .typeError("لطفا عدد وارد کنید.")
-    .required("  متراژ ملک را وارد نمایید."),
-  business_type: yup
-    .object()
-    .shape({
-      is_distribution: yup.boolean(),
-      is_manufacturing: yup.boolean(),
-      is_technical: yup.boolean(),
-      is_service: yup.boolean(),
-    })
-    .test(
-      "at-least-one-true",
-      " نوع جواز کسب خود را انتخاب کنید.",
-      (obj) =>
-        obj.is_distribution ||
-        obj.is_manufacturing ||
-        obj.is_technical ||
-        obj.is_service
-    ),
-  number_of_staff: yup
-    .number()
-    .required("تعداد افراد شاغل را وارد نمایید.")
-    .positive("تعداد افراد شاغل باید مثبت باشد."),
-  address: yup.string().required("آدرس کامل فروشگاه را وارد نمایید."),
-  reception_status: yup.string(),
-  repair_features: yup.string().required("تجهیزات تست و تعمیر را وارد نمایید."),
-  workplace_features: yup.object().shape({
-    sofa: yup.boolean(),
-    network: yup.boolean(),
-    fixed_number: yup.boolean(),
-    reception_feature: yup.boolean(),
-  }),
-});
-
 export default function SecondForm({
   mainData,
   setMainData,
+  formik,
   secondFormDoneToThirdForm,
+  filteredCities,
+  setFilteredCities,
+  loadingButton,
+  setLoadingButton,
+  // statusProvince,
+  // setStatusProvince,
+  // statusCity,
+  // setStatusCity,
+  provinceListItemsSource,
+  setProvinceListitemsSource,
+  cityListItemsSource,
+  setCityListitemsSource,
+  provinceInput,
+  setProvinceInput,
+  cityListInput,
+  setCityInput,
+  filteredProvinces,
+  setFilteredProvinces,
+  setActiveTab,
 }) {
-
-
-    ////----------------------loading state for send data button to go next step
-
-    const [loadingButton, setLoadingButton] = useState(false);
-
-
   const [statusProvince, setStatusProvince] = useState(false);
+
+
+  const [statusCity, setStatusCity] = useState(false);
   const handleCloseProvinceList = () => {
     setStatusProvince(false);
   };
 
-  const [statusCity, setStatusCity] = useState(false);
-
   const handleCloseCityList = () => {
     setStatusCity(false);
   };
+  useEffect(() => {
+    // http://192.168.10.195:8090/v1/api/province/
+    async function fetchProvinceListitems() {
+      try {
+        const myDataQ = await fetch(
+          `http://192.168.10.195:8090/v1/api/province/`
+        );
+        // console.log(myDataQ);
 
-  const [provinceListItemsSource, setProvinceListitemsSource] = useState([]);
-  const [cityListItemsSource, setCityListitemsSource] = useState([]);
+        if (myDataQ.status == 200) {
+          const test = await myDataQ.json();
+          setProvinceListitemsSource(test);
+          setFilteredProvinces(test);
 
-  const [provinceInput, setProvinceInput] = useState("");
-  const [cityListInput, setCityInput] = useState("");
+          // console.log(test);
+        }
+        // return  { detail : await myDataQ.json() , status :   myDataQ.status };
+      } catch {
+        return "";
+      }
+    }
 
-  const [filteredProvinces, setFilteredProvinces] = useState([]);
-  const [filteredCities, setFilteredCities] = useState([]);
+    fetchProvinceListitems();
+  }, []);
 
+  async function fetchCityListitemsDependsProvince(provinceID) {
+    console.log(provinceID);
+    try {
+      const myDataQ = await fetch(
+        `http://192.168.10.195:8090/v1/api/province/cities/${provinceID}/`
+      );
+      // console.log(myDataQ);
 
-
+      if (myDataQ.status == 200) {
+        const test = await myDataQ.json();
+        setCityListitemsSource(test);
+        setFilteredCities(test);
+        console.log(test);
+      }
+      // return  { detail : await myDataQ.json() , status :   myDataQ.status };
+    } catch {
+      return "";
+    }
+  }
+  // province: { id: "", name: "" },
+  // city: { id: "", name: "" },
   const handleChangeInputProvinceAutoComplete = (event) => {
     console.log(event);
     setProvinceInput(() => event.target.value);
@@ -199,211 +196,6 @@ export default function SecondForm({
       setStatusCity(false);
     }
   };
-  useEffect(() => {
-    // http://192.168.10.195:8090/v1/api/province/
-    async function fetchProvinceListitems() {
-      try {
-        const myDataQ = await fetch(
-          `http://192.168.10.195:8090/v1/api/province/`
-        );
-        // console.log(myDataQ);
-
-        if (myDataQ.status == 200) {
-          const test = await myDataQ.json();
-          setProvinceListitemsSource(test);
-          setFilteredProvinces(test);
-
-          // console.log(test);
-        }
-        // return  { detail : await myDataQ.json() , status :   myDataQ.status };
-      } catch {
-        return "";
-      }
-    }
-
-    fetchProvinceListitems();
-  }, []);
-
-  async function fetchCityListitemsDependsProvince(provinceID) {
-    console.log(provinceID);
-    try {
-      const myDataQ = await fetch(
-        `http://192.168.10.195:8090/v1/api/province/cities/${provinceID}/`
-      );
-      // console.log(myDataQ);
-
-      if (myDataQ.status == 200) {
-        const test = await myDataQ.json();
-        setCityListitemsSource(test);
-        setFilteredCities(test);
-        console.log(test);
-      }
-      // return  { detail : await myDataQ.json() , status :   myDataQ.status };
-    } catch {
-      return "";
-    }
-  }
-  // province: { id: "", name: "" },
-  // city: { id: "", name: "" },
-
-  const formik = useFormik({
-    initialValues: {
-      name: mainData.name ? mainData.name :"",
-      province: mainData.province? mainData.province:"",
-      city: mainData.city? mainData.city:"",
-      is_owner: mainData.is_owner? mainData.is_owner:"",
-      area: mainData.area? mainData.area:"",
-      business_type: {
-        is_distribution: mainData.is_distribution? mainData.is_distribution:false,
-        is_manufacturing: mainData.is_manufacturing? mainData.is_manufacturing:false,
-        is_technical: mainData.is_technical? mainData.is_technical:false,
-        is_service: mainData.is_service? mainData.is_service:false,
-      },
-      number_of_staff: mainData.number_of_staff? mainData.number_of_staff:0,
-      address: mainData.address? mainData.address:"",
-      reception_status: mainData.reception_status? mainData.reception_status:"",
-      repair_features: mainData.repair_features? mainData.repair_features:"",
-      workplace_features: {
-        sofa: mainData.sofa? mainData.sofa:false,
-        network: mainData.network? mainData.network:false,
-        fixed_number: mainData.fixed_number? mainData.fixed_number:false,
-        reception_feature: mainData.reception_feature? mainData.reception_feature:false,
-      },
-    },
-    onSubmit: (values) => {
-      setMainData({
-        ...mainData,
-        applicator: mainData?.phone_number,
-        name: values.name,
-        province: values.province,
-        city: values.city,
-        is_owner: values.is_owner,
-        area: values.area,
-        business_type: {
-          is_distribution: values.business_type.is_distribution,
-          is_manufacturing: values.business_type.is_manufacturing,
-          is_technical: values.business_type.is_technical,
-          is_service: values.business_type.is_service,
-        },
-        number_of_staff: values.number_of_staff,
-        address: values.address,
-        reception_status: values.reception_status,
-        repair_features: values.repair_features,
-        workplace_features: {
-          sofa: values.workplace_features.sofa,
-          network: values.workplace_features.network,
-          fixed_number: values.workplace_features.fixed_number,
-          reception_feature: values.workplace_features.reception_feature,
-        },
-      });
-      secondFormDoneToThirdForm();
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
-      try {
-        const res = fetch(
-          `http://192.168.10.195:8090/v1/api/after/sale/shop/informations/`,
-          {
-            method: "POST",
-            body: JSON.stringify({
-              name: values.name,
-              province: values.province.id,
-              city: values.city.id,
-              is_owner: values.is_owner,
-              area: values.area,
-              business_type: {
-                is_distribution: values.business_type.is_distribution,
-                is_manufacturing: values.business_type.is_manufacturing,
-                is_technical: values.business_type.is_technical,
-                is_service: values.business_type.is_service,
-              },
-              number_of_staff: values.number_of_staff,
-              address: values.address,
-              reception_status: values.reception_status,
-              repair_features: values.repair_features,
-              applicator: mainData?.varificationForm?.phone_number,
-              workplace_features: {
-                sofa: values.workplace_features.sofa,
-                network: values.workplace_features.network,
-                fixed_number: values.workplace_features.fixed_number,
-                reception_feature: values.workplace_features.reception_feature,
-              },
-            }),
-            headers: {
-              "content-type": "application/json",
-            },
-          }
-        )
-          .then((response) =>
-            response
-              .json()
-              .then((data) => ({ status: response.status, body: data }))
-          )
-          .then((detail) => {
-            console.log(detail);
-            if (detail.status == "400") {
-              setToast(true);
-              const featureEntries = Object.entries(detail.body);
-              {
-                featureEntries.map((item) => setMessage(item[1]));
-              }
-            }
-            if (detail.status == "200" || detail.status == "201") {
-              setMessage(
-                "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
-              );
-              setSubmitted(true);
-              setMainData({
-                ...mainData,
-                secondForm: {
-                  applicator: mainData?.varificationForm?.phone_number,
-                  name: values.name,
-                  province: values.province.id,
-                  city: values.city.id,
-                  is_owner: values.is_owner,
-                  area: values.area,
-                  business_type: {
-                    is_distribution: values.business_type.is_distribution,
-                    is_manufacturing: values.business_type.is_manufacturing,
-                    is_technical: values.business_type.is_technical,
-                    is_service: values.business_type.is_service,
-                  },
-                  number_of_staff: values.number_of_staff,
-                  address: values.address,
-                  reception_status: values.reception_status,
-                  repair_features: values.repair_features,
-                  workplace_features: {
-                    sofa: values.workplace_features.sofa,
-                    network: values.workplace_features.network,
-                    fixed_number: values.workplace_features.fixed_number,
-                    reception_feature:
-                      values.workplace_features.reception_feature,
-                  },
-                },
-              });
-              secondFormDoneToThirdForm();
-              window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-              });
-            }
-          })
-          .catch((err) => console.log(err));
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    validationSchema,
-  });
-
-  const [visible, setVisible] = useState(false);
-
-  const toggleText = () => {
-    setVisible((prev) => !prev);
-  };
 
   return (
     <div className=" flex flex-col  items-center justify-center   ">
@@ -411,7 +203,6 @@ export default function SecondForm({
         <RightArrowBack />
         اطلاعات فروشگاه
       </div>
-
       <div className="w-[80%]  mt-1  mb-3 relative group  ">
         <input
           name="name"
@@ -426,7 +217,7 @@ export default function SecondForm({
         />
         <label
           className={
-            " absolute top-4 right-4  pointer-events-none text-sm group-focus-within:text-xs" +
+            " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
             " " +
             `${formik.values.name.length > 0 ? "text-xs" : ""}`
           }
@@ -580,7 +371,6 @@ export default function SecondForm({
           >
             <PlusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
           </button>
-
           <div className={"  group relative flex-grow  " + styles.formNumInput}>
             <input
               name="number_of_staff"
@@ -1160,9 +950,11 @@ export default function SecondForm({
           </button>
           <button
             onClick={formik.handleSubmit}
-            className={"group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] "+
-            " " +
-            `${loadingButton ? "pointer-events-none" : " "}`}
+            className={
+              "group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] " +
+              " " +
+              `${loadingButton ? "pointer-events-none" : " "}`
+            }
           >
             مرحله بعد
             <div className="transition ease-in-out duration-500  group-hover:scale-110  brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">

@@ -10,7 +10,7 @@ import StoreInfo from "./StoreInfo";
 import DocumentsInfo from "./DocumentsInfo";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ButtonCoverLoader from "./ButtonCoverLoader";
+import ButtonCoverLoader from "../ButtonCoverLoader";
 function processDone(massage) {
   toast.success(massage, {
     position: "top-center",
@@ -39,7 +39,7 @@ const validationSchema = yup.object({
   subject: yup.string().trim().required("نام را وارد کنید"),
 });
 
-export default function LastForm({
+export default function ConfirmAndSend({
   formik,
   mainData,
   setMainData,
@@ -142,3 +142,5 @@ export default function LastForm({
     </>
   );
 }
+
+

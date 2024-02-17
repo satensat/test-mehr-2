@@ -97,41 +97,18 @@ const validationSchema = yup.object({
         .string()
         .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه را صحیح وارد کنید.")
     ),
-  work_experience: yup.string(),
-  // skill_records: yup.array().of(yup.object().shape({
-  //   skill: yup.string(),
-  // })),
-  // courses: yup.array().of(
-  //   yup.object().shape({
-  //     name: yup.string(),
-  //     institution_name: yup.string(),
-  //     start_date: yup.string(),
-  //     end_date: yup.string(),
-  //     description: yup.string(),
-  //   })
-  // ),
 });
 
 export default function RepresentativeInformation({
+  formik,
   setActiveTab,
   mainData,
   setMainData,
   firstFormDoneToSecondForm,
+  loadingButton,
+  setLoadingButton,
 }) {
-  ////----------------------course list items sending to RecordsCourses component then course component
-  const [courseList, setCurseList] = useState([]);
 
-  ////----------------------work-experience list items sending to RecordsCourses component then work-experience component
-
-  const [workExperienceList, setWorkExperienceList] = useState([]);
-
-  ////----------------------skill list items sending to RecordsCourses component then skill component
-
-  const [skillRecords, setSkillRecords] = useState([]);
-
-  ////----------------------loading state for send data button to go next step
-
-  const [loadingButton, setLoadingButton] = useState(false);
 
   const handleDateConvert = (dateInput) => {
     //"26-02-2012" format to timestamp
@@ -145,131 +122,8 @@ export default function RepresentativeInformation({
     return test;
   };
 
-  useEffect(() => {
-    if (mainData.experiences instanceof Array) {
-      console.log("experienc");
-      setWorkExperienceList(mainData.experiences);
-    }
-    if (mainData.courses instanceof Array) {
-      setCurseList(mainData.courses);
-      console.log("2");
-    }
-    if (mainData.skill_records instanceof Array) {
-      console.log("3");
-      setSkillRecords(mainData.skill_records);
-    }
-  }, [mainData]);
 
-  const formik = useFormik({
-    initialValues: {
-      firstName: mainData.first_name ? mainData.first_name : "",
-      lastName: mainData.last_name ? mainData.last_name : "",
-      degree: mainData.degree ? mainData.degree : "",
-      nationalId: mainData.national_id ? mainData.national_id : "",
-      fieldEDU: mainData.fieldEDU ? mainData.fieldEDU : "",
-      birth_day: mainData.birth_day ? mainData.birth_day : "",
-      fixed_number: mainData.fixed_number ? mainData.fixed_number : "",
-      fixed_numbers: mainData.fixed_numbers ? mainData.fixed_numbers : [],
-      phone_number: mainData?.phone_number ? mainData?.phone_number : "",
-      // applicator:mainData?.varificationForm.phone_number ? mainData?.varificationForm.phone_number : "",
-      phone_numbers: mainData.phone_numbers ? mainData.phone_numbers : [],
-      // work_experience: "",
-      // courses: [],
-      // skill_records:[]
-    },
-    onSubmit: (values) => {
-      setLoadingButton(true);
-      firstFormDoneToSecondForm();
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
-      setMainData({
-        ...mainData,
-        first_name: values.firstName,
-        last_name: values.lastName,
-        national_id: values.nationalId,
-        fixed_number: values.fixed_number,
-        phone_numbers: values.phone_numbers,
-        fixed_numbers: values.fixed_numbers,
-        fieldEDU: values.fieldEDU,
-        birth_day: values.birth_day,
-        degree: values.degree,
-        experiences: workExperienceList,
-        courses: courseList,
-        skill_records: skillRecords,
-      });
-      // try {
-      //   const res = fetch(
-      //     `http://192.168.10.195:8090/v1/api/after/sale/applicators/`,
-      //     {
-      //       method: "POST",
-      //       body: JSON.stringify({
-      //         phone_number: values.phone_number,
-      //         code: mainData?.code,
-      //         first_name: values.firstName,
-      //         last_name: values.lastName,
-      //         national_id: values.nationalId,
-      //         fixed_number: values.fixed_number,
-      //         phone_numbers: values.phone_numbers,
-      //         fixed_numbers: values.fixed_numbers,
-      //         birth_day: values.birth_day,
-      //         degree: values.degree,
-      //         experiences: workExperienceList,
-      //         courses: courseList,
-      //         skill_records: skillRecords,
-      //       }),
-      //       headers: {
-      //         "content-type": "application/json",
-      //       },
-      //     }
-      //   )
-      //     .then((response) =>
-      //       response
-      //         .json()
-      //         .then((data) => ({ status: response.status, body: data }))
-      //     )
-      //     .then((detail) => {
-      //       console.log(detail);
-      //       if (detail.status == "400") {
-      //         // setToast(true);
-      //         const featureEntries = Object.entries(detail.body);
-      //         {
-      //           featureEntries.map((item) => setMessage(item[1]));
-      //         }
-      //       }
-      //       if (detail.status == "200" || detail.status == "201") {
-      //         setMainData({
-      //           ...mainData,
-      //           first_name: values.firstName,
-      //           last_name: values.lastName,
-      //           national_id: values.nationalId,
-      //           fixed_number: values.fixed_number,
-      //           phone_numbers: values.phone_numbers,
-      //           fixed_numbers: values.fixed_numbers,
-      //           birth_day: values.birth_day,
-      //           degree: values.degree,
-      //           experiences: workExperienceList,
-      //           courses: courseList,
-      //           skill_records: skillRecords,
-      //         });
-      //         processDone("اطلاعات با موفقیت ثبت شد.");
-      //         firstFormDoneToSecondForm();
-      //         window.scrollTo({
-      //           top: 0,
-      //           left: 0,
-      //           behavior: "smooth",
-      //         });
-      //       }
-      //     })
-      //     .catch((err) => console.log(err));
-      // } catch (error) {
-      //   console.log(error);
-      // }
-    },
-    validationSchema,
-  });
+
 
   const handleAddItemFixedPhone = () => {
     if (formik.values.fixed_numbers.length < 2) {
@@ -317,7 +171,7 @@ export default function RepresentativeInformation({
         </button>
         اطلاعات نماینده (صاحب امضا)
       </div>
-      <div className="w-[80%]  mt-1   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 flex flex-col  items-center  ">
+      <div className="w-[80%]  mt-1   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 pt-2 flex flex-col  items-center  ">
         <div className="font-normal text-sm leading-6 text-[#242424] py-1 w-full ">
           مشخصات صاحب امضا:
         </div>
@@ -337,7 +191,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4  pointer-events-none text-sm group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
               " " +
               `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
             }
@@ -375,7 +229,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm  pointer-events-none  group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
               " " +
               `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
             }
@@ -413,7 +267,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
               `${formik.values.nationalId.length > 0 ? "text-xs" : ""}`
             }
@@ -465,7 +319,7 @@ export default function RepresentativeInformation({
             />
             <label
               className={
-                " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px]   group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
+                " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px]   group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                 " " +
                 `${formik.values.birth_day.length > 0 ? "text-xs" : ""}`
               }
@@ -508,7 +362,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
               `${formik.values.fixed_number.length > 0 ? "text-xs" : ""}`
             }
@@ -598,7 +452,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
               `${formik.values.phone_number.length > 0 ? "text-xs" : ""}`
             }
@@ -673,7 +527,7 @@ export default function RepresentativeInformation({
           محدود تا سه شماره تلفن همراه
         </div>
       </div>
-      <div className="w-[80%]  mt-3   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 flex flex-col  items-center  ">
+      <div className="w-[80%]  mt-3   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 pt-2 flex flex-col  items-center  ">
         <div className="font-normal text-sm leading-6 text-[#242424] py-1 w-full ">
           مشخصات مدیر فروش:
         </div>
@@ -693,7 +547,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4  pointer-events-none text-sm group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl   pointer-events-none  text-sm group-focus-within:text-xs" +
               " " +
               `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
             }
@@ -731,7 +585,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm  pointer-events-none  group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
               " " +
               `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
             }
@@ -769,7 +623,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
               `${formik.values.nationalId.length > 0 ? "text-xs" : ""}`
             }
@@ -807,7 +661,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
               `${formik.values.phone_number.length > 0 ? "text-xs" : ""}`
             }
@@ -830,7 +684,7 @@ export default function RepresentativeInformation({
           </div>
         </div>
       </div>
-      <div className="w-[80%]  mt-3   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 flex flex-col  items-center  ">
+      <div className="w-[80%]  mt-3   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 pt-2 flex flex-col  items-center  ">
         <div className="font-normal text-sm leading-6 text-[#242424] py-1 w-full ">
           مشخصات مسئول خرید:
         </div>
@@ -850,7 +704,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4  pointer-events-none text-sm group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
               " " +
               `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
             }
@@ -888,7 +742,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm  pointer-events-none  group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
               " " +
               `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
             }
@@ -926,7 +780,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
               `${formik.values.nationalId.length > 0 ? "text-xs" : ""}`
             }
@@ -964,7 +818,7 @@ export default function RepresentativeInformation({
           />
           <label
             className={
-              " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs" +
+              " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
               `${formik.values.phone_number.length > 0 ? "text-xs" : ""}`
             }

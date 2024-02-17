@@ -10,6 +10,10 @@ import LastForm from "./LastForm";
 import EmpthyTick from "@/icon2/EmpthyTick";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FirstFormWrapper from "./FirstFormWrapper";
+import VerificationFormWrapper from "./VerificationFormWrapper";
+import SecondFormWrapper from "./SecondFormWrapper";
+import ThirdFormWrapper from "./ThirdFormWrapper";
 
 export default function ProgressBar() {
   const [mainData, setMainData] = useState({});
@@ -190,6 +194,7 @@ export default function ProgressBar() {
         </div>
       </div>
       {/* {activeTab === "verification" && (
+        <div className="w-full">
         <div
           className={
             "  ease-in-out duration-300    transition-all   " +
@@ -203,12 +208,13 @@ export default function ProgressBar() {
         >
           <VerificationForm />
         </div>
+        </div>
       )} */}
-      {/* 
-      {activeTab === "first" && (
+      {/* {activeTab === "first" && (
+        <div className="w-full">
         <div
           className={
-            "  ease-in-out duration-300    transition-all   " +
+            "  ease-in-out duration-300    transition-all delay-200   " +
             " " +
             `${
               activeTab === "first"
@@ -217,9 +223,14 @@ export default function ProgressBar() {
             }`
           }
         >
-          <FirstForm />
+          <FirstForm           mainData={mainData}
+          firstFormDoneToSecondForm={firstFormDoneToSecondForm}
+          setMainData={setMainData}
+          setActiveTab={setActiveTab} />
         </div>
-      )}
+        </div>
+      )} */}
+      {/* 
       {activeTab === "second" && (
         <div
           className={
@@ -266,45 +277,51 @@ export default function ProgressBar() {
         </div>
       )} */}
 
-      {activeTab === "verification" && (
-        <VerificationForm
+    
+        <VerificationFormWrapper
+        activeTab={activeTab}
           verificationToFirstFormDone={verificationToFirstFormDone}
           mainData={mainData}
           setMainData={setMainData}
         />
-      )}
-      {activeTab === "first" && (
-        <FirstForm
+
+
+        <FirstFormWrapper
+        activeTab={activeTab}
           mainData={mainData}
           firstFormDoneToSecondForm={firstFormDoneToSecondForm}
           setMainData={setMainData}
           setActiveTab={setActiveTab}
         />
-      )}
-      {activeTab === "second" && (
-        <SecondForm
+
+
+        
+        <SecondFormWrapper
+        activeTab={activeTab}
           secondFormDoneToThirdForm={secondFormDoneToThirdForm}
           mainData={mainData}
           setMainData={setMainData}
           setActiveTab={setActiveTab}
         />
-      )}
-      {activeTab === "third" && (
-        <ThirdForm
+
+
+        <ThirdFormWrapper
+        activeTab={activeTab}
           thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
           mainData={mainData}
           setMainData={setMainData}
           setActiveTab={setActiveTab}
         />
-      )}
-      {activeTab === "last" && (
+
+
         <LastForm
+        activeTab={activeTab}
           setActiveTab={setActiveTab}
           doneLastForm={doneLastForm}
           mainData={mainData}
           setMainData={setMainData}
         />
-      )}
+
     </div>
   );
 }

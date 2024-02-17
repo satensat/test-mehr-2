@@ -1,9 +1,11 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./progress.module.css";
-import EmpthyTick from "@/icon2/EmpthyTick";
-import VerificationForm from "./verification/VerificationForm";
-import RepresentativeInformation from "./Representative-information/RepresentativeInformation";
+import RepresentativeInformationWrapper from "./Representative-information/RepresentativeInformationWrapper";
+import StoreInfoFormWrapper from "./store-info-form/StoreInfoFormWrapper";
+import VerificationFormWrpper from "./verification/VerificationFormWrapper";
+import UploadDocumentsFormWrapper from "./upload-documents/UploadDocumentsFormWrapper";
+import ConfirmAndSend from "./confirm-send/ConfirmAndSend";
 
 export default function ProgressBarAndform() {
   const [mainData, setMainData] = useState({});
@@ -259,40 +261,40 @@ export default function ProgressBarAndform() {
         </div>
       )} */}
 
-      {activeTab === "verification" && (
-        <VerificationForm
-          verificationToFirstFormDone={verificationToFirstFormDone}
-          mainData={mainData}
-          setMainData={setMainData}
-        />
+      <VerificationFormWrpper
+        activeTab={activeTab}
+        verificationToFirstFormDone={verificationToFirstFormDone}
+        mainData={mainData}
+        setMainData={setMainData}
+      />
+
+      <RepresentativeInformationWrapper
+        mainData={mainData}
+        activeTab={activeTab}
+        firstFormDoneToSecondForm={firstFormDoneToSecondForm}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
+
+      <StoreInfoFormWrapper
+        activeTab={activeTab}
+        secondFormDoneToThirdForm={secondFormDoneToThirdForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
+
+      <UploadDocumentsFormWrapper
+        activeTab={activeTab}
+        thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
+
+      {activeTab === "last" && (
+        <ConfirmAndSend activeTab={activeTab} setActiveTab={setActiveTab} doneLastForm={doneLastForm} />
       )}
-      {activeTab === "first" && (
-        <RepresentativeInformation
-          mainData={mainData}
-          firstFormDoneToSecondForm={firstFormDoneToSecondForm}
-          setMainData={setMainData}
-          setActiveTab={setActiveTab}
-        />
-      )}
-      {/* {activeTab === "second" && (
-        <SecondForm
-          secondFormDoneToThirdForm={secondFormDoneToThirdForm}
-          mainData={mainData}
-          setMainData={setMainData}
-          setActiveTab={setActiveTab}
-        />
-      )} */}
-      {/* {activeTab === "third" && (
-        <ThirdForm
-          thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
-          mainData={mainData}
-          setMainData={setMainData}
-          setActiveTab={setActiveTab}
-        />
-      )} */}
-      {/* {activeTab === "last" && (
-        <LastForm setActiveTab={setActiveTab} doneLastForm={doneLastForm} />
-      )} */}
     </div>
   );
 }

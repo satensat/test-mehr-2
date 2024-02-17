@@ -28,56 +28,56 @@ export default function StoreInfo({ mainData }) {
   const [provinceList, setProvinceList] = useState([]);
   const [cityName, setCityName] = useState({});
   const [cityList, setCityList] = useState([]);
-  useEffect(() => {
-    // http://192.168.10.195:8090/v1/api/province/
-    async function fetchProvinceListitems() {
-      try {
-        const myDataQ = await fetch(
-          `http://192.168.10.195:8090/v1/api/province/`
-        );
-        // console.log(myDataQ);
-        if (myDataQ.status == 200) {
-          const test = await myDataQ.json();
-          setProvinceList(test);
-          // console.log(test);
-          const findProvinces = test.filter(
-            (province) => province.id === +mainData.province
-          );
-          setProvinceName(findProvinces);
-        }
-        // return  { detail : await myDataQ.json() , status :   myDataQ.status };
-      } catch {
-        return "";
-      }
-    }
+  // useEffect(() => {
+  //   // http://192.168.10.195:8090/v1/api/province/
+  //   async function fetchProvinceListitems() {
+  //     try {
+  //       const myDataQ = await fetch(
+  //         `http://192.168.10.195:8090/v1/api/province/`
+  //       );
+  //       // console.log(myDataQ);
+  //       if (myDataQ.status == 200) {
+  //         const test = await myDataQ.json();
+  //         setProvinceList(test);
+  //         // console.log(test);
+  //         const findProvinces = test.filter(
+  //           (province) => province.id === +mainData.province
+  //         );
+  //         setProvinceName(findProvinces);
+  //       }
+  //       // return  { detail : await myDataQ.json() , status :   myDataQ.status };
+  //     } catch {
+  //       return "";
+  //     }
+  //   }
 
-    fetchProvinceListitems();
+  //   fetchProvinceListitems();
 
-    async function fetchCityListitemsDependsProvince(provinceID) {
-      // console.log(provinceID);
-      try {
-        const myDataQ = await fetch(
-          `http://192.168.10.195:8090/v1/api/province/cities/${provinceID}/`
-        );
-        // console.log(myDataQ);
+  //   async function fetchCityListitemsDependsProvince(provinceID) {
+  //     // console.log(provinceID);
+  //     try {
+  //       const myDataQ = await fetch(
+  //         `http://192.168.10.195:8090/v1/api/province/cities/${provinceID}/`
+  //       );
+  //       // console.log(myDataQ);
 
-        if (myDataQ.status == 200) {
-          const test = await myDataQ.json();
-          setCityList(test);
-          // console.log(test);
-          // mainData.city
-          const findCity = test.filter((city) => city.id === +mainData.city);
-          setCityName(findCity[0]);
-          // console.log(findCity[0])
-        }
-        // return  { detail : await myDataQ.json() , status :   myDataQ.status };
-      } catch {
-        return "";
-      }
-    }
-    // fetchCityListitemsDependsProvince("1");
-    fetchCityListitemsDependsProvince(mainData.province);
-  }, [mainData]);
+  //       if (myDataQ.status == 200) {
+  //         const test = await myDataQ.json();
+  //         setCityList(test);
+  //         // console.log(test);
+  //         // mainData.city
+  //         const findCity = test.filter((city) => city.id === +mainData.city);
+  //         setCityName(findCity[0]);
+  //         // console.log(findCity[0])
+  //       }
+  //       // return  { detail : await myDataQ.json() , status :   myDataQ.status };
+  //     } catch {
+  //       return "";
+  //     }
+  //   }
+  //   // fetchCityListitemsDependsProvince("1");
+  //   fetchCityListitemsDependsProvince(mainData.province);
+  // }, [mainData]);
 
   return (
     <div className="flex flex-col gap-2 ">

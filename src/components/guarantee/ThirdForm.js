@@ -56,7 +56,7 @@ const MAX_FILE_SIZE = 4194304;
 
 ///------------------------------------------------data name
 //first tax_statement
-//second  informathic_certificate	
+//second  informathic_certificate
 //last   workplape_images
 ///------------------------------------------------
 
@@ -155,27 +155,35 @@ const validationSchema = yup
               return true;
             }
           )
-          .test("fileSize", "حجم فایل نباید بیشتر از 4 مگابایت باشد", (value) => {
-            if (value) {
-              return value.size <= MAX_FILE_SIZE;
+          .test(
+            "fileSize",
+            "حجم فایل نباید بیشتر از 4 مگابایت باشد",
+            (value) => {
+              if (value) {
+                return value.size <= MAX_FILE_SIZE;
+              }
+              return true;
             }
-            return true;
-          })
-      ).required("تصاویر محل کار الزامی است."),
+          )
+      )
+      .required("تصاویر محل کار الزامی است."),
   })
   .required("First array is required");
 
-export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthForm}) {
-
-
-    ////----------------------loading state for send data button to go next step
-
-    const [loadingButton, setLoadingButton] = useState(false);
-
-
+export default function ThirdForm({
+  formik,
+  mainData,
+  setMainData,
+  thirdFormDoneToFourthForm,
+  loadingButton,
+  setLoadingButton,
+  setActiveTab,
+}) {
   const openFilePickerFirst = () => {
     document.getElementById("fileInputFirst").click();
   };
+
+
 
   const openFilePickerSecond = () => {
     document.getElementById("fileInputSecond").click();
@@ -210,84 +218,6 @@ export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthFor
     formik.setFieldValue("last", filtered);
   };
 
-  const formik = useFormik({
-    initialValues: {
-      applicator:mainData?.phone_number ? mainData?.phone_number:"",
-      shop_id:mainData?.shop_id ? mainData?.shop_id:"",
-      first: mainData?.documents?.tax_statement instanceof Array ? mainData?.documents?.tax_statement:[],
-      second: mainData?.documents?.informathic_certificate instanceof Array ? mainData?.documents?.informathic_certificate:[],
-      last: mainData?.workplace_images instanceof Array ? mainData?.workplace_images:[],
-    },
-    validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-      setMainData({
-        ...mainData,
-        documents:{
-          tax_statement:values.first,
-          informathic_certificate:values.second,
-        },
-        workplace_images:values.last
-      })
-      console.log(mainData)
-      const formData = new FormData();
-
-      formData.append("applicator", values.applicator);
-      formData.append("shop_id", values.shop_id);
-      formData.append("tax_statement", values.first[0]);
-      formData.append("informathic_certificate", values.second[0]);
-
-      for (let i = 0; i < values.last.length; i++) {
-        // console.log(values.last[i]);
-        formData.append("workplace_images", values.last[i]);
-      }
-      console.log(formData)
-      thirdFormDoneToFourthForm();
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      })
-      // try {
-      //   const res = fetch(`http://192.168.10.195:8090/v1/api/after/sale/upload/documents/`, {
-      //     method: "POST",
-      //     body: formData,
-      //     headers: {
-      //       "content-type": "multipart/form-data",
-      //     },
-      //   })
-      //     .then((response) =>
-      //       response
-      //         .json()
-      //         .then((data) => ({ status: response.status, body: data }))
-      //     )
-      //     .then((detail) => {
-      //       console.log(detail.status);
-      //       if (detail.status == "400") {
-      //         setToast(true);
-      //         const featureEntries = Object.entries(detail.body);
-      //         {
-      //           featureEntries.map((item) => setMessage(item[1]));
-      //         }
-      //       }
-      //       if (detail.status == "201") {
-      //         setMessage(
-      //           "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
-      //         );
-      //         setSubmitted(true);
-      //       }
-      // window.scrollTo({
-      //   top: 0,
-      //   left: 0,
-      //   behavior: "smooth",
-      // })
-      //     })
-      //     .catch((err) => console.log(err));
-      // } catch (error) {
-      //   console.log(error);
-      // }
-    },
-  });
   return (
     <div className=" flex flex-col  items-center justify-center   ">
       <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-start gap-[10px] ">
@@ -373,14 +303,13 @@ export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthFor
                   {formik.errors.first}
                 </div>
               </div>
-
               {formik.values.first.map((item, index) => (
                 <div
                   key={index}
                   className="bg-[#FDFDFD] flex flex-row p-3  rounded-xl items-center w-full "
                 >
                   <div className="text-[#242424] leading-5 text-xs flex-grow">
-                  {item.name.substring(0,24)+"..."}
+                    {item.name.substring(0, 24) + "..."}
                   </div>
                   <button
                     onClick={() => handleFileDeleteFromListFirst(item, index)}
@@ -456,7 +385,6 @@ export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthFor
                     فایل را آپلود کنید.
                   </div>
                 </div>
-
                 <div
                   className={
                     "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 font-costumFaNum " +
@@ -472,14 +400,13 @@ export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthFor
                   {formik.errors.second}
                 </div>
               </div>
-
               {formik.values.second.map((item, index) => (
                 <div
                   key={index}
                   className="bg-[#FDFDFD] flex flex-row p-3  rounded-xl items-center w-full "
                 >
                   <div className="text-[#242424] leading-5 text-xs flex-grow">
-                  {item.name.substring(0,24)+"..."}
+                    {item.name.substring(0, 24) + "..."}
                   </div>
                   <button
                     onClick={() => handleFileDeleteFromListSecond(item, index)}
@@ -498,7 +425,6 @@ export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthFor
               ))}
             </div>
           </div>
-
           <div
             className={
               "bg-[#F7F7F7] rounded-xl   pt-4 px-3 " +
@@ -558,7 +484,6 @@ export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthFor
                     فایل را آپلود کنید.
                   </div>
                 </div>
-
                 <div
                   className={
                     "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 font-costumFaNum  " +
@@ -581,7 +506,7 @@ export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthFor
                   className="bg-[#FDFDFD] flex flex-row p-3  rounded-xl items-center w-full "
                 >
                   <div className="text-[#242424] leading-5 text-xs flex-grow">
-                    {item.name.substring(0,24)+"..."}
+                    {item.name.substring(0, 24) + "..."}
                   </div>
                   <button
                     onClick={() => handleFileDeleteFromListLast(item, index)}
@@ -609,9 +534,11 @@ export default function ThirdForm({mainData,setMainData,thirdFormDoneToFourthFor
           </button>
           <button
             onClick={formik.handleSubmit}
-            className={"group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] "+
-            " " +
-            `${loadingButton ? "pointer-events-none" : " "}`}
+            className={
+              "group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] " +
+              " " +
+              `${loadingButton ? "pointer-events-none" : " "}`
+            }
           >
             مرحله بعد
             <div className="transition ease-in-out duration-500  group-hover:scale-110  brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
