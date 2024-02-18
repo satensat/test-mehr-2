@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import * as yup from "yup";
+
 import ArrowDownIcon from "@/icon/arrow-down";
 import { DatePicker } from "zaman";
 import styles from "../form.module.css";
@@ -37,67 +36,6 @@ function processFail(massage) {
     progress: undefined,
   });
 }
-const validationSchema = yup.object({
-  firstName: yup
-    .string()
-    .max(225, "نام را وارد کنید.")
-    .required("نام را وارد کنید."),
-  lastName: yup
-    .string()
-    .max(225, "نام خانوادگی  نباید بیشتر از 225 کاراکتر باشد.")
-    .required("نام خانوادگی را وارد کنید."),
-  nationalId: yup
-    .string()
-    .min(10, "کد ملی نباید کمتر از ۱۰ عدد داشته باشد.")
-    .max(10, "کد ملی نباید بیشتر از ۱۰ عدد داشته باشد.")
-    .trim()
-    .matches(/^[0-9]+$/, "کد ملی باید فقط شامل اعداد باشد.")
-    .required("کد ملی را وارد کنید."),
-  degree: yup
-    .string()
-    .max(225, "تحصیلات نباید بیشتر از 225 کاراکتر باشد.")
-    .required("تحصیلات را وارد کنید."),
-  fieldEDU: yup.string().required("رشته را وارد کنید."),
-  birth_day: yup.string().trim().required(" تاریخ تولد را وارد کنید."),
-  // phoneNumbers: yup
-  // .array()
-  // .length(1, 'You must provide exactly one phone number')
-  // .of(
-  //   yup
-  //     .string()
-  //     .matches(/^\d{10}$/, 'Phone number must be a valid 10-digit number') ,
-  //   email: yup.string().email("ایمیل نامعتبر است").required("ایمیل را وارد کنید"),
-  fixed_number: yup
-    .string()
-    // .matches(/^\d{10}$/, "شماره ثابت را به درستی وارد کنید")
-    .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-    .min(11, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-    .max(12, "شماره تلفن ثابت نباید بیشتر از 12 تا شماره داشته باشد.")
-    .required("  شماره ثابت را وارد کنید."),
-  fixed_numbers: yup
-    .array()
-    // .length(1, "حداقل یک شماره ثابت الزامی است.")
-    .of(
-      yup
-        .string()
-        // .matches(/^\d{10}$/, "شماره ثابت را به درستی وارد کنید")
-        .matches(/^[0-9]+$/, "شماره تلفن ثابت باید شامل اعداد باشد.")
-        .min(11, "شماره تلفن ثابت نباید کمتر از 11 تا شماره داشته باشد.")
-        .max(12, "شماره تلفن ثابت نباید بیشتر از 12 تا شماره داشته باشد.")
-      // .required("  شماره ثابت را وارد کنید.")
-    ),
-  phone_number: yup
-    .string()
-    .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه را صحیح وارد کنید.")
-    .required("  شماره همراه را وارد کنید."),
-  phone_numbers: yup
-    .array()
-    .of(
-      yup
-        .string()
-        .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه را صحیح وارد کنید.")
-    ),
-});
 
 export default function RepresentativeInformation({
   formik,
@@ -108,8 +46,6 @@ export default function RepresentativeInformation({
   loadingButton,
   setLoadingButton,
 }) {
-
-
   const handleDateConvert = (dateInput) => {
     //"26-02-2012" format to timestamp
     const [y, m, d] = dateInput.split(/-|\//);
@@ -121,9 +57,6 @@ export default function RepresentativeInformation({
     ).getTime();
     return test;
   };
-
-
-
 
   const handleAddItemFixedPhone = () => {
     if (formik.values.fixed_numbers.length < 2) {
@@ -177,13 +110,13 @@ export default function RepresentativeInformation({
         </div>
         <div className="w-full mt-1  mb-3 relative group ">
           <input
-            name="firstName"
-            value={formik.values.firstName}
+            name="first_name"
+            value={formik.values.first_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.firstName.length > 0
+              (formik.values.first_name.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -193,7 +126,7 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
               " " +
-              `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
+              `${formik.values.first_name.length > 0 ? "text-xs" : ""}`
             }
           >
             نام
@@ -203,25 +136,25 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.firstName && formik.touched.firstName
+                formik.errors.first_name && formik.touched.first_name
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.firstName}
+            {formik.errors.first_name}
           </div>
         </div>
         <div className=" w-full group mt-1  mb-3 relative ">
           <input
-            name="lastName"
-            value={formik.values.lastName}
+            name="last_name"
+            value={formik.values.last_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.lastName.length > 0
+              (formik.values.last_name.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -231,7 +164,7 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
               " " +
-              `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
+              `${formik.values.last_name.length > 0 ? "text-xs" : ""}`
             }
           >
             نام خانوادگی
@@ -241,25 +174,25 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.lastName && formik.touched.lastName
+                formik.errors.last_name && formik.touched.last_name
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.lastName}
+            {formik.errors.last_name}
           </div>
         </div>
         <div className="group mt-1  mb-3 w-full   relative ">
           <input
-            name="nationalId"
-            value={formik.values.nationalId}
+            name="national_id"
+            value={formik.values.national_id}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.nationalId.length > 0
+              (formik.values.national_id.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -269,7 +202,7 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
-              `${formik.values.nationalId.length > 0 ? "text-xs" : ""}`
+              `${formik.values.national_id.length > 0 ? "text-xs" : ""}`
             }
           >
             کد ملی
@@ -279,14 +212,14 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.nationalId && formik.touched.nationalId
+                formik.errors.national_id && formik.touched.national_id
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.nationalId}
+            {formik.errors.national_id}
           </div>
         </div>
         <div className="mb-3 mt-1 w-full flex flex-col items-center">
@@ -533,13 +466,13 @@ export default function RepresentativeInformation({
         </div>
         <div className="w-full mt-1  mb-3 relative group ">
           <input
-            name="firstName"
-            value={formik.values.firstName}
+            name="sale_manager.first_name"
+            value={formik.values.sale_manager.first_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.firstName.length > 0
+              (formik.values.sale_manager.first_name.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -549,7 +482,11 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl   pointer-events-none  text-sm group-focus-within:text-xs" +
               " " +
-              `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
+              `${
+                formik.values.sale_manager?.first_name.length > 0
+                  ? "text-xs"
+                  : ""
+              }`
             }
           >
             نام
@@ -559,25 +496,26 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.firstName && formik.touched.firstName
+                formik.errors.sale_manager?.first_name &&
+                formik.touched.sale_manager?.first_name
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.firstName}
+            {formik.errors.sale_manager?.first_name}
           </div>
         </div>
         <div className=" w-full group mt-1  mb-3 relative ">
           <input
-            name="lastName"
-            value={formik.values.lastName}
+            name="sale_manager.last_name"
+            value={formik.values.last_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.lastName.length > 0
+              (formik.values.last_name.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -587,7 +525,9 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
               " " +
-              `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
+              `${
+                formik.values.sale_manager.last_name.length > 0 ? "text-xs" : ""
+              }`
             }
           >
             نام خانوادگی
@@ -597,25 +537,26 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.lastName && formik.touched.lastName
+                formik.errors.sale_manager?.last_name &&
+                formik.touched.sale_manager?.last_name
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.lastName}
+            {formik.errors.sale_manager?.last_name}
           </div>
         </div>
         <div className="group mt-1  mb-3 w-full   relative ">
           <input
-            name="nationalId"
-            value={formik.values.nationalId}
+            name="sale_manager.national_id"
+            value={formik.values.sale_manager.national_id}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.nationalId.length > 0
+              (formik.values.sale_manager.national_id.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -625,7 +566,11 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
-              `${formik.values.nationalId.length > 0 ? "text-xs" : ""}`
+              `${
+                formik.values.sale_manager?.national_id?.length > 0
+                  ? "text-xs"
+                  : ""
+              }`
             }
           >
             کد ملی
@@ -635,25 +580,26 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.nationalId && formik.touched.nationalId
+                formik.errors.sale_manager?.national_id &&
+                formik.touched.sale_manager?.national_id
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.nationalId}
+            {formik.errors.sale_manager?.national_id}
           </div>
         </div>
         <div className="group mt-1  mb-3 w-full   relative ">
           <input
-            value={formik.values.phone_number}
+            value={formik.values.sale_manager.phone_number}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
-            name={`phone_number`}
+            name={`sale_manager.phone_number`}
             className={
-              (formik.values.phone_number.length > 0
+              (formik.values.sale_manager.phone_number.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -663,7 +609,11 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
-              `${formik.values.phone_number.length > 0 ? "text-xs" : ""}`
+              `${
+                formik.values.sale_manager.phone_number.length > 0
+                  ? "text-xs"
+                  : ""
+              }`
             }
           >
             شماره تلفن همراه
@@ -673,14 +623,15 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.phone_number && formik.touched.phone_number
+                formik.errors.sale_manager?.phone_number &&
+                formik.touched.sale_manager?.phone_number
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.phone_number}
+            {formik.errors.sale_manager?.phone_number}
           </div>
         </div>
       </div>
@@ -690,13 +641,13 @@ export default function RepresentativeInformation({
         </div>
         <div className="w-full mt-1  mb-3 relative group ">
           <input
-            name="firstName"
-            value={formik.values.firstName}
+            name="buy_manager.first_name"
+            value={formik.values.buy_manager.first_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.firstName.length > 0
+              (formik.values.buy_manager.first_name.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -706,7 +657,9 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
               " " +
-              `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
+              `${
+                formik.values.buy_manager.first_name.length > 0 ? "text-xs" : ""
+              }`
             }
           >
             نام
@@ -716,25 +669,26 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.firstName && formik.touched.firstName
+                formik.errors.buy_manager?.first_name &&
+                formik.touched.buy_manager?.first_name
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.firstName}
+            {formik.errors.buy_manager?.first_name}
           </div>
         </div>
         <div className=" w-full group mt-1  mb-3 relative ">
           <input
-            name="lastName"
-            value={formik.values.lastName}
+            name="buy_manager.last_name"
+            value={formik.values.buy_manager.last_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.lastName.length > 0
+              (formik.values.buy_manager.last_name.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -744,7 +698,9 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
               " " +
-              `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
+              `${
+                formik.values.buy_manager.last_name.length > 0 ? "text-xs" : ""
+              }`
             }
           >
             نام خانوادگی
@@ -754,25 +710,26 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.lastName && formik.touched.lastName
+                formik.errors.buy_manager?.last_name &&
+                formik.touched.buy_manager?.last_name
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.lastName}
+            {formik.errors.buy_manager?.last_name}
           </div>
         </div>
         <div className="group mt-1  mb-3 w-full   relative ">
           <input
-            name="nationalId"
-            value={formik.values.nationalId}
+            name="buy_manager.national_id"
+            value={formik.values.buy_manager.national_id}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
             className={
-              (formik.values.nationalId.length > 0
+              (formik.values.buy_manager.national_id.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -782,7 +739,11 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
-              `${formik.values.nationalId.length > 0 ? "text-xs" : ""}`
+              `${
+                formik.values.buy_manager.national_id.length > 0
+                  ? "text-xs"
+                  : ""
+              }`
             }
           >
             کد ملی
@@ -792,25 +753,26 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.nationalId && formik.touched.nationalId
+                formik.errors.buy_manager?.national_id &&
+                formik.touched.buy_manager?.national_id
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.nationalId}
+            {formik.errors.buy_manager?.national_id}
           </div>
         </div>
         <div className="group mt-1  mb-3 w-full   relative ">
           <input
-            value={formik.values.phone_number}
+            value={formik.values.buy_manager.phone_number}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             type="text"
-            name={`phone_number`}
+            name={`buy_manager.phone_number`}
             className={
-              (formik.values.phone_number.length > 0
+              (formik.values.buy_manager.phone_number.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -820,7 +782,11 @@ export default function RepresentativeInformation({
             className={
               " absolute top-4 right-4  rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
               " " +
-              `${formik.values.phone_number.length > 0 ? "text-xs" : ""}`
+              `${
+                formik.values.buy_manager.phone_number.length > 0
+                  ? "text-xs"
+                  : ""
+              }`
             }
           >
             شماره تلفن همراه
@@ -830,14 +796,15 @@ export default function RepresentativeInformation({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.phone_number && formik.touched.phone_number
+                formik.errors.buy_manager?.phone_number &&
+                formik.touched.buy_manager?.phone_number
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.phone_number}
+            {formik.errors.buy_manager?.phone_number}
           </div>
         </div>
       </div>

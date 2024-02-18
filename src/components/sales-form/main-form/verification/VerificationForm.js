@@ -63,7 +63,6 @@ export default function VerificationForm({
       {/* <ToastBox type={message.type} statusval={toast} setToast={setToast}>
         {message.content}
       </ToastBox> */}
-
       <div className=" flex flex-col pb-3 ">
         <div className="py-3 leading-6 font-bold text-base ">احراز هویت</div>
         <div className="text-[#525252] leading-6 text-sm font-normal pb-3 ">
@@ -124,7 +123,6 @@ export default function VerificationForm({
                 دریافت کد تایید
               </button>
             </div>
-
             <div
               className={
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +

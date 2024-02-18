@@ -81,7 +81,6 @@ export default function FirstFormInformation({ mainData }) {
           </div>
         );
       })}
-
       <div className="flex flex-col gap-2 p-3 bg-[#FDFDFD] rounded-2xl ">
         <div className="text-[#242424] text-sm leading-4">سوابق مهارتی:</div>
         {mainData?.skill_records?.map((item) => {
@@ -95,7 +94,6 @@ export default function FirstFormInformation({ mainData }) {
           );
         })}
       </div>
-
       <div className="flex flex-col gap-2 p-3 bg-[#FDFDFD] rounded-2xl ">
         <div className="text-[#242424] text-sm leading-4">سابقه کاری :</div>
         {mainData?.experiences?.map((item, index) => {
@@ -113,7 +111,6 @@ export default function FirstFormInformation({ mainData }) {
                   {item.title}
                 </div>
               </div>
-
               <div className="bg-[#F7F7F7] rounded-xl flex flex-col px-3 py-1 text-[#242424] text-xs leading-5 w-full">
                 <div className="text-[#808080] text-[10px] leading-4">
                   تاریخ شروع
@@ -137,10 +134,8 @@ export default function FirstFormInformation({ mainData }) {
           );
         })}
       </div>
-
       <div className="flex flex-col gap-2 p-3 bg-[#FDFDFD] rounded-2xl ">
         <div className="text-[#242424] text-sm leading-4">دوره آموزشی:</div>
-
         {mainData?.courses?.map((item, index) => {
           return (
             <div

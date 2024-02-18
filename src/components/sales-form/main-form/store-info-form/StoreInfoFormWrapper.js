@@ -31,7 +31,7 @@ function processFail(massage) {
 }
 
 const validationSchema = yup.object({
-  name: yup.string().required("نام فروشگاه را وارد نمایید."),
+  brand_name: yup.string().required("نام فروشگاه را وارد نمایید."),
   province: yup.string().required(" استان را وارد نمایید."),
   // province: yup.object().shape({
   //   id: yup.string().required("استان را انتخاب نمایید."),
@@ -43,10 +43,6 @@ const validationSchema = yup.object({
   // }),
   city: yup.string().required("شهر را وارد نمایید."),
   is_owner: yup.boolean().required("وضعیت ملک را وارد انتخاب کنید."),
-  area: yup
-    .number()
-    .typeError("لطفا عدد وارد کنید.")
-    .required("  متراژ ملک را وارد نمایید."),
   business_type: yup
     .object()
     .shape({
@@ -64,19 +60,50 @@ const validationSchema = yup.object({
         obj.is_technical ||
         obj.is_service
     ),
+  business_code: yup.string().min(20, "شماره جواز کسب نباید کمتر از 20 عدد داشته باشد.").required("شماره جواز کسب را وارد نمایید."),
   number_of_staff: yup
     .number()
     .required("تعداد افراد شاغل را وارد نمایید.")
     .positive("تعداد افراد شاغل باید مثبت باشد."),
+  number_of_branches: yup
+    .number()
+    .required("تعداد افراد شاغل را وارد نمایید.")
+    .positive("تعداد افراد شاغل باید مثبت باشد."),
   address: yup.string().required("آدرس کامل فروشگاه را وارد نمایید."),
-  reception_status: yup.string(),
-  repair_features: yup.string().required("تجهیزات تست و تعمیر را وارد نمایید."),
-  workplace_features: yup.object().shape({
-    sofa: yup.boolean(),
-    network: yup.boolean(),
-    fixed_number: yup.boolean(),
-    reception_feature: yup.boolean(),
-  }),
+  postal_code: yup
+    .string()
+    .matches(/^\d{10}$/, "کد پستی باید دقیقاً 10 رقم باشد")
+    .matches(
+      /\b(?!(\d)\1{3})[13-9]{4}[1346-9][013-9]{5}\b/,
+      "کد پستی باید به فرمت صحیح وارد شود."
+    )
+    .required("کد پستی را وارد نمایید."),
+  website: yup.string().url("آدرس وبسایت نامعتبر است."),
+  fax_number: yup
+    .string()
+    .min(12, "فکس نباید کمتر از 12 عدد داشته باشد.")
+    .max(12, "فکس نباید بیشتر از 12 عدد داشته باشد.")
+    .matches(
+      /^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$/,
+      "شماره فکس نامعتبر است. "
+    ),
+  email: yup
+    .string()
+    .email("ایمیل نامعتبر است.")
+    .required("ایمیل را وارد کنید."),
+  activities: yup
+    .object()
+    .shape({
+      mobile: yup.boolean(),
+      tablet: yup.boolean(),
+      laptop: yup.boolean(),
+      accessories: yup.boolean(),
+    })
+    .test(
+      "at-least-one-true",
+      " نوع جواز کسب خود را انتخاب کنید.",
+      (obj) => obj.mobile || obj.tablet || obj.laptop || obj.accessories
+    ),
 });
 
 export default function StoreInfoFormWrapper({
@@ -105,11 +132,10 @@ export default function StoreInfoFormWrapper({
 
   const formik = useFormik({
     initialValues: {
-      name: mainData.name ? mainData.name : "",
+      brand_name: mainData.brand_name ? mainData.brand_name : "",
       province: mainData.province ? mainData.province : "",
       city: mainData.city ? mainData.city : "",
       is_owner: mainData.is_owner ? mainData.is_owner : "",
-      area: mainData.area ? mainData.area : "",
       business_type: {
         is_distribution: mainData.is_distribution
           ? mainData.is_distribution
@@ -120,19 +146,21 @@ export default function StoreInfoFormWrapper({
         is_technical: mainData.is_technical ? mainData.is_technical : false,
         is_service: mainData.is_service ? mainData.is_service : false,
       },
+      business_code: mainData.business_code ? mainData.business_code : "",
+      postal_code: mainData.postal_code ? mainData.postal_code : "",
+      website: mainData.website ? mainData.website : "",
+      email: mainData.email ? mainData.email : "",
+      fax_number: mainData.fax_number ? mainData.fax_number : "",
       number_of_staff: mainData.number_of_staff ? mainData.number_of_staff : 0,
+      number_of_branches: mainData.number_of_branches
+        ? mainData.number_of_branches
+        : 0,
       address: mainData.address ? mainData.address : "",
-      reception_status: mainData.reception_status
-        ? mainData.reception_status
-        : "",
-      repair_features: mainData.repair_features ? mainData.repair_features : "",
-      workplace_features: {
-        sofa: mainData.sofa ? mainData.sofa : false,
-        network: mainData.network ? mainData.network : false,
-        fixed_number: mainData.fixed_number ? mainData.fixed_number : false,
-        reception_feature: mainData.reception_feature
-          ? mainData.reception_feature
-          : false,
+      activities: {
+        mobile: mainData.mobile ? mainData.mobile : false,
+        tablet: mainData.tablet ? mainData.tablet : false,
+        laptop: mainData.laptop ? mainData.laptop : false,
+        accessories: mainData.accessories ? mainData.accessories : false,
       },
     },
     onSubmit: (values) => {

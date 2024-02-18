@@ -38,55 +38,9 @@ function processFail(massage) {
     progress: undefined,
   });
 }
-const validationSchema = yup.object({
-  name: yup.string().required("نام فروشگاه را وارد نمایید."),
-  province: yup.string().required(" استان را وارد نمایید."),
-  // province: yup.object().shape({
-  //   id: yup.string().required("استان را انتخاب نمایید."),
-  //   name: yup.string().required("استان را انتخاب نمایید."),
-  // }),
-  // city: yup.object().shape({
-  //   id: yup.string().required("شهر را وارد نمایید."),
-  //   name: yup.string().required("شهر را وارد نمایید."),
-  // }),
-  city: yup.string().required("شهر را وارد نمایید."),
-  is_owner: yup.boolean().required("وضعیت ملک را وارد انتخاب کنید."),
-  area: yup
-    .number()
-    .typeError("لطفا عدد وارد کنید.")
-    .required("  متراژ ملک را وارد نمایید."),
-  business_type: yup
-    .object()
-    .shape({
-      is_distribution: yup.boolean(),
-      is_manufacturing: yup.boolean(),
-      is_technical: yup.boolean(),
-      is_service: yup.boolean(),
-    })
-    .test(
-      "at-least-one-true",
-      " نوع جواز کسب خود را انتخاب کنید.",
-      (obj) =>
-        obj.is_distribution ||
-        obj.is_manufacturing ||
-        obj.is_technical ||
-        obj.is_service
-    ),
-  number_of_staff: yup
-    .number()
-    .required("تعداد افراد شاغل را وارد نمایید.")
-    .positive("تعداد افراد شاغل باید مثبت باشد."),
-  address: yup.string().required("آدرس کامل فروشگاه را وارد نمایید."),
-  reception_status: yup.string(),
-  repair_features: yup.string().required("تجهیزات تست و تعمیر را وارد نمایید."),
-  workplace_features: yup.object().shape({
-    sofa: yup.boolean(),
-    network: yup.boolean(),
-    fixed_number: yup.boolean(),
-    reception_feature: yup.boolean(),
-  }),
-});
+
 export default function StoreInfoForm({
+  formik,
   mainData,
   setMainData,
   secondFormDoneToThirdForm,
@@ -145,9 +99,7 @@ export default function StoreInfoForm({
     const filteredProvinces = provinceListItemsSource.filter((province) =>
       province.name.includes(event.target.value)
     );
-
     setFilteredProvinces(filteredProvinces);
-
     if (event.key === "Enter") {
       fetchCityListitemsDependsProvince(filteredProvinces[0].id);
       formik.setFieldValue("province", filteredProvinces[0].id);
@@ -237,166 +189,7 @@ export default function StoreInfoForm({
   // province: { id: "", name: "" },
   // city: { id: "", name: "" },
 
-  const formik = useFormik({
-    initialValues: {
-      name: mainData.name ? mainData.name : "",
-      province: mainData.province ? mainData.province : "",
-      city: mainData.city ? mainData.city : "",
-      is_owner: mainData.is_owner ? mainData.is_owner : "",
-      area: mainData.area ? mainData.area : "",
-      business_type: {
-        is_distribution: mainData.is_distribution
-          ? mainData.is_distribution
-          : false,
-        is_manufacturing: mainData.is_manufacturing
-          ? mainData.is_manufacturing
-          : false,
-        is_technical: mainData.is_technical ? mainData.is_technical : false,
-        is_service: mainData.is_service ? mainData.is_service : false,
-      },
-      number_of_staff: mainData.number_of_staff ? mainData.number_of_staff : 0,
-      address: mainData.address ? mainData.address : "",
-      reception_status: mainData.reception_status
-        ? mainData.reception_status
-        : "",
-      repair_features: mainData.repair_features ? mainData.repair_features : "",
-      workplace_features: {
-        sofa: mainData.sofa ? mainData.sofa : false,
-        network: mainData.network ? mainData.network : false,
-        fixed_number: mainData.fixed_number ? mainData.fixed_number : false,
-        reception_feature: mainData.reception_feature
-          ? mainData.reception_feature
-          : false,
-      },
-    },
-    onSubmit: (values) => {
-      setMainData({
-        ...mainData,
-        applicator: mainData?.phone_number,
-        name: values.name,
-        province: values.province,
-        city: values.city,
-        is_owner: values.is_owner,
-        area: values.area,
-        business_type: {
-          is_distribution: values.business_type.is_distribution,
-          is_manufacturing: values.business_type.is_manufacturing,
-          is_technical: values.business_type.is_technical,
-          is_service: values.business_type.is_service,
-        },
-        number_of_staff: values.number_of_staff,
-        address: values.address,
-        reception_status: values.reception_status,
-        repair_features: values.repair_features,
-        workplace_features: {
-          sofa: values.workplace_features.sofa,
-          network: values.workplace_features.network,
-          fixed_number: values.workplace_features.fixed_number,
-          reception_feature: values.workplace_features.reception_feature,
-        },
-      });
-      secondFormDoneToThirdForm();
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
-      try {
-        const res = fetch(
-          `http://192.168.10.195:8090/v1/api/after/sale/shop/informations/`,
-          {
-            method: "POST",
-            body: JSON.stringify({
-              name: values.name,
-              province: values.province.id,
-              city: values.city.id,
-              is_owner: values.is_owner,
-              area: values.area,
-              business_type: {
-                is_distribution: values.business_type.is_distribution,
-                is_manufacturing: values.business_type.is_manufacturing,
-                is_technical: values.business_type.is_technical,
-                is_service: values.business_type.is_service,
-              },
-              number_of_staff: values.number_of_staff,
-              address: values.address,
-              reception_status: values.reception_status,
-              repair_features: values.repair_features,
-              applicator: mainData?.varificationForm?.phone_number,
-              workplace_features: {
-                sofa: values.workplace_features.sofa,
-                network: values.workplace_features.network,
-                fixed_number: values.workplace_features.fixed_number,
-                reception_feature: values.workplace_features.reception_feature,
-              },
-            }),
-            headers: {
-              "content-type": "application/json",
-            },
-          }
-        )
-          .then((response) =>
-            response
-              .json()
-              .then((data) => ({ status: response.status, body: data }))
-          )
-          .then((detail) => {
-            console.log(detail);
-            if (detail.status == "400") {
-              setToast(true);
-              const featureEntries = Object.entries(detail.body);
-              {
-                featureEntries.map((item) => setMessage(item[1]));
-              }
-            }
-            if (detail.status == "200" || detail.status == "201") {
-              setMessage(
-                "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
-              );
-              setSubmitted(true);
-              setMainData({
-                ...mainData,
-                secondForm: {
-                  applicator: mainData?.varificationForm?.phone_number,
-                  name: values.name,
-                  province: values.province.id,
-                  city: values.city.id,
-                  is_owner: values.is_owner,
-                  area: values.area,
-                  business_type: {
-                    is_distribution: values.business_type.is_distribution,
-                    is_manufacturing: values.business_type.is_manufacturing,
-                    is_technical: values.business_type.is_technical,
-                    is_service: values.business_type.is_service,
-                  },
-                  number_of_staff: values.number_of_staff,
-                  address: values.address,
-                  reception_status: values.reception_status,
-                  repair_features: values.repair_features,
-                  workplace_features: {
-                    sofa: values.workplace_features.sofa,
-                    network: values.workplace_features.network,
-                    fixed_number: values.workplace_features.fixed_number,
-                    reception_feature:
-                      values.workplace_features.reception_feature,
-                  },
-                },
-              });
-              secondFormDoneToThirdForm();
-              window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-              });
-            }
-          })
-          .catch((err) => console.log(err));
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    validationSchema,
-  });
+
 
 
   return (
@@ -408,13 +201,13 @@ export default function StoreInfoForm({
 
       <div className="w-[80%]  mt-1  mb-3 relative group  ">
         <input
-          name="name"
-          value={formik.values.name}
+          name="brand_name"
+          value={formik.values.brand_name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.name.length > 0 ? " input-label-pos-active " : " ") +
+            (formik.values.brand_name.length > 0 ? " input-label-pos-active " : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
           }
         />
@@ -422,7 +215,7 @@ export default function StoreInfoForm({
           className={
             " absolute top-4 right-4 rounded-2xl pointer-events-none text-sm group-focus-within:text-xs" +
             " " +
-            `${formik.values.name.length > 0 ? "text-xs" : ""}`
+            `${formik.values.brand_name.length > 0 ? "text-xs" : ""}`
           }
         >
           نام واحد تجاری
@@ -432,14 +225,14 @@ export default function StoreInfoForm({
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.name && formik.touched.name
+              formik.errors.brand_name && formik.touched.brand_name
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.name}
+          {formik.errors.brand_name}
         </div>
       </div>
       <div className="w-[80%] relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
@@ -454,15 +247,15 @@ export default function StoreInfoForm({
                 className={`${formStyles.container} `}
                 onClick={() =>
                   formik.setFieldValue(
-                    "business_type.is_distribution",
-                    !formik.values.business_type.is_distribution
+                    "activities.mobile",
+                    !formik.values.activities.mobile
                   )
                 }
               >
                 <input
                   type="checkbox"
-                  name="business_type.is_distribution"
-                  checked={formik.values.business_type.is_distribution}
+                  name="activities.mobile"
+                  checked={formik.values.activities.mobile}
                   onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
@@ -478,15 +271,15 @@ export default function StoreInfoForm({
                 className={`${formStyles.container} `}
                 onClick={() =>
                   formik.setFieldValue(
-                    "business_type.is_manufacturing",
-                    !formik.values.business_type.is_manufacturing
+                    "activities.tablet",
+                    !formik.values.activities.tablet
                   )
                 }
               >
                 <input
                   type="checkbox"
-                  name="business_type.is_manufacturing"
-                  checked={formik.values.business_type.is_manufacturing}
+                  name="activities.tablet"
+                  checked={formik.values.activities.tablet}
                   onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
@@ -502,15 +295,15 @@ export default function StoreInfoForm({
                 className={`${formStyles.container} `}
                 onClick={() =>
                   formik.setFieldValue(
-                    "business_type.is_technical",
-                    !formik.values.business_type.is_technical
+                    "activities.laptop",
+                    !formik.values.activities.laptop
                   )
                 }
               >
                 <input
                   type="checkbox"
-                  name="business_type.is_technical"
-                  checked={formik.values.business_type.is_technical}
+                  name="activities.laptop"
+                  checked={formik.values.activities.laptop}
                   onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
@@ -526,15 +319,15 @@ export default function StoreInfoForm({
                 className={`${formStyles.container} `}
                 onClick={() =>
                   formik.setFieldValue(
-                    "business_type.is_service",
-                    !formik.values.business_type.is_service
+                    "activities.accessories",
+                    !formik.values.activities.accessories
                   )
                 }
               >
                 <input
                   type="checkbox"
-                  name="business_type.is_service"
-                  checked={formik.values.business_type.is_service}
+                  name="activities.accessories"
+                  checked={formik.values.activities.accessories}
                   onChange={formik.handleChange}
                 />
                 <div className={formStyles.checkmark}></div>
@@ -551,14 +344,14 @@ export default function StoreInfoForm({
           "w-[80%] mb-3 text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            formik.errors.business_type && formik.touched.business_type
+            formik.errors.activities && formik.touched.activities
               ? " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.business_type}
+        {formik.errors.activities}
       </div>
       <ClickOutside
         onClick={handleCloseProvinceList}
@@ -782,13 +575,13 @@ export default function StoreInfoForm({
       </div>
       <div className="w-[80%]  mt-1  mb-3 relative group  ">
         <input
-          name="name"
-          value={formik.values.name}
+          name="postal_code"
+          value={formik.values.postal_code}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.name.length > 0 ? " input-label-pos-active " : " ") +
+            (formik.values.postal_code.length > 0 ? " input-label-pos-active " : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
           }
         />
@@ -796,7 +589,7 @@ export default function StoreInfoForm({
           className={
             " absolute top-4 right-4 rounded-2xl pointer-events-none text-sm group-focus-within:text-xs" +
             " " +
-            `${formik.values.name.length > 0 ? "text-xs" : ""}`
+            `${formik.values.postal_code.length > 0 ? "text-xs" : ""}`
           }
         >
           کد پستی
@@ -806,25 +599,25 @@ export default function StoreInfoForm({
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.name && formik.touched.name
+              formik.errors.postal_code && formik.touched.postal_code
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.name}
+          {formik.errors.postal_code}
         </div>
       </div>
       <div className="w-[80%]  mt-1  mb-3 relative group  ">
         <input
-          name="name"
-          value={formik.values.name}
+          name="email"
+          value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.name.length > 0 ? " input-label-pos-active " : " ") +
+            (formik.values.email.length > 0 ? " input-label-pos-active " : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
           }
         />
@@ -832,7 +625,7 @@ export default function StoreInfoForm({
           className={
             " absolute top-4 right-4 rounded-2xl pointer-events-none text-sm group-focus-within:text-xs" +
             " " +
-            `${formik.values.name.length > 0 ? "text-xs" : ""}`
+            `${formik.values.email.length > 0 ? "text-xs" : ""}`
           }
         >
           ایمیل
@@ -842,20 +635,20 @@ export default function StoreInfoForm({
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.name && formik.touched.name
+              formik.errors.email && formik.touched.email
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.name}
+          {formik.errors.email}
         </div>
       </div>
       <div className={"w-[80%] group  mt-1  mb-3 relative  "}>
         <input
-          name="area"
-          value={formik.values.area}
+          name="fax_number"
+          value={formik.values.fax_number}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
@@ -870,7 +663,7 @@ export default function StoreInfoForm({
             " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
             " " +
             `${
-              formik.values.area.length > 0
+              formik.values.fax_number.length > 0
                 ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                 : ""
             }`
@@ -883,21 +676,21 @@ export default function StoreInfoForm({
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.area && formik.touched.area
+              formik.errors.fax_number && formik.touched.fax_number
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.area}
+          {formik.errors.fax_number}
         </div>
       </div>
 
       <div className={"w-[80%] group  mt-1  mb-3 relative  "}>
         <input
-          name="area"
-          value={formik.values.area}
+          name="website"
+          value={formik.values.website}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
@@ -912,7 +705,7 @@ export default function StoreInfoForm({
             " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
             " " +
             `${
-              formik.values.area.length > 0
+              formik.values.website.length > 0
                 ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                 : ""
             }`
@@ -925,14 +718,14 @@ export default function StoreInfoForm({
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.area && formik.touched.area
+              formik.errors.website && formik.touched.website
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.area}
+          {formik.errors.website}
         </div>
       </div>
 
@@ -1114,8 +907,8 @@ export default function StoreInfoForm({
       </div>
       <div className={"w-[80%] group  mt-1  mb-3 relative  "}>
         <input
-          name="area"
-          value={formik.values.area}
+          name="business_code"
+          value={formik.values.business_code}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
@@ -1130,7 +923,7 @@ export default function StoreInfoForm({
             " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
             " " +
             `${
-              formik.values.area.length > 0
+              formik.touched.business_code
                 ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                 : ""
             }`
@@ -1143,14 +936,14 @@ export default function StoreInfoForm({
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.area && formik.touched.area
+              formik.errors.business_code && formik.touched.business_code
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.area}
+          {formik.errors.business_code}
         </div>
       </div>
 
@@ -1229,10 +1022,10 @@ export default function StoreInfoForm({
           <button
             className="p-3 "
             onClick={() => {
-              formik.setFieldTouched("number_of_staff", true);
+              formik.setFieldTouched("number_of_branches", true);
               formik.setFieldValue(
-                "number_of_staff",
-                formik.values.number_of_staff + 1
+                "number_of_branches",
+                formik.values.number_of_branches + 1
               );
             }}
           >
@@ -1241,8 +1034,8 @@ export default function StoreInfoForm({
 
           <div className={"  group relative flex-grow  " + styles.formNumInput}>
             <input
-              name="number_of_staff"
-              value={formik.values.number_of_staff}
+              name="number_of_branches"
+              value={formik.values.number_of_branches}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="number"
@@ -1256,7 +1049,7 @@ export default function StoreInfoForm({
                 " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                 " " +
                 `${
-                  formik.touched?.number_of_staff
+                  formik.touched?.number_of_branches
                     ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                     : ""
                 }`
@@ -1268,10 +1061,10 @@ export default function StoreInfoForm({
           <button
             className="p-3 "
             onClick={() => {
-              formik.setFieldTouched("number_of_staff", true);
+              formik.setFieldTouched("number_of_branches", true);
               formik.setFieldValue(
-                "number_of_staff",
-                formik.values.number_of_staff - 1
+                "number_of_branches",
+                formik.values.number_of_branches - 1
               );
             }}
           >
@@ -1283,31 +1076,17 @@ export default function StoreInfoForm({
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.number_of_staff && formik.touched.number_of_staff
+              formik.errors.number_of_branches && formik.touched.number_of_branches
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.number_of_staff}
+          {formik.errors.number_of_branches}
         </div>
       </div>
-      <div
-        className={
-          "w-[80%] mb-3  text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
-          " " +
-          `${
-            formik.errors.workplace_features &&
-            formik.touched.workplace_features
-              ? " opacity-100 "
-              : " opacity-0 "
-          }`
-        }
-      >
-        <DangerIcon />
-        {formik.errors.repair_features}
-      </div>
+
       <div className="flex flex-col w-[80%] before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto ">
         <div className="flex flex-row items-center justify-center p-3 gap-8 ">
           <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white ">

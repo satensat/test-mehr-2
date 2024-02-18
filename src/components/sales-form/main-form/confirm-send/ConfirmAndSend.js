@@ -113,7 +113,6 @@ export default function ConfirmAndSend({
               <DocumentsInfo mainData={mainData} />
             </DetailPart>
           </div>
-
           <div className="flex flex-col w-[80%] before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto ">
             <div className="flex flex-row items-center justify-center p-3 gap-8 ">
               <button

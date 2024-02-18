@@ -159,7 +159,6 @@ export default function StoreInfo({ mainData }) {
           </div>
         )}
       </div>
-
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4">
           تجهیزات تست و تعمیر

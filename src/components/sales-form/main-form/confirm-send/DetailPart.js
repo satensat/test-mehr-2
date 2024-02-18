@@ -32,7 +32,6 @@ export default function DetailPart({ children,title }) {
           </button>
         </div>
       </div>
-
       <div
         className={`w-full flex flex-col  px-3 pb-3 ${
           open ? "opacity-100 overflow-auto " : " opacity-0 hidden"
