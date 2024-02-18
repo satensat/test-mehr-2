@@ -143,9 +143,9 @@ export default function FirstForm({
         />
         <label
           className={
-            " absolute top-4 right-4 rounded-2xl  pointer-events-none text-xs group-focus-within:text-[10px]" +
+            " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
             " " +
-            `${formik.values.firstName.length > 0 ? "text-[10px]" : ""}`
+            `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
           }
         >
           نام
@@ -181,9 +181,9 @@ export default function FirstForm({
         />
         <label
           className={
-            " absolute top-4 right-4 rounded-2xl text-sm  pointer-events-none  group-focus-within:text-[10px]" +
+            " absolute top-4 right-4 rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
             " " +
-            `${formik.values.lastName.length > 0 ? "text-[10px]" : ""}`
+            `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
           }
         >
           نام خانوادگی

@@ -374,12 +374,14 @@ export default function SecondForm({
           <div className={"  group relative flex-grow  " + styles.formNumInput}>
             <input
               name="number_of_staff"
-              value={formik.values.number_of_staff}
+              value={formik.values.number_of_staff>0 ? formik.values.number_of_staff : ""}
+              min="1"
+              // value={formik.values.number_of_staff}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="number"
               className={
-                (true ? " input-label-pos-active " : " ") +
+                (formik.values.number_of_staff>0 ? " input-label-pos-active " : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
               }
             />
@@ -388,7 +390,7 @@ export default function SecondForm({
                 " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                 " " +
                 `${
-                  formik.touched?.number_of_staff
+                  formik.values.number_of_staff>0
                     ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                     : ""
                 }`
@@ -400,11 +402,15 @@ export default function SecondForm({
           <button
             className="p-3 "
             onClick={() => {
-              formik.setFieldTouched("number_of_staff", true);
-              formik.setFieldValue(
-                "number_of_staff",
-                formik.values.number_of_staff - 1
-              );
+           
+              if(formik.values.number_of_staff>0){
+                formik.setFieldValue(
+                  "number_of_staff",
+                  formik.values.number_of_staff - 1
+                );
+              }else{
+                formik.setFieldTouched("number_of_staff", true);
+              }
             }}
           >
             <MinusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
@@ -412,7 +418,7 @@ export default function SecondForm({
         </div>
         <div
           className={
-            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 mx-14 " +
             " " +
             `${
               formik.errors.number_of_staff && formik.touched.number_of_staff
@@ -497,7 +503,7 @@ export default function SecondForm({
         />
         <label
           className={
-            " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
+            " absolute   top-4 right-4  pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff]  text-xs   " +
             " " +
             `${
               formik.values.area.length > 0

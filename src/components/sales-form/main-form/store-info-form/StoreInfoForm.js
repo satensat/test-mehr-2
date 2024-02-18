@@ -965,12 +965,15 @@ export default function StoreInfoForm({
           <div className={"  group relative flex-grow  " + styles.formNumInput}>
             <input
               name="number_of_staff"
-              value={formik.values.number_of_staff}
+              // value={formik.values.number_of_staff}
+              value={formik.values.number_of_staff>0 ? formik.values.number_of_staff : ""}
+              min="1"
+              // value={formik.values.number_of_staff}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="number"
               className={
-                (true ? " input-label-pos-active " : " ") +
+                (formik.values.number_of_staff>0? " input-label-pos-active " : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
               }
             />
@@ -979,7 +982,7 @@ export default function StoreInfoForm({
                 " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                 " " +
                 `${
-                  formik.touched?.number_of_staff
+                  formik.values.number_of_staff>0
                     ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                     : ""
                 }`
@@ -991,11 +994,14 @@ export default function StoreInfoForm({
           <button
             className="p-3 "
             onClick={() => {
-              formik.setFieldTouched("number_of_staff", true);
-              formik.setFieldValue(
-                "number_of_staff",
-                formik.values.number_of_staff - 1
-              );
+              if(formik.values.number_of_staff>0){
+                formik.setFieldValue(
+                  "number_of_staff",
+                  formik.values.number_of_staff - 1
+                );
+              }else{
+                formik.setFieldTouched("number_of_staff", true);
+              }
             }}
           >
             <MinusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
@@ -1003,7 +1009,7 @@ export default function StoreInfoForm({
         </div>
         <div
           className={
-            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 mx-14 " +
             " " +
             `${
               formik.errors.number_of_staff && formik.touched.number_of_staff
@@ -1016,7 +1022,6 @@ export default function StoreInfoForm({
           {formik.errors.number_of_staff}
         </div>
       </div>
-
       <div className="flex flex-col w-[80%] mt-1  mb-3 relative group ">
         <div className=" flex flex-row gap-2 items-center">
           <button
@@ -1031,16 +1036,18 @@ export default function StoreInfoForm({
           >
             <PlusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
           </button>
-
           <div className={"  group relative flex-grow  " + styles.formNumInput}>
             <input
               name="number_of_branches"
-              value={formik.values.number_of_branches}
+              // value={formik.values.number_of_branches}
+              value={formik.values.number_of_branches>0 ? formik.values.number_of_branches : ""}
+              min="1"
+              // value={formik.values.number_of_branches}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="number"
               className={
-                (true ? " input-label-pos-active " : " ") +
+                (formik.values.number_of_branches>0 ? " input-label-pos-active " : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
               }
             />
@@ -1049,7 +1056,7 @@ export default function StoreInfoForm({
                 " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                 " " +
                 `${
-                  formik.touched?.number_of_branches
+                  formik.values.number_of_branches>0
                     ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                     : ""
                 }`
@@ -1061,11 +1068,14 @@ export default function StoreInfoForm({
           <button
             className="p-3 "
             onClick={() => {
-              formik.setFieldTouched("number_of_branches", true);
-              formik.setFieldValue(
-                "number_of_branches",
-                formik.values.number_of_branches - 1
-              );
+              if(formik.values.number_of_branches>0){
+                formik.setFieldValue(
+                  "number_of_branches",
+                  formik.values.number_of_branches - 1
+                );
+              }else{
+                formik.setFieldTouched("number_of_branches", true);
+              }
             }}
           >
             <MinusIcon color={"#3B3B3B"} width={"24"} height={"24"} />
@@ -1073,7 +1083,7 @@ export default function StoreInfoForm({
         </div>
         <div
           className={
-            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 mx-14 " +
             " " +
             `${
               formik.errors.number_of_branches && formik.touched.number_of_branches

@@ -133,14 +133,14 @@ export default function UploadDocumentsForm({
                   <div
                     className={`${formStyles.containerRadioTick} `}
                     onClick={() =>
-                      formik.setFieldValue("corporateOrShop", "corporate")
+                    {  formik.setFieldValue("corporateOrShop", "corporate")}
                     }
                   >
                     <input
                       type="radio"
                       checked={formik.values.corporateOrShop === "corporate"}
                       onChange={() =>
-                        formik.setFieldValue("corporateOrShop", "corporate")
+                        {formik.setFieldValue("corporateOrShop", "corporate")}
                       }
                     />
                     <div className={formStyles.checkmarkRadio}></div>
@@ -155,14 +155,14 @@ export default function UploadDocumentsForm({
                   <div
                     className={`${formStyles.containerRadioTick} `}
                     onClick={() =>
-                      formik.setFieldValue("corporateOrShop", "shop")
+                      {formik.setFieldValue("corporateOrShop", "shop")}
                     }
                   >
                     <input
                       type="radio"
                       checked={formik.values.corporateOrShop === "shop"}
                       onChange={() =>
-                        formik.setFieldValue("corporateOrShop", "shop")
+                        {formik.setFieldValue("corporateOrShop", "shop")}
                       }
                     />
                     <div className={formStyles.checkmarkRadio}></div>
@@ -184,13 +184,13 @@ export default function UploadDocumentsForm({
                   <div className=" flex flex-row items-center gap-2 ">
                     <div
                       className={`${formStyles.containerRadioTick} `}
-                      onClick={() => formik.setFieldValue("certificate", true)}
+                      onClick={() => {formik.setFieldValue("certificate", true)}}
                     >
                       <input
                         type="radio"
                         checked={formik.values.certificate === true}
                         onChange={() =>
-                          formik.setFieldValue("certificate", true)
+                          {formik.setFieldValue("certificate", true)}
                         }
                       />
                       <div className={formStyles.checkmarkRadio}></div>
@@ -204,13 +204,13 @@ export default function UploadDocumentsForm({
                   <div className=" flex flex-row items-center gap-2 ">
                     <div
                       className={`${formStyles.containerRadioTick} `}
-                      onClick={() => formik.setFieldValue("certificate", false)}
+                      onClick={() => {formik.setFieldValue("certificate", false)}}
                     >
                       <input
                         type="radio"
                         checked={formik.values.certificate === false}
                         onChange={() =>
-                          formik.setFieldValue("certificate", false)
+                          {formik.setFieldValue("certificate", false)}
                         }
                       />
                       <div className={formStyles.checkmarkRadio}></div>
@@ -289,7 +289,6 @@ export default function UploadDocumentsForm({
                         فایل را آپلود کنید.
                       </div>
                     </div>
-
                     <div
                       className={
                         "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500  font-costumFaNum  " +
@@ -305,7 +304,6 @@ export default function UploadDocumentsForm({
                       {formik.errors.first}
                     </div>
                   </div>
-
                   {formik.values.first.map((item, index) => (
                     <div
                       key={index}
@@ -477,7 +475,7 @@ export default function UploadDocumentsForm({
                     id="fileInputLast"
                     // accept="image/png, image/jpg, image/jpeg, application/pdf"
                     accept={getAllowedExt("file")}
-                    multiple
+                    multiple={false}
                     className={
                       (true ? " input-label-pos-active " : " ") +
                       " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white  opacity-0 "

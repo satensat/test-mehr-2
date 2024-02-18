@@ -272,7 +272,7 @@ export default function ThirdForm({
                     }
                   />
                   <label
-                    className=" absolute top-3 right-4  pointer-events-none rounded-2xl "
+                    className=" absolute top-3 right-4  pointer-events-none rounded-2xl text-xs "
                     htmlFor="fileInput"
                   >
                     اظهارنامه مالیات بر ارزش افزوده
@@ -370,7 +370,7 @@ export default function ThirdForm({
                     }
                   />
                   <label
-                    className=" absolute top-3 right-4  pointer-events-none rounded-2xl "
+                    className=" absolute top-3 right-4  pointer-events-none rounded-2xl text-xs "
                     htmlFor="fileInput"
                   >
                     گواهینامه شورای انفورماتیک
@@ -469,7 +469,7 @@ export default function ThirdForm({
                     }
                   />
                   <label
-                    className=" absolute top-3 right-4  pointer-events-none rounded-2xl "
+                    className=" absolute top-3 right-4  pointer-events-none rounded-2xl text-xs "
                     htmlFor="fileInput"
                   >
                     تصاویر محل کار

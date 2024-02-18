@@ -91,19 +91,27 @@ const validationSchema = yup.object({
     .string()
     .email("ایمیل نامعتبر است.")
     .required("ایمیل را وارد کنید."),
-  activities: yup
-    .object()
-    .shape({
-      mobile: yup.boolean(),
-      tablet: yup.boolean(),
-      laptop: yup.boolean(),
-      accessories: yup.boolean(),
-    })
-    .test(
-      "at-least-one-true",
-      " نوع جواز کسب خود را انتخاب کنید.",
-      (obj) => obj.mobile || obj.tablet || obj.laptop || obj.accessories
-    ),
+    activities: yup.array()
+    .of(
+      yup.object().shape({
+        activity: yup.string().oneOf(["mobile", "laptop", "tablet", "accessories"]).required()
+      })
+    )
+    .min(1, "نوع فعالیت را انتخاب کنید.")
+    .required(),
+  // activities: yup
+  //   .object()
+  //   .shape({
+  //     mobile: yup.boolean(),
+  //     tablet: yup.boolean(),
+  //     laptop: yup.boolean(),
+  //     accessories: yup.boolean(),
+  //   })
+  //   .test(
+  //     "at-least-one-true",
+  //     " نوع جواز کسب خود را انتخاب کنید.",
+  //     (obj) => obj.mobile || obj.tablet || obj.laptop || obj.accessories
+  //   ),
 });
 
 export default function StoreInfoFormWrapper({

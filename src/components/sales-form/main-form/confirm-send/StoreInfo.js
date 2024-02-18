@@ -82,6 +82,14 @@ export default function StoreInfo({ mainData }) {
   return (
     <div className="flex flex-col gap-2 ">
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
+        <div className="text-[#808080] text-[10px] leading-4">
+        نام واحد تجاری     
+        </div>
+        <div className="text-[#242424] text-xs leading-5">
+          {mainData?.brand_name} 
+        </div>
+      </div>
+      <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4">نوع جواز کسب</div>
         <div className="text-[#242424] text-xs leading-5">
           {mainData?.business_type?.is_distribution
@@ -107,17 +115,20 @@ export default function StoreInfo({ mainData }) {
         </div>
       </div>
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
+        <div className="text-[#808080] text-[10px] leading-4">
+        تعداد شعب
+        </div>
+        <div className="text-[#242424] text-xs leading-5">
+          {mainData?.number_of_branches} شعبه
+        </div>
+      </div>
+      <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4"> وضعیت ملک</div>
         <div className="text-[#242424] text-xs leading-5">
           {mainData?.is_owner ? " مالک " : " استیجاری"}
         </div>
       </div>
-      <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
-        <div className="text-[#808080] text-[10px] leading-4"> متراژ ملک</div>
-        <div className="text-[#242424] text-xs leading-5">
-          {mainData?.area}متر مربع
-        </div>
-      </div>
+
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4"> استان</div>
         <div className="text-[#242424] text-xs leading-5">
@@ -159,22 +170,8 @@ export default function StoreInfo({ mainData }) {
           </div>
         )}
       </div>
-      <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
-        <div className="text-[#808080] text-[10px] leading-4">
-          تجهیزات تست و تعمیر
-        </div>
-        <div className="text-[#242424] text-xs leading-5">
-          {mainData?.repair_features}
-        </div>
-      </div>
-      <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
-        <div className="text-[#808080] text-[10px] leading-4">
-          شرح وضعیت پذیرایی (اختیاری)
-        </div>
-        <div className="text-[#242424] text-xs leading-5">
-          {mainData?.reception_status}
-        </div>
-      </div>
+
+
     </div>
   );
 }

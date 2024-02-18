@@ -82,6 +82,14 @@ export default function StoreInfo({ mainData }) {
   return (
     <div className="flex flex-col gap-2 ">
       <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
+        <div className="text-[#808080] text-[10px] leading-4">
+        نام فروشگاه       
+        </div>
+        <div className="text-[#242424] text-xs leading-5">
+          {mainData?.name} 
+        </div>
+      </div>
+      <div className="bg-[#FDFDFD] rounded-2xl flex flex-col px-3 py-1">
         <div className="text-[#808080] text-[10px] leading-4">نوع جواز کسب</div>
         <div className="text-[#242424] text-xs leading-5">
           {mainData?.business_type?.is_distribution
