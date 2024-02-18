@@ -14,6 +14,7 @@ import FirstFormWrapper from "./FirstFormWrapper";
 import VerificationFormWrapper from "./VerificationFormWrapper";
 import SecondFormWrapper from "./SecondFormWrapper";
 import ThirdFormWrapper from "./ThirdFormWrapper";
+import LoginStepMainComponent from "./accountLoginComponent/LoginStepMainComponent";
 
 export default function ProgressBar() {
   const [mainData, setMainData] = useState({});
@@ -44,7 +45,7 @@ export default function ProgressBar() {
 
   ////tab active
 
-  const [activeTab, setActiveTab] = useState("verification");
+  const [activeTab, setActiveTab] = useState("login");
 
   const handleClickVarification = () => {};
   const verificationToFirstFormDone = () => {
@@ -108,7 +109,7 @@ export default function ProgressBar() {
                 ` ${activeTab === "verification" ? styles.active : " "}`
               }
             >
-              احراز هویت
+              حساب کاربری
             </div>
           </div>
           <div
@@ -277,51 +278,50 @@ export default function ProgressBar() {
         </div>
       )} */}
 
-    
-        <VerificationFormWrapper
+      {/* <VerificationFormWrapper
         activeTab={activeTab}
           verificationToFirstFormDone={verificationToFirstFormDone}
           mainData={mainData}
           setMainData={setMainData}
-        />
-
-
-        <FirstFormWrapper
+        /> */}
+      <LoginStepMainComponent
         activeTab={activeTab}
-          mainData={mainData}
-          firstFormDoneToSecondForm={firstFormDoneToSecondForm}
-          setMainData={setMainData}
-          setActiveTab={setActiveTab}
-        />
+        verificationToFirstFormDone={verificationToFirstFormDone}
+        mainData={mainData}
+        setMainData={setMainData}
+      />
 
-
-        
-        <SecondFormWrapper
+      <FirstFormWrapper
         activeTab={activeTab}
-          secondFormDoneToThirdForm={secondFormDoneToThirdForm}
-          mainData={mainData}
-          setMainData={setMainData}
-          setActiveTab={setActiveTab}
-        />
+        mainData={mainData}
+        firstFormDoneToSecondForm={firstFormDoneToSecondForm}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
 
-
-        <ThirdFormWrapper
+      <SecondFormWrapper
         activeTab={activeTab}
-          thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
-          mainData={mainData}
-          setMainData={setMainData}
-          setActiveTab={setActiveTab}
-        />
+        secondFormDoneToThirdForm={secondFormDoneToThirdForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
 
-
-        <LastForm
+      <ThirdFormWrapper
         activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          doneLastForm={doneLastForm}
-          mainData={mainData}
-          setMainData={setMainData}
-        />
+        thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
 
+      <LastForm
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        doneLastForm={doneLastForm}
+        mainData={mainData}
+        setMainData={setMainData}
+      />
     </div>
   );
 }
