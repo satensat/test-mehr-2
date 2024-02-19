@@ -8,6 +8,7 @@ import DangerIcon from "@/icon2/DangerIcon";
 import ButtonCoverLoader from "./ButtonCoverLoader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import TickCircle from "@/icon2/TickCircle";
 
 function processDone(massage) {
   toast.success(massage, {
@@ -33,14 +34,15 @@ function processFail(massage) {
   });
 }
 
-
-
-
-export default function FormPhoneOrEmail({formik}) {
-  const [startTimer, setsStartTimer] = useState(false);
-  const [enablePhoneSend, setEnablePhoneSend] = useState(true);
-  const [disabledCodeSend, setDisabledCodeSend] = useState(true);
-
+export default function FormPhoneOrEmail({
+  formik,
+  disabledCodeSend,
+  setDisabledCodeSend,
+  enablePhoneSend,
+  setEnablePhoneSend,
+  startTimer,
+  setsStartTimer,
+}) {
   return (
     <form className="w-full flex flex-col mb-1">
       <div className="w-full flex flex-col items-center justify-center ">
@@ -79,20 +81,33 @@ export default function FormPhoneOrEmail({formik}) {
           </label>
         </div>
 
-        <div
-          className={
-            "w-[80%] text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
-            " " +
-            `${
-              formik.errors.phone_number && formik.touched.phone_number
-                ? " opacity-100 "
-                : " opacity-0 "
-            }`
-          }
-        >
-          <DangerIcon />
-          {formik.errors.phone_number}
-        </div>
+        {!enablePhoneSend ? (
+          <div
+            className={
+              "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
+              " " +
+              `${!enablePhoneSend ? " opacity-100 " : " opacity-0 "}`
+            }
+          >
+            <TickCircle />
+            زیمآ‌تیقفوم مایپ نتم
+          </div>
+        ) : (
+          <div
+            className={
+              "w-[80%] text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+              " " +
+              `${
+                formik.errors.phone_number && formik.touched.phone_number
+                  ? " opacity-100 "
+                  : " opacity-0 "
+              }`
+            }
+          >
+            <DangerIcon />
+            {formik.errors.phone_number}
+          </div>
+        )}
       </div>
       <div className="w-[80%] flex flex-row items-center justify-center mx-auto  ">
         <button
@@ -112,20 +127,20 @@ export default function FormPhoneOrEmail({formik}) {
           دریافت کد ورود یکبار مصرف
         </button>
         <div className="px-3 py-1 flex flex-col items-center  ">
-            <div className="text-[#808080] leading-4 text-[10px] text-center font-bold ">
-              دریافت مجدد پس از:
-            </div>
-            <div className="text-[#242424] leading-5 text-xs text-center font-normal flex flex-row ">
-              <div className="ml-2 w-[35px]">
-                <CountDownTimer
-                  startTimer={startTimer}
-                  setsStartTimer={setsStartTimer}
-                  setEnablePhoneSend={setEnablePhoneSend}
-                />
-              </div>
-              دقیقه دیگر
-            </div>
+          <div className="text-[#808080] leading-4 text-[10px] text-center font-bold ">
+            دریافت مجدد پس از:
           </div>
+          <div className="text-[#242424] leading-5 text-xs text-center font-normal flex flex-row ">
+            <div className="ml-2 w-[35px]">
+              <CountDownTimer
+                startTimer={startTimer}
+                setsStartTimer={setsStartTimer}
+                setEnablePhoneSend={setEnablePhoneSend}
+              />
+            </div>
+            دقیقه دیگر
+          </div>
+        </div>
       </div>
     </form>
   );

@@ -18,6 +18,9 @@ import LoginStepMainComponent from "./accountLoginComponent/LoginStepMainCompone
 
 export default function ProgressBar() {
   const [mainData, setMainData] = useState({});
+  const [applicator, setapplicator] = useState({});
+  const [step, setstep] = useState({});
+  const [status, setstatus] = useState({});
 
   ////////points animation
   const aniamtionPartDone =

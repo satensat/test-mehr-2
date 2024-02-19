@@ -1,0 +1,26 @@
+.SurveyHeaderTopDesc {
+    width: calc(100% - 180px);
+  }
+
+
+  .container {
+    position: relative;
+  }
+  
+  .container::before {
+    content: "";
+    background: url("/single-product/full-sun-bg-single-product-header.svg")
+      no-repeat;
+    position: absolute;
+    opacity: 0.25;
+    background-repeat: no-repeat;
+    filter: brightness(0) invert(1);
+    width: 276px;
+    height: 278px;
+    transform: rotateY(180deg);
+    background-size: contain;
+    background-position: center;
+    top: -138px;
+    right: -138px;
+    z-index: 0;
+  }

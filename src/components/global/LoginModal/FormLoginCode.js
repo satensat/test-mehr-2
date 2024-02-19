@@ -37,8 +37,12 @@ const validationSchemaLoginCode = yup.object({
   code: yup.string().trim().required(" کد ورود را وارد کنید."),
 });
 
-export default function FormLoginCode({ formik }) {
-  const [disabledCodeSend, setDisabledCodeSend] = useState(true);
+export default function FormLoginCode({
+  formik,
+  disabledCodeSend,
+  setDisabledCodeSend,
+}) {
+
 
   const formikLoginCode = useFormik({
     initialValues: {

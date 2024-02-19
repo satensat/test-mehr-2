@@ -17,7 +17,10 @@ const validationSchema = yup.object({
     .required(" شماره تلفن همراه را وارد کنید."),
 });
 
-export default function LoginModal() {
+export default function LoginModal({  disabledCodeSend,
+  setDisabledCodeSend,}) {
+  // ----------------------------------     open modal        ----------------------
+
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleModalOpen = () => {
@@ -26,6 +29,17 @@ export default function LoginModal() {
   const handleModalClose = () => {
     setModalOpen(false);
   };
+
+  // ----------------------------------disabled code send button ----------------------
+  // getted from props
+
+  // ----------------------------------  timer start   ----------------------
+
+  const [startTimer, setsStartTimer] = useState(false);
+  // ----------------------------------  phone send or email send  ----------------------
+
+  const [enablePhoneSend, setEnablePhoneSend] = useState(true);
+  // ----------------------------------  formik  ----------------------
 
   const formik = useFormik({
     initialValues: {
@@ -131,28 +145,44 @@ export default function LoginModal() {
               </button>
             </div>
           </div>
-            <div
-              className={
-                "w-full flex flex-row justify-center items-center   " +
-                styles.backgroundImage
-              }
-            >
-              <Image
-                src={"/Logo-big.svg"}
-                width={215}
-                height={128}
-                alt={"logo mehr trade"}
-              />
-            </div>
+          <div
+            className={
+              "w-full flex flex-row justify-center items-center   " +
+              styles.backgroundImage
+            }
+          >
+            <Image
+              src={"/Logo-big.svg"}
+              width={215}
+              height={128}
+              alt={"logo mehr trade"}
+            />
+          </div>
           <div className=" w-11/12  md:w-[488px]     overflow-y-auto p-3">
             <div className="text-[#525252] leading-6 text-sm font-normal py-3 ">
               شماره همراه یا ایمیل خود را وارد نموده سپس کد پیامک شده را وارد
               کنید.
             </div>
-            <FormPhoneOrEmail formik={formik} />
+            <FormPhoneOrEmail
+              formik={formik}
+              disabledCodeSend={disabledCodeSend}
+              setDisabledCodeSend={setDisabledCodeSend}
+              enablePhoneSend={enablePhoneSend}
+              setEnablePhoneSend={setEnablePhoneSend}
+              startTimer={startTimer}
+              setsStartTimer={setsStartTimer}
+            />
           </div>
           <div className="p-3 flex flex-col items-center before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6]">
-            <FormLoginCode />
+            <FormLoginCode
+              formik={formik}
+              disabledCodeSend={disabledCodeSend}
+              setDisabledCodeSend={setDisabledCodeSend}
+              enablePhoneSend={enablePhoneSend}
+              setEnablePhoneSend={setEnablePhoneSend}
+              startTimer={startTimer}
+              setsStartTimer={setsStartTimer}
+            />
             <div className="flex flex-row items-center justify-center  gap-8 ">
               <div className="text-[#525252] leading-5 text-xs font-normal py-3">
                 ایجاد حساب کاربری به معنای پذیرش{" "}

@@ -15,7 +15,7 @@ export default function RecordsCourses({
   skillRecords,
   setSkillRecords,
 }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleOpenClick = () => {
     setOpen(!open);

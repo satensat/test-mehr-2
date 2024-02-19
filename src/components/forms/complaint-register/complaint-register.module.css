@@ -1,0 +1,43 @@
+.complaintHeaderTop{
+    position: relative;
+}
+.complaintHeaderTop::before {
+    content: "";
+  background-image: url(/home/Vector.svg);
+  position: absolute;
+  opacity: 0.25;
+  background-repeat: no-repeat;
+  filter: brightness(0) invert(1);
+  width: 280px;
+  height: 100%;
+  transform: rotateY(0deg) translateY(-50%);
+  top: 50%;
+  left: 0;
+  background-position: left;
+  background-size: cover;
+  }
+  .complaintHeaderTop::after {
+    content: "";
+    background-image: url(/home/Vector.svg) ;
+    position: absolute;
+    opacity: 0.35;
+    background-repeat: no-repeat;
+    filter: brightness(0) invert(1);
+    width: 151px;
+    height: 100%;
+    transform: rotateY(180deg) translateY(-50%);
+    top: 50%;
+    right: 0;
+    background-position: left;
+    background-size: contain;
+  }
+.contactTopImg::before{
+    background: linear-gradient(270deg, #FFF 0%, rgba(217, 217, 217, 0.00) 100%);
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: block;
+    right: -2px;
+    position: absolute;
+}
+

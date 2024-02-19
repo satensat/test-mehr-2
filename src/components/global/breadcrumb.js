@@ -7,7 +7,7 @@ export default function BreadcrumbList({data ,cat ,inquiry}) {
 
 
   return (
-    <div className="flex lg:items-center pt-3.5 pb-6  justify-between flex-col lg:flex-row">
+    <div className="flex lg:items-center pt-3.5 pb-6  justify-between flex-col lg:flex-row px-3">
       <ul className={style.breadcrumb_box  +  " breadcrumb_box text-xs no-scrollbar flex   gap-[10px] overflow-y-hidden overflow-x-auto xs:max-w-full font-bold xl:gap-[8px] "}>
     {
        data.map((item , index) => {
