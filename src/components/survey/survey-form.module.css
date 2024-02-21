@@ -1,0 +1,37 @@
+/* .backgroundImage {
+    position: relative;
+    overflow: hidden;
+  } */
+  
+  .backgroundImage::before {
+    content: "";
+    background: url("/compare/Patterns.svg") no-repeat;
+    position: absolute;
+    background-repeat: no-repeat;
+    filter: brightness(0) invert(1);
+    width: 410px;
+    height: 410px;
+    transform: rotateY(180deg);
+    background-size: contain;
+    background-position: center;
+    top: 30%;
+    right: 200px;
+    z-index: 0;
+  }
+  
+  .backgroundImage::after {
+    content: "";
+    background: url("/compare/Patterns.svg") no-repeat;
+    position: absolute;
+    background-repeat: no-repeat;
+    filter: brightness(0) invert(1);
+    width: 410px;
+    height: 410px;
+    transform: rotateY(180deg);
+    background-size: contain;
+    background-position: center;
+    top: calc( 50% + 410px);
+    left: 200px;
+    z-index: 0;
+  }
+  

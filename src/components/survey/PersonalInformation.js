@@ -65,7 +65,7 @@ export default function PersonalInformation({ formik }) {
   };
 
   return (
-    <div className="w-full  bg-[#FDFDFD] rounded-3xl shadow-G1  ">
+    <div className="w-full  bg-[#FDFDFD] rounded-3xl shadow-G1  font-costumFaNum z-30">
       <p className="text-[#242424] leading-6 text-base font-bold p-3 ">
         اطلاعات شخصی
       </p>

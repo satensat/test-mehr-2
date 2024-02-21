@@ -1,8 +1,4 @@
 "use client";
-
-import SurveyIcon from "@/icon/surveyNote";
-import InfoCircleIcon from "@/icon2/InfoCircle";
-import style from "./survey.module.css";
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -11,7 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import TickSquare from "@/icon2/TickSquare";
 import DangerIcon from "@/icon2/DangerIcon";
 import PersonalInformation from "./PersonalInformation";
-import SurvayContent from "./SurvayContent";
+import SurvayFormContent from "./SurvayFormContent";
+import stylesForm from "./survey-form.module.css";
+
+
+
 export default function SurveyFormPage() {
   const formik = useFormik({
     initialValues: {
@@ -27,6 +27,21 @@ export default function SurveyFormPage() {
       question_4:"",
       question_5:"",
       question_6:"",
+      question_7:"",
+      question_8:"",
+      question_9:"",
+      question_9_detail:"",
+      question_10:"",
+      question_11:"",
+      question_12:"",
+      question_13:"",
+      question_14:"",
+      question_15:"",
+      question_16:"",
+      question_17:"",
+      question_18:"",
+      question_19:"",
+
     },
     onSubmit: (values) => {
       console.log(values);
@@ -37,7 +52,8 @@ export default function SurveyFormPage() {
 
   const [activeTab, setActiveTab] = useState("CODE");
   return (
-    <div className="bg-mainGreen1 text-[#F7F7F7] md:px-3 md:py-4 rounded-3xl md:mt-5 flex flex-row items-center justify-center">
+    <div className={"bg-mainGreen1 text-[#F7F7F7] md:px-3 md:py-4 rounded-3xl md:mt-5 flex flex-row items-center justify-center relative "}>\
+    <div className={" "+stylesForm.backgroundImage}  ></div>
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -220,7 +236,8 @@ export default function SurveyFormPage() {
           ) : null}
         </div>
         <PersonalInformation formik={formik} />
-        <SurvayContent  formik={formik}/>
+        <SurvayFormContent  formik={formik}/>
+        
       </div>
     </div>
   );

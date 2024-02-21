@@ -4,7 +4,7 @@ import InfoCircleIcon from "@/icon2/InfoCircle";
 import style from "./survey.module.css";
 export default function SurveyHeaderPage() {
   return (
-    <div className="md:px-3">
+    <div className="md:px-3 relative z-30">
       <div className={" bg-mainGreen1 text-[#F7F7F7] px-3 py-4 rounded-t-3xl md:rounded-3xl flex justify-between  items-center "+style.container}>
         <div className={style.SurveyHeaderTopDesc}>
           <h1 className=" text-lg font-bold mb-4">
