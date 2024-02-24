@@ -5,8 +5,7 @@ import React from 'react'
 export default function AgencyReceivePoints() {
   return (
     <div
-    className="flex flex-col before:bg-[#E6E6E6] md:before:bg-[#1B887F]
-before:content-['']  before:h-[1px] before:w-full   "
+    className="flex flex-col before:bg-[#E6E6E6] md:before:bg-[#1B887F] before:content-['']  before:h-[1px] before:w-full   "
   >
     <div className="pt-3 md:py-3">
       <div className="flex flex-row gap-2 py-2 ">

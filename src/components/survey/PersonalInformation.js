@@ -31,7 +31,7 @@ export default function PersonalInformation({ formik }) {
       course.name.includes(event.target.value)
     );
     console.log(filteredCourse);
-    listCourseFiltterd(filteredCourse);
+    setListCourseFiltterd(filteredCourse);
     console.log(filteredCourse.length === 1);
 
     // if (filteredCourse.length === 1) {
@@ -173,7 +173,7 @@ export default function PersonalInformation({ formik }) {
           <div className="text-[#242424]  leading-6 text-sm py-1 pl-3">سن:</div>
           <div className="flex flex-col gap-2">
             <div className="flex flex-col md:flex-row gap-2  justify-between  ">
-              <div className="bg-[#FDFDFD] rounded-xl py-2 px-3 grow flex flex-row items-center">
+              <div className="bg-[#FDFDFD] rounded-xl py-2 px-3 md:w-[50%] flex flex-row items-center">
                 <div className=" flex flex-row items-center gap-2 ">
                   <div className="w-[16px]">
                     <div
@@ -197,7 +197,7 @@ export default function PersonalInformation({ formik }) {
                   </div>
                 </div>
               </div>
-              <div className="bg-[#FDFDFD] rounded-xl py-2 px-3 grow flex flex-row items-center ">
+              <div className="bg-[#FDFDFD] rounded-xl py-2 px-3 md:w-[50%] flex flex-row items-center ">
                 <div className=" flex flex-row items-center gap-2 ">
                   <div className="w-[16px]">
                     <div
@@ -223,7 +223,7 @@ export default function PersonalInformation({ formik }) {
               </div>
             </div>
             <div className="flex flex-col md:flex-row gap-2  justify-between  ">
-              <div className="bg-[#FDFDFD] rounded-xl py-2  px-3 grow flex flex-row items-center ">
+              <div className="bg-[#FDFDFD] rounded-xl  md:w-[50%] py-2  px-3  flex flex-row items-center ">
                 <div className=" flex flex-row items-center gap-1 ">
                   <div className="w-[16px]">
                     <div
@@ -251,7 +251,7 @@ export default function PersonalInformation({ formik }) {
                 </div>
               </div>
 
-              <div className="bg-[#FDFDFD] rounded-xl py-2  px-3 grow flex flex-row items-center ">
+              <div className="bg-[#FDFDFD] rounded-xl  md:w-[50%] py-2  px-3  flex flex-row items-center ">
                 <div className=" flex flex-row items-center gap-1 ">
                   <div className="w-[16px]">
                     <div
@@ -326,7 +326,7 @@ export default function PersonalInformation({ formik }) {
 
         <ClickOutside
           onClick={handleCloseCourseList}
-          className={" w-[60%] flex flex-row mx-auto mt-1   "}
+          className={" w-[80%]  md:w-[60%] flex flex-row mx-auto mt-1   "}
         >
           <div
             className={
@@ -364,13 +364,13 @@ export default function PersonalInformation({ formik }) {
               onFocus={() => setStatusListCourse(true)}
               className={
                 (courseInput.length > 0 ? " input-label-pos-active " : " ") +
-                " w-full px-4 relative  z-[2]  placeholder-[#ABABAB] h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos text-[#525252]  "
+                " w-full px-4 relative  z-[2]  placeholder-[#ABABAB] placeholder:text-xs h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos text-[#525252]   placeholder:transition-all placeholder:duration-300 placeholder:ease-in-out focus-within:placeholder:-translate-x-2   "
               }
               id="province"
               name="province"
             ></input>
             {statusListCourse ? (
-              <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto text-[#525252]  ">
+              <div className={"flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto text-[#525252]  "+"  "}>
                 {listCourseFiltterd.map((item, index) => {
                   return (
                     <button
@@ -383,7 +383,7 @@ export default function PersonalInformation({ formik }) {
                         setCourseInput(item.name);
                         setStatusListCourse(false);
                       }}
-                      className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl text-right "
+                      className={" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl text-right "+`${ccc}`}
                     >
                       {item.name}
                     </button>

@@ -31,7 +31,7 @@ export default function TextDescription({
         placeholder={placeholderDescription}
         className={
           (true > 0 ? "  " : " ") +
-          " w-full px-4 placeholder-[#ABABAB] pt-3  h-10 resize-none min-h-32  border border-[#ABABAB] rounded-2xl bg-white  placeholder-translate "
+          " w-full px-4 placeholder-[#ABABAB] pt-3  h-10 resize-none min-h-32  border border-[#ABABAB] rounded-2xl bg-white    placeholder:transition-all placeholder:duration-300 placeholder:ease-in-out focus-within:placeholder:-translate-x-2 "
         }
       ></textarea>
       <label
