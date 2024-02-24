@@ -179,14 +179,14 @@ export default function PersonalInformation({ formik }) {
                     <div
                       className={`${formStyles.containerRadioTick} `}
                       onClick={() => {
-                        formik.setFieldValue("age", "woman");
+                        formik.setFieldValue("age", "16-24");
                       }}
                     >
                       <input
                         type="radio"
-                        checked={formik.values.age === "woman"}
+                        checked={formik.values.age === "16-24"}
                         onChange={() => {
-                          formik.setFieldValue("age", "woman");
+                          formik.setFieldValue("age", "16-24");
                         }}
                       />
                       <div className={formStyles.checkmarkRadio}></div>
@@ -203,14 +203,14 @@ export default function PersonalInformation({ formik }) {
                     <div
                       className={`${formStyles.containerRadioTick} `}
                       onClick={() => {
-                        formik.setFieldValue("age", "man");
+                        formik.setFieldValue("age", "25-34");
                       }}
                     >
                       <input
                         type="radio"
-                        checked={formik.values.age === "man"}
+                        checked={formik.values.age === "25-34"}
                         onChange={() => {
-                          formik.setFieldValue("age", "man");
+                          formik.setFieldValue("age", "25-34");
                         }}
                       />
                       <div className={formStyles.checkmarkRadio}></div>
@@ -232,14 +232,14 @@ export default function PersonalInformation({ formik }) {
                         " w-[16px] flex-grow"
                       }
                       onClick={() => {
-                        formik.setFieldValue("age", "x");
+                        formik.setFieldValue("age", "35-45");
                       }}
                     >
                       <input
                         type="radio"
-                        checked={formik.values.age === "x"}
+                        checked={formik.values.age === "35-45"}
                         onChange={() => {
-                          formik.setFieldValue("age", "x");
+                          formik.setFieldValue("age", "35-45");
                         }}
                       />
                       <div className={formStyles.checkmarkRadio}></div>
@@ -260,14 +260,14 @@ export default function PersonalInformation({ formik }) {
                         " w-[16px] flex-grow"
                       }
                       onClick={() => {
-                        formik.setFieldValue("age", "x");
+                        formik.setFieldValue("age", "45-up");
                       }}
                     >
                       <input
                         type="radio"
-                        checked={formik.values.age === "x"}
+                        checked={formik.values.age === "45-up"}
                         onChange={() => {
-                          formik.setFieldValue("age", "x");
+                          formik.setFieldValue("age", "45-up");
                         }}
                       />
                       <div className={formStyles.checkmarkRadio}></div>

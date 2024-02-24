@@ -24,7 +24,7 @@ export default function YesOrNoQuestion({
         <div className="text-[#242424] leading-6 text-sm  ">{questionText}</div>
         <div className="text-[#808080] leading-6 text-sm  ">{subtext}</div>
       </div>
-      <div className="flex flex-col md:flex-row gap-2  justify-between  ">
+      <div className="flex flex-row gap-2  justify-between  ">
         <div
           onClick={() => {
             formik.setFieldValue(question, true);

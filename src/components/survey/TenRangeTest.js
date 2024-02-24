@@ -24,7 +24,7 @@ export default function TenRangeTest({
         <div className="text-[#808080] leading-6 text-sm  ">{subtext}</div>
       </div>
       <div className="flex flex-col gap-3">
-        <div className="flex flex-col md:flex-row gap-2  justify-between  ">
+        <div className="flex flex-row gap-2  justify-between  ">
           <div
             onClick={() => {
               formik.setFieldValue(question, "1");
@@ -33,11 +33,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "1"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >
@@ -63,11 +63,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "2"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >
@@ -93,11 +93,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "3"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >
@@ -123,11 +123,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "4"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >
@@ -153,11 +153,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "5"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >
@@ -177,7 +177,7 @@ export default function TenRangeTest({
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-2  justify-between  ">
+        <div className="flex flex-row gap-2  justify-between  ">
           <div
             onClick={() => {
               formik.setFieldValue(question, "6");
@@ -186,11 +186,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "6"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >
@@ -216,11 +216,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "7"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >
@@ -246,11 +246,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "8"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >
@@ -276,11 +276,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "9"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >
@@ -306,11 +306,11 @@ export default function TenRangeTest({
           >
             <div
               className={
-                " rounded-xl p-2  w-[40px] h-[40px] " +
+                "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
                   formik.values[question] === "10"
                     ? " bg-[#13625C] "
-                    : " bg-[#E6E6E6]"
+                    : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
               }
             >

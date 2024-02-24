@@ -268,7 +268,7 @@ export default function SurvayFormContent({ formik }) {
             formik={formik}
             labelDescription={q19_helpText.labelText}
             placeholderDescription={q19_helpText.placeholderText}
-            question={"question_9_detail"}
+            question={"question_19_detail"}
             divider={false}
           />
         </div>

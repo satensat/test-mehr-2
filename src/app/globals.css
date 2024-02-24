@@ -502,3 +502,12 @@ display: none;
 .focus-outline-black-2px:focus-within{
 outline: 2px solid black;
 }
+
+
+.placeholder-translate::placeholder {
+  transition: transform 0.3s ease-out;
+}
+
+.placeholder-translate:focus::placeholder {
+  transform: translateX(-6px);
+}
