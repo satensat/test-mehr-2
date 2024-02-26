@@ -4,7 +4,7 @@ import InfoCircleIcon from "@/icon2/InfoCircle";
 import style from "./survey.module.css";
 export default function SurveyHeaderPage() {
   return (
-    <div className="md:px-3 relative z-30">
+    <div className="md:px-3 relative z-1">
       <div
         className={
           " bg-mainGreen1 text-[#F7F7F7] px-3 py-4 rounded-t-3xl md:rounded-3xl flex justify-between  items-center " +
@@ -20,7 +20,7 @@ export default function SurveyHeaderPage() {
             <SurveyIcon width={"24"} height={"24"} color={"#fff"} />
           </div>
           <h1 className=" text-center md:text-right text-sm leading-6 md:text-lg  font-bold md:leading-8 text-[#f7f7f7] ">
-            نظر سنجی مشتریان خدمات پس از فروش
+            نظرسنجی مشتریان خدمات پس از فروش
           </h1>
           <p className="    text-xs leading-5 md:text-sm  font-normal md:leading-6 text-[#ccc] text-justify">
             نظرسنجی ذیل جهت بهبود خدمات تهیه شده و مخصوص مشتریانی است که جهت

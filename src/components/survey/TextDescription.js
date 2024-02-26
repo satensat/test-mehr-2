@@ -6,7 +6,8 @@ export default function TextDescription({
   placeholderDescription,
   labelDescription,
   question,
-  divider
+  divider,
+  show
 }) {
   return (
     <div className={
@@ -15,6 +16,11 @@ export default function TextDescription({
           divider
             ? "  after:content-['']   after:h-[1px] after:w-full   after:bg-[#CCCCCC] "
             : ""
+        }`+
+        `${
+          show
+            ? " flex flex-col  "
+            : " hidden "
         }`
       }>
 
@@ -24,9 +30,9 @@ export default function TextDescription({
       }
     >
       <textarea
-        name={question}
-        value={formik.values[question]}
-        onChange={formik.handleChange}
+        name={`questions.${question}.qAnswer`}
+        value={formik.values.questions[question].qAnswer}
+        onChange={(e)=>{formik.handleChange(e);formik.setFieldValue(`questions.${question}.qText`, labelDescription);}}
         onBlur={formik.handleBlur}
         placeholder={placeholderDescription}
         className={
@@ -48,14 +54,15 @@ export default function TextDescription({
           "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            formik.errors[question] && formik.touched[question]
+            formik.errors.questions && formik.touched.questions && 
+            formik.errors.questions[question]?.qAnswer && formik.touched.questions[question]?.qAnswer
               ? " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors[question]}
+        {formik.errors.questions && formik.touched.questions &&  formik.errors.questions[question]?.qAnswer}
       </div>
     </div>
     </div>
