@@ -78,6 +78,7 @@ const validationSchema = yup.object().shape({
       qText: yup.string().required("متن سوال الزامی است."),
       qAnswer: yup.string().required("پاسخ سوال الزامی است."),
     }),
+    
     question_9: yup.object().shape({
       qText: yup.string().when("questions.question_8.qAnswer", {
         is: (answer) => answer === "YES",
@@ -166,7 +167,7 @@ export default function SurveyFormPage() {
 
   // ----------------------------------        reception_code   PHONE   LAPTOP send  ----------------------
 
-  const [enableSend, setEnableSend] = useState(false);
+  const [enableSend, setEnableSend] = useState(true);
 
   ////-------------------------------------------------- loading code send--------------------------
   const [loadingButton, setLoadingButton] = useState(false);
