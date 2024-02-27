@@ -372,8 +372,8 @@ export default function SurvayFormContent({
         
          </div> */}
       </div>
-      <div className="  w-full flex flex-col gap-3 pt-3 after:content-['']   after:h-[1px] after:w-full   after:bg-[#CCCCCC] before:content-['']   before:h-[1px] before:w-full   before:bg-[#CCCCCC]  ">
-        <div className="w-[50px] h-[50px] bg-mainGreen1"></div>
+      <div className="  w-full flex flex-col justify-center items-center gap-3 pt-3 after:content-['']   after:h-[1px] after:w-full   after:bg-[#CCCCCC] before:content-['']   before:h-[1px] before:w-full   before:bg-[#CCCCCC]  ">
+        <div className="w-[50px] h-[50px] bg-mainYellow"></div>
       </div>
       <div className="flex flex-row items-center justify-center p-3  ">
         <button

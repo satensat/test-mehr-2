@@ -27,7 +27,7 @@ const validationSchemaCode = yup.object({
     otherwise: () => yup.string().notRequired(),
   }),
   phone: yup.string().when("activeTab", {
-    is: (activeTab) => activeTab === "PHONE",
+    is: (activeTab) =>{ activeTab === "PHONE"},
     then: () =>
       yup
         .string()
@@ -41,126 +41,262 @@ const validationSchemaCode = yup.object({
     otherwise: () => yup.string().notRequired(),
   }),
 });
-const validationSchema = yup.object().shape({
-  gender: yup.string().required("جنسیت را مشخص کنید."),
-  age: yup.number().required("سن را مشخص کنید."),
-  degree: yup.string().required("مدرک تحصیلی را مشخص کنید."),
-  questions: yup.object().shape({
-    question_1: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_2: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_3: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_4: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_5: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_6: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_7: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_8: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    
-    question_9: yup.object().shape({
-      qText: yup.string().when("questions.question_8.qAnswer", {
-        is: (answer) => answer === "YES",
-        then: () => yup.required("متن سوال الزامی است."),
-        otherwise: () => yup.string().notRequired(),
-      }),
-      qAnswer: yup.string().when("questions.question_8.qAnswer", {
-        is: (answer) => answer === "YES",
-        then: () => yup.required("پاسخ سوال الزامی است."),
-        otherwise: () => yup.string().notRequired(),
-      }),
-    }),
-    question_9_detail: yup.object().shape({
-      qText: yup.string(),
-      qAnswer: yup.string(),
-      // .required('لطفا دلیل نمره پایین خود را وارد کنید یا پیشنهاد خود برای بهبود خدمات را بنویسید.')
-    }),
-    question_10: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_11: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_12: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_13: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_14: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_15: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_16: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_17: yup.object().shape({
-      qText: yup.string().when("questions.question_16.qAnswer", {
-        is: (answer) => {console.log(answer)
-          answer === "YES"},
-        then: () => yup.required("متن سوال الزامی است."),
-        otherwise: () => yup.string().notRequired(),
-      }),
-      qAnswer: yup.string().when("questions.question_16.qAnswer", {
-        is: (answer) => answer === "YES",
-        then: () => yup.required("پاسخ سوال الزامی است."),
-        otherwise: () => yup.string().notRequired(),
-      }),
-    }),
-    question_18: yup.object().shape({
-      qText: yup.string().when("questions.question_16.qAnswer", {
-        is: (answer) => answer === "YES",
-        then: () => yup.required("متن سوال الزامی است."),
-        otherwise: () => yup.string().notRequired(),
-      }),
-      qAnswer: yup.string().when("questions.question_16.qAnswer", {
-        is: (answer) => answer === "YES",
-        then: () => yup.required("پاسخ سوال الزامی است."),
-        otherwise: () => yup.string().notRequired(),
-      }),
-    }),
-    question_19: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-    question_19_detail: yup.object().shape({
-      qText: yup.string().required("متن سوال الزامی است."),
-      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
-    }),
-  }),
-});
 
 export default function SurveyFormPage() {
+
+
+  let validationShape = {
+    gender: yup.string().required("جنسیت را مشخص کنید."),
+    age: yup.string().required("سن را مشخص کنید."),
+    degree: yup.string().required("مدرک تحصیلی را مشخص کنید."),
+    questions: yup.object().shape({
+      question_1: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_2: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_3: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_4: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_5: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_6: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_7: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_8: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      /////////=============================================================================
+
+      // question_9: yup.object().shape({
+      //   qText: yup.string().when("questions.question_8.qAnswer", {
+      //     is:"YES",
+      //     then: ()=> yup.string().required("متن سوال الزامی است."),
+      //     otherwise: ()=>  yup.string().notRequired(),
+      //   }),
+      //   qAnswer: yup.string().when("questions.question_8.qAnswer", {
+      //     is:"YES",
+      //     then: ()=>  yup.string().required("پاسخ سوال الزامی است."),
+      //     otherwise: ()=>  yup.string().notRequired(),
+      //   }),
+      // }),
+      /////////=============================================================================
+
+      question_9_detail: yup.object().shape({
+        qText: yup.string(),
+        qAnswer: yup.string(),
+        // .required('لطفا دلیل نمره پایین خود را وارد کنید یا پیشنهاد خود برای بهبود خدمات را بنویسید.')
+      }),
+      question_10: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_11: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_12: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_13: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_14: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_15: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_16: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      /////////=============================================================================
+      // question_17: yup.object().shape({
+      //   qText: yup.string().when("questions.question_16.qAnswer", {
+      //     is: "YES",
+      //     then:()=>   yup.string().required("متن سوال الزامی است."),
+      //     otherwise:  ()=> yup.string().notRequired(),
+      //   }),
+      //   qAnswer: yup.string().when("questions.question_16.qAnswer", {
+      //     is: (answer) => answer === "YES",
+      //     then: ()=>  yup.string().required("پاسخ سوال الزامی است."),
+      //     otherwise: ()=>  yup.string().notRequired(),
+      //   }),
+      // }),
+      // question_18: yup.object().shape({
+      //   qText: yup.string().when("questions.question_16.qAnswer", {
+      //     is: (answer) => answer === "YES",
+      //     then: ()=>  yup.string().required("متن سوال الزامی است."),
+      //     otherwise:()=>   yup.string().notRequired(),
+      //   }),
+      //   qAnswer: yup.string().when("questions.question_16.qAnswer", {
+      //     is: "YES",
+      //     then: ()=>  yup.string().required("پاسخ سوال الزامی است."),
+      //     otherwise: ()=>  yup.string().notRequired(),
+      //   }),
+      // }),
+      /////////=============================================================================
+
+      question_19: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_19_detail: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+    }),
+  };
+
+  const validationSchema1 = yup.object().shape({
+    gender: yup.string().required("جنسیت را مشخص کنید."),
+    age: yup.string().required("سن را مشخص کنید."),
+    degree: yup.string().required("مدرک تحصیلی را مشخص کنید."),
+    questions: yup.object().shape({
+      question_1: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_2: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_3: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_4: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_5: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_6: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_7: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_8: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      /////////=============================================================================
+
+      question_9: yup.object().shape({
+        qText: yup.string().when("questions.question_8.qAnswer", {
+          is:"YES",
+          then: ()=> yup.string().required("متن سوال الزامی است."),
+          otherwise: ()=>  yup.string().notRequired(),
+        }),
+        qAnswer: yup.string().when("questions.question_8.qAnswer", {
+          is:"YES",
+          then: ()=>  yup.string().required("پاسخ سوال الزامی است."),
+          otherwise: ()=>  yup.string().notRequired(),
+        }),
+      }),
+      /////////=============================================================================
+
+      question_9_detail: yup.object().shape({
+        qText: yup.string(),
+        qAnswer: yup.string(),
+        // .required('لطفا دلیل نمره پایین خود را وارد کنید یا پیشنهاد خود برای بهبود خدمات را بنویسید.')
+      }),
+      question_10: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_11: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_12: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_13: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_14: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_15: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_16: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      /////////=============================================================================
+      question_17: yup.object().shape({
+        qText: yup.string().when("questions.question_16.qAnswer", {
+          is: "YES",
+          then:()=>   yup.string().required("متن سوال الزامی است."),
+          otherwise:  ()=> yup.string().notRequired(),
+        }),
+        qAnswer: yup.string().when("questions.question_16.qAnswer", {
+          is: (answer) => answer === "YES",
+          then: ()=>  yup.string().required("پاسخ سوال الزامی است."),
+          otherwise: ()=>  yup.string().notRequired(),
+        }),
+      }),
+      question_18: yup.object().shape({
+        qText: yup.string().when("questions.question_16.qAnswer", {
+          is: (answer) => answer === "YES",
+          then: ()=>  yup.string().required("متن سوال الزامی است."),
+          otherwise:()=>   yup.string().notRequired(),
+        }),
+        qAnswer: yup.string().when("questions.question_16.qAnswer", {
+          is: "YES",
+          then: ()=>  yup.string().required("پاسخ سوال الزامی است."),
+          otherwise: ()=>  yup.string().notRequired(),
+        }),
+      }),
+      /////////=============================================================================
+
+      question_19: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+      question_19_detail: yup.object().shape({
+        qText: yup.string().required("متن سوال الزامی است."),
+        qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+      }),
+    }),
+  });
+
+
+
+
+  const validationSchema = yup.object().shape(validationShape);
   // ----------------------------------  active tab  ----------------------
 
   const [activeTab, setActiveTab] = useState("RECEPTION");
@@ -244,6 +380,9 @@ export default function SurveyFormPage() {
     // validationSchema: yup.object({}),
   });
 
+
+
+  /////----------------------------converting  object of questions to array of questions and answers for sending api
   function convertObjectToArray(obj) {
     const questionsArray = [];
 
@@ -262,7 +401,27 @@ export default function SurveyFormPage() {
 
     return questionsArray;
   }
+  function deletePropertyIfValue(obj, property, value) {
+    if (obj.hasOwnProperty(property) && obj[property] === value) {
+      delete obj[property];
+    }
+  }
+  
+ 
 
+  function checkQuestionsData(obj){
+    // console.log(obj)
+    let test={...obj}
+    if (test.hasOwnProperty("question_8") && test["question_8"].qAnswer === "NO") {
+      delete test["question_9"];
+      delete test["question_9_detail"];
+    }
+    if (test.hasOwnProperty("question_16") && test["question_16"].qAnswer === "NO") {
+      delete test["question_18"];
+      delete test["question_17"];
+    }
+    return test
+  }
   const formik = useFormik({
     initialValues: {
       gender: "",
@@ -294,7 +453,11 @@ export default function SurveyFormPage() {
     },
     onSubmit: (values) => {
       console.log(values);
-      const arrayQues = convertObjectToArray(values.questions);
+      const objectChecked=values.questions;
+      const objQues=checkQuestionsData(objectChecked)
+      console.log(objQues)
+      const arrayQues = convertObjectToArray(objQues);
+      // const arrayQues = convertObjectToArray(values.questions);
       console.log(arrayQues);
       setLoadingButtonSurvey(true)
       console.log({
@@ -365,11 +528,33 @@ export default function SurveyFormPage() {
     },
     validationSchema,
   });
+  if (formik.values.questions.question_8==="YES") {
+    validationShape.questions.question_9 = yup.object().shape({
+      qText: yup.string().required("متن سوال الزامی است."),
+      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+    })
+  }
+
+
+  if (formik.values.questions.question_16==="YES") {
+    validationShape.questions.question_17 = yup.object().shape({
+      qText: yup.string().required("متن سوال الزامی است."),
+      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+    })
+  }
+
+
+  if (formik.values.questions.question_16==="YES") {
+    validationShape.questions.question_18 = yup.object().shape({
+      qText: yup.string().required("متن سوال الزامی است."),
+      qAnswer: yup.string().required("پاسخ سوال الزامی است."),
+    })
+  }
 
   return (
     <div
       className={
-        "  md:bg-mainGreen1 text-[#F7F7F7]  rounded-3xl md:mt-5 relative -z-[0] overflow-clip   "
+        " bg-[#FDFDFD] rounded-b-3xl md:rounded-3xl shadow-G1  md:bg-mainGreen1 text-[#F7F7F7]  md:mt-5 relative -z-[0] overflow-clip   "
       }
     >
       <div className=" -z-0 top-0 inset-x-0 sticky  w-full h-0 hidden md:flex    ">
@@ -380,25 +565,25 @@ export default function SurveyFormPage() {
               stylesForm.backgroundImage
             }
           ></div>
-          <div className={"  absolute top-0 left-0 -z-0 "}>
+          <div className={"  absolute top-0 left-0 -z-0 md:w-[40%] lg:w-fit "}>
             <Image
               src={
                 "/forms/survey/top-view-assortment-with-different-feelings2---1.svg"
               }
               alt={"survey"}
-              width={481}
-              height={481}
+              width={420}
+              height={420}
               className={"  " + " "}
             />
           </div>
-          <div className={"  absolute bottom-0 right-0 -z-0 "}>
+          <div className={"  absolute bottom-0 -right-[20px] -z-0  md:w-[65%] lg:w-fit "}>
             <Image
               src={
                 "/forms/survey/top-view-assortment-with-different-feelings1-1.svg"
               }
               alt={"survey"}
-              width={804}
-              height={804}
+              width={704}
+              height={704}
               className={" " + " "}
             />
           </div>
@@ -477,7 +662,7 @@ export default function SurveyFormPage() {
 
             <div
               className={
-                "group md:w-[50%] mb-1 relative mx-auto mt-8   flex flex-col  " +
+                "group md:w-[60%] lg:w-[50%] mb-1 relative mx-auto mt-8   flex flex-col  " +
                 `${activeTab == "RECEPTION" ? " flex " : " hidden"}`
               }
             >
@@ -490,9 +675,10 @@ export default function SurveyFormPage() {
                 placeholder="کد 5 رقمی پذیرش"
                 className={
                   (true > 0 ? "  " : " ") +
-                  " w-full px-4 placeholder-[#ABABAB] placeholder:text-xs  h-10 resize-none  border border-gray-300 rounded-2xl bg-white "
+                  " w-full px-4  h-10 resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs "
                 }
               />
+              {/* placeholder:transition-all placeholder:duration-300 placeholder:ease-in-out focus-within:placeholder:-translate-x-2 */}
               {/* formikCode.values.reception.length > 0  */}
               <label
                 className={
@@ -535,7 +721,7 @@ export default function SurveyFormPage() {
 
             <div
               className={
-                "group md:w-[50%] mb-1 relative mx-auto mt-8  flex flex-col  " +
+                "group md:w-[60%] lg:w-[50%] mb-1 relative mx-auto mt-8  flex flex-col  " +
                 `${activeTab == "PHONE" ? " flex " : " hidden"}`
               }
             >
@@ -548,7 +734,7 @@ export default function SurveyFormPage() {
                 name={`phone`}
                 className={
                   (true ? "   " : " ") +
-                  " w-full px-4 placeholder-[#ABABAB] placeholder:text-xs   h-10 resize-none  border border-gray-300 rounded-2xl bg-white "
+                  " w-full px-4  h-10 resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs "
                 }
               />
               {/* formikCode.values.phone.length > 0 */}
@@ -592,7 +778,7 @@ export default function SurveyFormPage() {
 
             <div
               className={
-                "group md:w-[50%] mb-1 relative mx-auto mt-8  flex flex-col " +
+                "group md:w-[60%] lg:w-[50%] mb-1 relative mx-auto mt-8  flex flex-col " +
                 `${activeTab == "LAPTOP" ? " flex " : " hidden"}`
               }
             >
@@ -605,7 +791,7 @@ export default function SurveyFormPage() {
                 name={`laptop`}
                 className={
                   (true ? "  " : " ") +
-                  " w-full px-4 placeholder-[#ABABAB] h-10 placeholder:text-xs  resize-none  border border-gray-300 rounded-2xl bg-white "
+                  " w-full px-4 h-10   resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs "
                 }
               />
               {/* formikCode.values.laptop.length > 0 */}

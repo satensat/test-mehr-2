@@ -368,7 +368,7 @@ export default function PersonalInformation({ formik, enableSend }) {
               onFocus={() => setStatusListCourse(true)}
               className={
                 (courseInput.length > 0 ? " input-label-pos-active " : " ") +
-                " w-full px-4 relative  z-[2]  placeholder-[#ABABAB] placeholder:text-xs h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos text-[#525252]   placeholder:transition-all placeholder:duration-300 placeholder:ease-in-out focus-within:placeholder:-translate-x-2   "
+                " w-full px-4 relative  z-[2]   h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos text-[#525252]   placeholder:transition-all placeholder:duration-300 placeholder:ease-in-out focus-within:placeholder:-translate-x-2  placeholder-[#ABABAB] placeholder:text-xs "
               }
               id="degree"
               name="degree"

@@ -9,7 +9,7 @@ export default function FiveRangeTest({
   divider,
   show
 }) {
-  console.log(`questions.${question}.qAnswer`)
+  // console.log(`questions.${question}.qAnswer`)
   return (
     <div
       className={
@@ -35,7 +35,7 @@ export default function FiveRangeTest({
           onClick={() => {
             formik.setFieldValue(`questions.${question}.qAnswer`, "1");
             formik.setFieldValue(`questions.${question}.qText`, questionText);
-            console.log(formik)
+            // console.log(formik)
           }}
           className="flex flex-col items-center cursor-pointer"
         >
