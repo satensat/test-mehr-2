@@ -128,22 +128,7 @@ export default function SurveyFormPage() {
   ////-------------------------------------------------- loading survey send--------------------------
   const [loadingButtonSurvey, setLoadingButtonSurvey] = useState(false);
   ////--------------------------------------------------  formik for code   --------------------------
-  function convertToObjectArray(data) {
-    const result = [];
-    for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-            const questionNumber = key.match(/\d+/)[0];
-            const questionTextKey = `question_${questionNumber}_qText`;
-            if (data.hasOwnProperty(questionTextKey)) {
-                result.push({
-                    question: data[questionTextKey],
-                    answer: data[key]
-                });
-            }
-        }
-    }
-    return result;
-}
+
 
 function objectToArrayObj(selectObject) {
   const result = [];
@@ -201,8 +186,11 @@ const data = {
   "question_19_detail_qText": "دلیل نمره پایین شما چیست؟"
 };
 
-const result = objectToArrayObj(data);
-console.log(result);
+// const result = objectToArrayObj(data);
+// console.log(result);
+
+
+
   const formikCode = useFormik({
     initialValues: {
       activeTab: "RECEPTION",
@@ -273,36 +261,17 @@ console.log(result);
   });
 
   /////----------------------------converting  object of questions to array of questions and answers for sending api
-  function convertObjectToArray(obj) {
-    const questionsArray = [];
 
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        const questionNumber = key.split("_")[1];
-        const questionText = obj[key].qText;
-        const questionAnswer = obj[key].qAnswer;
-
-        questionsArray.push({
-          question: questionText,
-          answer: questionAnswer,
-        });
-      }
-    }
-
-    return questionsArray;
-  }
-  function deletePropertyIfValue(obj, property, value) {
-    if (obj.hasOwnProperty(property) && obj[property] === value) {
-      delete obj[property];
-    }
-  }
+  
 
   function checkQuestionsData(obj) {
     // console.log(obj)
     let test = { ...obj };
     if (test.hasOwnProperty("question_8") && test["question_8"] === "NO") {
       delete test["question_9"];
+      delete test["question_9_qText"];
       delete test["question_9_detail"];
+      delete test["question_9_detail_qText"];
     }
     if (
       test.hasOwnProperty("question_8") &&
@@ -310,10 +279,13 @@ console.log(result);
       (test["question_9"] === "4" || test["question_9"] === "5")
     ) {
       delete test["question_9_detail"];
+      delete test["question_9_detail_qText"];
     }
     if (test.hasOwnProperty("question_16") && test["question_16"] === "NO") {
       delete test["question_18"];
+      delete test["question_18_qText"];
       delete test["question_17"];
+      delete test["question_17_qText"];
     }
     return test;
   }
