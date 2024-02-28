@@ -128,20 +128,22 @@ export default function SurveyFormPage() {
 
   // ----------------------------------        reception_code   mobile   LAPTOP send  ----------------------
 
-  const [enableSendMobile, setEnableSendMobile] = useState(false);
-  const [enableSendLaptop, setEnableSendLaptop] = useState(false);
-  const [enableSendReception, setEnableSendReception] = useState(false);
-  const [sendedCodesStatus, setActiveTabSendedCodesStatus] = useState({
-    mobile: "",
-    reception: "",
-    laptop: "",
-  });
+  const [enableSend, setEnableSend] = useState(false);
+
   ////-------------------------------------------------- loading code send--------------------------
   const [loadingButton, setLoadingButton] = useState(false);
   ////-------------------------------------------------- loading survey send--------------------------
   const [loadingButtonSurvey, setLoadingButtonSurvey] = useState(false);
-  ////--------------------------------------------------  formik for code   --------------------------
+
   const [modalOpen, setModalOpen] = useState(true);
+
+  const [disabledTabs, setDisabledTabs] = useState({
+    mobile: false,
+    reception: false,
+    laptop: false,
+  });
+
+  ////--------------------------------------------------  formik for code   --------------------------
   function objectToArrayObj(selectObject) {
     const result = [];
     for (let i = 1; i <= 19; i++) {
@@ -212,12 +214,29 @@ export default function SurveyFormPage() {
                 progress: undefined,
                 theme: "light",
               });
-              // setEnableSend(true);
-              setEnableSendLaptop(true);
-              setEnableSendMobile(true);
-              setEnableSendReception(true);
+              setEnableSend(true);
               setLoadingButton(false);
-              setActiveTabSendedCodesStatus((prevState)=>({...prevState,[activeTab.toLowerCase()]:values[activeTab.toLowerCase()]}))
+              if (activeTab === "MOBILE") {
+                setDisabledTabs((prevState) => ({
+                  ...prevState,
+                  reception: true,
+                  laptop: true,
+                }));
+              }
+              if (activeTab === "reception") {
+                setDisabledTabs((prevState) => ({
+                  ...prevState,
+                  mobile: true,
+                  laptop: true,
+                }));
+              }
+              if (activeTab === "LAPTOP") {
+                setDisabledTabs((prevState) => ({
+                  ...prevState,
+                  reception: true,
+                  mobile: true,
+                }));
+              }
             }
           })
           .catch((err) => console.log(err));
@@ -377,9 +396,7 @@ export default function SurveyFormPage() {
               });
               setLoadingButtonSurvey(false);
               setModalOpen(true);
-              setEnableSendLaptop(false);
-              setEnableSendMobile(false);
-              setEnableSendReception(false);
+              setEnableSend(false);
               formik.resetForm();
               formikCode.resetForm();
               setCourseInput("");
@@ -460,8 +477,11 @@ export default function SurveyFormPage() {
                 <div
                   className={
                     "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold " +
-                    (activeTab == "RECEPTION"
+                    (activeTab === "RECEPTION"
                       ? "  bg-mainGreen1 text-white  "
+                      : "  text-[#525252]  ") +
+                    (disabledTabs.reception === true
+                      ? "  bg-[#CCCCCC] text-[#525252] pointer-events-none "
                       : "  text-[#525252]  ")
                   }
                   tab_sub="RECEPTION"
@@ -470,15 +490,18 @@ export default function SurveyFormPage() {
                     setActiveTab("RECEPTION");
                   }}
                 >
-                  {activeTab == "RECEPTION" ? <TickSquare /> : null}
+                  {activeTab === "RECEPTION" ? <TickSquare /> : null}
                   کد پذیرش
                 </div>
                 <div
                   className={
                     "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold border-x  border-[#808080]  " +
-                    (activeTab == "MOBILE"
+                    (activeTab === "MOBILE"
                       ? "  bg-mainGreen1 text-white  "
-                      : "  text-[#525252] ")
+                      : "  text-[#525252] ") +
+                    (disabledTabs.mobile === true
+                      ? "  bg-[#CCCCCC] text-[#525252] pointer-events-none "
+                      : "  text-[#525252]  ")
                   }
                   tab_sub="MOBILE"
                   onClick={() => {
@@ -486,15 +509,18 @@ export default function SurveyFormPage() {
                     formikCode.setFieldValue("activeTab", "MOBILE");
                   }}
                 >
-                  {activeTab == "MOBILE" ? <TickSquare /> : null}
+                  {activeTab === "MOBILE" ? <TickSquare /> : null}
                   سریال موبایل
                 </div>
                 <div
                   className={
                     "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold " +
-                    (activeTab == "LAPTOP"
+                    (activeTab === "LAPTOP"
                       ? " bg-mainGreen1 text-white  "
-                      : "  text-[#525252] ")
+                      : "  text-[#525252] ") +
+                    (disabledTabs.laptop === true
+                      ? "  bg-[#CCCCCC] text-[#525252] pointer-events-none "
+                      : "  text-[#525252]  ")
                   }
                   tab_sub="LAPTOP"
                   onClick={() => {
@@ -502,14 +528,15 @@ export default function SurveyFormPage() {
                     setActiveTab("LAPTOP");
                   }}
                 >
-                  {activeTab == "LAPTOP" ? <TickSquare /> : null}
+                  {activeTab === "LAPTOP" ? <TickSquare /> : null}
                   سریال لپتاپ
                 </div>
               </div>
+
               <div
                 className={
                   "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8   flex flex-col  " +
-                  `${activeTab == "RECEPTION" ? " flex " : " hidden"}`
+                  `${activeTab === "RECEPTION" ? " flex " : " hidden"}`
                 }
               >
                 <input
@@ -535,15 +562,12 @@ export default function SurveyFormPage() {
                 >
                   کد یکتای پذیرش
                 </label>
-                {enableSendReception && sendedCodesStatus.reception!=="" &&
-                !(
-                  formikCode.errors.reception && formikCode.touched.reception
-                ) ? (
+                {enableSend ? (
                   <div
                     className={
                       "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
                       " " +
-                      `${enableSendReception ? " opacity-100 " : " opacity-0 "}`
+                      `${enableSend ? " opacity-100 " : " opacity-0 "}`
                     }
                   >
                     <TickCircle />
@@ -567,6 +591,7 @@ export default function SurveyFormPage() {
                   </div>
                 )}
               </div>
+
               <div
                 className={
                   "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8  flex flex-col  " +
@@ -595,13 +620,12 @@ export default function SurveyFormPage() {
                 >
                   شماره IMEI1
                 </label>
-                {enableSendMobile && sendedCodesStatus.mobile!=="" &&
-                !(formikCode.errors.mobile && formikCode.touched.mobile) ? (
+                {enableSend ? (
                   <div
                     className={
                       "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
                       " " +
-                      `${enableSendMobile ? " opacity-100 " : " opacity-0 "}`
+                      `${enableSend ? " opacity-100 " : " opacity-0 "}`
                     }
                   >
                     <TickCircle />
@@ -652,13 +676,12 @@ export default function SurveyFormPage() {
                 >
                   شماره سریال دستگاه
                 </label>
-                {enableSendLaptop && sendedCodesStatus.laptop!=="" &&
-                !(formikCode.errors.laptop && formikCode.touched.laptop) ? (
+                {enableSend ? (
                   <div
                     className={
                       "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
                       " " +
-                      `${enableSendLaptop ? " opacity-100 " : " opacity-0 "}`
+                      `${enableSend ? " opacity-100 " : " opacity-0 "}`
                     }
                   >
                     <TickCircle />
@@ -709,17 +732,13 @@ export default function SurveyFormPage() {
             {/* <form className=" contents "> */}
             <PersonalInformation
               formik={formik}
-              enableSendLaptop={enableSendLaptop}
-              enableSendMobile={enableSendMobile}
-              enableSendReception={enableSendReception}
+              enableSend={enableSend}
               courseInput={courseInput}
               setCourseInput={setCourseInput}
             />
             <SurvayFormContent
               formik={formik}
-              enableSendLaptop={enableSendLaptop}
-              enableSendMobile={enableSendMobile}
-              enableSendReception={enableSendReception}
+              enableSend={enableSend}
               loadingButtonSurvey={loadingButtonSurvey}
             />
             {/* </form> */}

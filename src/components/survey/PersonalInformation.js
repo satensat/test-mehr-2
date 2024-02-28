@@ -10,9 +10,7 @@ export default function PersonalInformation({
   enableSend,
   courseInput,
   setCourseInput,
-  enableSendLaptop,
-  enableSendMobile,
-  enableSendReception,
+  
 }) {
   // زیر دیپلم / دیپلم / کارشناسی / کارشناسی ارشد / دکتری و بالاتر / سایر موارد
 
@@ -58,7 +56,7 @@ export default function PersonalInformation({
 
   return (
     <div className="w-full  bg-[#FDFDFD] rounded-3xl shadow-G1  font-costumFaNum z-30 relative ">
-      {!(enableSendLaptop || enableSendMobile || enableSendReception) && (
+      {!enableSend && (
         <div className="w-full flex flex-row items-center justify-center h-full absolute top-0 inset-x-0 bg-slate-50 bg-opacity-40 p-3 rounded-3xl  z-50  "></div>
       )}
       <p className="text-[#242424] leading-6 text-base font-bold p-3 ">
