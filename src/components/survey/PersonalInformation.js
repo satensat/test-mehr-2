@@ -5,7 +5,12 @@ import formStyles from "./formstyles.module.css";
 import ArrowDownIcon from "@/icon/ArrowDown";
 import ClickOutside from "../forms/ClickOutside";
 
-export default function PersonalInformation({ formik, enableSend }) {
+export default function PersonalInformation({
+  formik,
+  enableSend,
+  courseInput,
+  setCourseInput,
+}) {
   // زیر دیپلم / دیپلم / کارشناسی / کارشناسی ارشد / دکتری و بالاتر / سایر موارد
 
   const courses = [
@@ -23,7 +28,6 @@ export default function PersonalInformation({ formik, enableSend }) {
     setStatusListCourse(false);
   };
 
-  const [courseInput, setCourseInput] = useState("");
   const handleChangeInputCourseAutoComplete = (event) => {
     console.log(event);
     setCourseInput(() => event.target.value);
@@ -67,7 +71,7 @@ export default function PersonalInformation({ formik, enableSend }) {
   return (
     <div className="w-full  bg-[#FDFDFD] rounded-3xl shadow-G1  font-costumFaNum z-30 relative ">
       {!enableSend && (
-        <div className="w-full flex flex-row items-center justify-center h-full absolute top-0 inset-x-0 bg-slate-50 bg-opacity-30 p-3 rounded-3xl  z-50  "></div>
+        <div className="w-full flex flex-row items-center justify-center h-full absolute top-0 inset-x-0 bg-slate-50 bg-opacity-40 p-3 rounded-3xl  z-50  "></div>
       )}
       <p className="text-[#242424] leading-6 text-base font-bold p-3 ">
         اطلاعات شخصی
@@ -98,7 +102,12 @@ export default function PersonalInformation({ formik, enableSend }) {
                       <div className={formStyles.checkmarkRadio}></div>
                     </div>
                   </div>
-                  <div className="font-normal text-xs leading-6 text-[#242424]">
+                  <div
+                    className="font-normal text-xs leading-6 text-[#242424] cursor-pointer "
+                    onClick={() => {
+                      formik.setFieldValue("gender", "FEMALE");
+                    }}
+                  >
                     زن
                   </div>
                 </div>
@@ -122,7 +131,12 @@ export default function PersonalInformation({ formik, enableSend }) {
                       <div className={formStyles.checkmarkRadio}></div>
                     </div>
                   </div>
-                  <div className="font-normal text-xs leading-6 text-[#242424]">
+                  <div
+                    className="font-normal text-xs leading-6 text-[#242424] cursor-pointer "
+                    onClick={() => {
+                      formik.setFieldValue("gender", "MALE");
+                    }}
+                  >
                     مرد
                   </div>
                 </div>
@@ -150,7 +164,12 @@ export default function PersonalInformation({ formik, enableSend }) {
                     <div className={formStyles.checkmarkRadio}></div>
                   </div>
                 </div>
-                <div className="font-normal text-xs leading-6 text-[#242424]">
+                <div
+                  className="font-normal text-xs leading-6 text-[#242424] cursor-pointer "
+                  onClick={() => {
+                    formik.setFieldValue("gender", "x");
+                  }}
+                >
                   ترجیح میدهم جواب ندهم
                 </div>
               </div>
@@ -195,7 +214,12 @@ export default function PersonalInformation({ formik, enableSend }) {
                       <div className={formStyles.checkmarkRadio}></div>
                     </div>
                   </div>
-                  <div className="font-normal text-xs leading-6 text-[#242424]">
+                  <div
+                    className=" cursor-pointer  font-normal text-xs leading-6 text-[#242424]"
+                    onClick={() => {
+                      formik.setFieldValue("age", "16-24");
+                    }}
+                  >
                     16 تا 24
                   </div>
                 </div>
@@ -219,7 +243,12 @@ export default function PersonalInformation({ formik, enableSend }) {
                       <div className={formStyles.checkmarkRadio}></div>
                     </div>
                   </div>
-                  <div className="font-normal text-xs leading-6 text-[#242424]">
+                  <div
+                    className=" cursor-pointer  font-normal text-xs leading-6 text-[#242424]"
+                    onClick={() => {
+                      formik.setFieldValue("age", "25-34");
+                    }}
+                  >
                     25 تا 34
                   </div>
                 </div>
@@ -248,7 +277,12 @@ export default function PersonalInformation({ formik, enableSend }) {
                       <div className={formStyles.checkmarkRadio}></div>
                     </div>
                   </div>
-                  <div className="font-normal text-xs leading-6 text-[#242424]">
+                  <div
+                    className=" cursor-pointer  font-normal text-xs leading-6 text-[#242424]"
+                    onClick={() => {
+                      formik.setFieldValue("age", "35-45");
+                    }}
+                  >
                     35 تا 45
                   </div>
                 </div>
@@ -276,7 +310,12 @@ export default function PersonalInformation({ formik, enableSend }) {
                       <div className={formStyles.checkmarkRadio}></div>
                     </div>
                   </div>
-                  <div className="font-normal text-xs leading-6 text-[#242424]">
+                  <div
+                    className=" cursor-pointer  font-normal text-xs leading-6 text-[#242424]"
+                    onClick={() => {
+                      formik.setFieldValue("age", "45-up");
+                    }}
+                  >
                     بالای 45
                   </div>
                 </div>
@@ -305,11 +344,15 @@ export default function PersonalInformation({ formik, enableSend }) {
                     <div className={formStyles.checkmarkRadio}></div>
                   </div>
                 </div>
-                <div className="font-normal text-xs leading-6 text-[#242424]">
+                <div
+                  className="font-normal text-xs leading-6 text-[#242424] cursor-pointer "
+                  onClick={() => {
+                    formik.setFieldValue("age", "x");
+                  }}
+                >
                   ترجیح میدهم جواب ندهم
                 </div>
               </div>
-
             </div>
             <div
               className={
@@ -362,6 +405,7 @@ export default function PersonalInformation({ formik, enableSend }) {
             <input
               value={courseInput}
               onKeyDown={handleEnterKeyPress}
+              autoComplete="off"
               placeholder="آخرین مدرک تحصیلی دریافت شده"
               onChange={(e) => handleChangeInputCourseAutoComplete(e)}
               onBlur={formik.handleBlur}
@@ -407,19 +451,19 @@ export default function PersonalInformation({ formik, enableSend }) {
           </div>
         </ClickOutside>
         <div
-              className={
-                "text-mainRed w-[80%]  md:w-[60%]  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 font-costumFaNum  " +
-                " " +
-                `${
-                  formik.errors.degree && formik.touched.degree
-                    ? " opacity-100 "
-                    : " opacity-0 "
-                }`
-              }
-            >
-              <DangerIcon />
-              {formik.errors.degree}
-            </div>
+          className={
+            "text-mainRed w-[80%]  md:w-[60%]  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 font-costumFaNum  " +
+            " " +
+            `${
+              formik.errors.degree && formik.touched.degree
+                ? " opacity-100 "
+                : " opacity-0 "
+            }`
+          }
+        >
+          <DangerIcon />
+          {formik.errors.degree}
+        </div>
       </div>
     </div>
   );

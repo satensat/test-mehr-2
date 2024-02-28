@@ -7,7 +7,7 @@ export default function SurveyHeaderPage() {
     <div className="md:px-3 relative z-1">
       <div
         className={
-          " bg-mainGreen1 text-[#F7F7F7] px-3 py-4 rounded-t-3xl md:rounded-3xl flex justify-between  items-center " +
+          " bg-mainGreen1 text-[#F7F7F7] px-3 py-4 rounded-t-3xl md:rounded-3xl flex justify-between  items-center font-costumFaNum " +
           style.container
         }
       >

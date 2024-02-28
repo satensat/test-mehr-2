@@ -123,7 +123,7 @@ export default function SurvayFormContent({
   return (
     <form className="w-full  bg-[#FDFDFD] rounded-3xl shadow-G1 flex flex-col  font-costumFaNum relative ">
       {!enableSend && (
-        <div className="w-full flex flex-row items-center justify-center h-full absolute top-0 inset-x-0 bg-slate-50 bg-opacity-30 p-3 rounded-3xl  z-[14]  "></div>
+        <div className="w-full flex flex-row items-center justify-center h-full absolute top-0 inset-x-0 bg-slate-50 bg-opacity-40 p-3 rounded-3xl  z-[14]  "></div>
       )}
       <div className="flex flex-col relative">
         <div className="sticky top-0 inset-x-0 z-[12]   bg-[#FDFDFD] rounded-3xl">
@@ -389,6 +389,7 @@ export default function SurvayFormContent({
       </div>
       <div className="flex flex-row items-center justify-center p-3  ">
         <button
+        type="submit"
           onClick={(e) => {
             console.log(formik);
             formik.handleSubmit(e);
