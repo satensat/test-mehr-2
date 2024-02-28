@@ -37,21 +37,6 @@ export default function PersonalInformation({
     console.log(filteredCourse);
     setListCourseFiltterd(filteredCourse);
     console.log(filteredCourse.length === 1);
-
-    // if (filteredCourse.length === 1) {
-    //   console.log(filteredCourse[0]);
-    // const timeoutID =
-    // setTimeout(() => {
-    //   console.log("this is the first message");
-    //   fetchCityListitemsDependsProvince(filteredCourse[0].id);
-    //   formik.setFieldValue("province.name", filteredCourse[0].name);
-    //   formik.setFieldValue("province.id", filteredCourse[0].id);
-    //   setCourseInput(filteredCourse[0].name);
-    //   statusListCourse(false);
-    // }, 500);
-    // timeoutID();
-    // clearTimeout(timeoutID);
-    // }
   };
   const handleEnterKeyPress = (event) => {
     setCourseInput(() => event.target.value);
@@ -59,12 +44,12 @@ export default function PersonalInformation({
       course.name.includes(event.target.value)
     );
 
-    listCourseFiltterd(filteredCourse);
+    setListCourseFiltterd(filteredCourse);
 
     if (event.key === "Enter") {
-      formik.setFieldValue("degree", filteredCourse[0].id);
+      formik.setFieldValue("degree", filteredCourse[0].name);
       setCourseInput(filteredCourse[0].name);
-      statusListCourse(false);
+      setStatusListCourse(false);
     }
   };
 

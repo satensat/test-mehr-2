@@ -391,7 +391,6 @@ export default function SurvayFormContent({
         <button
         type="submit"
           onClick={(e) => {
-            console.log(formik);
             formik.handleSubmit(e);
           }}
           className={

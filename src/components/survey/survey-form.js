@@ -27,8 +27,8 @@ const validationSchemaCode = yup.object({
         .required("کد پذیرش را وارد کنید."),
     otherwise: () => yup.string().notRequired(),
   }),
-  phone: yup.string().when("activeTab", {
-    is: (activeTab) => activeTab === "PHONE",
+  mobile: yup.string().when("activeTab", {
+    is: (activeTab) => activeTab === "MOBILE",
     then: () =>
       yup
         .string()
@@ -99,7 +99,7 @@ const validationSchema = yup.object().shape({
       then: () => yup.string().required("پاسخ سوال الزامی است."),
       otherwise: () => yup.string().notRequired(),
     }),
-    question_17_qText:  yup.string().when("question_16", {
+    question_17_qText: yup.string().when("question_16", {
       is: (answer) => answer === "YES",
       then: () => yup.string().required("متن سوال الزامی است."),
       otherwise: () => yup.string().notRequired(),
@@ -109,7 +109,7 @@ const validationSchema = yup.object().shape({
       then: () => yup.string().required("پاسخ سوال الزامی است."),
       otherwise: () => yup.string().notRequired(),
     }),
-    question_18_qText:  yup.string().when("question_16", {
+    question_18_qText: yup.string().when("question_16", {
       is: (answer) => answer === "YES",
       then: () => yup.string().required("متن سوال الزامی است."),
       otherwise: () => yup.string().notRequired(),
@@ -126,7 +126,7 @@ export default function SurveyFormPage() {
 
   const [activeTab, setActiveTab] = useState("RECEPTION");
 
-  // ----------------------------------        reception_code   PHONE   LAPTOP send  ----------------------
+  // ----------------------------------        reception_code   mobile   LAPTOP send  ----------------------
 
   const [enableSend, setEnableSend] = useState(false);
 
@@ -135,11 +135,11 @@ export default function SurveyFormPage() {
   ////-------------------------------------------------- loading survey send--------------------------
   const [loadingButtonSurvey, setLoadingButtonSurvey] = useState(false);
   ////--------------------------------------------------  formik for code   --------------------------
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
   function objectToArrayObj(selectObject) {
     const result = [];
     for (let i = 1; i <= 19; i++) {
-      console.log(selectObject[`question_${i}`]);
+      // console.log(selectObject[`question_${i}`]);
       if (selectObject[`question_${i}`]) {
         result.push({
           question: selectObject[`question_${i}_qText`],
@@ -150,67 +150,22 @@ export default function SurveyFormPage() {
     return result;
   }
 
-  // Example usage:
-  // const data = {
-  //   "question_1": "YES",
-  //   "question_10_qText": "9- مدت زمان تعمیر دستگاه شما",
-  //   "question_2": "4",
-  //   "question_3": "3",
-  //   "question_4": "3",
-  //   "question_5": "4",
-  //   "question_6": "3",
-  //   "question_7": "3",
-  //   "question_8": "NO",
-  //   "question_10": "3",
-  //   "question_11": "2",
-  //   "question_12": "3",
-  //   "question_13": "3",
-  //   "question_14": "2",
-  //   "question_15": "2",
-  //   "question_16": "YES",
-  //   "question_17": "YES",
-  //   "question_18": "3",
-  //   "question_19": "2",
-  //   "question_19_detail": "CCCC",
-  //   "question_1_qText": "1-در هنگام خرید محصول، ضمانت نامه فارسی تحویل شما داده شده ؟",
-  //   "question_2_qText": "2- سهولت در برقراری تماس و دسترسی به مراکز خدمات پس از فروش",
-  //   "question_3_qText": " 3- مدت زمان انتظار پذیرش",
-  //   "question_4_qText": "4- نحوه اطلاع رسانی واحد گارانتی به شما نسبت به فرایند خدمات ارائه شده",
-  //   "question_5_qText": "5- کیفیت خدمات ارائه شده به شما",
-  //   "question_6_qText": "6- تحویل به موقع و خوش قولی شرکت",
-  //   "question_7_qText": "7- امانت داری واحد گارانتی از دستگاه شما",
-  //   "question_8_qText": "8- آیا در خصوص نحوه ارائه خدمات پس از فروش شکایتی به شرکت مطرح کرده اید؟",
-  //   "question_11_qText": "10- آراستگی کارکنان ",
-  //   "question_12_qText": "11- آراستگی و نظم محیط پذیرش",
-  //   "question_13_qText": "12- میزان زمان اختصاص داده شده و دقت مشاور به مشکلات شما",
-  //   "question_14_qText": "13- شیوه برخورد کارکنان با شما",
-  //   "question_15_qText": "14- نحوه پاسخگویی به درخواست ها و سوالات احتمالی شما",
-  //   "question_16_qText": "15- آیا هزینه‌ای از شما از بابت ارائه خدمات دریافت شده است؟",
-  //   "question_17_qText": "16- آیا قبل از اقدام به تعمیر حدود هزینه به شما اعلام شده است؟",
-  //   "question_18_qText": "17- تناسب هزینه دریافتی با خدمات ارائه شده",
-  //   "question_19_qText": "18- از 1 تا 10 چقدر احتمال دارد گارانتی مهر را به دیگران پیشنهاد کنید؟ ",
-  //   "question_19_detail_qText": "دلیل نمره پایین شما چیست؟"
-  // };
-
-  // const result = objectToArrayObj(data);
-  // console.log(result);
   const [courseInput, setCourseInput] = useState("");
   const formikCode = useFormik({
     initialValues: {
       activeTab: "RECEPTION",
       reception: "",
-      phone: "",
+      mobile: "",
       laptop: "",
     },
     validationSchema: validationSchemaCode,
     onSubmit: async (values) => {
       setLoadingButton(true);
-      console.log(values);
-      console.log({
-        code_type: activeTab,
-        code: values[activeTab.toLowerCase()],
-      });
-      // http://192.168.10.181:8090/v1/api/survey/code/
+      // console.log(values);
+      // console.log({
+      //   code_type: activeTab,
+      //   code: values[activeTab.toLowerCase()],
+      // });
 
       try {
         const res = fetch(`http://192.168.10.198:8090/v1/api/survey/code/`, {
@@ -229,10 +184,10 @@ export default function SurveyFormPage() {
               .then((data) => ({ status: response.status, body: data }))
           )
           .then((detail) => {
-            console.log(detail);
+            console.log(detail)
             if (detail.status == "400") {
               const featureEntries = Object.entries(detail.body);
-              console.log(featureEntries[0]);
+              // console.log(featureEntries[0]);
               {
                 featureEntries.map((item) => {
                   toast.warn(item[1][0]);
@@ -266,7 +221,6 @@ export default function SurveyFormPage() {
   /////----------------------------converting  object of questions to array of questions and answers for sending api
 
   function checkQuestionsData(obj) {
-    // console.log(obj)
     let test = { ...obj };
     if (test.hasOwnProperty("question_8") && test["question_8"] === "NO") {
       delete test["question_9"];
@@ -342,24 +296,24 @@ export default function SurveyFormPage() {
       },
     },
     onSubmit: (values) => {
-      console.log(values);
       const objectChecked = values.questions;
+
+      ////--------------------------------------------------------------------------------- deleting empty fields
       const objQues = checkQuestionsData(objectChecked);
-      console.log(objQues);
+      ////---------------------------------------------------------------------------------  changing format to api needed format
       const arrayQues = objectToArrayObj(objQues);
-      // const arrayQues = convertObjectToArray(values.questions);
-      console.log(arrayQues);
+
       setLoadingButtonSurvey(true);
-      console.log({
-        personal_information: {
-          code_type: activeTab,
-          code: formikCode.values[activeTab.toLowerCase()],
-          age: values.age === "x" ? "" : values.age,
-          gender: values.gender === "x" ? "" : values.gender,
-          degree: values.degree === "x" ? "" : values.degree,
-        },
-        questions: arrayQues,
-      });
+      // console.log({
+      //   personal_information: {
+      //     code_type: activeTab,
+      //     code: formikCode.values[activeTab.toLowerCase()],
+      //     age: values.age === "x" ? "" : values.age,
+      //     gender: values.gender === "x" ? "" : values.gender,
+      //     degree: values.degree === "x" ? "" : values.degree,
+      //   },
+      //   questions: arrayQues,
+      // });
 
       try {
         const res = fetch(`http://192.168.10.198:8090/v1/api/survey/answer/`, {
@@ -384,10 +338,10 @@ export default function SurveyFormPage() {
               .then((data) => ({ status: response.status, body: data }))
           )
           .then((detail) => {
-            console.log(detail);
+            // console.log(detail);
             if (detail.status == "400") {
               const featureEntries = Object.entries(detail.body);
-              console.log(featureEntries[0]);
+              // console.log(featureEntries[0]);
               {
                 featureEntries.map((item) => {
                   toast.warn(item[1][0]);
@@ -408,10 +362,10 @@ export default function SurveyFormPage() {
               // });
               setLoadingButtonSurvey(false);
               setModalOpen(true);
-              setEnableSend(false)
+              setEnableSend(false);
               formik.resetForm();
               formikCode.resetForm();
-              setCourseInput("")
+              setCourseInput("");
             }
           })
           .catch((err) => console.log(err));
@@ -423,327 +377,332 @@ export default function SurveyFormPage() {
   });
 
   return (
-    <div
-      className={
-        " bg-[#FDFDFD] rounded-b-3xl md:rounded-3xl shadow-G1  md:bg-mainGreen1 text-[#F7F7F7]  md:mt-5 relative -z-[0] overflow-clip   "
-      }
-    >
-      <div className=" -z-0 top-0 inset-x-0 sticky  w-full h-0 hidden md:flex    ">
-        <div className="w-full  relative h-[100vh] overflow-hidden">
-          <div
-            className={
-              "hidden md:flex  w-full h-[100vh] absolute  top-0 inset-x-0    " +
-              stylesForm.backgroundImage
-            }
-          ></div>
-          <div className={"  absolute top-0 left-0 -z-0 md:w-[40%] lg:w-fit "}>
-            <Image
-              src={
-                "/forms/survey/top-view-assortment-with-different-feelings2---1.svg"
-              }
-              alt={"survey"}
-              width={420}
-              height={420}
-              className={"  " + " "}
-            />
-          </div>
-          <div
-            className={
-              "  absolute bottom-0 -right-[20px] -z-0  md:w-[65%] lg:w-fit "
-            }
-          >
-            <Image
-              src={
-                "/forms/survey/top-view-assortment-with-different-feelings1-1.svg"
-              }
-              alt={"survey"}
-              width={704}
-              height={704}
-              className={" " + " "}
-            />
-          </div>
-        </div>
-      </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+    <>
       <ModalDoneSurvey modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      <div className="flex w-full flex-row items-center justify-center  z-2 top-0 inset-x-0 sticky  md:px-3 md:py-4  ">
-        <div className="w-full md:w-[50%]  flex flex-col items-center gap-5 ">
-          <form className="w-full  bg-[#FDFDFD] rounded-b-3xl md:rounded-3xl shadow-G1   p-3 text-[#000]">
-            <p>سریال دستگاه یا کد پذیرش خود را وارد کنید.</p>
-            <div className=" border border-[#808080] flex rounded-xl  max-w-fit mx-auto overflow-hidden my-4">
-              <div
-                className={
-                  "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold " +
-                  (activeTab == "RECEPTION"
-                    ? "  bg-mainGreen1 text-white  "
-                    : "  text-[#525252]  ")
-                }
-                tab_sub="RECEPTION"
-                onClick={() => {
-                  formikCode.setFieldValue("activeTab", "RECEPTION");
-                  console.log(formikCode);
-                  setActiveTab("RECEPTION");
-                }}
-              >
-                {activeTab == "RECEPTION" ? <TickSquare /> : null}
-                کد پذیرش
-              </div>
-              <div
-                className={
-                  "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold border-x  border-[#808080]  " +
-                  (activeTab == "PHONE"
-                    ? "  bg-mainGreen1 text-white  "
-                    : "  text-[#525252] ")
-                }
-                tab_sub="PHONE"
-                onClick={() => {
-                  setActiveTab("PHONE");
-                  console.log(formikCode);
-
-                  formikCode.setFieldValue("activeTab", "PHONE");
-                }}
-              >
-                {activeTab == "PHONE" ? <TickSquare /> : null}
-                سریال موبایل
-              </div>
-              <div
-                className={
-                  "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold " +
-                  (activeTab == "LAPTOP"
-                    ? " bg-mainGreen1 text-white  "
-                    : "  text-[#525252] ")
-                }
-                tab_sub="LAPTOP"
-                onClick={() => {
-                  formikCode.setFieldValue("activeTab", "LAPTOP");
-                  setActiveTab("LAPTOP");
-                  console.log(formikCode);
-                }}
-              >
-                {activeTab == "LAPTOP" ? <TickSquare /> : null}
-                سریال لپتاپ
-              </div>
-            </div>
-
+      <div
+        className={
+          " bg-[#FDFDFD] rounded-b-3xl md:rounded-3xl shadow-G1  md:bg-mainGreen1 text-[#F7F7F7]  md:mt-5 relative -z-[0] overflow-clip   "
+        }
+      >
+        <div className=" -z-0 top-0 inset-x-0 sticky  w-full h-0 hidden md:flex    ">
+          <div className="w-full  relative h-[100vh] overflow-hidden">
             <div
               className={
-                "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8   flex flex-col  " +
-                `${activeTab == "RECEPTION" ? " flex " : " hidden"}`
+                "hidden md:flex  w-full h-[100vh] absolute  top-0 inset-x-0    " +
+                stylesForm.backgroundImage
               }
+            ></div>
+            <div
+              className={"  absolute top-0 left-0 -z-0 md:w-[40%] lg:w-fit "}
             >
-              <input
-                value={formikCode.values.reception}
-                onChange={formikCode.handleChange}
-                onBlur={formikCode.handleBlur}
-                type="text"
-                name={`reception`}
-                placeholder="کد 5 رقمی پذیرش"
-                className={
-                  (true > 0 ? "  " : " ") +
-                  " w-full px-4  h-10 resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
+              <Image
+                src={
+                  "/forms/survey/top-view-assortment-with-different-feelings2---1.svg"
                 }
+                alt={"survey"}
+                width={420}
+                height={420}
+                className={"  " + " "}
               />
-              {/* placeholder:transition-all placeholder:duration-300 placeholder:ease-in-out focus-within:placeholder:-translate-x-2 */}
-              {/* formikCode.values.reception.length > 0  */}
-              <label
-                className={
-                  " absolute top-3 right-4 rounded-2xl text-sm pointer-events-none bg-white px-1 group-focus-within:text-xs  group-focus-within:-translate-y-[20px] " +
-                  " " +
-                  `${true ? "text-xs  -translate-y-[20px]  " : ""}`
-                }
-              >
-                کد یکتای پذیرش
-              </label>
-              {enableSend ? (
-                <div
-                  className={
-                    "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
-                    " " +
-                    `${enableSend ? " opacity-100 " : " opacity-0 "}`
-                  }
-                >
-                  <TickCircle />
-                  متن پیام موفقیت آمیز بود
-                </div>
-              ) : (
-                <div
-                  className={
-                    "text-mainRed font-costumFaNum text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
-                    " " +
-                    `${
-                      formikCode.errors.reception &&
-                      formikCode.touched.reception
-                        ? " opacity-100 "
-                        : " opacity-0 "
-                    }`
-                  }
-                >
-                  <DangerIcon />
-                  {formikCode.errors.reception}
-                </div>
-              )}
             </div>
-
             <div
               className={
-                "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8  flex flex-col  " +
-                `${activeTab == "PHONE" ? " flex " : " hidden"}`
+                "  absolute bottom-0 -right-[20px] -z-0  md:w-[65%] lg:w-fit "
               }
             >
-              <input
-                value={formikCode.values.phone}
-                onChange={formikCode.handleChange}
-                onBlur={formikCode.handleBlur}
-                type="text"
-                placeholder="شماره 15 رقمی IMEI1"
-                name="phone"
-                className={
-                  (true ? "   " : " ") +
-                  " w-full px-4  h-10 resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
+              <Image
+                src={
+                  "/forms/survey/top-view-assortment-with-different-feelings1-1.svg"
                 }
+                alt={"survey"}
+                width={704}
+                height={704}
+                className={" " + " "}
               />
-              {/* formikCode.values.phone.length > 0 */}
-              <label
+            </div>
+          </div>
+        </div>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={true}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+
+        <div className="flex w-full flex-row items-center justify-center  z-2 top-0 inset-x-0 sticky  md:px-3 md:py-4  ">
+          <div className="w-full md:w-[50%]  flex flex-col items-center gap-5 ">
+            <form className="w-full  bg-[#FDFDFD] rounded-b-3xl md:rounded-3xl shadow-G1   p-3 text-[#000]">
+              <p>سریال دستگاه یا کد پذیرش خود را وارد کنید.</p>
+              <div className=" border border-[#808080] flex rounded-xl  max-w-fit mx-auto overflow-hidden my-4">
+                <div
+                  className={
+                    "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold " +
+                    (activeTab == "RECEPTION"
+                      ? "  bg-mainGreen1 text-white  "
+                      : "  text-[#525252]  ")
+                  }
+                  tab_sub="RECEPTION"
+                  onClick={() => {
+                    formikCode.setFieldValue("activeTab", "RECEPTION");
+                    setActiveTab("RECEPTION");
+                  }}
+                >
+                  {activeTab == "RECEPTION" ? <TickSquare /> : null}
+                  کد پذیرش
+                </div>
+                <div
+                  className={
+                    "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold border-x  border-[#808080]  " +
+                    (activeTab == "MOBILE"
+                      ? "  bg-mainGreen1 text-white  "
+                      : "  text-[#525252] ")
+                  }
+                  tab_sub="MOBILE"
+                  onClick={() => {
+                    setActiveTab("MOBILE");
+                    formikCode.setFieldValue("activeTab", "MOBILE");
+                  }}
+                >
+                  {activeTab == "MOBILE" ? <TickSquare /> : null}
+                  سریال موبایل
+                </div>
+                <div
+                  className={
+                    "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold " +
+                    (activeTab == "LAPTOP"
+                      ? " bg-mainGreen1 text-white  "
+                      : "  text-[#525252] ")
+                  }
+                  tab_sub="LAPTOP"
+                  onClick={() => {
+                    formikCode.setFieldValue("activeTab", "LAPTOP");
+                    setActiveTab("LAPTOP");
+                  }}
+                >
+                  {activeTab == "LAPTOP" ? <TickSquare /> : null}
+                  سریال لپتاپ
+                </div>
+              </div>
+
+              <div
                 className={
-                  " absolute top-3 right-4 rounded-2xl px-1 pointer-events-none group-focus-within:text-xs  bg-white  group-focus-within:-translate-y-[20px] " +
-                  " " +
-                  `${true ? " text-xs  -translate-y-[20px]  " : " text-sm "}`
+                  "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8   flex flex-col  " +
+                  `${activeTab == "RECEPTION" ? " flex " : " hidden"}`
                 }
               >
-                شماره IMEI1
-              </label>
-              {enableSend ? (
-                <div
+                <input
+                  value={formikCode.values.reception}
+                  onChange={formikCode.handleChange}
+                  onBlur={formikCode.handleBlur}
+                  type="text"
+                  name={`reception`}
+                  placeholder="کد 5 رقمی پذیرش"
                   className={
-                    "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
+                    (true > 0 ? "  " : " ") +
+                    " w-full px-4  h-10 resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
+                  }
+                />
+                {/* placeholder:transition-all placeholder:duration-300 placeholder:ease-in-out focus-within:placeholder:-translate-x-2 */}
+                {/* formikCode.values.reception.length > 0  */}
+                <label
+                  className={
+                    " absolute top-3 right-4 rounded-2xl text-sm pointer-events-none bg-white px-1 group-focus-within:text-xs  group-focus-within:-translate-y-[20px] " +
                     " " +
-                    `${enableSend ? " opacity-100 " : " opacity-0 "}`
+                    `${true ? "text-xs  -translate-y-[20px]  " : ""}`
                   }
                 >
-                  <TickCircle />
-                  متن پیام موفقیت آمیز بود
-                </div>
-              ) : (
-                <div
-                  className={
-                    "text-mainRed font-costumFaNum text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
-                    " " +
-                    `${
-                      formikCode.errors.phone && formikCode.touched.phone
-                        ? " opacity-100 "
-                        : " opacity-0 "
-                    }`
-                  }
-                >
-                  <DangerIcon />
-                  {formikCode.errors.phone}
-                </div>
-              )}
-            </div>
+                  کد یکتای پذیرش
+                </label>
+                {enableSend ? (
+                  <div
+                    className={
+                      "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
+                      " " +
+                      `${enableSend ? " opacity-100 " : " opacity-0 "}`
+                    }
+                  >
+                    <TickCircle />
+                    متن پیام موفقیت آمیز بود
+                  </div>
+                ) : (
+                  <div
+                    className={
+                      "text-mainRed font-costumFaNum text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                      " " +
+                      `${
+                        formikCode.errors.reception &&
+                        formikCode.touched.reception
+                          ? " opacity-100 "
+                          : " opacity-0 "
+                      }`
+                    }
+                  >
+                    <DangerIcon />
+                    {formikCode.errors.reception}
+                  </div>
+                )}
+              </div>
 
-            <div
-              className={
-                "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8  flex flex-col " +
-                `${activeTab == "LAPTOP" ? " flex " : " hidden"}`
-              }
-            >
-              <input
-                value={formikCode.values.laptop}
-                onChange={formikCode.handleChange}
-                onBlur={formikCode.handleBlur}
-                type="text"
-                placeholder="شماره سریال نوشته شده بر روی دستگاه"
-                name={`laptop`}
+              <div
                 className={
-                  (true ? "  " : " ") +
-                  " w-full px-4 h-10   resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
-                }
-              />
-              {/* formikCode.values.laptop.length > 0 */}
-              <label
-                className={
-                  " absolute top-3 right-4 rounded-2xl text-sm pointer-events-none bg-white px-1 group-focus-within:text-xs  group-focus-within:-translate-y-[20px] " +
-                  " " +
-                  `${true ? "text-xs  -translate-y-[20px]  " : ""}`
-                }
-              >
-                شماره سریال دستگاه
-              </label>
-              {enableSend ? (
-                <div
-                  className={
-                    "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
-                    " " +
-                    `${enableSend ? " opacity-100 " : " opacity-0 "}`
-                  }
-                >
-                  <TickCircle />
-                  متن پیام موفقیت آمیز بود
-                </div>
-              ) : (
-                <div
-                  className={
-                    "text-mainRed font-costumFaNum text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
-                    " " +
-                    `${
-                      formikCode.errors.laptop && formikCode.touched.laptop
-                        ? " opacity-100 "
-                        : " opacity-0 "
-                    }`
-                  }
-                >
-                  <DangerIcon />
-                  {formikCode.errors.laptop}
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-row items-center justify-center pt-3  ">
-              <button
-                type="submit"
-                onClick={formikCode.handleSubmit}
-                className={
-                  "group transition ease-in-out duration-500  flex flex-row gap-1 justify-center items-center  px-3 py-1 text-sm leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] w-fit relative font-bold min-w-[104px] " +
-                  " " +
-                  // `${
-                  //   disabledCodeSend
-                  //     ? " bg-[#E6E6E6] cursor-not-allowed text-[#696969] "
-                  //     : "group text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] cursor-pointer "
-                  // }` +
-                  " " +
-                  `${loadingButton ? "  pointer-events-none  " : " "}`
+                  "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8  flex flex-col  " +
+                  `${activeTab == "MOBILE" ? " flex " : " hidden"}`
                 }
               >
-                ادامه
-                <div className="transition ease-in-out duration-500   brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
-                  <ArrowOpinion width={"16"} height={"16"} />
-                </div>
-                {loadingButton && <ButtonCoverLoader />}
-              </button>
-            </div>
-          </form>
-          {/* <form className=" contents "> */}
+                <input
+                  value={formikCode.values.mobile}
+                  onChange={formikCode.handleChange}
+                  onBlur={formikCode.handleBlur}
+                  type="text"
+                  placeholder="شماره 15 رقمی IMEI1"
+                  name="mobile"
+                  className={
+                    (true ? "   " : " ") +
+                    " w-full px-4  h-10 resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
+                  }
+                />
+                {/* formikCode.values.mobile.length > 0 */}
+                <label
+                  className={
+                    " absolute top-3 right-4 rounded-2xl px-1 pointer-events-none group-focus-within:text-xs  bg-white  group-focus-within:-translate-y-[20px] " +
+                    " " +
+                    `${true ? " text-xs  -translate-y-[20px]  " : " text-sm "}`
+                  }
+                >
+                  شماره IMEI1
+                </label>
+                {enableSend ? (
+                  <div
+                    className={
+                      "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
+                      " " +
+                      `${enableSend ? " opacity-100 " : " opacity-0 "}`
+                    }
+                  >
+                    <TickCircle />
+                    متن پیام موفقیت آمیز بود
+                  </div>
+                ) : (
+                  <div
+                    className={
+                      "text-mainRed font-costumFaNum text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                      " " +
+                      `${
+                        formikCode.errors.mobile && formikCode.touched.mobile
+                          ? " opacity-100 "
+                          : " opacity-0 "
+                      }`
+                    }
+                  >
+                    <DangerIcon />
+                    {formikCode.errors.mobile}
+                  </div>
+                )}
+              </div>
 
-          <PersonalInformation formik={formik} enableSend={enableSend} courseInput={courseInput} setCourseInput={setCourseInput}/>
-          <SurvayFormContent
-            formik={formik}
-            enableSend={enableSend}
-            loadingButtonSurvey={loadingButtonSurvey}
-          />
-          {/* </form> */}
+              <div
+                className={
+                  "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8  flex flex-col " +
+                  `${activeTab == "LAPTOP" ? " flex " : " hidden"}`
+                }
+              >
+                <input
+                  value={formikCode.values.laptop}
+                  onChange={formikCode.handleChange}
+                  onBlur={formikCode.handleBlur}
+                  type="text"
+                  placeholder="شماره سریال نوشته شده بر روی دستگاه"
+                  name={`laptop`}
+                  className={
+                    (true ? "  " : " ") +
+                    " w-full px-4 h-10   resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
+                  }
+                />
+                {/* formikCode.values.laptop.length > 0 */}
+                <label
+                  className={
+                    " absolute top-3 right-4 rounded-2xl text-sm pointer-events-none bg-white px-1 group-focus-within:text-xs  group-focus-within:-translate-y-[20px] " +
+                    " " +
+                    `${true ? "text-xs  -translate-y-[20px]  " : ""}`
+                  }
+                >
+                  شماره سریال دستگاه
+                </label>
+                {enableSend ? (
+                  <div
+                    className={
+                      "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
+                      " " +
+                      `${enableSend ? " opacity-100 " : " opacity-0 "}`
+                    }
+                  >
+                    <TickCircle />
+                    متن پیام موفقیت آمیز بود
+                  </div>
+                ) : (
+                  <div
+                    className={
+                      "text-mainRed font-costumFaNum text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                      " " +
+                      `${
+                        formikCode.errors.laptop && formikCode.touched.laptop
+                          ? " opacity-100 "
+                          : " opacity-0 "
+                      }`
+                    }
+                  >
+                    <DangerIcon />
+                    {formikCode.errors.laptop}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-row items-center justify-center pt-3  ">
+                <button
+                  type="submit"
+                  onClick={formikCode.handleSubmit}
+                  className={
+                    "group transition ease-in-out duration-500  flex flex-row gap-1 justify-center items-center  px-3 py-1 text-sm leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] w-fit relative font-bold min-w-[104px] " +
+                    " " +
+                    // `${
+                    //   disabledCodeSend
+                    //     ? " bg-[#E6E6E6] cursor-not-allowed text-[#696969] "
+                    //     : "group text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] cursor-pointer "
+                    // }` +
+                    " " +
+                    `${loadingButton ? "  pointer-events-none  " : " "}`
+                  }
+                >
+                  ادامه
+                  <div className="transition ease-in-out duration-500   brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
+                    <ArrowOpinion width={"16"} height={"16"} />
+                  </div>
+                  {loadingButton && <ButtonCoverLoader />}
+                </button>
+              </div>
+            </form>
+            {/* <form className=" contents "> */}
+            <PersonalInformation
+              formik={formik}
+              enableSend={enableSend}
+              courseInput={courseInput}
+              setCourseInput={setCourseInput}
+            />
+            <SurvayFormContent
+              formik={formik}
+              enableSend={enableSend}
+              loadingButtonSurvey={loadingButtonSurvey}
+            />
+            {/* </form> */}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
