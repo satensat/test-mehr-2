@@ -16,6 +16,9 @@ export default function SurvayFormContent({
   formik,
   enableSend,
   loadingButtonSurvey,
+  // enableSendLaptop,
+  // enableSendMobile,
+  // enableSendReception,
 }) {
   const testNumber = ["1"];
   const [q19_helpText, setQ19_helpText] = useState({
@@ -122,6 +125,9 @@ export default function SurvayFormContent({
   }
   return (
     <form className="w-full  bg-[#FDFDFD] rounded-3xl shadow-G1 flex flex-col  font-costumFaNum relative ">
+      {/* (enableSendLaptop ||
+  enableSendMobile ||
+  enableSendReception) */}
       {!enableSend && (
         <div className="w-full flex flex-row items-center justify-center h-full absolute top-0 inset-x-0 bg-slate-50 bg-opacity-40 p-3 rounded-3xl  z-[14]  "></div>
       )}
@@ -327,7 +333,9 @@ export default function SurvayFormContent({
             formik={formik}
             show={formik.values.questions.question_16 === "YES"}
             question={"question_18"}
-            questionText={`${+check17Num()+1}- تناسب هزینه دریافتی با خدمات ارائه شده`}
+            questionText={`${
+              +check17Num() + 1
+            }- تناسب هزینه دریافتی با خدمات ارائه شده`}
             divider={false}
           />
 
@@ -389,7 +397,7 @@ export default function SurvayFormContent({
       </div>
       <div className="flex flex-row items-center justify-center p-3  ">
         <button
-        type="submit"
+          type="submit"
           onClick={(e) => {
             formik.handleSubmit(e);
           }}

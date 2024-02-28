@@ -128,8 +128,14 @@ export default function SurveyFormPage() {
 
   // ----------------------------------        reception_code   mobile   LAPTOP send  ----------------------
 
-  const [enableSend, setEnableSend] = useState(false);
-
+  const [enableSendMobile, setEnableSendMobile] = useState(false);
+  const [enableSendLaptop, setEnableSendLaptop] = useState(false);
+  const [enableSendReception, setEnableSendReception] = useState(false);
+  const [sendedCodesStatus, setActiveTabSendedCodesStatus] = useState({
+    mobile: "",
+    reception: "",
+    laptop: "",
+  });
   ////-------------------------------------------------- loading code send--------------------------
   const [loadingButton, setLoadingButton] = useState(false);
   ////-------------------------------------------------- loading survey send--------------------------
@@ -184,7 +190,7 @@ export default function SurveyFormPage() {
               .then((data) => ({ status: response.status, body: data }))
           )
           .then((detail) => {
-            console.log(detail)
+            console.log(detail);
             if (detail.status == "400") {
               const featureEntries = Object.entries(detail.body);
               // console.log(featureEntries[0]);
@@ -206,8 +212,12 @@ export default function SurveyFormPage() {
                 progress: undefined,
                 theme: "light",
               });
-              setEnableSend(true);
+              // setEnableSend(true);
+              setEnableSendLaptop(true);
+              setEnableSendMobile(true);
+              setEnableSendReception(true);
               setLoadingButton(false);
+              setActiveTabSendedCodesStatus((prevState)=>({...prevState,[activeTab.toLowerCase()]:values[activeTab.toLowerCase()]}))
             }
           })
           .catch((err) => console.log(err));
@@ -338,7 +348,7 @@ export default function SurveyFormPage() {
               .then((data) => ({ status: response.status, body: data }))
           )
           .then((detail) => {
-            // console.log(detail);
+            console.log(detail);
             if (detail.status == "400") {
               const featureEntries = Object.entries(detail.body);
               // console.log(featureEntries[0]);
@@ -360,9 +370,16 @@ export default function SurveyFormPage() {
               //   progress: undefined,
               //   theme: "light",
               // });
+              window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+              });
               setLoadingButtonSurvey(false);
               setModalOpen(true);
-              setEnableSend(false);
+              setEnableSendLaptop(false);
+              setEnableSendMobile(false);
+              setEnableSendReception(false);
               formik.resetForm();
               formikCode.resetForm();
               setCourseInput("");
@@ -489,7 +506,6 @@ export default function SurveyFormPage() {
                   سریال لپتاپ
                 </div>
               </div>
-
               <div
                 className={
                   "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8   flex flex-col  " +
@@ -519,12 +535,15 @@ export default function SurveyFormPage() {
                 >
                   کد یکتای پذیرش
                 </label>
-                {enableSend ? (
+                {enableSendReception && sendedCodesStatus.reception!=="" &&
+                !(
+                  formikCode.errors.reception && formikCode.touched.reception
+                ) ? (
                   <div
                     className={
                       "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
                       " " +
-                      `${enableSend ? " opacity-100 " : " opacity-0 "}`
+                      `${enableSendReception ? " opacity-100 " : " opacity-0 "}`
                     }
                   >
                     <TickCircle />
@@ -548,7 +567,6 @@ export default function SurveyFormPage() {
                   </div>
                 )}
               </div>
-
               <div
                 className={
                   "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8  flex flex-col  " +
@@ -577,12 +595,13 @@ export default function SurveyFormPage() {
                 >
                   شماره IMEI1
                 </label>
-                {enableSend ? (
+                {enableSendMobile && sendedCodesStatus.mobile!=="" &&
+                !(formikCode.errors.mobile && formikCode.touched.mobile) ? (
                   <div
                     className={
                       "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
                       " " +
-                      `${enableSend ? " opacity-100 " : " opacity-0 "}`
+                      `${enableSendMobile ? " opacity-100 " : " opacity-0 "}`
                     }
                   >
                     <TickCircle />
@@ -605,7 +624,6 @@ export default function SurveyFormPage() {
                   </div>
                 )}
               </div>
-
               <div
                 className={
                   "group md:w-[60%] max-w-[258px] mb-1 relative mx-auto mt-8  flex flex-col " +
@@ -634,12 +652,13 @@ export default function SurveyFormPage() {
                 >
                   شماره سریال دستگاه
                 </label>
-                {enableSend ? (
+                {enableSendLaptop && sendedCodesStatus.laptop!=="" &&
+                !(formikCode.errors.laptop && formikCode.touched.laptop) ? (
                   <div
                     className={
                       "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
                       " " +
-                      `${enableSend ? " opacity-100 " : " opacity-0 "}`
+                      `${enableSendLaptop ? " opacity-100 " : " opacity-0 "}`
                     }
                   >
                     <TickCircle />
@@ -690,13 +709,17 @@ export default function SurveyFormPage() {
             {/* <form className=" contents "> */}
             <PersonalInformation
               formik={formik}
-              enableSend={enableSend}
+              enableSendLaptop={enableSendLaptop}
+              enableSendMobile={enableSendMobile}
+              enableSendReception={enableSendReception}
               courseInput={courseInput}
               setCourseInput={setCourseInput}
             />
             <SurvayFormContent
               formik={formik}
-              enableSend={enableSend}
+              enableSendLaptop={enableSendLaptop}
+              enableSendMobile={enableSendMobile}
+              enableSendReception={enableSendReception}
               loadingButtonSurvey={loadingButtonSurvey}
             />
             {/* </form> */}
