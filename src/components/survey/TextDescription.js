@@ -30,9 +30,9 @@ export default function TextDescription({
       }
     >
       <textarea
-        name={`questions.${question}.qAnswer`}
-        value={formik.values.questions[question].qAnswer}
-        onChange={(e)=>{formik.handleChange(e);formik.setFieldValue(`questions.${question}.qText`, labelDescription);}}
+        name={`questions.${question}`}
+        value={formik.values.questions[question]}
+        onChange={(e)=>{formik.handleChange(e);formik.setFieldValue(`questions.${question}_qText`, labelDescription);}}
         onBlur={formik.handleBlur}
         placeholder={placeholderDescription}
         className={
@@ -55,14 +55,14 @@ export default function TextDescription({
           " " +
           `${
             formik.errors.questions && formik.touched.questions && 
-            formik.errors.questions[question]?.qAnswer && formik.touched.questions[question]?.qAnswer
+            formik.errors.questions[question] && formik.touched.questions[question]
               ? " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.questions && formik.touched.questions &&  formik.errors.questions[question]?.qAnswer}
+        {formik.errors.questions && formik.touched.questions &&  formik.errors.questions[question]}
       </div>
     </div>
     </div>

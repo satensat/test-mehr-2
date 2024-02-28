@@ -24,12 +24,12 @@ export default function SurvayFormContent({
   });
   useEffect(() => {
     if (
-      formik.values.questions.question_19.qAnswer === "1" ||
-      formik.values.questions.question_19.qAnswer === "2" ||
-      formik.values.questions.question_19.qAnswer === "3" ||
-      formik.values.questions.question_19.qAnswer === "4" ||
-      formik.values.questions.question_19.qAnswer === "5" ||
-      formik.values.questions.question_19.qAnswer === "6"
+      formik.values.questions.question_19 === "1" ||
+      formik.values.questions.question_19 === "2" ||
+      formik.values.questions.question_19 === "3" ||
+      formik.values.questions.question_19 === "4" ||
+      formik.values.questions.question_19 === "5" ||
+      formik.values.questions.question_19 === "6"
     ) {
       setQ19_helpText({
         labelText: "دلیل نمره پایین شما چیست؟",
@@ -37,8 +37,8 @@ export default function SurvayFormContent({
       });
     }
     if (
-      formik.values.questions.question_19.qAnswer === "7" ||
-      formik.values.questions.question_19.qAnswer === "8"
+      formik.values.questions.question_19 === "7" ||
+      formik.values.questions.question_19 === "8"
     ) {
       setQ19_helpText({
         labelText: "چه پیشنهادی برای بهتر شدن خدمات ما دارید؟",
@@ -46,15 +46,15 @@ export default function SurvayFormContent({
       });
     }
     if (
-      formik.values.questions.question_19.qAnswer === "9" ||
-      formik.values.questions.question_19.qAnswer === "10"
+      formik.values.questions.question_19 === "9" ||
+      formik.values.questions.question_19 === "10"
     ) {
       setQ19_helpText({
         labelText: "نقطه قوت گارانتی مهر چیست؟",
         placeholderText: "لطفا نقطه قوت گارانتی مهر را بنویسید.",
       });
     }
-  }, [formik.values.questions.question_19.qAnswer]);
+  }, [formik.values.questions.question_19]);
 
   // function checkQuestionTypeSetComponent(question, index, length) {
   //   switch (question.type_of_answer) {
@@ -83,21 +83,42 @@ export default function SurvayFormContent({
 
   function check19Num() {
     if (
-      formik.values.questions.question_8.qAnswer === "YES" &&
-      formik.values.questions.question_16.qAnswer === "YES"
+      formik.values.questions.question_8 === "YES" &&
+      formik.values.questions.question_16 === "YES"
     ) {
       return "19";
     }
-    if (formik.values.questions.question_8.qAnswer === "YES") {
+    if (
+      formik.values.questions.question_8 !== "YES" &&
+      formik.values.questions.question_16 === "YES"
+    ) {
+      return "18";
+    }
+    if (formik.values.questions.question_8 === "YES") {
       return "17";
     }
     return "16";
   }
+  function check17Num() {
+    if (
+      formik.values.questions.question_8 === "YES" &&
+      formik.values.questions.question_16 === "YES"
+    ) {
+      return "17";
+    }
+    if (
+      formik.values.questions.question_8 !== "YES" &&
+      formik.values.questions.question_16 === "YES"
+    ) {
+      return "16";
+    }
+    return "16";
+  }
   function check10Num(qNum) {
-    if (formik.values.questions.question_8.qAnswer === "YES") {
+    if (formik.values.questions.question_8 === "YES") {
       return qNum;
     }
-    return +qNum-1;
+    return +qNum - 1;
   }
   return (
     <form className="w-full  bg-[#FDFDFD] rounded-3xl shadow-G1 flex flex-col  font-costumFaNum relative ">
@@ -182,40 +203,32 @@ export default function SurvayFormContent({
             show={true}
             question={"question_8"}
             divider={
-              formik.values.questions.question_8.qAnswer === "YES"
-                ? false
-                : true
+              formik.values.questions.question_8 === "YES" ? false : true
             }
             questionText={
               "8- آیا در خصوص نحوه ارائه خدمات پس از فروش شکایتی به شرکت مطرح کرده اید؟"
             }
           />
-          {/* {formik.values.questions.question_8.qAnswer === "YES" && ( */}
           <FiveRangeTest
             formik={formik}
-            show={formik.values.questions.question_8.qAnswer === "YES"}
+            show={formik.values.questions.question_8 === "YES"}
             question={"question_9"}
             questionText={`9- رسیدگی واحد گارانتی نسبت به شکایت شما`}
             divider={
-              formik.values.questions.question_9.qAnswer === "1" ||
-              formik.values.questions.question_9.qAnswer === "2" ||
-              formik.values.questions.question_9.qAnswer === "3"
+              formik.values.questions.question_9 === "1" ||
+              formik.values.questions.question_9 === "2" ||
+              formik.values.questions.question_9 === "3"
                 ? false
                 : true
             }
           />
-          {/* )} */}
-          {/* {formik.values.questions.question_8.qAnswer === "YES" &&
-            (formik.values.questions.question_9.qAnswer === "1" ||
-              formik.values.questions.question_9.qAnswer === "2" ||
-              formik.values.questions.question_9.qAnswer === "3") && ( */}
           <TextDescription
             formik={formik}
             show={
-              formik.values.questions.question_8.qAnswer === "YES" &&
-              (formik.values.questions.question_9.qAnswer === "1" ||
-                formik.values.questions.question_9.qAnswer === "2" ||
-                formik.values.questions.question_9.qAnswer === "3")
+              formik.values.questions.question_8 === "YES" &&
+              (formik.values.questions.question_9 === "1" ||
+                formik.values.questions.question_9 === "2" ||
+                formik.values.questions.question_9 === "3")
             }
             labelDescription={"دلیل نمره پایین شما چیست؟ (اختیاری)"}
             placeholderDescription={
@@ -224,7 +237,6 @@ export default function SurvayFormContent({
             question={"question_9_detail"}
             divider={true}
           />
-          {/* )} */}
           <FiveRangeTest
             formik={formik}
             show={true}
@@ -240,7 +252,6 @@ export default function SurvayFormContent({
               </p>
             </div>
           </div>
-
           <FiveRangeTest
             show={true}
             questionText={`${check10Num("11")}- آراستگی کارکنان `}
@@ -248,7 +259,6 @@ export default function SurvayFormContent({
             question={"question_11"}
             divider={true}
           />
-
           <FiveRangeTest
             show={true}
             formik={formik}
@@ -256,7 +266,6 @@ export default function SurvayFormContent({
             questionText={`${check10Num("12")}- آراستگی و نظم محیط پذیرش`}
             divider={false}
           />
-
           <div className="sticky top-[86px] inset-x-0 z-[12]  bg-[#FDFDFD] rounded-b-3xl">
             <div className="w-full flex flex-row bg-mainYellow  p-3 rounded-b-3xl   ">
               <Messages2 />
@@ -269,7 +278,9 @@ export default function SurvayFormContent({
             show={true}
             formik={formik}
             question={"question_13"}
-            questionText={`${check10Num("13")}- میزان زمان اختصاص داده شده و دقت مشاور به مشکلات شما`}
+            questionText={`${check10Num(
+              "13"
+            )}- میزان زمان اختصاص داده شده و دقت مشاور به مشکلات شما`}
             divider={true}
           />
           <FiveRangeTest
@@ -283,7 +294,9 @@ export default function SurvayFormContent({
             show={true}
             formik={formik}
             question={"question_15"}
-            questionText={`${check10Num("15")}- نحوه پاسخگویی به درخواست ها و سوالات احتمالی شما`}
+            questionText={`${check10Num(
+              "15"
+            )}- نحوه پاسخگویی به درخواست ها و سوالات احتمالی شما`}
             divider={false}
           />
           <div className="sticky top-[86px] inset-x-0 z-[12]  bg-[#FDFDFD] rounded-b-3xl">
@@ -299,26 +312,25 @@ export default function SurvayFormContent({
             show={true}
             question={"question_16"}
             divider={false}
-            questionText={`${check10Num("16")}- آیا هزینه‌ای از شما از بابت ارائه خدمات دریافت شده است؟`}
+            questionText={`${check10Num(
+              "16"
+            )}- آیا هزینه‌ای از شما از بابت ارائه خدمات دریافت شده است؟`}
           />
-          {/* {formik.values.questions.question_16.qAnswer === "YES" && ( */}
           <YesOrNoQuestion
             formik={formik}
-            show={formik.values.questions.question_16.qAnswer === "YES"}
+            show={formik.values.questions.question_16 === "YES"}
             question={"question_17"}
             divider={false}
-            questionText={`17- آیا قبل از اقدام به تعمیر حدود هزینه به شما اعلام شده است؟`}
+            questionText={`${check17Num()}- آیا قبل از اقدام به تعمیر حدود هزینه به شما اعلام شده است؟`}
           />
-          {/* // )} */}
-          {/* {formik.values.questions.question_16.qAnswer === "YES" && ( */}
           <FiveRangeTest
             formik={formik}
-            show={formik.values.questions.question_16.qAnswer === "YES"}
+            show={formik.values.questions.question_16 === "YES"}
             question={"question_18"}
-            questionText={`18- تناسب هزینه دریافتی با خدمات ارائه شده`}
+            questionText={`${+check17Num()+1}- تناسب هزینه دریافتی با خدمات ارائه شده`}
             divider={false}
           />
-          {/* )} */}
+
           <div className="sticky top-[86px] inset-x-0 z-[12]  bg-[#FDFDFD] rounded-b-3xl">
             <div className="w-full flex flex-row bg-mainYellow  p-3 rounded-b-3xl   ">
               <SunBoldIcon />
@@ -377,7 +389,10 @@ export default function SurvayFormContent({
       </div>
       <div className="flex flex-row items-center justify-center p-3  ">
         <button
-          onClick={formik.handleSubmit}
+          onClick={(e) => {
+            console.log(formik);
+            formik.handleSubmit(e);
+          }}
           className={
             "group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-4 py-2 text-base leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] w-fit relative overflow-hidden " +
             " " +

@@ -33,13 +33,13 @@ export default function YesOrNoQuestion({
       <div className="flex flex-row gap-2  justify-between  ">
         <div
           onClick={() => {
-            formik.setFieldValue(`questions.${question}.qAnswer`, "YES");
-            formik.setFieldValue(`questions.${question}.qText`, questionText);
+            formik.setFieldValue(`questions.${question}`, "YES");
+            formik.setFieldValue(`questions.${question}_qText`, questionText);
           }}
           className={
             "bg-[#F7F7F7] cursor-pointer rounded-xl py-2 px-3 w-full grow flex flex-row items-center " +
             `${
-              formik.values.questions[question].qAnswer === "YES" ? "  ring ring-[#1B887F]  " : ""
+              formik.values.questions[question] === "YES" ? "  ring ring-[#1B887F]  " : ""
             }`
           }
         >
@@ -48,16 +48,16 @@ export default function YesOrNoQuestion({
               <div
                 className={`${formStyles.containerRadioTick} `}
                 onClick={() => {
-                  formik.setFieldValue(`questions.${question}.qAnswer`, "YES");
-                  formik.setFieldValue(`questions.${question}.qText`, questionText);
+                  formik.setFieldValue(`questions.${question}`, "YES");
+                  formik.setFieldValue(`questions.${question}_qText`, questionText);
                 }}
               >
                 <input
                   type="radio"
-                  checked={formik.values.questions[question].qAnswer === "YES"}
+                  checked={formik.values.questions[question] === "YES"}
                   onChange={() => {
-                    formik.setFieldValue(`questions.${question}.qAnswer`, "YES");
-                    formik.setFieldValue(`questions.${question}.qText`, questionText);
+                    formik.setFieldValue(`questions.${question}`, "YES");
+                    formik.setFieldValue(`questions.${question}_qText`, questionText);
                   }}
                 />
                 <div className={formStyles.checkmarkRadio}></div>
@@ -70,14 +70,13 @@ export default function YesOrNoQuestion({
         </div>
         <div
           onClick={() => {
-         
-            formik.setFieldValue(`questions.${question}.qAnswer`, "NO");
-            formik.setFieldValue(`questions.${question}.qText`, questionText);
+            formik.setFieldValue(`questions.${question}`, "NO");
+            formik.setFieldValue(`questions.${question}_qText`, questionText);
           }}
           className={
             "bg-[#F7F7F7] cursor-pointer rounded-xl py-2 px-3 w-full   grow flex flex-row items-center  " +
             `${
-              formik.values.questions[question].qAnswer === "NO"
+              formik.values.questions[question] === "NO"
                 ? " ring ring-[#1B887F]    "
                 : ""
             }`
@@ -88,16 +87,16 @@ export default function YesOrNoQuestion({
               <div
                 className={`${formStyles.containerRadioTick} `}
                 onClick={() => {
-                  formik.setFieldValue(`questions.${question}.qAnswer`, "NO");
-                  formik.setFieldValue(`questions.${question}.qText`, questionText);
+                  formik.setFieldValue(`questions.${question}`, "NO");
+                  formik.setFieldValue(`questions.${question}_qText`, questionText);
                 }}
               >
                 <input
                   type="radio"
-                  checked={formik.values.questions[question].qAnswer === "NO"}
+                  checked={formik.values.questions[question] === "NO"}
                   onChange={() => {
-                    formik.setFieldValue(`questions.${question}.qAnswer`, "NO");
-            formik.setFieldValue(`questions.${question}.qText`, questionText);
+                    formik.setFieldValue(`questions.${question}`, "NO");
+            formik.setFieldValue(`questions.${question}_qText`, questionText);
                   }}
                 />
                 <div className={formStyles.checkmarkRadio}></div>
@@ -114,14 +113,14 @@ export default function YesOrNoQuestion({
           "text-mainRed text-xs my-1 flex  flex-row gap-1 items-center transition-all duration-500 font-costumFaNum  " +
           " " +
           `${formik.errors.questions && formik.touched.questions && 
-            formik.errors.questions[question]?.qAnswer && formik.touched.questions[question]?.qAnswer
+            formik.errors.questions[question] && formik.touched.questions[question]
               ? " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.questions && formik.touched.questions &&  formik.errors.questions[question]?.qAnswer}
+        {formik.errors.questions && formik.touched.questions &&  formik.errors.questions[question]}
       </div>
     </div>
   );

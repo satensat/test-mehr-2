@@ -33,8 +33,8 @@ export default function TenRangeTest({
         <div className="flex flex-row gap-2  justify-between  ">
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "1");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "1");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -42,7 +42,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "1"
+                  formik.values.questions[`${question}`] === "1"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -52,7 +52,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "1"
+                    formik.values.questions[`${question}`] === "1"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -64,8 +64,8 @@ export default function TenRangeTest({
           </div>
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "2");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "2");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -73,7 +73,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "2"
+                  formik.values.questions[`${question}`] === "2"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -83,7 +83,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "2"
+                    formik.values.questions[`${question}`] === "2"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -95,8 +95,8 @@ export default function TenRangeTest({
           </div>
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "3");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "3");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -104,7 +104,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "3"
+                  formik.values.questions[`${question}`] === "3"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -114,7 +114,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "3"
+                    formik.values.questions[`${question}`] === "3"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -126,8 +126,8 @@ export default function TenRangeTest({
           </div>
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "4");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "4");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -135,7 +135,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "4"
+                  formik.values.questions[`${question}`] === "4"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -145,7 +145,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "4"
+                    formik.values.questions[`${question}`] === "4"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -157,8 +157,8 @@ export default function TenRangeTest({
           </div>
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "5");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "5");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -166,7 +166,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "5"
+                  formik.values.questions[`${question}`] === "5"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -176,7 +176,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "5"
+                    formik.values.questions[`${question}`] === "5"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -191,8 +191,8 @@ export default function TenRangeTest({
         <div className="flex flex-row gap-2  justify-between  ">
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "6");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "6");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -200,7 +200,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "6"
+                  formik.values.questions[`${question}`] === "6"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -210,7 +210,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "6"
+                    formik.values.questions[`${question}`] === "6"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -222,8 +222,8 @@ export default function TenRangeTest({
           </div>
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "7");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "7");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -231,7 +231,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "7"
+                  formik.values.questions[`${question}`] === "7"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -241,7 +241,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "7"
+                    formik.values.questions[`${question}`] === "7"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -253,8 +253,8 @@ export default function TenRangeTest({
           </div>
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "8");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "8");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -262,7 +262,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "8"
+                  formik.values.questions[`${question}`] === "8"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -272,7 +272,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "8"
+                    formik.values.questions[`${question}`] === "8"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -284,8 +284,8 @@ export default function TenRangeTest({
           </div>
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "9");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "9");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -293,7 +293,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "9"
+                  formik.values.questions[`${question}`] === "9"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -303,7 +303,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "9"
+                    formik.values.questions[`${question}`] === "9"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -315,8 +315,8 @@ export default function TenRangeTest({
           </div>
           <div
             onClick={() => {
-              formik.setFieldValue(`questions.${question}.qAnswer`, "10");
-              formik.setFieldValue(`questions.${question}.qText`, questionText);
+              formik.setFieldValue(`questions.${question}`, "10");
+              formik.setFieldValue(`questions.${question}_qText`, questionText);
             }}
             className="flex flex-col items-center cursor-pointer"
           >
@@ -324,7 +324,7 @@ export default function TenRangeTest({
               className={
                 "   transition-all duration-300 rounded-xl p-2  w-[40px] h-[40px] " +
                 `${
-                  formik.values.questions[`${question}`].qAnswer === "10"
+                  formik.values.questions[`${question}`] === "10"
                     ? " bg-[#13625C] "
                     : " bg-[#E6E6E6]   hover:bg-[#afdcd9] "
                 }`
@@ -334,7 +334,7 @@ export default function TenRangeTest({
                 className={
                   " text-base leading-6 font-bold text-center font-costumFaNum" +
                   `${
-                    formik.values.questions[`${question}`].qAnswer === "10"
+                    formik.values.questions[`${question}`] === "10"
                       ? " text-[#fff]"
                       : "  text-[#696969] "
                   }`
@@ -352,15 +352,15 @@ export default function TenRangeTest({
           " " +
           `${
             formik.errors.questions && formik.touched.questions &&  
-            formik.errors.questions[`${question}`]?.qAnswer &&
-            formik.touched.questions[`${question}`]?.qAnswer
-              ? " opacity-100 "
+            formik.errors.questions[`${question}`] &&
+            formik.touched.questions[`${question}`]
+             ?  " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.questions && formik.touched.questions &&   formik.errors.questions[`${question}`]?.qAnswer}
+        {formik.errors.questions && formik.touched.questions &&   formik.errors.questions[`${question}`]}
       </div>
     </div>
   );
