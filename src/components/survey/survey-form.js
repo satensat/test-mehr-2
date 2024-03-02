@@ -14,6 +14,7 @@ import Image from "next/image";
 import ArrowOpinion from "@/icon/ArrowOpinion";
 import ButtonCoverLoader from "./ButtonCoverLoader";
 import ModalDoneSurvey from "./ModalDoneSurvey";
+import CloseModal from "@/icon/CloseModal";
 
 const validationSchemaCode = yup.object({
   activeTab: yup.string(),
@@ -126,7 +127,7 @@ export default function SurveyFormPage() {
 
   const [activeTab, setActiveTab] = useState("RECEPTION");
 
-  // ----------------------------------        reception_code   mobile   LAPTOP send  ----------------------
+  // ----------------------------------        reception_code   mobile   LAPTOP form to fill  ----------------------
 
   const [enableSend, setEnableSend] = useState(false);
 
@@ -135,11 +136,15 @@ export default function SurveyFormPage() {
   ////-------------------------------------------------- loading survey send--------------------------
   const [loadingButtonSurvey, setLoadingButtonSurvey] = useState(false);
 
-  const [modalOpen, setModalOpen] = useState(true);
+  ////-------------------------------------------------- modal   --------------------------
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  ////-------------------------------------------------- disable tabs   --------------------------
 
   const [disabledTabs, setDisabledTabs] = useState({
-    mobile: false,
     reception: false,
+    mobile: false,
     laptop: false,
   });
 
@@ -415,7 +420,7 @@ export default function SurveyFormPage() {
       <ModalDoneSurvey modalOpen={modalOpen} setModalOpen={setModalOpen} />
       <div
         className={
-          " bg-[#FDFDFD] rounded-b-3xl md:rounded-3xl shadow-G1  md:bg-mainGreen1 text-[#F7F7F7]  md:mt-5 relative -z-[0] overflow-clip   "
+          " bg-[#FDFDFD] rounded-b-3xl md:rounded-3xl shadow-G1  md:bg-mainGreen1 text-[#F7F7F7]  md:mt-5 relative -z-[0] overflow-clip   "+ " "+stylesForm.containerFormGreen
         }
       >
         <div className=" -z-0 top-0 inset-x-0 sticky  w-full h-0 hidden md:flex    ">
@@ -471,17 +476,19 @@ export default function SurveyFormPage() {
 
         <div className="flex w-full flex-row items-center justify-center  z-2 top-0 inset-x-0 sticky  md:px-3 md:py-4  ">
           <div className="w-full md:w-[50%]  flex flex-col items-center gap-5 ">
-            <form className="w-full  bg-[#FDFDFD] rounded-b-3xl md:rounded-3xl shadow-G1   p-3 text-[#000]">
-              <p>سریال دستگاه یا کد پذیرش خود را وارد کنید.</p>
+            <form className="w-full  bg-[#FDFDFD] rounded-b-3xl md:rounded-3xl shadow-G1   p-3  text-[#000]">
+              <p className="text-[#000]">
+                سریال دستگاه یا کد پذیرش خود را وارد کنید.
+              </p>
               <div className=" border border-[#808080] flex rounded-xl  max-w-fit mx-auto overflow-hidden my-4">
                 <div
                   className={
                     "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold " +
                     (activeTab === "RECEPTION"
                       ? "  bg-mainGreen1 text-white  "
-                      : "  text-[#525252]  ") +
+                      : "    ") +
                     (disabledTabs.reception === true
-                      ? "  bg-[#CCCCCC] text-[#525252] pointer-events-none "
+                      ? "   text-[#3B3B3B]  pointer-events-none  text-opacity-40 "
                       : "  text-[#525252]  ")
                   }
                   tab_sub="RECEPTION"
@@ -498,9 +505,9 @@ export default function SurveyFormPage() {
                     "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold border-x  border-[#808080]  " +
                     (activeTab === "MOBILE"
                       ? "  bg-mainGreen1 text-white  "
-                      : "  text-[#525252] ") +
+                      : "   ") +
                     (disabledTabs.mobile === true
-                      ? "  bg-[#CCCCCC] text-[#525252] pointer-events-none "
+                      ? "   text-[#3B3B3B]  pointer-events-none  text-opacity-40 "
                       : "  text-[#525252]  ")
                   }
                   tab_sub="MOBILE"
@@ -517,9 +524,9 @@ export default function SurveyFormPage() {
                     "flex flex-row items-center justify-center cursor-pointer gap-1 py-3 min-w-[98px]   text-center text-xs font-bold " +
                     (activeTab === "LAPTOP"
                       ? " bg-mainGreen1 text-white  "
-                      : "  text-[#525252] ") +
+                      : "   ") +
                     (disabledTabs.laptop === true
-                      ? "  bg-[#CCCCCC] text-[#525252] pointer-events-none "
+                      ? "   text-[#3B3B3B]  pointer-events-none  text-opacity-40 "
                       : "  text-[#525252]  ")
                   }
                   tab_sub="LAPTOP"
@@ -539,7 +546,46 @@ export default function SurveyFormPage() {
                   `${activeTab === "RECEPTION" ? " flex " : " hidden"}`
                 }
               >
-                <input
+                <div
+                  className={
+                    "w-full   relative pr-4 border border-gray-300 rounded-2xl h-10 bg-white flex flex-row items-center   group-focus-within:outline-black group-focus-within:outline-2 group-focus-within:outline  group-focus-within:border-transparent    " +
+                    "   " +
+                    `${enableSend ? "  pl-2 " : " pl-4 "}`
+                  }
+                >
+                  <input
+                    value={formikCode.values.reception}
+                    onChange={formikCode.handleChange}
+                    onBlur={formikCode.handleBlur}
+                    type="text"
+                    name={`reception`}
+                    placeholder="کد 5 رقمی پذیرش"
+                    className={
+                      (true ? " input-label-pos-active " : " ") +
+                      " w-full h-full  placeholder-gray border-none  resize-none  input-label-pos  focus-visible:outline-none focus-visible:ring-transparent  bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
+                    }
+                  />
+                  {enableSend && (
+                    <button
+                      onClick={() => {
+                        formikCode.setFieldValue("reception", "");
+                        setDisabledTabs({
+                          mobile: false,
+                          reception: false,
+                          laptop: false,
+                        });
+                      }}
+                      className="w-fit h-fit  cursor-pointer p-2 "
+                    >
+                      <CloseModal
+                        color={"#ABABAB"}
+                        width={"16"}
+                        height={"16"}
+                      />
+                    </button>
+                  )}
+                </div>
+                {/* <input
                   value={formikCode.values.reception}
                   onChange={formikCode.handleChange}
                   onBlur={formikCode.handleBlur}
@@ -550,7 +596,7 @@ export default function SurveyFormPage() {
                     (true > 0 ? "  " : " ") +
                     " w-full px-4  h-10 resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
                   }
-                />
+                /> */}
                 {/* placeholder:transition-all placeholder:duration-300 placeholder:ease-in-out focus-within:placeholder:-translate-x-2 */}
                 {/* formikCode.values.reception.length > 0  */}
                 <label
@@ -598,7 +644,46 @@ export default function SurveyFormPage() {
                   `${activeTab == "MOBILE" ? " flex " : " hidden"}`
                 }
               >
-                <input
+                <div
+                  className={
+                    "w-full   relative pr-4 border border-gray-300 rounded-2xl h-10 bg-white flex flex-row items-center   group-focus-within:outline-black group-focus-within:outline-2 group-focus-within:outline  group-focus-within:border-transparent    " +
+                    "   " +
+                    `${enableSend ? "  pl-2 " : " pl-4 "}`
+                  }
+                >
+                  <input
+                    value={formikCode.values.mobile}
+                    onChange={formikCode.handleChange}
+                    onBlur={formikCode.handleBlur}
+                    name="mobile"
+                    type="text"
+                    placeholder="شماره 15 رقمی IMEI1"
+                    className={
+                      (true ? " input-label-pos-active " : " ") +
+                      " w-full h-full  placeholder-gray border-none  resize-none  input-label-pos  focus-visible:outline-none focus-visible:ring-transparent  bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
+                    }
+                  />
+                  {enableSend && (
+                    <button
+                      className="w-fit h-fit  cursor-pointer p-2 "
+                      onClick={() => {
+                        formikCode.setFieldValue("mobile", "");
+                        setDisabledTabs({
+                          mobile: false,
+                          reception: false,
+                          laptop: false,
+                        });
+                      }}
+                    >
+                      <CloseModal
+                        color={"#ABABAB"}
+                        width={"16"}
+                        height={"16"}
+                      />
+                    </button>
+                  )}
+                </div>
+                {/* <input
                   value={formikCode.values.mobile}
                   onChange={formikCode.handleChange}
                   onBlur={formikCode.handleBlur}
@@ -609,11 +694,11 @@ export default function SurveyFormPage() {
                     (true ? "   " : " ") +
                     " w-full px-4  h-10 resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
                   }
-                />
+                /> */}
                 {/* formikCode.values.mobile.length > 0 */}
                 <label
                   className={
-                    " absolute top-3 right-4 rounded-2xl px-1 pointer-events-none group-focus-within:text-xs  bg-white  group-focus-within:-translate-y-[20px] " +
+                    " absolute top-3 right-4 rounded-2xl px-1 pointer-events-none group-focus-within:text-xs  bg-white  group-focus-within:-translate-y-[20px] text-[#525252] " +
                     " " +
                     `${true ? " text-xs  -translate-y-[20px]  " : " text-sm "}`
                   }
@@ -654,22 +739,61 @@ export default function SurveyFormPage() {
                   `${activeTab == "LAPTOP" ? " flex " : " hidden"}`
                 }
               >
-                <input
+                <div
+                  className={
+                    "w-full   relative pr-4 border border-gray-300 rounded-2xl h-10 bg-white flex flex-row items-center   group-focus-within:outline-black group-focus-within:outline-2 group-focus-within:outline  group-focus-within:border-transparent    " +
+                    "   " +
+                    `${enableSend ? "  pl-2 " : " pl-4 "}`
+                  }
+                >
+                  <input
+                    value={formikCode.values.laptop}
+                    onChange={formikCode.handleChange}
+                    onBlur={formikCode.handleBlur}
+                    name={`laptop`}
+                    type="text"
+                    placeholder="شماره سریال نوشته شده بر روی دستگاه"
+                    className={
+                      (true ? " input-label-pos-active " : " ") +
+                      " w-full h-full  placeholder-gray border-none  resize-none  input-label-pos  focus-visible:outline-none focus-visible:ring-transparent  bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
+                    }
+                  />
+                  {enableSend && (
+                    <button
+                      className="w-fit h-fit  cursor-pointer p-2 "
+                      onClick={() => {
+                        formikCode.setFieldValue("laptop", "");
+                        setDisabledTabs({
+                          mobile: false,
+                          reception: false,
+                          laptop: false,
+                        });
+                      }}
+                    >
+                      <CloseModal
+                        color={"#ABABAB"}
+                        width={"16"}
+                        height={"16"}
+                      />
+                    </button>
+                  )}
+                </div>
+                {/* <input
                   value={formikCode.values.laptop}
                   onChange={formikCode.handleChange}
                   onBlur={formikCode.handleBlur}
+                  name={`laptop`}
                   type="text"
                   placeholder="شماره سریال نوشته شده بر روی دستگاه"
-                  name={`laptop`}
                   className={
                     (true ? "  " : " ") +
                     " w-full px-4 h-10   resize-none  border border-gray-300 rounded-2xl bg-white    placeholder-[#ABABAB] placeholder:text-xs placeholder:font-costumFaNum "
                   }
-                />
+                /> */}
                 {/* formikCode.values.laptop.length > 0 */}
                 <label
                   className={
-                    " absolute top-3 right-4 rounded-2xl text-sm pointer-events-none bg-white px-1 group-focus-within:text-xs  group-focus-within:-translate-y-[20px] " +
+                    " absolute top-3 right-4 rounded-2xl text-sm pointer-events-none bg-white px-1 group-focus-within:text-xs  group-focus-within:-translate-y-[20px] text-[#525252] " +
                     " " +
                     `${true ? "text-xs  -translate-y-[20px]  " : ""}`
                   }
