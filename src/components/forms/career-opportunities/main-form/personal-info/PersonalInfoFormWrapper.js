@@ -7,41 +7,59 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PersonalInfoForm from "./PersonalInfoForm";
 
-function processDone(massage) {
-  toast.success(massage, {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-}
 
-function processFail(massage) {
-  toast.error(massage, {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-}
+
+const validFileExtensions = {
+  file: ["jpg", "gif", "png", "jpeg", "svg", "webp", "pdf"],
+};
+
+
+const MAX_FILE_SIZE = 4194304;
 
 const validationSchema = yup.object({
+  personalPic: yup
+  .array()
+  .min(1, " تصویر پرسنلی خود را وارد کنید. ")
+  .max(
+    1,
+    "تنها یک تصویر پرسنلی باید وارد کنید."
+  )
+  .of(
+    yup
+      .mixed()
+      .required(" تصویر پرسنلی الزامی است.")
+      .test(
+        "fileFormat",
+        "فقط فایل های jpg، jpeg، webp، pdf و png مجاز هستند.",
+        (value) => {
+          if (value) {
+            return validFileExtensions.file.includes(
+              value.name.split(".").pop()
+            );
+          }
+          return true;
+        }
+      )
+      .test(
+        "fileSize",
+        "حجم فایل نباید بیشتر از 4 مگابایت باشد",
+        (value) => {
+          if (value) {
+            return value.size <= MAX_FILE_SIZE;
+          }
+          return true;
+        }
+      )
+  )
+  .required("تصویر پرسنلی الزامی است."),
+
+
+
+
+
   brand_name: yup.string().required("نام فروشگاه را وارد نمایید."),
   province: yup.string().required(" استان را وارد نمایید."),
-  // province: yup.object().shape({
-  //   id: yup.string().required("استان را انتخاب نمایید."),
-  //   name: yup.string().required("استان را انتخاب نمایید."),
-  // }),
-  // city: yup.object().shape({
-  //   id: yup.string().required("شهر را وارد نمایید."),
-  //   name: yup.string().required("شهر را وارد نمایید."),
-  // }),
+
   city: yup.string().required("شهر را وارد نمایید."),
   is_owner: yup.boolean().required("وضعیت ملک را وارد انتخاب کنید."),
   business_type: yup
@@ -100,19 +118,7 @@ const validationSchema = yup.object({
     )
     .min(1, "نوع فعالیت را انتخاب کنید.")
     .required(),
-  // activities: yup
-  //   .object()
-  //   .shape({
-  //     mobile: yup.boolean(),
-  //     tablet: yup.boolean(),
-  //     laptop: yup.boolean(),
-  //     accessories: yup.boolean(),
-  //   })
-  //   .test(
-  //     "at-least-one-true",
-  //     " نوع جواز کسب خود را انتخاب کنید.",
-  //     (obj) => obj.mobile || obj.tablet || obj.laptop || obj.accessories
-  //   ),
+ 
 });
 
 export default function PersonalInfoFormWrapper({
@@ -141,6 +147,14 @@ export default function PersonalInfoFormWrapper({
 
   const formik = useFormik({
     initialValues: {
+      firstName:"",
+      lastName:"",
+      degree:"",
+      nationalId:"",
+      father_name:"",
+      birth_day:"",
+      personalPic:[],
+      interstedIn:"",
       brand_name:"",
       province:"",
       city: "",
