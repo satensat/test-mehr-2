@@ -52,7 +52,7 @@ export default function ReligionList({ formik }) {
   };
   // پایان خدمت / معافیت تحصیلی / در حال انجام / مشمول
   return (
-    <div className="flex flex-col grow">
+    <div className="flex flex-col grow w-full">
       <ClickOutside
         onClick={handleCloseList}
         className={" w-full flex flex-row mx-auto mt-1   "}

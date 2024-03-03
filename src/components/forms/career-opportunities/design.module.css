@@ -1,0 +1,40 @@
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+.container::before {
+  content: "";
+  background: url("/forms/Vector-full.svg") no-repeat;
+  position: absolute;
+  opacity: 0.25;
+  background-repeat: no-repeat;
+  filter: brightness(0) invert(1);
+  width: 534px;
+  height: 537px;
+  transform: translate(0, -50%);
+  background-size: contain;
+  background-position: center;
+  top: 50%;
+  right: -220px;
+  /* right:-20%; */
+  z-index: -1;
+}
+
+.container::after {
+  content: "";
+  background: url("/forms/Vector-full.svg") no-repeat;
+  position: absolute;
+  opacity: 0.25;
+  background-repeat: no-repeat;
+  filter: brightness(0) invert(1);
+  width: 534px;
+  height: 537px;
+  transform: translate(0, -50%);
+  background-size: contain;
+  background-position: center;
+  top: 50%;
+  left: -220px;
+  /* left: -20%; */
+  z-index: -1;
+}

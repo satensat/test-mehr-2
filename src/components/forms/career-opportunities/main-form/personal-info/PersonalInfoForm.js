@@ -74,20 +74,20 @@ export default function PersonalInfoForm({
     return fileList;
   };
 
-  const handleFileDeleteFromListFirst = (fileClicked, indexClicked) => {
-    const filtered = formik.values.first.filter(
+  const handleFileDeleteFromListPersonalPic = (fileClicked, indexClicked) => {
+    const filtered = formik.values.personalPic.filter(
       (file, index) => file.name !== fileClicked.name && indexClicked !== index
     );
-    formik.setFieldValue("first", filtered);
+    formik.setFieldValue("personalPic", filtered);
   };
 
   return (
-    <div className=" flex flex-col  items-center justify-center bg-[#fdfdfd]   ">
+    <div className=" flex flex-col  items-center justify-center bg-[#fdfdfd]  rounded-b-2xl ">
       <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-start gap-[10px] ">
         <RightArrowBack />
         اطلاعات فردی
       </div>
-      <div className="px-3 pb-3  flex flex-col w-full  ">
+      <div className="px-3 pb-3  flex flex-col w-full gap-3  ">
         <div
           className={
             "bg-[#F7F7F7] rounded-xl   pt-4 px-3 w-full " +
@@ -117,7 +117,6 @@ export default function PersonalInfoForm({
                   name="personalPic"
                   onChange={(event) => {
                     formik.setFieldValue("personalPic", [
-                      ...formik.values.personalPic,
                       ...handleFileChange(event),
                     ]);
                   }}
@@ -170,10 +169,13 @@ export default function PersonalInfoForm({
                 className="bg-[#FDFDFD] flex flex-row p-3  rounded-xl items-center w-full "
               >
                 <div className="text-[#242424] leading-5 text-xs flex-grow">
-                  {item.name.substring(0, 100) + "..."}
+                  {item.name.length > 100 ?
+                    item.name.substring(0, 100) + "..." : item.name}
                 </div>
                 <button
-                  onClick={() => handleFileDeleteFromListFirst(item, index)}
+                  onClick={() =>
+                    handleFileDeleteFromListPersonalPic(item, index)
+                  }
                   className="group transition ease-in-out duration-500 text-center rounded-2xl font-bold hover:bg-mainGreen1  "
                 >
                   <div className="transition ease-in-out duration-500 py-1 px-2 group-hover:brightness-0 group-hover:invert ">
@@ -188,10 +190,10 @@ export default function PersonalInfoForm({
 
         <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
           <InterstedInList formik={formik} />
-          <div className={"grow group  mt-1  mb-3 relative  "}>
+          <div className={"grow group  mt-1  mb-3 relative  w-full "}>
             <input
-              name="business_code"
-              value={formik.values.business_code}
+              name="salary"
+              value={formik.values.salary}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
@@ -206,7 +208,7 @@ export default function PersonalInfoForm({
                 " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                 " " +
                 `${
-                  formik.touched.business_code
+                  formik.touched.salary
                     ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                     : ""
                 }`
@@ -219,19 +221,19 @@ export default function PersonalInfoForm({
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.business_code && formik.touched.business_code
+                  formik.errors.salary && formik.touched.salary
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.business_code}
+              {formik.errors.salary}
             </div>
           </div>
         </div>
         <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
-          <div className="grow mb-3 relative group ">
+          <div className="grow mb-3 relative group w-full ">
             <input
               name="firstName"
               value={formik.values.firstName}
@@ -269,7 +271,7 @@ export default function PersonalInfoForm({
               {formik.errors.firstName}
             </div>
           </div>
-          <div className=" grow group mt-1  mb-3 relative ">
+          <div className=" grow group w-full  mb-3 relative ">
             <input
               name="lastName"
               value={formik.values.lastName}
@@ -310,7 +312,7 @@ export default function PersonalInfoForm({
         </div>
 
         <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
-          <div className="group mt-1  mb-3 grow   relative ">
+          <div className="group  w-full mb-3 grow   relative ">
             <input
               name="father_name"
               value={formik.values.father_name}
@@ -349,7 +351,7 @@ export default function PersonalInfoForm({
             </div>
           </div>
 
-          <div className="group mt-1  mb-3 grow   relative ">
+          <div className="group  w-full mb-3 grow   relative ">
             <input
               name="nationalId"
               value={formik.values.nationalId}
@@ -389,7 +391,7 @@ export default function PersonalInfoForm({
           </div>
         </div>
         <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
-          <div className="group mt-1  mb-3 grow   relative ">
+          <div className="group   mb-3 grow w-full  relative ">
             <input
               name="city"
               value={formik.values.city}
@@ -427,7 +429,7 @@ export default function PersonalInfoForm({
               {formik.errors.city}
             </div>
           </div>
-          <div className="mb-3 mt-1 grow flex flex-col items-center">
+          <div className="mb-3 grow  flex flex-col items-center w-full">
             <div
               onBlur={() => formik.setFieldTouched("birth_day")}
               className={
@@ -488,7 +490,7 @@ export default function PersonalInfoForm({
         </div>
 
         <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
-          <div className="group mt-1  mb-3 grow   relative ">
+          <div className="group w-full  mb-3 grow    relative ">
             <input
               name="nationality"
               value={formik.values.nationality}
@@ -528,25 +530,29 @@ export default function PersonalInfoForm({
           </div>
           <ReligionList formik={formik} />
         </div>
-        <div className=" flex flex-col md:flex-row w-full gap-6 items-center ">
-          <div className="flex flex-col grow">
-            <div className="w-full  mt-1   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
+        <div className=" flex flex-col md:flex-row w-full  gap-6   items-center ">
+          <div className="flex flex-col w-full  md:w-[50%] ">
+            <div className="w-full   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
               <div className="font-normal text-sm leading-6 text-[#242424] py-1 ">
                 وضعیت تاهل
               </div>
               <div className="flex flex-row gap-3 pt-2">
                 <div className="bg-[#FDFDFD] grow rounded-xl py-2 px-3 ">
                   <div className=" flex flex-row items-center gap-2 ">
-                    <div
-                      className={`${formStyles.containerRadio} `}
-                      onClick={() => formik.setFieldValue("is_owner", true)}
-                    >
-                      <input
-                        type="radio"
-                        checked={formik.values.is_owner === true}
-                        onChange={() => formik.setFieldValue("is_owner", true)}
-                      />
-                      <div className={formStyles.checkmarkRadio}></div>
+                    <div className="w-[16px]">
+                      <div
+                        className={`${formStyles.containerRadioTick} `}
+                        onClick={() => formik.setFieldValue("maritalStatus", "SINGLE")}
+                      >
+                        <input
+                          type="radio"
+                          checked={formik.values.maritalStatus === "SINGLE"}
+                          onChange={() =>
+                            formik.setFieldValue("maritalStatus", "SINGLE")
+                          }
+                        />
+                        <div className={formStyles.checkmarkRadio}></div>
+                      </div>
                     </div>
                     <div className="font-normal text-xs leading-6 text-[#242424]">
                       مجرد
@@ -555,16 +561,20 @@ export default function PersonalInfoForm({
                 </div>
                 <div className="bg-[#FDFDFD] grow rounded-xl py-2 px-3 ">
                   <div className=" flex flex-row items-center gap-2 ">
-                    <div
-                      className={`${formStyles.containerRadio} `}
-                      onClick={() => formik.setFieldValue("is_owner", false)}
-                    >
-                      <input
-                        type="radio"
-                        checked={formik.values.is_owner === false}
-                        onChange={() => formik.setFieldValue("is_owner", false)}
-                      />
-                      <div className={formStyles.checkmarkRadio}></div>
+                    <div className="w-[16px]">
+                      <div
+                        className={`${formStyles.containerRadioTick} `}
+                        onClick={() => formik.setFieldValue("maritalStatus", "MARRIED")}
+                      >
+                        <input
+                          type="radio"
+                          checked={formik.values.maritalStatus === "MARRIED"}
+                          onChange={() =>
+                            formik.setFieldValue("maritalStatus", "MARRIED")
+                          }
+                        />
+                        <div className={formStyles.checkmarkRadio}></div>
+                      </div>
                     </div>
                     <div className="font-normal text-xs leading-6 text-[#242424]">
                       متاهل
@@ -578,17 +588,17 @@ export default function PersonalInfoForm({
                 "w-full mb-3  text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.is_owner && formik.touched.is_owner
+                  formik.errors.maritalStatus && formik.touched.maritalStatus
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.is_owner}
+              {formik.errors.maritalStatus}
             </div>
           </div>
-          <div className="flex flex-col grow">
+          <div className="flex flex-col w-full  md:w-[50%] ">
             <div className="w-full   relative bg-[#F7F7F7] rounded-xl px-3 pb-3 ">
               <div className="font-normal text-sm leading-6 text-[#242424] py-1 ">
                 جنسیت
@@ -596,16 +606,20 @@ export default function PersonalInfoForm({
               <div className="flex flex-row gap-3 pt-2">
                 <div className="bg-[#FDFDFD] grow rounded-xl py-2 px-3 ">
                   <div className=" flex flex-row items-center gap-2 ">
-                    <div
-                      className={`${formStyles.containerRadio} `}
-                      onClick={() => formik.setFieldValue("is_owner", true)}
-                    >
-                      <input
-                        type="radio"
-                        checked={formik.values.is_owner === true}
-                        onChange={() => formik.setFieldValue("is_owner", true)}
-                      />
-                      <div className={formStyles.checkmarkRadio}></div>
+                    <div className="w-[16px]">
+                      <div
+                        className={`${formStyles.containerRadioTick} `}
+                        onClick={() => formik.setFieldValue("gender", "FEMALE")}
+                      >
+                        <input
+                          type="radio"
+                          checked={formik.values.gender === "FEMALE"}
+                          onChange={() =>
+                            formik.setFieldValue("gender", "FEMALE")
+                          }
+                        />
+                        <div className={formStyles.checkmarkRadio}></div>
+                      </div>
                     </div>
                     <div className="font-normal text-xs leading-6 text-[#242424]">
                       زن
@@ -614,16 +628,20 @@ export default function PersonalInfoForm({
                 </div>
                 <div className="bg-[#FDFDFD] grow rounded-xl py-2 px-3 ">
                   <div className=" flex flex-row items-center gap-2 ">
-                    <div
-                      className={`${formStyles.containerRadio} `}
-                      onClick={() => formik.setFieldValue("is_owner", false)}
-                    >
-                      <input
-                        type="radio"
-                        checked={formik.values.is_owner === false}
-                        onChange={() => formik.setFieldValue("is_owner", false)}
-                      />
-                      <div className={formStyles.checkmarkRadio}></div>
+                    <div className="w-[16px]">
+                      <div
+                        className={`${formStyles.containerRadioTick} `}
+                        onClick={() => formik.setFieldValue("gender", "MALE")}
+                      >
+                        <input
+                          type="radio"
+                          checked={formik.values.gender === "MALE"}
+                          onChange={() =>
+                            formik.setFieldValue("gender", "MALE")
+                          }
+                        />
+                        <div className={formStyles.checkmarkRadio}></div>
+                      </div>
                     </div>
                     <div className="font-normal text-xs leading-6 text-[#242424]">
                       مرد
@@ -637,14 +655,14 @@ export default function PersonalInfoForm({
                 "w-full mb-3  text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.is_owner && formik.touched.is_owner
+                  formik.errors.gender && formik.touched.gender
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.is_owner}
+              {formik.errors.gender}
             </div>
           </div>
         </div>
@@ -652,74 +670,82 @@ export default function PersonalInfoForm({
         <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
           <MilitaryStatusList formik={formik} />
 
-          <div className="mb-3 mt-1 grow flex flex-col items-center">
+          <div className={"mb-3 w-full grow flex flex-col  " +` ${formik.values.militaryStatus==="پایان خدمت" ? " text-[#525252] " : " pointer-events-none text-[#3b3b3b] text-opacity-40 "}`}>
             <div
-              onBlur={() => formik.setFieldTouched("birth_day")}
+              onBlur={() => formik.setFieldTouched("militaryDate")}
               className={
                 "group   " +
-                styles.datePicker +
+                styles.datePickerDetail +
                 "  " +
                 `${
-                  formik.values.birth_day.length > 0 ? styles.activeLabel : " "
+                  formik.values.militaryDate.length > 0 ? styles.activeLabel : " "
                 }`
               }
             >
-              <DatePicker
-                defaultValue={
-                  mainData?.birth_day
-                    ? handleDateConvert(mainData?.birth_day)
-                    : undefined
+              <input
+                autoComplete="off"
+                value={
+                  formik.values.militaryDate === ""
+                    ? ""
+                    : new Date(formik.values.militaryDate).toLocaleDateString(
+                        "fa-IR"
+                      )
                 }
+                readOnly
+                className={"   " + styles.datePickerInputStyle}
+              />
+              <DatePicker
                 round="x4"
                 position="center"
                 accentColor="#1b887f"
-                className="font-costumFaNum relative  "
-                name="birth_day"
+                className="font-costumFaNum "
+                name="militaryDate"
+                inputClass={" " + " " + styles.datePickerMainInputHide}
                 onChange={(event) => {
                   formik.setFieldValue(
-                    "birth_day",
+                    "militaryDate",
                     new Date(event.value).toISOString().slice(0, 10)
                   );
                 }}
               />
               <label
                 className={
-                  " absolute top-4 right-4 rounded-2xl text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px]   group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
+                  " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px]   group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                   " " +
-                  `${formik.values.birth_day.length > 0 ? "text-xs" : ""}`
+                  `${formik.values.militaryDate.length > 0 ? "text-xs" : ""}`+" " +` ${formik.values.militaryStatus==="پایان خدمت" ? " text-[#525252] " : " pointer-events-none text-[#3b3b3b] text-opacity-40 "}`
                 }
               >
-                تاریخ تولد
+                تاریخ پایان خدمت
               </label>
               <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none">
-                <ArrowDownIcon />
+                <ArrowDownIcon   color={ `${formik.values.militaryStatus==="پایان خدمت" ? " #525252 " : "#b1b3b3"}`} />
               </div>
             </div>
             <div
               className={
-                "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 w-[80%] " +
+                "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 w-full " +
                 " " +
                 `${
-                  formik.errors.birth_day && formik.touched.birth_day
+                  formik.errors.militaryDate && formik.touched.militaryDate
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.birth_day}
+              {formik.errors.militaryDate}
             </div>
           </div>
         </div>
 
         <div className="w-full group relative mt-2 mb-3">
           <textarea
-            name="address"
-            value={formik.values.address}
+            name="interests"
+            value={formik.values.interests}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={
-              (formik.values.address.length > 0
+              (formik.values.interests.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " min-h-32 w-full px-4 placeholder-gray resize-none   h-12   border border-gray-300 rounded-2xl bg-white input-label-pos pt-3"
@@ -730,7 +756,7 @@ export default function PersonalInfoForm({
               " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
               " " +
               `${
-                formik.values.address.length > 0
+                formik.values.interests.length > 0
                   ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                   : ""
               }`
@@ -743,14 +769,14 @@ export default function PersonalInfoForm({
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.address && formik.touched.address
+                formik.errors.interests && formik.touched.interests
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.address}
+            {formik.errors.interests}
           </div>
         </div>
       </div>

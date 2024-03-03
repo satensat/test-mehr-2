@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import * as yup from "yup";
 import ArrowDownIcon from "@/icon/ArrowDown";
 import PlusIcon from "@/icon/PlusIcon";
 import RightArrowBack from "@/icon2/RightArrowBack";

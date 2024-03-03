@@ -7,118 +7,79 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PersonalInfoForm from "./PersonalInfoForm";
 
-
-
 const validFileExtensions = {
   file: ["jpg", "gif", "png", "jpeg", "svg", "webp", "pdf"],
 };
-
 
 const MAX_FILE_SIZE = 4194304;
 
 const validationSchema = yup.object({
   personalPic: yup
-  .array()
-  .min(1, " تصویر پرسنلی خود را وارد کنید. ")
-  .max(
-    1,
-    "تنها یک تصویر پرسنلی باید وارد کنید."
-  )
-  .of(
-    yup
-      .mixed()
-      .required(" تصویر پرسنلی الزامی است.")
-      .test(
-        "fileFormat",
-        "فقط فایل های jpg، jpeg، webp، pdf و png مجاز هستند.",
-        (value) => {
-          if (value) {
-            return validFileExtensions.file.includes(
-              value.name.split(".").pop()
-            );
+    .array()
+    .min(1, " تصویر پرسنلی خود را وارد کنید. ")
+    .max(1, "تنها یک تصویر پرسنلی باید وارد کنید.")
+    .of(
+      yup
+        .mixed()
+        .required(" تصویر پرسنلی الزامی است.")
+        .test(
+          "fileFormat",
+          "فقط فایل های jpg، jpeg، webp، pdf و png مجاز هستند.",
+          (value) => {
+            if (value) {
+              return validFileExtensions.file.includes(
+                value.name.split(".").pop()
+              );
+            }
+            return true;
           }
-          return true;
-        }
-      )
-      .test(
-        "fileSize",
-        "حجم فایل نباید بیشتر از 4 مگابایت باشد",
-        (value) => {
+        )
+        .test("fileSize", "حجم فایل نباید بیشتر از 4 مگابایت باشد", (value) => {
           if (value) {
             return value.size <= MAX_FILE_SIZE;
           }
           return true;
-        }
-      )
-  )
-  .required("تصویر پرسنلی الزامی است."),
-
-
-
-
-
-  brand_name: yup.string().required("نام فروشگاه را وارد نمایید."),
-  province: yup.string().required(" استان را وارد نمایید."),
-
+        })
+    )
+    .required("تصویر پرسنلی الزامی است."),
+    salary: yup.number()
+    .required('لطفاً مبلغ حقوق خود را وارد کنید')
+    .min(1000, 'مبلغ حقوق باید بیشتر از ۱۰۰۰ تومان باشد')
+    .positive('مبلغ حقوق باید مثبت باشد')
+    .integer('لطفاً یک عدد صحیح وارد کنید'),
+  firstName: yup
+    .string()
+    .max(225, "نام را وارد کنید.")
+    .required("نام را وارد کنید."),
+  lastName: yup
+    .string()
+    .max(225, "نام خانوادگی  نباید بیشتر از 225 کاراکتر باشد.")
+    .required("نام خانوادگی را وارد کنید."),
+  father_name: yup
+    .string()
+    .max(225, "نام پدر را وارد کنید.")
+    .required("نام پدر را وارد کنید."),
+  nationalId: yup
+    .string()
+    .min(10, "کد ملی نباید کمتر از ۱۰ عدد داشته باشد.")
+    .max(10, "کد ملی نباید بیشتر از ۱۰ عدد داشته باشد.")
+    .trim()
+    .matches(/^[0-9]+$/, "کد ملی باید فقط شامل اعداد باشد.")
+    .required("کد ملی را وارد کنید."),
+  birth_day: yup.string().trim().required(" تاریخ تولد را وارد کنید."),
   city: yup.string().required("شهر را وارد نمایید."),
-  is_owner: yup.boolean().required("وضعیت ملک را وارد انتخاب کنید."),
-  business_type: yup
-    .object()
-    .shape({
-      is_distribution: yup.boolean(),
-      is_manufacturing: yup.boolean(),
-      is_technical: yup.boolean(),
-      is_service: yup.boolean(),
-    })
-    .test(
-      "at-least-one-true",
-      " نوع جواز کسب خود را انتخاب کنید.",
-      (obj) =>
-        obj.is_distribution ||
-        obj.is_manufacturing ||
-        obj.is_technical ||
-        obj.is_service
-    ),
-  business_code: yup.string().min(20, "شماره جواز کسب نباید کمتر از 20 عدد داشته باشد.").required("شماره جواز کسب را وارد نمایید."),
-  number_of_staff: yup
-    .number()
-    .required("تعداد افراد شاغل را وارد نمایید.")
-    .positive("تعداد افراد شاغل باید مثبت باشد."),
-  number_of_branches: yup
-    .number()
-    .required("تعداد افراد شاغل را وارد نمایید.")
-    .positive("تعداد افراد شاغل باید مثبت باشد."),
-  address: yup.string().required("آدرس کامل فروشگاه را وارد نمایید."),
-  postal_code: yup
-    .string()
-    .matches(/^\d{10}$/, "کد پستی باید دقیقاً 10 رقم باشد")
-    .matches(
-      /\b(?!(\d)\1{3})[13-9]{4}[1346-9][013-9]{5}\b/,
-      "کد پستی باید به فرمت صحیح وارد شود."
-    )
-    .required("کد پستی را وارد نمایید."),
-  website: yup.string().url("آدرس وبسایت نامعتبر است."),
-  fax_number: yup
-    .string()
-    .min(12, "فکس نباید کمتر از 12 عدد داشته باشد.")
-    .max(12, "فکس نباید بیشتر از 12 عدد داشته باشد.")
-    .matches(
-      /^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$/,
-      "شماره فکس نامعتبر است. "
-    ),
-  email: yup
-    .string()
-    .email("ایمیل نامعتبر است.")
-    .required("ایمیل را وارد کنید."),
-    activities: yup.array()
-    .of(
-      yup.object().shape({
-        activity: yup.string().oneOf(["mobile", "laptop", "tablet", "accessories"]).required()
-      })
-    )
-    .min(1, "نوع فعالیت را انتخاب کنید.")
-    .required(),
- 
+  gender: yup.string().required("جنسیت را وارد انتخاب کنید."),
+  // gender: yup.boolean().required("جنسیت را وارد انتخاب کنید."),
+  maritalStatus: yup.string().required("وضعیت تاهل را وارد انتخاب کنید."),
+  nationality:yup.string().required("ملیت را وارد نمایید."),
+  religion: yup.string().required("دین خود را وارد انتخاب کنید."),
+  interstedIn: [],
+  militaryStatus: yup.string().required("وضعیت خدمت سربازی را وارد انتخاب کنید."),
+  militaryDate: yup.string().trim().required(" تاریخ پایان خدمت را وارد کنید."),
+  interests:  yup
+  .string()
+  .max(225, "حوزه های علاقه مندی خود را تا 225 کارامتر وارد کنید.")
+  .required("حوزه های علاقه مندی خود را وارد کنید."),
 });
 
 export default function PersonalInfoFormWrapper({
@@ -147,27 +108,23 @@ export default function PersonalInfoFormWrapper({
 
   const formik = useFormik({
     initialValues: {
-      firstName:"",
-      lastName:"",
-      degree:"",
-      nationalId:"",
-      father_name:"",
-      birth_day:"",
-      personalPic:[],
-      interstedIn:"",
-      brand_name:"",
-      province:"",
+      firstName: "",
+      lastName: "",
+      degree: "",
+      nationalId: "",
+      father_name: "",
+      birth_day: "",
+      personalPic: [],
+      religion: "",
+      interstedIn: [],
+      maritalStatus: "",
+      militaryStatus: "",
+      gender: "",
+      salary: "",
       city: "",
-      is_owner:"",
-
-      business_code:"",
-      postal_code:"",
-      website:"",
-      email: "",
-      fax_number:"",
-      number_of_staff:"",
-      address:  "",
-
+      is_owner: "",
+      militaryDate: "",
+      interests: "",
     },
     onSubmit: (values) => {
       setMainData({
@@ -300,32 +257,28 @@ export default function PersonalInfoFormWrapper({
   return (
     <>
       {/* {activeTab === "second" && ( */}
-        <PersonalInfoForm
-          activeTab={activeTab}
-          formik={formik}
-          filteredCities={filteredCities}
-          setFilteredCities={setFilteredCities}
-          loadingButton={loadingButton}
-          setLoadingButton={setLoadingButton}
-          //   statusProvince={statusProvince}
-          //   setStatusProvince={setStatusProvince}
-          //   statusCity={statusCity}
-          //   setStatusCity={setStatusCity}
-          provinceListItemsSource={provinceListItemsSource}
-          setProvinceListitemsSource={setProvinceListitemsSource}
-          cityListItemsSource={cityListItemsSource}
-          setCityListitemsSource={setCityListitemsSource}
-          provinceInput={provinceInput}
-          setProvinceInput={setProvinceInput}
-          cityListInput={cityListInput}
-          setCityInput={setCityInput}
-          filteredProvinces={filteredProvinces}
-          setFilteredProvinces={setFilteredProvinces}
-          secondFormDoneToThirdForm={secondFormDoneToThirdForm}
-          mainData={mainData}
-          setMainData={setMainData}
-          setActiveTab={setActiveTab}
-        />
+      <PersonalInfoForm
+        activeTab={activeTab}
+        formik={formik}
+        filteredCities={filteredCities}
+        setFilteredCities={setFilteredCities}
+        loadingButton={loadingButton}
+        setLoadingButton={setLoadingButton}
+        provinceListItemsSource={provinceListItemsSource}
+        setProvinceListitemsSource={setProvinceListitemsSource}
+        cityListItemsSource={cityListItemsSource}
+        setCityListitemsSource={setCityListitemsSource}
+        provinceInput={provinceInput}
+        setProvinceInput={setProvinceInput}
+        cityListInput={cityListInput}
+        setCityInput={setCityInput}
+        filteredProvinces={filteredProvinces}
+        setFilteredProvinces={setFilteredProvinces}
+        secondFormDoneToThirdForm={secondFormDoneToThirdForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
       {/* )} */}
     </>
   );

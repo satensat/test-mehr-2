@@ -6,7 +6,7 @@ import DangerIcon from "@/icon2/DangerIcon";
 import formStyles from "../formcheckbox.module.css";
 
 const listOfMilitarryStatus = [
-  { name: "پایان خدمت " },
+  { name: "پایان خدمت" },
   { name: "معافیت تحصیلی " },
   { name: "در حال انجام " },
   { name: "مشمول" },
@@ -52,7 +52,7 @@ export default function MilitaryStatusList({ formik }) {
   };
 
   return (
-    <div className="flex flex-col grow">
+    <div className="flex flex-col grow w-full">
       <ClickOutside
         onClick={handleCloseList}
         className={" w-full flex flex-row mx-auto mt-1   "}
@@ -63,7 +63,9 @@ export default function MilitaryStatusList({ formik }) {
             " " +
             "group   w-full  relative " +
             "  " +
-            `${statusList ? " z-[2]  " : "  z-[1] "}`
+            `${statusList ? " z-[2]  " : "  z-[1] "}`+
+            "  " +
+            `${formik.values.gender==="MALE" ? "  " : " pointer-events-none "}`
           }
         >
           <label
@@ -75,13 +77,15 @@ export default function MilitaryStatusList({ formik }) {
                 textInput.length > 0
                   ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                   : ""
-              }`
+              }`+
+              "  " +
+              `${formik.values.gender==="MALE" ? " text-[#525252] " : " pointer-events-none text-[#3b3b3b] text-opacity-40 "}`
             }
           >
             وضعیت خدمت سربازی
           </label>
           <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
-            <ArrowDownIcon />
+            <ArrowDownIcon  color={ `${formik.values.gender==="MALE" ? " #525252 " : "#b1b3b3"}`} />
           </div>
           <input
             value={textInput}
