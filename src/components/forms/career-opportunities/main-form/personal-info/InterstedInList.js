@@ -128,7 +128,6 @@ export default function InterstedInList({ formik }) {
             id="interstedIn"
             name="interstedIn"
           ></input> */}
-
           <div
             className={
               "w-full   relative px-2 border border-gray-300 rounded-2xl h-12  bg-white flex flex-row items-center   group-focus-within:outline-black group-focus-within:outline-2 group-focus-within:outline  group-focus-within:border-transparent     z-[2] " +

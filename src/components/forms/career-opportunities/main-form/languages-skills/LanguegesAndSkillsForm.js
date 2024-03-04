@@ -1,0 +1,53 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import ArrowDownIcon from "@/icon/ArrowDown";
+import PlusIcon from "@/icon/PlusIcon";
+import RightArrowBack from "@/icon2/RightArrowBack";
+import ArrowOpinion from "@/icon/ArrowOpinion";
+import formStyles from "../formcheckbox.module.css";
+import DangerIcon from "@/icon2/DangerIcon";
+import styles from "../form.module.css";
+import ButtonCoverLoader from "../ButtonCoverLoader";
+import "react-toastify/dist/ReactToastify.css";
+
+import LanguagesComponent from "./languages/LanguagesComponent";
+import SkillsComponent from "./skills/SkillsComponent";
+
+export default function LanguegesAndSkillsForm({ formik, mainData ,loadingButton, listOfLanguages, setlistOfLanguages }) {
+  return (
+    <div className=" flex flex-col  items-center justify-center bg-[#fdfdfd]  rounded-b-2xl ">
+      <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-start gap-[10px] ">
+        <RightArrowBack />
+        زبان و مهارت
+      </div>
+      <div className="px-3 pb-3  flex flex-col w-full gap-3  ">
+        <LanguagesComponent formik={formik}         listOfLanguages={listOfLanguages}
+        setlistOfLanguages={setlistOfLanguages} />
+
+        <SkillsComponent formik={formik} />
+      </div>
+
+      <div className="flex flex-col w-full before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto px-3 ">
+        <div className="flex flex-row items-center justify-center p-3 gap-8 ">
+          <button className="group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-mainGreen1  h-fit   hover:bg-mainGreen1  hover:text-white ">
+            بازگشت به قبل
+          </button>
+          <button
+            onClick={formik.handleSubmit}
+            className={
+              "group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] " +
+              " " +
+              `${loadingButton ? "pointer-events-none" : " "}`
+            }
+          >
+            مرحله بعد
+            <div className="transition ease-in-out duration-500  group-hover:scale-110  brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
+              <ArrowOpinion />
+            </div>
+            {loadingButton && <ButtonCoverLoader />}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

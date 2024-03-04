@@ -5,6 +5,8 @@ import ClipBoardTickIcon from "@/icon2/ClipBoardTickIcon";
 import ProgressBarAndform from "./ProgressBar";
 import LoginStepMainComponent from "./main-form/accountCheck/LoginStepMainComponent";
 import PersonalInfoFormWrapper from "./main-form/personal-info/PersonalInfoFormWrapper";
+import LanguegesAndSkillsFormWrapper from "./main-form/languages-skills/LanguegesAndSkillsFormWrapper";
+import ContactInfoFormWrapper from "./main-form/contact-info/ContactInfoFormWrapper";
 
 export default function FormContainer() {
   return (
@@ -28,7 +30,10 @@ export default function FormContainer() {
         {/* <div className=" flex flex-col bg-[#FDFDFD] rounded-b-2xl ">
           <LoginStepMainComponent />
         </div> */}
-        <PersonalInfoFormWrapper/>
+        {/* <PersonalInfoFormWrapper/> */}
+
+        <ContactInfoFormWrapper/>
+        {/* <LanguegesAndSkillsFormWrapper/> */}
       </div>
     </div>
   );

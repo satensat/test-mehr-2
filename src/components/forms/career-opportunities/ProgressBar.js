@@ -99,7 +99,7 @@ export default function ProgressBarAndform() {
                 ` ${activeTab === "verification" ? styles.active : " "}`
               }
             >
-            حساب کاربری
+              حساب کاربری
             </div>
           </div>
           <div
@@ -117,7 +117,7 @@ export default function ProgressBarAndform() {
                 ` ${activeTab === "first" ? styles.active : " "}`
               }
             >
-           اطلاعات فردی
+              اطلاعات فردی
             </div>
           </div>
           <div
@@ -135,7 +135,7 @@ export default function ProgressBarAndform() {
                 ` ${activeTab === "second" ? styles.active : " "}`
               }
             >
-          اطلاعات تماس
+              اطلاعات تماس
             </div>
           </div>
           <div
@@ -153,7 +153,7 @@ export default function ProgressBarAndform() {
                 ` ${activeTab === "third" ? styles.active : " "}`
               }
             >
-           زبان و مهارت
+              زبان و مهارت
             </div>
           </div>
           <div
@@ -179,10 +179,15 @@ export default function ProgressBarAndform() {
                 // }
               }}
             >
-             سوابق و مدارک
+              سوابق و مدارک
             </div>
           </div>
         </div>
+      </div>
+      <div className="loader">
+        <svg className="loader" width="64" height="64" viewBox="0 0 24 24">
+          <circle className="loader__value" cx="12" cy="12" r="10" />
+        </svg>
       </div>
       {/* {activeTab === "verification" && (
         <div
