@@ -31,8 +31,8 @@ export default function CityListComponent({ formik }) {
     }
     // province: { id: "", name: "" },
     // city: { id: "", name: "" },
-    fetchCityListitemsDependsProvince(formik.values.city.id);
-  }, [formik.values.city.id]);
+    fetchCityListitemsDependsProvince(formik.values.province);
+  }, [formik.values.province]);
 
   const handleCloseCityList = () => {
     setStatusCity(false);

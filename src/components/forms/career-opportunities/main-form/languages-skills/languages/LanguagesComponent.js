@@ -14,6 +14,7 @@ export default function LanguagesComponent({
         <div className="font-bold text-sm leading-6 text-[#242424]">زبان</div>
       </div>
       <LanguageAddComponent
+      formik={formik}
         listOfLanguages={listOfLanguages}
         setlistOfLanguages={setlistOfLanguages}
       />

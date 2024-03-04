@@ -112,14 +112,15 @@ export default function ProvinceListComponent({ formik }) {
           {statusProvince ? (
             <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
               {filteredProvinces.map((item, index) => {
+                console.log(item)
                 return (
                   <button
                     key={item.id}
                     value={item.id}
                     name={item.name}
-                    onClick={async () => {
-                      formik.setFieldValue("province", item.id);
-                      await fetchCityListitemsDependsProvince(item.id);
+                    onClick={() => {
+ 
+                      formik.setFieldValue("province", `${item.id}`);
                       setProvinceInput(item.name);
                       setStatusProvince(false);
                     }}

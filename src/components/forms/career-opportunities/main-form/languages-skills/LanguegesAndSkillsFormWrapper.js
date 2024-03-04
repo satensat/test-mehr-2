@@ -95,6 +95,7 @@ export default function LanguegesAndSkillsFormWrapper({
 
 
   const [listOfLanguages, setlistOfLanguages] = useState([]);
+  const [listOfSkills, setlistOfSkills] = useState([]);
 
 
   const formik = useFormik({
@@ -256,6 +257,10 @@ export default function LanguegesAndSkillsFormWrapper({
         loadingButton={loadingButton}
         listOfLanguages={listOfLanguages}
         setlistOfLanguages={setlistOfLanguages}
+
+
+        listOfSkills={listOfSkills}
+        setlistOfSkills={setlistOfSkills}
         mainData={mainData}
       />
       {/* )} */}

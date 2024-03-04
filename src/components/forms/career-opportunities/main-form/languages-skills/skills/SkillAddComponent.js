@@ -1,10 +1,10 @@
 import React from "react";
-import LanguagesList from "./LanguagesList";
-import LanguageLevel from "./LanguageLevel";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import PlusIcon from "@/icon/PlusIcon";
 import TrashIcon from "@/icon2/TrashIcon";
+import SkillLevel from "./SkillLevel";
+import SkillsList from "./SkillsList";
 
 const validationSchema = yup
   .object({
@@ -13,10 +13,10 @@ const validationSchema = yup
   })
   .required();
 
-export default function LanguageAddComponent({
+export default function SkillAddComponent({
   formik,
-  listOfLanguages,
-  setlistOfLanguages,
+  listOfSkills,
+  setlistOfSkills
 }) {
   const formikLanguage = useFormik({
     initialValues: {
@@ -24,7 +24,7 @@ export default function LanguageAddComponent({
       LanguageLevel: "",
     },
     onSubmit: (values, actions) => {
-      setlistOfLanguages((prev) => [...prev, values]);
+      setlistOfSkills((prev) => [...prev, values]);
       //   formik.setvalues()
       actions.resetForm();
     },
@@ -37,13 +37,13 @@ export default function LanguageAddComponent({
           "pt-2 flex flex-col after:content-['']   after:h-[1px] after:w-0   after:bg-[#E6E6E6] after:mb-1 after:transition-all after:duration-500 " +
           " " +
           `${
-            listOfLanguages.length > 0 ? " after:w-[100%] after:mt-3  " : "  "
+            listOfSkills?.length > 0 ? " after:w-[100%] after:mt-3  " : "  "
           }`
         }
       >
         <div className="flex flex-row items-center gap-6">
-          <LanguagesList formik={formikLanguage} />
-          <LanguageLevel formik={formikLanguage} />
+          <SkillsList formik={formikLanguage} />
+          <SkillLevel formik={formikLanguage} />
         </div>
         <button
           onClick={formikLanguage.handleSubmit}
@@ -59,7 +59,7 @@ export default function LanguageAddComponent({
         </button>
       </div>
       <div className="flex flex-row gap-x-[2%] gap-y-6 items-center flex-wrap pt-3 ">
-        {listOfLanguages.map((item, index) => {
+        {listOfSkills?.map((item, index) => {
           return (
             <div
               key={index}

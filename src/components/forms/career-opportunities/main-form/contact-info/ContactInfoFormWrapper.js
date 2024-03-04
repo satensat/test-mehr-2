@@ -69,6 +69,7 @@ const validationSchema = yup.object({
     .required("کد ملی را وارد کنید."),
   birth_day: yup.string().trim().required(" تاریخ تولد را وارد کنید."),
   city: yup.string().required("شهر را وارد نمایید."),
+  province: yup.string().required("شهر را وارد نمایید."),
   gender: yup.string().required("جنسیت را وارد انتخاب کنید."),
   // gender: yup.boolean().required("جنسیت را وارد انتخاب کنید."),
   maritalStatus: yup.string().required("وضعیت تاهل را وارد انتخاب کنید."),
@@ -117,6 +118,7 @@ export default function ContactInfoFormWrapper({
       gender: "",
       salary: "",
       city: "",
+      province:"",
       is_owner: "",
       militaryDate: "",
       interests: "",
@@ -247,7 +249,7 @@ export default function ContactInfoFormWrapper({
         console.log(error);
       }
     },
-    validationSchema,
+    // validationSchema,
   });
   return (
     <>

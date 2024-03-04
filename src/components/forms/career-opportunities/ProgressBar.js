@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./progress.module.css";
+import stylesMobile from "./progressMobile.module.css";
 // import RepresentativeInformationWrapper from "./Representative-information/RepresentativeInformationWrapper";
 // import StoreInfoFormWrapper from "./store-info-form/StoreInfoFormWrapper";
 // import VerificationFormWrpper from "./verification/VerificationFormWrapper";
@@ -77,7 +78,7 @@ export default function ProgressBarAndform() {
   };
   return (
     <div className="py-3 w-full  h-fit ">
-      <div className="min-h-[70px] flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
+      {/* <div className="min-h-[70px] flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
         <div
           className={
             "mx-auto md:w-[90%] flex flex-row justify-between w-full " +
@@ -87,7 +88,7 @@ export default function ProgressBarAndform() {
             progressAnimation
           }
         >
-          {/* <div className={pointNotComplete + " " +aniamtionPartDone}> */}
+          {/* <div className={pointNotComplete + " " +aniamtionPartDone}> *
           <div
             className={"cursor-pointer" + " " + firstPoint}
             onClick={() => setActiveTab("verification")}
@@ -166,7 +167,7 @@ export default function ProgressBarAndform() {
           >
             {/* <div className={" absolute top-[50%]  left-[50%] -translate-x-1/2  -translate-y-1/2 "+styles.tickIcon}>
               <EmpthyTick  width={"32"} height={"32"}/>
-            </div> */}
+            </div> *
             <div
               className={
                 styles.textPart +
@@ -183,11 +184,69 @@ export default function ProgressBarAndform() {
             </div>
           </div>
         </div>
+      </div> */}
+      <div className=" px-3  flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
+      <div className="flex flex-row items-center w-full pb-3">
+        <div className={"      " + stylesMobile.loader_container}>
+          <svg
+            className={stylesMobile.loader_main}
+            width="64px"
+            height="64px"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className={stylesMobile.loader__value_main}
+              cx="12"
+              cy="12"
+              r="10"
+            />
+          </svg>
+          <svg
+            className={stylesMobile.loader}
+            width="64px"
+            height="64px"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className={
+                stylesMobile.loader__value +
+                "  " +
+                stylesMobile.loader_value_first
+              }
+              cx="12"
+              cy="12"
+              r="10"
+            />
+          </svg>
+          <div className="absolute top-0 inset-x-0 w-[64px] h-[64px] flex flex-row items-center justify-center font-costumFaNum ">
+            <div className="flex flex-col">
+              <div className=" text-xs leading-6  text-center text-[#ABABAB]  ">
+                <span className="text-mainGreen1 font-bold   text-xs leading-6 ">
+                  5
+                </span>{" "}
+                از{" "}
+                <span className="text-mainGreen1 font-bold   text-xs leading-6 ">
+                  5
+                </span>
+              </div>
+              <div className=" text-[10px] leading-4  text-center text-[#ABABAB] ">
+                مرحله
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-row items-center before:h-[40px]  before:content-['']    before:w-[1px]   before:bg-[#E6E6E6] before:mx-3    ">
+          <div className="flex flex-col w-full ">
+            <div className="text-[#242424] text-base leading-8">
+              حساب کاربری
+            </div>
+            <div className="text-[#808080] text-sm leading-6">
+              مرحله بعد: اطلاعات فردی
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="loader">
-        <svg className="loader" width="64" height="64" viewBox="0 0 24 24">
-          <circle className="loader__value" cx="12" cy="12" r="10" />
-        </svg>
       </div>
       {/* {activeTab === "verification" && (
         <div

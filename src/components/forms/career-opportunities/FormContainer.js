@@ -32,8 +32,8 @@ export default function FormContainer() {
         </div> */}
         {/* <PersonalInfoFormWrapper/> */}
 
-        <ContactInfoFormWrapper/>
-        {/* <LanguegesAndSkillsFormWrapper/> */}
+        {/* <ContactInfoFormWrapper/> */}
+        <LanguegesAndSkillsFormWrapper/>
       </div>
     </div>
   );

@@ -15,6 +15,8 @@ const listOfLanguageLevel = [
 export default function LanguageLevel({ formik }) {
     const [statusList, setStatusList] = useState(false);
     const handleCloseList = () => {
+      // formik.setFieldValue("LanguageLevel", filteredList[0].name);
+      // setTextInput(filteredList[0].name);
       setStatusList(false);
     };
   

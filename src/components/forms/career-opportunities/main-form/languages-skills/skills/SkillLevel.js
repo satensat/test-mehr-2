@@ -4,20 +4,21 @@ import ArrowDownIcon from "@/icon/ArrowDown";
 import ClickOutside from "../../ClickOutside";
 import DangerIcon from "@/icon2/DangerIcon";
 import formStyles from "../../formcheckbox.module.css";
+// مبتدی / متوسط / پیشرفته / کارشناس
 
-const listOfLanguages = [
-  { name: "فارسی" },
-  { name: "فارسی" },
-  { name: "فارسی" },
-  { name: "فارسی" },
-  { name: "فارسی" },
+
+const listOfSkillLevel = [
+  { name: "مبتدی" },
+  { name: "متوسط" },
+  { name: "پیشرفته" },
+  { name: "کارشناس" },
 ];
-export default function LanguagesList({ formik }) {
+export default function SkillLevel({ formik }) {
     const [statusList, setStatusList] = useState(false);
     const handleCloseList = () => {
-      setStatusList(false);
-      // formik.setFieldValue("language", filteredList[0].name);
+      // formik.setFieldValue("skillLevel", filteredList[0].name);
       // setTextInput(filteredList[0].name);
+      setStatusList(false);
     };
   
     const [listItemsSource, setListitemsSource] = useState([]);
@@ -27,20 +28,19 @@ export default function LanguagesList({ formik }) {
     const [filteredList, setFilteredList] = useState([]);
   
     useEffect(() => {
-      setListitemsSource(listOfLanguages);
-      setFilteredList(listOfLanguages);
+      setListitemsSource(listOfSkillLevel);
+      setFilteredList(listOfSkillLevel);
     }, []);
-
     useEffect(() => {
-      if(formik.values.language===""){
+      if(formik.values.skillLevel===""){
         setTextInput("");
       }
-    }, [formik.values.language]);
+    }, [formik.values.skillLevel]);
     const handleChangeInputAutoComplete = (event) => {
       console.log(event);
       setTextInput(() => event.target.value);
-      const filteredList = listItemsSource.filter((language) =>
-        language.name.includes(event.target.value)
+      const filteredList = listItemsSource.filter((skillLevel) =>
+        skillLevel.name.includes(event.target.value)
       );
       console.log(filteredList);
       setFilteredList(filteredList);
@@ -48,17 +48,17 @@ export default function LanguagesList({ formik }) {
     };
     const handleEnterKeyPress = (event) => {
       setTextInput(() => event.target.value);
-      const filteredList = listItemsSource.filter((language) =>
-        language.name.includes(event.target.value)
+      const filteredList = listItemsSource.filter((skillLevel) =>
+        skillLevel.name.includes(event.target.value)
       );
       setFilteredList(filteredList);
       if (event.key === "Enter") {
-        formik.setFieldValue("language", filteredList[0].name);
+        formik.setFieldValue("skillLevel", filteredList[0].name);
         setTextInput(filteredList[0].name);
         setStatusList(false);
       }
     };
-    // پایان خدمت / معافیت تحصیلی / در حال انجام / مشمول
+
     return (
       <div className="flex flex-col grow w-full md:w-[50%] ">
         <ClickOutside
@@ -75,7 +75,7 @@ export default function LanguagesList({ formik }) {
             }
           >
             <label
-              htmlFor="language"
+              htmlFor="skillLevel"
               className={
                 " absolute  z-[3] top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                 " " +
@@ -86,7 +86,7 @@ export default function LanguagesList({ formik }) {
                 }`
               }
             >
-              زبان
+             سطح مهارت
             </label>
             <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
               <ArrowDownIcon />
@@ -101,8 +101,8 @@ export default function LanguagesList({ formik }) {
                 (textInput.length > 0 ? " input-label-pos-active " : " ") +
                 " w-full px-4 relative  z-[2]  placeholder-gray    placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
               }
-              id="language"
-              name="language"
+              id="skillLevel"
+              name="skillLevel"
             ></input>
             {statusList ? (
               <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
@@ -113,7 +113,7 @@ export default function LanguagesList({ formik }) {
                       value={item.name}
                       name={item.name}
                       onClick={() => {
-                        formik.setFieldValue("language", item.name);
+                        formik.setFieldValue("skillLevel", item.name);
                         setTextInput(item.name);
                         setStatusList(false);
                       }}
@@ -134,17 +134,17 @@ export default function LanguagesList({ formik }) {
             "w-full mb-3 text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.language && formik.touched.language
+              formik.errors.skillLevel && formik.touched.skillLevel
                 ? // &&
-                  // formik.errors.language.name &&
-                  // formik.touched.language.name
+                  // formik.errors.skillLevel.name &&
+                  // formik.touched.skillLevel.name
                   " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.language}
+          {formik.errors.skillLevel}
         </div>
       </div>
     );
