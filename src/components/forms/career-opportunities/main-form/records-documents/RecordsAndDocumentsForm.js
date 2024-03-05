@@ -10,23 +10,26 @@ import styles from "../form.module.css";
 import ButtonCoverLoader from "../ButtonCoverLoader";
 import "react-toastify/dist/ReactToastify.css";
 
-import LanguagesComponent from "./languages/LanguagesComponent";
-import SkillsComponent from "./skills/SkillsComponent";
+import EducationalBackgroundAddComponent from "./educational-background/EducationalBackgroundAddComponent";
 
-export default function LanguegesAndSkillsForm({ formik, mainData ,loadingButton, listOfLanguages, setlistOfLanguages , listOfSkills,
-  setlistOfSkills }) {
+export default function RecordsAndDocumentsForm({
+  formik,
+  mainData,
+  loadingButton,
+  setEducationList,
+  educationList,
+}) {
   return (
     <div className=" flex flex-col  items-center justify-center bg-[#fdfdfd]  rounded-b-2xl ">
       <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-start gap-[10px] ">
         <RightArrowBack />
-        زبان و مهارت
+        سوابق و مدارک
       </div>
       <div className="px-3 pb-3  flex flex-col w-full gap-3  ">
-        <LanguagesComponent formik={formik}         listOfLanguages={listOfLanguages}
-        setlistOfLanguages={setlistOfLanguages} />
-
-        <SkillsComponent formik={formik}         listOfSkills={listOfSkills}
-        setlistOfSkills={setlistOfSkills} />
+        <EducationalBackgroundAddComponent
+          educationList={educationList}
+          setEducationList={setEducationList}
+        />
       </div>
 
       <div className="flex flex-col w-full before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto px-3 ">

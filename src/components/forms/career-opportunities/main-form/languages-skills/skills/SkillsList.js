@@ -5,7 +5,7 @@ import ClickOutside from "../../ClickOutside";
 import DangerIcon from "@/icon2/DangerIcon";
 import formStyles from "../../formcheckbox.module.css";
 
-const listOfLanguages = [
+const listOfSkills = [
   { name: "فارسی" },
   { name: "فارسی" },
   { name: "فارسی" },
@@ -13,52 +13,52 @@ const listOfLanguages = [
   { name: "فارسی" },
 ];
 export default function SkillsList({ formik }) {
-    const [statusList, setStatusList] = useState(false);
-    const handleCloseList = () => {
-      setStatusList(false);
-      // formik.setFieldValue("language", filteredList[0].name);
-      // setTextInput(filteredList[0].name);
-    };
+    // const [statusList, setStatusList] = useState(false);
+    // const handleCloseList = () => {
+    //   setStatusList(false);
+    //   // formik.setFieldValue("language", filteredList[0].name);
+    //   // setTextInput(filteredList[0].name);
+    // };
   
-    const [listItemsSource, setListitemsSource] = useState([]);
+    // const [listItemsSource, setListitemsSource] = useState([]);
   
-    const [textInput, setTextInput] = useState("");
+    // const [textInput, setTextInput] = useState("");
   
-    const [filteredList, setFilteredList] = useState([]);
+    // const [filteredList, setFilteredList] = useState([]);
   
-    useEffect(() => {
-      setListitemsSource(listOfLanguages);
-      setFilteredList(listOfLanguages);
-    }, []);
+    // useEffect(() => {
+    //   setListitemsSource(listOfSkills);
+    //   setFilteredList(listOfSkills);
+    // }, []);
 
-    useEffect(() => {
-      if(formik.values.language===""){
-        setTextInput("");
-      }
-    }, [formik.values.language]);
-    const handleChangeInputAutoComplete = (event) => {
-      console.log(event);
-      setTextInput(() => event.target.value);
-      const filteredList = listItemsSource.filter((language) =>
-        language.name.includes(event.target.value)
-      );
-      console.log(filteredList);
-      setFilteredList(filteredList);
-      console.log(filteredList.length === 1);
-    };
-    const handleEnterKeyPress = (event) => {
-      setTextInput(() => event.target.value);
-      const filteredList = listItemsSource.filter((language) =>
-        language.name.includes(event.target.value)
-      );
-      setFilteredList(filteredList);
-      if (event.key === "Enter") {
-        formik.setFieldValue("language", filteredList[0].name);
-        setTextInput(filteredList[0].name);
-        setStatusList(false);
-      }
-    };
-    // پایان خدمت / معافیت تحصیلی / در حال انجام / مشمول
+    // useEffect(() => {
+    //   if(formik.values.skill===""){
+    //     setTextInput("");
+    //   }
+    // }, [formik.values.skill]);
+    // const handleChangeInputAutoComplete = (event) => {
+    //   console.log(event);
+    //   setTextInput(() => event.target.value);
+    //   const filteredList = listItemsSource.filter((language) =>
+    //     language.name.includes(event.target.value)
+    //   );
+    //   console.log(filteredList);
+    //   setFilteredList(filteredList);
+    //   console.log(filteredList.length === 1);
+    // };
+    // const handleEnterKeyPress = (event) => {
+    //   setTextInput(() => event.target.value);
+    //   const filteredList = listItemsSource.filter((language) =>
+    //     language.name.includes(event.target.value)
+    //   );
+    //   setFilteredList(filteredList);
+    //   if (event.key === "Enter") {
+    //     formik.setFieldValue("language", filteredList[0].name);
+    //     setTextInput(filteredList[0].name);
+    //     setStatusList(false);
+    //   }
+    // };
+ 
     return (
       <div className="flex flex-col grow w-full md:w-[50%] ">
           <div className="group w-full  mb-3 grow    relative ">

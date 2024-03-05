@@ -69,10 +69,10 @@
 }
 @keyframes loader-stroke-third {
   0% {
-    stroke-dashoffset: 40;
+    stroke-dashoffset: 46;
   }
   100% {
-    stroke-dashoffset: 30;
+    stroke-dashoffset: 36;
   }
 }
 .loader_value_forth {
@@ -80,13 +80,23 @@
 }
 @keyframes loader-stroke-forth {
   0% {
-    stroke-dashoffset: 30;
+    stroke-dashoffset: 36;
+  }
+  100% {
+    stroke-dashoffset: 28;
+  }
+}
+.loader_value_fifth {
+  animation: loader-stroke-fifth 1.3s linear forwards;
+}
+@keyframes loader-stroke-fifth {
+  0% {
+    stroke-dashoffset: 28;
   }
   100% {
     stroke-dashoffset: 20;
   }
 }
-
 .loader_value_full {
   animation: loader-stroke-full 1.3s linear forwards;
 }
@@ -100,7 +110,7 @@
 }
 
 
-
+/* 
 @keyframes loader-stroke-full-end {
     0% {
       stroke-dashoffset: 63;
@@ -108,4 +118,4 @@
     100% {
       stroke-dashoffset: 11;
     }
-  }
+  } */

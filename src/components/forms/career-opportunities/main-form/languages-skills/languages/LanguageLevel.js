@@ -104,7 +104,7 @@ export default function LanguageLevel({ formik }) {
               name="LanguageLevel"
             ></input>
             {statusList ? (
-              <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+              <div className="flex flex-col bg-[#fff] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
                 {filteredList.map((item, index) => {
                   return (
                     <button

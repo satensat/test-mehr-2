@@ -8,8 +8,8 @@ import SkillsList from "./SkillsList";
 
 const validationSchema = yup
   .object({
-    language: yup.string().required("زبان را انتخاب کنید."),
-    LanguageLevel: yup.string().required("سطح زبان را انتخاب کنید."),
+    skill: yup.string().required("مهارت را انتخاب کنید."),
+    skillLevel: yup.string().required("سطح مهارت را انتخاب کنید."),
   })
   .required();
 
@@ -20,18 +20,24 @@ export default function SkillAddComponent({
 }) {
   const formikLanguage = useFormik({
     initialValues: {
-      language: "",
-      LanguageLevel: "",
+      skill: "",
+      skillLevel: "",
     },
     onSubmit: (values, actions) => {
-      setlistOfSkills((prev) => [...prev, values]);
+      const valueWithId={...values,id:Date.now()}
+      setlistOfSkills((prev) => [...prev, valueWithId]);
       //   formik.setvalues()
       actions.resetForm();
     },
     validationSchema,
   });
+
+  const handleDeleteItem=(input, index)=>{
+    const filteredItem=listOfSkills.filter((item)=>item.id!==input.id);
+    setlistOfSkills(filteredItem)
+  }
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col mt-2 md:mt-0">
       <div
         className={
           "pt-2 flex flex-col after:content-['']   after:h-[1px] after:w-0   after:bg-[#E6E6E6] after:mb-1 after:transition-all after:duration-500 " +
@@ -41,7 +47,7 @@ export default function SkillAddComponent({
           }`
         }
       >
-        <div className="flex flex-row items-center gap-6">
+        <div className="flex flex-col md:flex-row items-center md:gap-6">
           <SkillsList formik={formikLanguage} />
           <SkillLevel formik={formikLanguage} />
         </div>
@@ -66,15 +72,15 @@ export default function SkillAddComponent({
               className="flex flex-row  w-full md:w-[49%] pl-2 pr-3 py-1 items-center rounded-xl bg-[#FDFDFD] "
             >
               <div className="flex flex-col flex-grow gap-[1px]" >
-              <div className="text-[#808080] leading-5 text-xs font-bold flex-grow">
-                {item.LanguageLevel}
+              <div className="text-[#808080] leading-6 text-xs font-bold flex-grow">
+                {item.skillLevel}
               </div>
-              <div className="text-[#242424] leading-5 text-sm flex-grow">
-                {item.language}
+              <div className="text-[#242424] leading-6 text-sm flex-grow">
+                {item.skill}
               </div>
                 </div>
               <button
-                // onClick={() => handleFileDeleteFromListPersonalPic(item, index)}
+                onClick={() => handleDeleteItem(item, index)}
                 className="group transition ease-in-out duration-500 text-center rounded-2xl font-bold hover:bg-mainGreen1  "
               >
                 <div className="transition ease-in-out duration-500 py-2 px-2 group-hover:brightness-0 group-hover:invert ">

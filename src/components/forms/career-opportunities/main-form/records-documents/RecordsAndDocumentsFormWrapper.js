@@ -4,11 +4,12 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LanguegesAndSkillsForm from "./LanguegesAndSkillsForm";
+import RecordsAndDocumentsForm from "./RecordsAndDocumentsForm";
+
 
 const validationSchema = yup.object({});
 
-export default function LanguegesAndSkillsFormWrapper({
+export default function RecordsAndDocumentsFormWrapper({
   activeTab,
   setActiveTab,
   mainData,
@@ -19,7 +20,7 @@ export default function LanguegesAndSkillsFormWrapper({
 
   const [loadingButton, setLoadingButton] = useState(false);
 
-  const [listOfLanguages, setlistOfLanguages] = useState([]);
+  const [educationList, setEducationList] = useState([]);
   const [listOfSkills, setlistOfSkills] = useState([]);
 
   const formik = useFormik({
@@ -86,14 +87,12 @@ export default function LanguegesAndSkillsFormWrapper({
   return (
     <>
       {/* {activeTab === "second" &&    listOfLanguages, setlistOfLanguages ( */}
-      <LanguegesAndSkillsForm
+      <RecordsAndDocumentsForm
         activeTab={activeTab}
         formik={formik}
-        loadingButton={loadingButton}
-        listOfLanguages={listOfLanguages}
-        setlistOfLanguages={setlistOfLanguages}
-        listOfSkills={listOfSkills}
-        setlistOfSkills={setlistOfSkills}
+        loadingButton={loadingButton}       
+        educationList={educationList}
+        setEducationList={setEducationList}
         mainData={mainData}
       />
       {/* )} */}

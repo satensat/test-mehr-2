@@ -2,11 +2,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./progress.module.css";
 import stylesMobile from "./progressMobile.module.css";
-// import RepresentativeInformationWrapper from "./Representative-information/RepresentativeInformationWrapper";
-// import StoreInfoFormWrapper from "./store-info-form/StoreInfoFormWrapper";
-// import VerificationFormWrpper from "./verification/VerificationFormWrapper";
-// import UploadDocumentsFormWrapper from "./upload-documents/UploadDocumentsFormWrapper";
-// import ConfirmAndSend from "./confirm-send/ConfirmAndSend";
+import LoginStepMainComponent from "./main-form/accountCheck/LoginStepMainComponent";
+import PersonalInfoFormWrapper from "./main-form/personal-info/PersonalInfoFormWrapper";
+import LanguegesAndSkillsFormWrapper from "./main-form/languages-skills/LanguegesAndSkillsFormWrapper";
+import ContactInfoFormWrapper from "./main-form/contact-info/ContactInfoFormWrapper";
+import RecordsAndDocumentsFormWrapper from "./main-form/records-documents/RecordsAndDocumentsFormWrapper";
 
 export default function ProgressBarAndform() {
   const [mainData, setMainData] = useState({});
@@ -39,6 +39,49 @@ export default function ProgressBarAndform() {
 
   const [activeTab, setActiveTab] = useState("verification");
 
+  /////active text mobile view
+  const stepInformations = {
+    firstStep: {
+      title: "حساب کاربری",
+      nextStepTitle: "اطلاعات فردی",
+      stepNumber: "1",
+    },
+    secondStep: {
+      title: "اطلاعات فردی",
+      nextStepTitle: "اطلاعات تماس",
+      stepNumber: "2",
+    },
+    thirdStep: {
+      title: "اطلاعات تماس",
+      nextStepTitle: "زبان و مهارت",
+      stepNumber: "3",
+    },
+    forthStep: {
+      title: "زبان و مهارت",
+      nextStepTitle: "سوابق و مدارک",
+      stepNumber: "4",
+    },
+    lastStep: {
+      title: "سوابق و مدارک",
+      nextStepTitle: "---",
+      stepNumber: "5",
+    },
+  };
+  const [activeTextMobile, setActiveTextMobile] = useState(
+    stepInformations.firstStep
+  );
+
+  ////// set mobile animation progress
+  const progress0Mobile = stylesMobile.loader_value_first;
+  const progress1to2Mobile = stylesMobile.loader_value_second;
+  const progress2_3Mobile = stylesMobile.loader_value_third;
+  const progress3_4Mobile = stylesMobile.loader_value_forth;
+  const progress4_5Mobile = stylesMobile.loader_value_fifth;
+  const progressFullMobile = stylesMobile.loader_value_full;
+
+  const [progressAnimationMobile, setProgressAnimationMobile] =
+    useState(progress0Mobile);
+
   const handleClickVarification = () => {};
   const verificationToFirstFormDone = () => {
     setProgressAnimation(progress25);
@@ -46,6 +89,9 @@ export default function ProgressBarAndform() {
     setSecondPoint(pointNotComplete);
     setActiveTab("first");
     setStepCounter("1");
+    //////mobile
+    setActiveTextMobile(stepInformations.secondStep);
+    setProgressAnimationMobile(progress1to2Mobile);
   };
 
   const firstFormDoneToSecondForm = () => {
@@ -54,6 +100,9 @@ export default function ProgressBarAndform() {
     setThirdPoint(pointNotComplete);
     setActiveTab("second");
     setStepCounter("2");
+    //////mobile
+    setActiveTextMobile(stepInformations.thirdStep);
+    setProgressAnimationMobile(progress2_3Mobile);
   };
 
   const secondFormDoneToThirdForm = () => {
@@ -62,6 +111,9 @@ export default function ProgressBarAndform() {
     setFourthPoint(pointNotComplete);
     setActiveTab("third");
     setStepCounter("3");
+    //////mobile
+    setActiveTextMobile(stepInformations.forthStep);
+    setProgressAnimationMobile(progress3_4Mobile);
   };
 
   const thirdFormDoneToFourthForm = () => {
@@ -70,15 +122,22 @@ export default function ProgressBarAndform() {
     setLastPoint(pointNotComplete);
     setActiveTab("forth");
     setStepCounter("4");
+    //////mobile
+    setActiveTextMobile(stepInformations.lastStep);
+    setProgressAnimationMobile(progress4_5Mobile);
   };
   const doneLastForm = () => {
     setProgressAnimation(progressFull);
     setLastPoint(aniamtionPartDone);
     setStepCounter("5");
+    //////mobile
+    setActiveTextMobile(stepInformations.lastStep);
+    setProgressAnimationMobile(progressFullMobile);
   };
+
   return (
     <div className="py-3 w-full  h-fit ">
-      {/* <div className="min-h-[70px] flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
+      <div className="min-h-[70px] flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
         <div
           className={
             "mx-auto md:w-[90%] flex flex-row justify-between w-full " +
@@ -88,7 +147,7 @@ export default function ProgressBarAndform() {
             progressAnimation
           }
         >
-          {/* <div className={pointNotComplete + " " +aniamtionPartDone}> *
+          {/* <div className={pointNotComplete + " " +aniamtionPartDone}>  */}
           <div
             className={"cursor-pointer" + " " + firstPoint}
             onClick={() => setActiveTab("verification")}
@@ -165,9 +224,9 @@ export default function ProgressBarAndform() {
               // }
             }}
           >
-            {/* <div className={" absolute top-[50%]  left-[50%] -translate-x-1/2  -translate-y-1/2 "+styles.tickIcon}>
+            {/* {/* <div className={" absolute top-[50%]  left-[50%] -translate-x-1/2  -translate-y-1/2 "+styles.tickIcon}>
               <EmpthyTick  width={"32"} height={"32"}/>
-            </div> *
+            </div> * */}
             <div
               className={
                 styles.textPart +
@@ -184,146 +243,108 @@ export default function ProgressBarAndform() {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
       <div className=" px-3  flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
-      <div className="flex flex-row items-center w-full pb-3">
-        <div className={"      " + stylesMobile.loader_container}>
-          <svg
-            className={stylesMobile.loader_main}
-            width="64px"
-            height="64px"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className={stylesMobile.loader__value_main}
-              cx="12"
-              cy="12"
-              r="10"
-            />
-          </svg>
-          <svg
-            className={stylesMobile.loader}
-            width="64px"
-            height="64px"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className={
-                stylesMobile.loader__value +
-                "  " +
-                stylesMobile.loader_value_first
-              }
-              cx="12"
-              cy="12"
-              r="10"
-            />
-          </svg>
-          <div className="absolute top-0 inset-x-0 w-[64px] h-[64px] flex flex-row items-center justify-center font-costumFaNum ">
-            <div className="flex flex-col">
-              <div className=" text-xs leading-6  text-center text-[#ABABAB]  ">
-                <span className="text-mainGreen1 font-bold   text-xs leading-6 ">
-                  5
-                </span>{" "}
-                از{" "}
-                <span className="text-mainGreen1 font-bold   text-xs leading-6 ">
-                  5
-                </span>
-              </div>
-              <div className=" text-[10px] leading-4  text-center text-[#ABABAB] ">
-                مرحله
+        <div className="flex flex-row items-center w-full pb-3">
+          <div className={"      " + stylesMobile.loader_container}>
+            <svg
+              className={stylesMobile.loader_main}
+              width="64px"
+              height="64px"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className={stylesMobile.loader__value_main}
+                cx="12"
+                cy="12"
+                r="10"
+              />
+            </svg>
+            <svg
+              className={stylesMobile.loader}
+              width="64px"
+              height="64px"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className={
+                  stylesMobile.loader__value + "  " + progressAnimationMobile
+                }
+                cx="12"
+                cy="12"
+                r="10"
+              />
+            </svg>
+            <div className="absolute top-0 inset-x-0 w-[64px] h-[64px] flex flex-row items-center justify-center font-costumFaNum ">
+              <div className="flex flex-col">
+                <div className=" text-xs leading-6  text-center text-[#ABABAB]  ">
+                  <span className="text-mainGreen1 font-bold   text-xs leading-6 ">
+                    {activeTextMobile.stepNumber}
+                  </span>{" "}
+                  از{" "}
+                  <span className="text-mainGreen1 font-bold   text-xs leading-6 ">
+                    5
+                  </span>
+                </div>
+                <div className=" text-[10px] leading-4  text-center text-[#ABABAB] ">
+                  مرحله
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-row items-center before:h-[40px]  before:content-['']    before:w-[1px]   before:bg-[#E6E6E6] before:mx-3    ">
-          <div className="flex flex-col w-full ">
-            <div className="text-[#242424] text-base leading-8">
-              حساب کاربری
-            </div>
-            <div className="text-[#808080] text-sm leading-6">
-              مرحله بعد: اطلاعات فردی
+          <div className="flex flex-row items-center before:h-[40px]  before:content-['']    before:w-[1px]   before:bg-[#E6E6E6] before:mx-3    ">
+            <div className="flex flex-col w-full ">
+              <div className="text-[#242424] text-base leading-8">
+                {activeTextMobile.title}
+              </div>
+              <div className="text-[#808080] text-sm leading-6">
+                مرحله بعد: {activeTextMobile.nextStepTitle}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
-      {/* {activeTab === "verification" && (
-        <div
-          className={
-            "  ease-in-out duration-300    transition-all   " +
-            " " +
-            `${
-              activeTab === "verification"
-                ? " opacity-100 translate-y-0  relative"
-                : " translate-y-full  opacity-0  absolute "
-            }`
-          }
-        >
-          <VerificationForm />
-        </div>
-      )} */}
-      {/* 
-      {activeTab === "first" && (
-        <div
-          className={
-            "  ease-in-out duration-300    transition-all   " +
-            " " +
-            `${
-              activeTab === "first"
-                ? " opacity-100 translate-y-0 "
-                : " translate-y-full  opacity-0  absolute "
-            }`
-          }
-        >
-          <FirstForm />
-        </div>
-      )}
-      {activeTab === "second" && (
-        <div
-          className={
-            "  ease-in-out duration-300    transition-all   " +
-            " " +
-            `${
-              activeTab === "second"
-                ? " opacity-100 translate-y-0 "
-                : " translate-y-full  opacity-0   absolute"
-            }`
-          }
-        >
-          <SecondForm />
-        </div>
-      )}
-      {activeTab === "third" && (
-        <div
-          className={
-            "  ease-in-out duration-300    transition-all   " +
-            " " +
-            `${
-              activeTab === "third"
-                ? " opacity-100 translate-y-0 "
-                : " translate-y-full  opacity-0  absolute "
-            }`
-          }
-        >
-          <ThirdForm />
-        </div>
-      )}
-      {activeTab === "last" && (
-        <div
-          className={
-            "  ease-in-out duration-300    transition-all   " +
-            " " +
-            `${
-              activeTab === "last"
-                ? " opacity-100 translate-y-0 "
-                : " translate-y-full  opacity-0 absolute  "
-            }`
-          }
-        >
-          <LastForm />
-        </div>
-      )} */}
+      {/* <div className=" flex flex-col bg-[#FDFDFD] rounded-b-2xl ">
+          <LoginStepMainComponent />
+        </div> */}
+      {/* <PersonalInfoFormWrapper/> */}
+
+      {/* <ContactInfoFormWrapper/> */}
+      {/* <LanguegesAndSkillsFormWrapper
+        activeTab={activeTab}
+        thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      /> */}
+
+
+
+
+
+<RecordsAndDocumentsFormWrapper/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       {/* <VerificationFormWrpper
         activeTab={activeTab}
