@@ -21,7 +21,7 @@ const listOfUniVersityType = [
 export default function FieldOfStudy({ formik }) {
   const [statusList, setStatusList] = useState(false);
   const handleCloseList = () => {
-    // formik.setFieldValue("skillLevel", filteredList[0].name);
+    // formik.setFieldValue("field_of_study", filteredList[0].name);
     // setTextInput(filteredList[0].name);
     setStatusList(false);
   };
@@ -37,15 +37,15 @@ export default function FieldOfStudy({ formik }) {
     setFilteredList(listOfUniVersityType);
   }, []);
   useEffect(() => {
-    if (formik.values.skillLevel === "") {
+    if (formik.values.field_of_study === "") {
       setTextInput("");
     }
-  }, [formik.values.skillLevel]);
+  }, [formik.values.field_of_study]);
   const handleChangeInputAutoComplete = (event) => {
     console.log(event);
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((skillLevel) =>
-      skillLevel.name.includes(event.target.value)
+    const filteredList = listItemsSource.filter((field_of_study) =>
+      field_of_study.name.includes(event.target.value)
     );
     console.log(filteredList);
     setFilteredList(filteredList);
@@ -53,12 +53,12 @@ export default function FieldOfStudy({ formik }) {
   };
   const handleEnterKeyPress = (event) => {
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((skillLevel) =>
-      skillLevel.name.includes(event.target.value)
+    const filteredList = listItemsSource.filter((field_of_study) =>
+      field_of_study.name.includes(event.target.value)
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("skillLevel", filteredList[0].name);
+      formik.setFieldValue("field_of_study", filteredList[0].name);
       setTextInput(filteredList[0].name);
       setStatusList(false);
     }
@@ -80,7 +80,7 @@ export default function FieldOfStudy({ formik }) {
           }
         >
           <label
-            htmlFor="skillLevel"
+            htmlFor="field_of_study"
             className={
               " absolute  z-[3] top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
               " " +
@@ -91,7 +91,7 @@ export default function FieldOfStudy({ formik }) {
               }`
             }
           >
-            نوع دانشگاه
+        رشته تحصیلی
           </label>
           <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
             <ArrowDownIcon />
@@ -106,8 +106,8 @@ export default function FieldOfStudy({ formik }) {
               (textInput.length > 0 ? " input-label-pos-active " : " ") +
               " w-full px-4 relative  z-[2]  placeholder-gray    placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
             }
-            id="skillLevel"
-            name="skillLevel"
+            id="field_of_study"
+            name="field_of_study"
           ></input>
           {statusList ? (
             <div className="flex flex-col bg-[#fff] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
@@ -118,7 +118,7 @@ export default function FieldOfStudy({ formik }) {
                     value={item.name}
                     name={item.name}
                     onClick={() => {
-                      formik.setFieldValue("skillLevel", item.name);
+                      formik.setFieldValue("field_of_study", item.name);
                       setTextInput(item.name);
                       setStatusList(false);
                     }}
@@ -139,17 +139,17 @@ export default function FieldOfStudy({ formik }) {
           "w-full mb-3 text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            formik.errors.skillLevel && formik.touched.skillLevel
+            formik.errors.field_of_study && formik.touched.field_of_study
               ? // &&
-                // formik.errors.skillLevel.name &&
-                // formik.touched.skillLevel.name
+                // formik.errors.field_of_study.name &&
+                // formik.touched.field_of_study.name
                 " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.skillLevel}
+        {formik.errors.field_of_study}
       </div>
     </div>
   );

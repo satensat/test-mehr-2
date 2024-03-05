@@ -21,7 +21,7 @@ const listOfGrades=[
 export default function GradePart({ formik }) {
   const [statusList, setStatusList] = useState(false);
   const handleCloseList = () => {
-    // formik.setFieldValue("skillLevel", filteredList[0].name);
+    // formik.setFieldValue("grade", filteredList[0].name);
     // setTextInput(filteredList[0].name);
     setStatusList(false);
   };
@@ -37,15 +37,15 @@ export default function GradePart({ formik }) {
     setFilteredList(listOfGrades);
   }, []);
   useEffect(() => {
-    if (formik.values.skillLevel === "") {
+    if (formik.values.grade === "") {
       setTextInput("");
     }
-  }, [formik.values.skillLevel]);
+  }, [formik.values.grade]);
   const handleChangeInputAutoComplete = (event) => {
     console.log(event);
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((skillLevel) =>
-      skillLevel.name.includes(event.target.value)
+    const filteredList = listItemsSource.filter((grade) =>
+      grade.name.includes(event.target.value)
     );
     console.log(filteredList);
     setFilteredList(filteredList);
@@ -53,12 +53,12 @@ export default function GradePart({ formik }) {
   };
   const handleEnterKeyPress = (event) => {
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((skillLevel) =>
-      skillLevel.name.includes(event.target.value)
+    const filteredList = listItemsSource.filter((grade) =>
+      grade.name.includes(event.target.value)
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("skillLevel", filteredList[0].name);
+      formik.setFieldValue("grade", filteredList[0].name);
       setTextInput(filteredList[0].name);
       setStatusList(false);
     }
@@ -80,7 +80,7 @@ export default function GradePart({ formik }) {
           }
         >
           <label
-            htmlFor="skillLevel"
+            htmlFor="grade"
             className={
               " absolute  z-[3] top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
               " " +
@@ -106,8 +106,8 @@ export default function GradePart({ formik }) {
               (textInput.length > 0 ? " input-label-pos-active " : " ") +
               " w-full px-4 relative  z-[2]  placeholder-gray    placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
             }
-            id="skillLevel"
-            name="skillLevel"
+            id="grade"
+            name="grade"
           ></input>
           {statusList ? (
             <div className="flex flex-col bg-[#fff] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
@@ -118,7 +118,7 @@ export default function GradePart({ formik }) {
                     value={item.name}
                     name={item.name}
                     onClick={() => {
-                      formik.setFieldValue("skillLevel", item.name);
+                      formik.setFieldValue("grade", item.name);
                       setTextInput(item.name);
                       setStatusList(false);
                     }}
@@ -139,17 +139,17 @@ export default function GradePart({ formik }) {
           "w-full mb-3 text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            formik.errors.skillLevel && formik.touched.skillLevel
+            formik.errors.grade && formik.touched.grade
               ? // &&
-                // formik.errors.skillLevel.name &&
-                // formik.touched.skillLevel.name
+                // formik.errors.grade.name &&
+                // formik.touched.grade.name
                 " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.skillLevel}
+        {formik.errors.grade}
       </div>
     </div>
   );
