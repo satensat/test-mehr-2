@@ -37,9 +37,7 @@ export default function FieldOfStudy({ formik }) {
     setFilteredList(listOfUniVersityType);
   }, []);
   useEffect(() => {
-    if (formik.values.field_of_study === "") {
-      setTextInput("");
-    }
+    setTextInput(formik.values.field_of_study);
   }, [formik.values.field_of_study]);
   const handleChangeInputAutoComplete = (event) => {
     console.log(event);
@@ -91,7 +89,7 @@ export default function FieldOfStudy({ formik }) {
               }`
             }
           >
-        رشته تحصیلی
+            رشته تحصیلی
           </label>
           <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
             <ArrowDownIcon />
@@ -99,6 +97,7 @@ export default function FieldOfStudy({ formik }) {
           <input
             value={textInput}
             onKeyDown={handleEnterKeyPress}
+            autoComplete="off"
             onChange={(e) => handleChangeInputAutoComplete(e)}
             onBlur={formik.handleBlur}
             onFocus={() => setStatusList(true)}
@@ -110,7 +109,7 @@ export default function FieldOfStudy({ formik }) {
             name="field_of_study"
           ></input>
           {statusList ? (
-            <div className="flex flex-col bg-[#fff] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+            <div className="flex flex-col bg-[#fff] border-[#e5e5e5] border-[2px]  absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
               {filteredList.map((item, index) => {
                 return (
                   <button

@@ -36,20 +36,20 @@
 //           }
 //         >
 //           <div
-//             onBlur={() => formik.setFieldTouched("end_date")}
+//             onBlur={() => formik.setFieldTouched("start_date_month")}
 //             className={
 //               "group   " +
 //               styles.datePickerDetail +
 //               "  " +
-//               `${formik.values.end_date?.length > 0 ? styles.activeLabel : " "}`
+//               `${formik.values.start_date_month?.length > 0 ? styles.activeLabel : " "}`
 //             }
 //           >
 //             <input
 //               autoComplete="off"
 //               value={
-//                 formik.values.end_date === ""
+//                 formik.values.start_date_month === ""
 //                   ? ""
-//                   : new Date(formik.values.end_date).toLocaleDateString("fa-IR")
+//                   : new Date(formik.values.start_date_month).toLocaleDateString("fa-IR")
 //               }
 //               readOnly
 //               className={"   " + styles.datePickerInputStyle}
@@ -59,11 +59,11 @@
 //               position="center"
 //               accentColor="#1b887f"
 //               className="font-costumFaNum "
-//               name="end_date"
+//               name="start_date_month"
 //               inputClass={" " + " " + styles.datePickerMainInputHide}
 //               onChange={(event) => {
 //                 formik.setFieldValue(
-//                   "end_date",
+//                   "start_date_month",
 //                   new Date(event.value).toISOString().slice(0, 10)
 //                 );
 //               }}
@@ -72,7 +72,7 @@
 //               className={
 //                 " absolute top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px]   group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
 //                 " " +
-//                 `${formik.values.end_date?.length > 0 ? "text-xs" : ""}` +
+//                 `${formik.values.start_date_month?.length > 0 ? "text-xs" : ""}` +
 //                 " " +
 //                 ` ${
 //                   //   formik.values.militaryStatus === "پایان خدمت"
@@ -112,14 +112,14 @@
 //           "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 w-full " +
 //           " " +
 //           `${
-//             formik.errors.end_date && formik.touched.end_date
+//             formik.errors.start_date_month && formik.touched.start_date_month
 //               ? " opacity-100 "
 //               : " opacity-0 "
 //           }`
 //         }
 //       >
 //         <DangerIcon />
-//         {formik.errors.end_date}
+//         {formik.errors.start_date_month}
 //       </div>
 //     </div>
 //   );
@@ -132,42 +132,26 @@ import ClickOutside from "../../ClickOutside";
 import DangerIcon from "@/icon2/DangerIcon";
 import formStyles from "../../formcheckbox.module.css";
 
-function getCurrentShamsiYear() {
-  const date = new Date();
-  const options = {
-    timeZone: "Asia/Tehran",
-    calendar: "persian",
-    year: "numeric",
-  };
-  const shamsiYear = date.toLocaleDateString("fa-IR", options);
-  return shamsiYear;
-}
-function persianToEnglish(persianNumber) {
-  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-  const englishDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-  return persianNumber.replace(/[۰-۹]/g, function (match) {
-    return persianDigits.indexOf(match);
-  });
-}
 
-function getHijriYears() {
-  const currentYear = +persianToEnglish(getCurrentShamsiYear());
-  const startYear = 1323; // The start year in the Hijri calendar
-
-  const years = [];
-  for (let year = startYear; year <= currentYear; year++) {
-    years.push(year.toString());
-  }
-
-  return years.reverse();
-}
-const hijriYears = getHijriYears();
-
-export default function EndDatePicker({ formik }) {
+const monthsHijri = [
+  "فروردین",
+  "اردیبهشت",
+  "خرداد",
+  "تیر",
+  "مرداد",
+  "شهریور",
+  "مهر",
+  "آبان",
+  "آذر",
+  "دی",
+  "بهمن",
+  "اسفند",
+];
+export default function StartDateMonthPicker({ formik }) {
   const [statusList, setStatusList] = useState(false);
   const handleCloseList = () => {
-    // formik.setFieldValue("end_date", filteredList[0].name);
+    // formik.setFieldValue("start_date_month", filteredList[0].name);
     // setTextInput(filteredList[0].name);
     setStatusList(false);
   };
@@ -179,17 +163,17 @@ export default function EndDatePicker({ formik }) {
   const [filteredList, setFilteredList] = useState([]);
 
   useEffect(() => {
-    setListitemsSource(hijriYears);
-    setFilteredList(hijriYears);
+    setListitemsSource(monthsHijri);
+    setFilteredList(monthsHijri);
   }, []);
   useEffect(() => {
-    setTextInput(formik.values.end_date);
-  }, [formik.values.end_date]);
+    setTextInput(formik.values.start_date_month);
+  }, [formik.values.start_date_month]);
   const handleChangeInputAutoComplete = (event) => {
     // console.log(event);
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((end_date) =>
-      end_date.includes(event.target.value)
+    const filteredList = listItemsSource.filter((start_date_month) =>
+      start_date_month.includes(event.target.value)
     );
     // console.log(filteredList);
     setFilteredList(filteredList);
@@ -197,18 +181,16 @@ export default function EndDatePicker({ formik }) {
   };
   const handleEnterKeyPress = (event) => {
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((end_date) =>
-      end_date.includes(event.target.value)
+    const filteredList = listItemsSource.filter((start_date_month) =>
+      start_date_month.includes(event.target.value)
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("end_date", filteredList[0]);
+      formik.setFieldValue("start_date_month", filteredList[0]);
       setTextInput(filteredList[0]);
       setStatusList(false);
     }
   };
-
-
 
   return (
     <div className="flex flex-col grow w-full md:w-[50%] font-costumFaNum">
@@ -216,8 +198,7 @@ export default function EndDatePicker({ formik }) {
         <ClickOutside
           onClick={handleCloseList}
           className={
-            " flex flex-row mx-auto mt-1  w-[50%] grow   " +
-            `${formik.values.not_end ? " pointer-events-none   " : "  "}`
+            " flex flex-row mx-auto mt-1  w-[50%] grow   " 
           }
         >
           <div
@@ -230,24 +211,23 @@ export default function EndDatePicker({ formik }) {
             }
           >
             <label
-              htmlFor="end_date"
+              htmlFor="start_date_month"
               className={
                 " absolute  z-[3] top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                 " " +
                 `${
-                  textInput.length > 0
+                  textInput?.length > 0
                     ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                     : ""
                 }` +
-                " " +
-                `${formik.values.not_end ? " text-[#cccc]   " : ""}`
+                " " 
               }
             >
-              سال پایان
+              ماه شروع
             </label>
             <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
               <ArrowDownIcon
-                color={`${formik.values.not_end ? "#cccc" : "#525252"}`}
+                
               />
             </div>
             <input
@@ -258,11 +238,11 @@ export default function EndDatePicker({ formik }) {
               onBlur={formik.handleBlur}
               onFocus={() => setStatusList(true)}
               className={
-                (textInput.length > 0 ? " input-label-pos-active " : " ") +
+                (textInput?.length > 0 ? " input-label-pos-active " : " ") +
                 " w-full px-4 relative  z-[2]  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
               }
-              id="end_date"
-              name="end_date"
+              id="start_date_month"
+              name="start_date_month"
             ></input>
             {statusList ? (
               <div className="flex flex-col bg-[#fff]  border-[#e5e5e5] border-[2px] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
@@ -273,7 +253,7 @@ export default function EndDatePicker({ formik }) {
                       value={item}
                       name={item}
                       onClick={() => {
-                        formik.setFieldValue("end_date", item);
+                        formik.setFieldValue("start_date_month", item);
                         setTextInput(item);
                         setStatusList(false);
                       }}
@@ -289,26 +269,6 @@ export default function EndDatePicker({ formik }) {
             )}
           </div>
         </ClickOutside>
-
-        <div className="w-[50%] flex flex-row gap-1 p-1  ">
-          <label className="relative inline-flex items-center cursor-pointer w-[48px] h-[24px] my-auto  ">
-            <input
-              type="checkbox"
-              className="sr-only peer"
-              checked={formik.values.not_end}
-            />
-            <div
-              onClick={() => {
-                formik.setFieldValue("not_end", !formik.values.not_end);
-                formik.setFieldValue("end_date", "");
-              }}
-              className="w-[48px] h-[24px] bg-[#C2CFD6] rounded-full peer peer-focus:ring-2 peer-focus:ring-[#AAEEE9]  dark:peer-focus:ring-[#AAEEE9] dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[24px]  after:content-[''] after:absolute after:top-[2px] after:end-[2px] after:bg-lightGray  after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-[#23AFA3] peer-checked:hover:bg-[#1B887F] hover:bg-[#9AB0BC]"
-            ></div>
-          </label>
-          <div className="text-[#525252] text-xs leading-5  ">
-            هم اکنون مشغول هستم
-          </div>
-        </div>
       </div>
 
       <div
@@ -316,17 +276,17 @@ export default function EndDatePicker({ formik }) {
           "w-full mb-3 text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            formik.errors.end_date && formik.touched.end_date
+            formik.errors.start_date_month && formik.touched.start_date_month
               ? // &&
-                // formik.errors.end_date.name &&
-                // formik.touched.end_date.name
+                // formik.errors.start_date_month.name &&
+                // formik.touched.start_date_month.name
                 " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.end_date}
+        {formik.errors.start_date_month}
       </div>
     </div>
   );

@@ -6,8 +6,48 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RecordsAndDocumentsForm from "./RecordsAndDocumentsForm";
 
+const validFileExtensions = {
+  file: ["jpg", "gif", "png", "jpeg", "svg", "webp", "pdf"],
+};
 
-const validationSchema = yup.object({});
+const MAX_FILE_SIZE = 4194304;
+
+const validationSchema = yup.object({
+  personalPic: yup
+    .array()
+    .min(1, "تصویر مدرک خود را وارد کنید.")
+    .max(10, "تنها 10 تصویر مدرک باید وارد کنید.")
+    .of(
+      yup.object().shape({
+        type_document: yup.string().required("Name is required"),
+        documents: yup
+          .mixed()
+          .required(" تصویر مدرک الزامی است.")
+          .test(
+            "fileFormat",
+            "فقط فایل های jpg، jpeg، webp، pdf و png مجاز هستند.",
+            (value) => {
+              if (value) {
+                return validFileExtensions.file.includes(
+                  value.name.split(".").pop()
+                );
+              }
+              return true;
+            }
+          )
+          .test(
+            "fileSize",
+            "حجم فایل نباید بیشتر از 4 مگابایت باشد",
+            (value) => {
+              if (value) {
+                return value.size <= MAX_FILE_SIZE;
+              }
+              return true;
+            }
+          ),
+      })
+    ),
+});
 
 export default function RecordsAndDocumentsFormWrapper({
   activeTab,
@@ -21,7 +61,7 @@ export default function RecordsAndDocumentsFormWrapper({
   const [loadingButton, setLoadingButton] = useState(false);
 
   const [educationList, setEducationList] = useState([]);
-  const [listOfSkills, setlistOfSkills] = useState([]);
+  const [workExperience, setWorkExperience] = useState([]);
 
   const formik = useFormik({
     initialValues: {
@@ -90,9 +130,11 @@ export default function RecordsAndDocumentsFormWrapper({
       <RecordsAndDocumentsForm
         activeTab={activeTab}
         formik={formik}
-        loadingButton={loadingButton}       
+        loadingButton={loadingButton}
         educationList={educationList}
         setEducationList={setEducationList}
+        workExperience={workExperience}
+        setWorkExperience={setWorkExperience}
         mainData={mainData}
       />
       {/* )} */}

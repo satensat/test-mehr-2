@@ -3,36 +3,31 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import PlusIcon from "@/icon/PlusIcon";
 import TrashIcon from "@/icon2/TrashIcon";
-import TeacherIcon from "@/icon2/TeacherIcon";
 import Edit2Icon from "@/icon2/Edit2Icon";
 import DangerIcon from "@/icon2/DangerIcon";
 import TickSquare from "@/icon2/TickSquare";
-import UniversityType from "./UniversityType";
+
 import StartDatePicker from "./StartDatePicker";
+
+import Briefcase from "@/icon2/Briefcase";
+import EndDateMonthPicker from "./EndDateMonthPicker";
+import StartDateMonthPicker from "./StartDateMonthPicker";
 import EndDatePicker from "./EndDatePicker";
-import FieldOfStudy from "./FieldOfStudy";
-import GradePart from "./GradePart";
 
 const validationSchema = yup
   .object({
-    name: yup.string().required("نام موسسه را وارد نمایید."),
-    university_type: yup.string().required("نوع دانشگاه را انتخاب کنید."),
-    field_of_study: yup.string().required("رشته تحصیلی را وارد نمایید."),
-    academic_orientation: yup
+    name: yup.string().required("نام شرکت را وارد نمایید."),
+    job_title: yup.string().required("عنوان شغلی را انتخاب کنید."),
+    salary: yup.string().required("متوسط دریافت ماهانه را وارد نمایید."),
+    phone_number: yup.string().required("شماره تماس شرکت را وارد نمایید."),
+    address: yup.string().max(225, "توضیحات نباید بیشتر از 225 کاراکتر باشد."),
+    start_date: yup.date().nonNullable().required("سال شروع  را وارد کنید."),
+    start_date_month: yup
       .string()
-      .required("گرایش یا عنوان دقیق رشته تحصیلی را وارد نمایید."),
-    grade: yup.string().required("مقطع تحصیلی را انتخاب کنید."),
-    total_average: yup
-      .number()
-      .typeError("لطفا یک عدد وارد کنید.")
-      .required("لطفا معدل کل وارد کنید.")
-      .min(0, "عدد نمی‌تواند کوچکتر از صفر باشد.")
-      .max(20, "عدد نمی‌تواند بزرگتر از 20 باشد.")
-      .nullable(),
-    start_date: yup.date().nonNullable().required("تاریخ شروع  را وارد کنید."),
+      .required("ماه شروع  را وارد کنید."),
     end_date: yup.date().when("not_end", {
       is: true,
-      then: () => yup.date(), // If not_end is true, end_date is not required
+      then: () => yup.date(),
       otherwise: () =>
         yup
           .date()
@@ -55,6 +50,11 @@ const validationSchema = yup
       // .required("تاریخ پایان را وارد کنید.")
       // .min(yup.ref('start_date'), "تاریخ پایان باید بعد از تاریخ شروع باشد.")
     }),
+    end_date_month: yup.date().when("not_end", {
+      is: true,
+      then: () => yup.string(),
+      otherwise: () => yup.string().required("ماه پایان  را وارد کنید."),
+    }),
     not_end: yup.boolean(),
     description: yup
       .string()
@@ -68,21 +68,23 @@ const validationSchema = yup
   })
   .required();
 
-export default function EducationalBackgroundAddComponent({
+export default function WorkExperienceAddComponent({
   formik,
-  educationList,
-  setEducationList,
+  workExperience,
+  setWorkExperience,
 }) {
   const [openForm, setOpenForm] = useState(false);
   const [editItem, setEditItem] = useState({
     name: "",
-    university_type: "",
-    field_of_study: "",
-    academic_orientation: "",
+    job_title: "",
+    salary: "",
+    phone_number: "",
     grade: "",
     total_average: "",
     start_date: "",
+    start_date_month: "",
     end_date: "",
+    end_date_month: "",
     not_end: false,
     description: "",
   });
@@ -94,19 +96,16 @@ export default function EducationalBackgroundAddComponent({
   const formikEducation = useFormik({
     initialValues: {
       name: editItem.name !== "" ? editItem.name : "",
-      university_type:
-        editItem.university_type !== "" ? editItem.university_type : "",
-      field_of_study:
-        editItem.field_of_study !== "" ? editItem.field_of_study : "",
-      academic_orientation:
-        editItem.academic_orientation !== ""
-          ? editItem.academic_orientation
-          : "",
-      grade: editItem.grade !== "" ? editItem.grade : "",
-      total_average:
-        editItem.total_average !== "" ? editItem.total_average : "",
+      job_title: editItem.job_title !== "" ? editItem.job_title : "",
+      salary: editItem.salary !== "" ? editItem.salary : "",
+      phone_number: editItem.phone_number !== "" ? editItem.phone_number : "",
+      address: editItem.address !== "" ? editItem.address : "",
       start_date: editItem.start_date !== "" ? editItem.start_date : "",
+      start_date_month:
+        editItem.start_date_month !== "" ? editItem.start_date_month : "",
       end_date: editItem.end_date !== "" ? editItem.end_date : "",
+      end_date_month:
+        editItem.end_date_month !== "" ? editItem.end_date_month : "",
       not_end: editItem.not_end !== "" ? editItem.not_end : false,
       description: editItem.description !== "" ? editItem.description : "",
       id: editItem.id !== "" ? editItem.id : "",
@@ -114,27 +113,28 @@ export default function EducationalBackgroundAddComponent({
     onSubmit: (values, actions) => {
       if (!editStatus) {
         const valueWithId = { ...values, id: Date.now() };
-        setEducationList((prev) => [...prev, valueWithId]);
+        setWorkExperience((prev) => [...prev, valueWithId]);
         //   formik.setvalues()
         actions.resetForm();
       } else {
-        const indexItem = educationList.findIndex(
+        const indexItem = workExperience.findIndex(
           (item) => item.id === values.id
         );
-        const testArray = educationList;
+        const testArray = workExperience;
         testArray[indexItem] = values;
-        setEducationList(testArray);
+        setWorkExperience(testArray);
         setEditStatus(false);
         actions.resetForm();
         setEditItem({
           name: "",
-          university_type: "",
-          field_of_study: "",
-          academic_orientation: "",
-          grade: "",
-          total_average: "",
+          job_title: "",
+          salary: "",
+          phone_number: "",
+          address: "",
           start_date: "",
+          start_date_month: "",
           end_date: "",
+          end_date_month: "",
           not_end: false,
           description: "",
           id: "",
@@ -145,15 +145,15 @@ export default function EducationalBackgroundAddComponent({
     enableReinitialize: true,
   });
   const handleDeleteItem = (input, index) => {
-    const filteredItem = educationList.filter((item) => item.id !== input.id);
-    setEducationList(filteredItem);
+    const filteredItem = workExperience.filter((item) => item.id !== input.id);
+    setWorkExperience(filteredItem);
   };
   return (
     <div className="bg-[#f7f7f7] rounded-xl pt-2 px-3 pb-3 flex flex-col w-full font-costumFaNum  ">
       <div className="flex flex-row items-center gap-2">
-        <TeacherIcon />
+        <Briefcase />
         <div className="font-bold text-sm leading-6 text-[#242424]">
-          سابقه تحصیلی
+          سابقه شغلی
         </div>
       </div>
       <div className="flex flex-col  mt-2 md:mt-0 ">
@@ -162,7 +162,7 @@ export default function EducationalBackgroundAddComponent({
             "pt-2 flex flex-col after:content-['']   after:h-[1px] after:w-0   after:bg-[#E6E6E6] after:mb-1 after:transition-all after:duration-500 " +
             " " +
             `${
-              educationList.length > 0 ? " after:w-[100%] after:mt-3  " : "  "
+              workExperience.length > 0 ? " after:w-[100%] after:mt-3  " : "  "
             }`
           }
         >
@@ -196,7 +196,7 @@ export default function EducationalBackgroundAddComponent({
                     }`
                   }
                 >
-                  نام موسسه
+                  نام شرکت
                 </label>
                 <div
                   className={
@@ -214,19 +214,15 @@ export default function EducationalBackgroundAddComponent({
                   {formikEducation.errors.name}
                 </div>
               </div>
-              <UniversityType formik={formikEducation} />
-            </div>
-            <div className="flex flex-col grow w-full  md:flex-row items-center md:gap-6 ">
-              <FieldOfStudy formik={formikEducation} />
-              <div className="group w-full  mb-3 grow  md:w-[50%] relative ">
+              <div className="group w-full  mb-3 grow  relative md:w-[50%] ">
                 <input
-                  name="academic_orientation"
-                  value={formikEducation.values.academic_orientation}
+                  name="job_title"
+                  value={formikEducation.values.job_title}
                   onChange={formikEducation.handleChange}
                   onBlur={formikEducation.handleBlur}
                   type="text"
                   className={
-                    (formikEducation.values.academic_orientation?.length > 0
+                    (formikEducation.values.job_title?.length > 0
                       ? " input-label-pos-active "
                       : " ") +
                     " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -237,42 +233,41 @@ export default function EducationalBackgroundAddComponent({
                     " absolute top-4 right-4 rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
                     " " +
                     `${
-                      formikEducation.values.academic_orientation?.length > 0
+                      formikEducation.values.job_title?.length > 0
                         ? "text-xs"
                         : ""
                     }`
                   }
                 >
-                  گرایش یا عنوان دقیق رشته تحصیلی
+                  عنوان شغلی
                 </label>
                 <div
                   className={
                     "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                     " " +
                     `${
-                      formikEducation.errors.academic_orientation &&
-                      formikEducation.touched.academic_orientation
+                      formikEducation.errors.job_title &&
+                      formikEducation.touched.job_title
                         ? " opacity-100 "
                         : " opacity-0 "
                     }`
                   }
                 >
                   <DangerIcon />
-                  {formikEducation.errors.academic_orientation}
+                  {formikEducation.errors.job_title}
                 </div>
               </div>
             </div>
             <div className="flex flex-col grow w-full  md:flex-row items-center md:gap-6 ">
-              <GradePart formik={formikEducation} />
-              <div className="group w-full  mb-3 grow md:w-[50%]  relative ">
+              <div className="group w-full  mb-3 grow  md:w-[50%] relative ">
                 <input
-                  name="total_average"
-                  value={formikEducation.values.total_average}
+                  name="salary"
+                  value={formikEducation.values.salary}
                   onChange={formikEducation.handleChange}
                   onBlur={formikEducation.handleBlur}
                   type="text"
                   className={
-                    (formikEducation.values.total_average?.length > 0
+                    (formikEducation.values.salary?.length > 0
                       ? " input-label-pos-active "
                       : " ") +
                     " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -283,34 +278,121 @@ export default function EducationalBackgroundAddComponent({
                     " absolute top-4 right-4 rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
                     " " +
                     `${
-                      formikEducation.values.total_average?.length > 0
-                        ? "text-xs"
-                        : ""
+                      formikEducation.values.salary?.length > 0 ? "text-xs" : ""
                     }`
                   }
                 >
-                  معدل کل
+                  متوسط دریافت ماهانه
                 </label>
                 <div
                   className={
                     "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                     " " +
                     `${
-                      formikEducation.errors.total_average &&
-                      formikEducation.touched.total_average
+                      formikEducation.errors.salary &&
+                      formikEducation.touched.salary
                         ? " opacity-100 "
                         : " opacity-0 "
                     }`
                   }
                 >
                   <DangerIcon />
-                  {formikEducation.errors.total_average}
+                  {formikEducation.errors.salary}
                 </div>
+              </div>
+              <div className="group w-full  mb-3 grow  md:w-[50%] relative ">
+                <input
+                  name="phone_number"
+                  value={formikEducation.values.phone_number}
+                  onChange={formikEducation.handleChange}
+                  onBlur={formikEducation.handleBlur}
+                  type="text"
+                  className={
+                    (formikEducation.values.phone_number?.length > 0
+                      ? " input-label-pos-active "
+                      : " ") +
+                    " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
+                  }
+                />
+                <label
+                  className={
+                    " absolute top-4 right-4 rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
+                    " " +
+                    `${
+                      formikEducation.values.phone_number?.length > 0
+                        ? "text-xs"
+                        : ""
+                    }`
+                  }
+                >
+                  شماره تماس شرکت
+                </label>
+                <div
+                  className={
+                    "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                    " " +
+                    `${
+                      formikEducation.errors.phone_number &&
+                      formikEducation.touched.phone_number
+                        ? " opacity-100 "
+                        : " opacity-0 "
+                    }`
+                  }
+                >
+                  <DangerIcon />
+                  {formikEducation.errors.phone_number}
+                </div>
+              </div>
+            </div>
+            <div className="w-full group relative mt-2">
+              <textarea
+                name="address"
+                value={formikEducation.values.address}
+                onChange={formikEducation.handleChange}
+                onBlur={formikEducation.handleBlur}
+                className={
+                  (formikEducation.values.address?.length > 0
+                    ? " input-label-pos-active "
+                    : " ") +
+                  " min-h-32 w-full px-4 placeholder-gray resize-none   h-12   border border-gray-300 rounded-2xl bg-white input-label-pos pt-3"
+                }
+              ></textarea>
+              <label
+                className={
+                  " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
+                  " " +
+                  `${
+                    formikEducation.values.address?.length > 0
+                      ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
+                      : ""
+                  }`
+                }
+              >
+                آدرس شرکت
+              </label>
+              <div
+                className={
+                  "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
+                  " " +
+                  `${
+                    formikEducation.errors.address &&
+                    formikEducation.touched.address
+                      ? " opacity-100 "
+                      : " opacity-0 "
+                  }`
+                }
+              >
+                <DangerIcon />
+                {formikEducation.errors.address}
               </div>
             </div>
             <div className="flex flex-col grow w-full  md:flex-row items-center md:gap-6 ">
               <StartDatePicker formik={formikEducation} />
+              <StartDateMonthPicker formik={formikEducation} />
+            </div>
+            <div className="flex flex-col grow w-full  md:flex-row items-center md:gap-6 ">
               <EndDatePicker formik={formikEducation} />
+              <EndDateMonthPicker formik={formikEducation} />
             </div>
             <div className="w-full group relative mt-2">
               <textarea
@@ -362,13 +444,14 @@ export default function EducationalBackgroundAddComponent({
                   setEditStatus(false);
                   setEditItem({
                     name: "",
-                    university_type: "",
-                    field_of_study: "",
-                    academic_orientation: "",
-                    grade: "",
-                    total_average: "",
+                    job_title: "",
+                    salary: "",
+                    phone_number: "",
+                    address: "",
                     start_date: "",
+                    start_date_month: "",
                     end_date: "",
+                    end_date_month: "",
                     not_end: false,
                     description: "",
                     id: "",
@@ -410,10 +493,10 @@ export default function EducationalBackgroundAddComponent({
         <div
           className={
             "flex flex-row gap-6  items-center flex-wrap mt-3 " +
-            `${educationList.length > 0 ? "  " : "  hidden"}`
+            `${workExperience.length > 0 ? "  " : "  hidden"}`
           }
         >
-          {educationList.map((item, index) => {
+          {workExperience.map((item, index) => {
             return (
               <div
                 key={index}
@@ -424,10 +507,11 @@ export default function EducationalBackgroundAddComponent({
                     {item.name}
                   </div>
                   <div className="text-[#242424] leading-6 text-sm flex-grow">
-                    {item.field_of_study}
+                    {item.job_title}
                   </div>
                   <div className="text-[#808080] leading-6 text-sm flex-grow">
-                    {item.start_date} تا{" "}
+                    {item.start_date_month} {item.start_date} تا{" "}
+                    {item.end_date_month}{" "}
                     {item.end_date !== "" ? item.end_date : "اکنون"}
                   </div>
                 </div>

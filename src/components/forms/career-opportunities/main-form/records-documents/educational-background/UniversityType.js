@@ -37,9 +37,7 @@ export default function UniversityType({ formik }) {
     setFilteredList(listOfUniVersityType);
   }, []);
   useEffect(() => {
-    if (formik.values.university_type === "") {
-      setTextInput("");
-    }
+    setTextInput(formik.values.university_type);
   }, [formik.values.university_type]);
   const handleChangeInputAutoComplete = (event) => {
     console.log(event);
@@ -98,6 +96,7 @@ export default function UniversityType({ formik }) {
           </div>
           <input
             value={textInput}
+            autoComplete="off"
             onKeyDown={handleEnterKeyPress}
             onChange={(e) => handleChangeInputAutoComplete(e)}
             onBlur={formik.handleBlur}
@@ -110,7 +109,7 @@ export default function UniversityType({ formik }) {
             name="university_type"
           ></input>
           {statusList ? (
-            <div className="flex flex-col bg-[#fff] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+            <div className="flex flex-col bg-[#fff]  border-[#e5e5e5] border-[2px] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
               {filteredList.map((item, index) => {
                 return (
                   <button

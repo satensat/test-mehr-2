@@ -203,13 +203,14 @@ export default function StartDatePicker({ formik }) {
                 textInput.length > 0
                   ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                   : ""
-              }`
+              }`+
+              " " 
             }
           >
             سال شروع
           </label>
           <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
-            <ArrowDownIcon />
+            <ArrowDownIcon  />
           </div>
           <input
             value={textInput}

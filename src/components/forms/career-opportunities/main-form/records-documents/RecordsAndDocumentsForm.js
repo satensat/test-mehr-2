@@ -11,6 +11,8 @@ import ButtonCoverLoader from "../ButtonCoverLoader";
 import "react-toastify/dist/ReactToastify.css";
 
 import EducationalBackgroundAddComponent from "./educational-background/EducationalBackgroundAddComponent";
+import WorkExperienceAddComponent from "./work-experience/WorkExperienceAddComponent";
+import DocumentAddComponent from "./documentsPart/DocumentAddComponent";
 
 export default function RecordsAndDocumentsForm({
   formik,
@@ -18,6 +20,7 @@ export default function RecordsAndDocumentsForm({
   loadingButton,
   setEducationList,
   educationList,
+  workExperience, setWorkExperience
 }) {
   return (
     <div className=" flex flex-col  items-center justify-center bg-[#fdfdfd]  rounded-b-2xl ">
@@ -30,6 +33,10 @@ export default function RecordsAndDocumentsForm({
           educationList={educationList}
           setEducationList={setEducationList}
         />
+        <WorkExperienceAddComponent
+workExperience={workExperience} setWorkExperience={setWorkExperience}
+        />
+     <DocumentAddComponent formik={formik}  />
       </div>
 
       <div className="flex flex-col w-full before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto px-3 ">
