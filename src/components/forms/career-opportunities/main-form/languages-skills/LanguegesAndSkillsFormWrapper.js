@@ -85,7 +85,7 @@ export default function LanguegesAndSkillsFormWrapper({
   });
   return (
     <>
-      {/* {activeTab === "second" &&    listOfLanguages, setlistOfLanguages ( */}
+      {activeTab === "LanguegesAndSkillsForm" &&   (
       <LanguegesAndSkillsForm
         activeTab={activeTab}
         formik={formik}
@@ -96,7 +96,7 @@ export default function LanguegesAndSkillsFormWrapper({
         setlistOfSkills={setlistOfSkills}
         mainData={mainData}
       />
-      {/* )} */}
+      )}
     </>
   );
 }

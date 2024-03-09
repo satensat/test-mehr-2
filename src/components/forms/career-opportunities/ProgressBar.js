@@ -87,7 +87,7 @@ export default function ProgressBarAndform() {
     setProgressAnimation(progress25);
     setFirstPoint(aniamtionPartDone);
     setSecondPoint(pointNotComplete);
-    setActiveTab("first");
+    setActiveTab("PersonalInfoForm");
     setStepCounter("1");
     //////mobile
     setActiveTextMobile(stepInformations.secondStep);
@@ -98,7 +98,7 @@ export default function ProgressBarAndform() {
     setProgressAnimation(progress50);
     setSecondPoint(aniamtionPartDone);
     setThirdPoint(pointNotComplete);
-    setActiveTab("second");
+    setActiveTab("ContactInfoForm");
     setStepCounter("2");
     //////mobile
     setActiveTextMobile(stepInformations.thirdStep);
@@ -109,7 +109,7 @@ export default function ProgressBarAndform() {
     setProgressAnimation(progress75);
     setThirdPoint(aniamtionPartDone);
     setFourthPoint(pointNotComplete);
-    setActiveTab("third");
+    setActiveTab("LanguegesAndSkillsForm");
     setStepCounter("3");
     //////mobile
     setActiveTextMobile(stepInformations.forthStep);
@@ -120,7 +120,7 @@ export default function ProgressBarAndform() {
     setProgressAnimation(progressFull);
     setFourthPoint(aniamtionPartDone);
     setLastPoint(pointNotComplete);
-    setActiveTab("forth");
+    setActiveTab("RecordsAndDocuments");
     setStepCounter("4");
     //////mobile
     setActiveTextMobile(stepInformations.lastStep);
@@ -150,13 +150,13 @@ export default function ProgressBarAndform() {
           {/* <div className={pointNotComplete + " " +aniamtionPartDone}>  */}
           <div
             className={"cursor-pointer" + " " + firstPoint}
-            onClick={() => setActiveTab("verification")}
+            onClick={() => setActiveTab("LoginStepMainComponent")}
           >
             <div
               className={
                 styles.textPart +
                 " " +
-                ` ${activeTab === "verification" ? styles.active : " "}`
+                ` ${activeTab === "LoginStepMainComponent" ? styles.active : " "}`
               }
             >
               حساب کاربری
@@ -166,7 +166,7 @@ export default function ProgressBarAndform() {
             className={"cursor-pointer" + " " + secondPoint}
             onClick={() => {
               // if (+stepCounter >= 1) {
-              setActiveTab("first");
+              setActiveTab("PersonalInfoForm");
               // }
             }}
           >
@@ -174,7 +174,7 @@ export default function ProgressBarAndform() {
               className={
                 styles.textPart +
                 " " +
-                ` ${activeTab === "first" ? styles.active : " "}`
+                ` ${activeTab === "PersonalInfoForm" ? styles.active : " "}`
               }
             >
               اطلاعات فردی
@@ -184,7 +184,7 @@ export default function ProgressBarAndform() {
             className={"cursor-pointer" + " " + thirdPoint}
             onClick={() => {
               // if (+stepCounter >= 2) {
-              setActiveTab("second");
+              setActiveTab("ContactInfoForm");
               // }
             }}
           >
@@ -192,7 +192,7 @@ export default function ProgressBarAndform() {
               className={
                 styles.textPart +
                 " " +
-                ` ${activeTab === "second" ? styles.active : " "}`
+                ` ${activeTab === "ContactInfoForm" ? styles.active : " "}`
               }
             >
               اطلاعات تماس
@@ -202,7 +202,7 @@ export default function ProgressBarAndform() {
             className={"cursor-pointer" + " " + fourthPoint}
             onClick={() => {
               // if (+stepCounter >= 3) {
-              setActiveTab("third");
+              setActiveTab("LanguegesAndSkillsForm");
               // }
             }}
           >
@@ -210,7 +210,9 @@ export default function ProgressBarAndform() {
               className={
                 styles.textPart +
                 " " +
-                ` ${activeTab === "third" ? styles.active : " "}`
+                ` ${
+                  activeTab === "LanguegesAndSkillsForm" ? styles.active : " "
+                }`
               }
             >
               زبان و مهارت
@@ -220,7 +222,7 @@ export default function ProgressBarAndform() {
             className={"cursor-pointer" + " " + lastPoint}
             onClick={() => {
               // if (+stepCounter >= 4) {
-              setActiveTab("last");
+              setActiveTab("RecordsAndDocuments");
               // }
             }}
           >
@@ -231,11 +233,11 @@ export default function ProgressBarAndform() {
               className={
                 styles.textPart +
                 " " +
-                ` ${activeTab === "last" ? styles.active : " "}`
+                ` ${activeTab === "RecordsAndDocuments" ? styles.active : " "}`
               }
               onClick={() => {
                 // if (+stepCounter >= 5) {
-                setActiveTab("last");
+                setActiveTab("RecordsAndDocuments");
                 // }
               }}
             >
@@ -306,45 +308,44 @@ export default function ProgressBarAndform() {
         </div>
       </div>
       {/* <div className=" flex flex-col bg-[#FDFDFD] rounded-b-2xl ">
-          <LoginStepMainComponent />
         </div> */}
-      {/* <PersonalInfoFormWrapper/> */}
-
-      {/* <ContactInfoFormWrapper/> */}
-      {/* <LanguegesAndSkillsFormWrapper
+      <LoginStepMainComponent
         activeTab={activeTab}
         thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
         mainData={mainData}
         setMainData={setMainData}
         setActiveTab={setActiveTab}
-      /> */}
+      />
+      <PersonalInfoFormWrapper
+        activeTab={activeTab}
+        thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
 
+      <ContactInfoFormWrapper
+        activeTab={activeTab}
+        thirdFormDoneToFourthForm={firstFormDoneToSecondForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
+      <LanguegesAndSkillsFormWrapper
+        activeTab={activeTab}
+        thirdFormDoneToFourthForm={thirdFormDoneToFourthForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
 
-
-
-
-<RecordsAndDocumentsFormWrapper/>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      <RecordsAndDocumentsFormWrapper
+        activeTab={activeTab}
+        doneLastForm={doneLastForm}
+        mainData={mainData}
+        setMainData={setMainData}
+        setActiveTab={setActiveTab}
+      />
 
       {/* <VerificationFormWrpper
         activeTab={activeTab}

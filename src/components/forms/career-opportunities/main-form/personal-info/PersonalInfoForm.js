@@ -13,11 +13,13 @@ import PersonalPicture from "./PersonalPicture";
 import BirthdayDatePicker from "./BirthdayDatePicker";
 import MilitaryDatePicker from "./MilitaryDatePicker";
 
-export default function PersonalInfoForm({ formik, mainData }) {
+export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
   return (
     <div className=" flex flex-col  items-center justify-center bg-[#fdfdfd]  rounded-b-2xl ">
-      <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-start gap-[10px] ">
-        <RightArrowBack />
+      <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-center gap-[10px] ">
+      <button className="cursor-pointer p-1">
+          <RightArrowBack />
+        </button>
         اطلاعات فردی
       </div>
       <div className="px-3 pb-3  flex flex-col w-full gap-3  ">

@@ -256,7 +256,7 @@ export default function PersonalInfoFormWrapper({
   });
   return (
     <>
-      {/* {activeTab === "second" && ( */}
+      {activeTab === "PersonalInfoForm" && (
       <PersonalInfoForm
         activeTab={activeTab}
         formik={formik}
@@ -279,7 +279,7 @@ export default function PersonalInfoFormWrapper({
         setMainData={setMainData}
         setActiveTab={setActiveTab}
       />
-      {/* )} */}
+      )}
     </>
   );
 }

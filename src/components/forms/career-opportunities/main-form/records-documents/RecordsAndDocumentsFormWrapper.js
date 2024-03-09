@@ -6,55 +6,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RecordsAndDocumentsForm from "./RecordsAndDocumentsForm";
 
-const validFileExtensions = {
-  file: ["jpg", "gif", "png", "jpeg", "svg", "webp", "pdf"],
-};
-
-const MAX_FILE_SIZE = 4194304;
-
-const validationSchema = yup.object({
-  personalPic: yup
-    .array()
-    .min(1, "تصویر مدرک خود را وارد کنید.")
-    .max(10, "تنها 10 تصویر مدرک باید وارد کنید.")
-    .of(
-      yup.object().shape({
-        type_document: yup.string().required("Name is required"),
-        documents: yup
-          .mixed()
-          .required(" تصویر مدرک الزامی است.")
-          .test(
-            "fileFormat",
-            "فقط فایل های jpg، jpeg، webp، pdf و png مجاز هستند.",
-            (value) => {
-              if (value) {
-                return validFileExtensions.file.includes(
-                  value.name.split(".").pop()
-                );
-              }
-              return true;
-            }
-          )
-          .test(
-            "fileSize",
-            "حجم فایل نباید بیشتر از 4 مگابایت باشد",
-            (value) => {
-              if (value) {
-                return value.size <= MAX_FILE_SIZE;
-              }
-              return true;
-            }
-          ),
-      })
-    ),
-});
+const validationSchema = yup.object({});
 
 export default function RecordsAndDocumentsFormWrapper({
   activeTab,
   setActiveTab,
   mainData,
   setMainData,
-  thirdFormDoneToFourthForm,
+  doneLastForm,
 }) {
   ////----------------------loading state for send data button to go next step
 
@@ -63,14 +22,17 @@ export default function RecordsAndDocumentsFormWrapper({
   const [educationList, setEducationList] = useState([]);
   const [workExperience, setWorkExperience] = useState([]);
 
+  const [documentsList, setDocumentsList] = useState([]);
+
   const formik = useFormik({
     initialValues: {
-      languages: [],
-      skills: [],
+      educationList: [],
+      workExperience: [],
+      documentsList: [],
     },
     onSubmit: (values) => {
       setMainData({});
-      thirdFormDoneToFourthForm();
+      doneLastForm();
       window.scrollTo({
         top: 0,
         left: 0,
@@ -109,7 +71,7 @@ export default function RecordsAndDocumentsFormWrapper({
       //         setSubmitted(true);
       //         setMainData({
       //         });
-      //         thirdFormDoneToFourthForm();
+      //         doneLastForm();
       //         window.scrollTo({
       //           top: 0,
       //           left: 0,
@@ -126,18 +88,20 @@ export default function RecordsAndDocumentsFormWrapper({
   });
   return (
     <>
-      {/* {activeTab === "second" &&    listOfLanguages, setlistOfLanguages ( */}
-      <RecordsAndDocumentsForm
-        activeTab={activeTab}
-        formik={formik}
-        loadingButton={loadingButton}
-        educationList={educationList}
-        setEducationList={setEducationList}
-        workExperience={workExperience}
-        setWorkExperience={setWorkExperience}
-        mainData={mainData}
-      />
-      {/* )} */}
+      {activeTab === "RecordsAndDocuments" && (
+        <RecordsAndDocumentsForm
+          activeTab={activeTab}
+          formik={formik}
+          loadingButton={loadingButton}
+          educationList={educationList}
+          setEducationList={setEducationList}
+          workExperience={workExperience}
+          setWorkExperience={setWorkExperience}
+          documentsList={documentsList}
+          setDocumentsList={setDocumentsList}
+          mainData={mainData}
+        />
+      )}
     </>
   );
 }

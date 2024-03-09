@@ -17,7 +17,7 @@ export default function LoginStepMainComponent({
   const [disabledCodeSend, setDisabledCodeSend] = useState(true);
   return (
     <>
-      {/* {activeTab === "login" && ( */}
+      {activeTab === "LoginStepMainComponent" && (
       <div className=" flex flex-col pb-3 px-3 rounded-b-2xl ">
         <div className=" text-[#242424] font-bold text-base leading-6 pb-3 text-center w-full">
           حساب کاربری
@@ -150,7 +150,7 @@ export default function LoginStepMainComponent({
           </form>
         </div>
       </div>
-      {/* )} */}
+      )}
     </>
   );
 }

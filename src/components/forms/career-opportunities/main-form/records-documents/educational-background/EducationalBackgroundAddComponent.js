@@ -109,17 +109,17 @@ export default function EducationalBackgroundAddComponent({
       end_date: editItem.end_date !== "" ? editItem.end_date : "",
       not_end: editItem.not_end !== "" ? editItem.not_end : false,
       description: editItem.description !== "" ? editItem.description : "",
-      id: editItem.id !== "" ? editItem.id : "",
+      timeAdd: editItem.timeAdd !== "" ? editItem.timeAdd : "",
     },
     onSubmit: (values, actions) => {
       if (!editStatus) {
-        const valueWithId = { ...values, id: Date.now() };
+        const valueWithId = { ...values, timeAdd: Date.now() };
         setEducationList((prev) => [...prev, valueWithId]);
         //   formik.setvalues()
         actions.resetForm();
       } else {
         const indexItem = educationList.findIndex(
-          (item) => item.id === values.id
+          (item) => item.timeAdd === values.timeAdd
         );
         const testArray = educationList;
         testArray[indexItem] = values;
@@ -137,7 +137,7 @@ export default function EducationalBackgroundAddComponent({
           end_date: "",
           not_end: false,
           description: "",
-          id: "",
+          timeAdd: "",
         });
       }
     },
@@ -145,7 +145,7 @@ export default function EducationalBackgroundAddComponent({
     enableReinitialize: true,
   });
   const handleDeleteItem = (input, index) => {
-    const filteredItem = educationList.filter((item) => item.id !== input.id);
+    const filteredItem = educationList.filter((item) => item.timeAdd !== input.timeAdd);
     setEducationList(filteredItem);
   };
   return (
@@ -371,7 +371,7 @@ export default function EducationalBackgroundAddComponent({
                     end_date: "",
                     not_end: false,
                     description: "",
-                    id: "",
+                    timeAdd: "",
                   });
                 }}
                 className="transition ease-in-out duration-400 group flex flex-row justify-center items-center text-[#13625C]  border-solid border-[1px] text-sm not-italic font-bold leading-6 border-[#13625C] rounded-xl  hover:text-white  hover:bg-mainGreen1  bg-[#ffff] px-3 py-1 min-w-[104px]  "

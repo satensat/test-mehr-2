@@ -12,6 +12,7 @@ export default function RelativesPart({ formik }) {
       </div>
       <div className="flex flex-col  md:flex-row mt-2  w-full gap-6 items-center">
         <RelativesInfoForm formik={formik} />
+        <RelativesInfoForm formik={formik} />
       </div>
     </div>
   );

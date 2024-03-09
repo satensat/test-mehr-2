@@ -20,12 +20,17 @@ export default function RecordsAndDocumentsForm({
   loadingButton,
   setEducationList,
   educationList,
-  workExperience, setWorkExperience
+  workExperience,
+  setWorkExperience,
+  documentsList,
+  setDocumentsList,
 }) {
   return (
     <div className=" flex flex-col  items-center justify-center bg-[#fdfdfd]  rounded-b-2xl ">
-      <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-start gap-[10px] ">
-        <RightArrowBack />
+      <div className="p-3 leading-6 font-bold text-base flex flex-row w-full items-center gap-[10px] ">
+      <button className="cursor-pointer p-1">
+          <RightArrowBack />
+        </button>
         سوابق و مدارک
       </div>
       <div className="px-3 pb-3  flex flex-col w-full gap-3  ">
@@ -34,9 +39,13 @@ export default function RecordsAndDocumentsForm({
           setEducationList={setEducationList}
         />
         <WorkExperienceAddComponent
-workExperience={workExperience} setWorkExperience={setWorkExperience}
+          workExperience={workExperience}
+          setWorkExperience={setWorkExperience}
         />
-     <DocumentAddComponent formik={formik}  />
+        <DocumentAddComponent
+          documentsList={documentsList}
+          setDocumentsList={setDocumentsList}
+        />
       </div>
 
       <div className="flex flex-col w-full before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-auto px-3 ">
