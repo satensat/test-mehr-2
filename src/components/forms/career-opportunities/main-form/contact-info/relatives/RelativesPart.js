@@ -11,8 +11,8 @@ export default function RelativesPart({ formik }) {
         مراجعه شود
       </div>
       <div className="flex flex-col  md:flex-row mt-2  w-full gap-6 items-center">
-        <RelativesInfoForm formik={formik} />
-        <RelativesInfoForm formik={formik} />
+        <RelativesInfoForm formik={formik} title="اطلاعات فرد 1" checkValueName="first" />
+        <RelativesInfoForm formik={formik} title="اطلاعات فرد 2" checkValueName="second"/>
       </div>
     </div>
   );

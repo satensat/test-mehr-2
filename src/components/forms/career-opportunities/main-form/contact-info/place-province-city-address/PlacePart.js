@@ -10,12 +10,12 @@ export default function PlacePart({ formik }) {
       <CityListComponent formik={formik} />
       <div className="w-full group relative mt-2">
         <textarea
-          name="interests"
-          value={formik.values.interests}
+          name="address"
+          value={formik.values.address}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           className={
-            (formik.values.interests.length > 0
+            (formik.values.address.length > 0
               ? " input-label-pos-active "
               : " ") +
             " min-h-32 w-full px-4 placeholder-gray resize-none   h-12   border border-gray-300 rounded-2xl bg-white input-label-pos pt-3"
@@ -26,7 +26,7 @@ export default function PlacePart({ formik }) {
             " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
             " " +
             `${
-              formik.values.interests.length > 0
+              formik.values.address.length > 0
                 ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                 : ""
             }`
@@ -39,14 +39,14 @@ export default function PlacePart({ formik }) {
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.interests && formik.touched.interests
+              formik.errors.address && formik.touched.address
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.interests}
+          {formik.errors.address}
         </div>
       </div>
     </div>

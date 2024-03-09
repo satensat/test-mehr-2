@@ -9,13 +9,13 @@ export default function PresenterInfoPart({ formik }) {
         </div>
       <div className="grow mb-3 relative group w-full ">
         <input
-          name="firstName"
-          value={formik.values.firstName}
+          name="presenter_firstName"
+          value={formik.values.presenter_firstName}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.firstName.length > 0
+            (formik.values.presenter_firstName.length > 0
               ? " input-label-pos-active "
               : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -25,7 +25,7 @@ export default function PresenterInfoPart({ formik }) {
           className={
             " absolute top-4 right-4 rounded-2xl  pointer-events-none text-xs group-focus-within:text-xs" +
             " " +
-            `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
+            `${formik.values.presenter_firstName.length > 0 ? "text-xs" : ""}`
           }
         >
           نام معرف
@@ -35,25 +35,25 @@ export default function PresenterInfoPart({ formik }) {
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.firstName && formik.touched.firstName
+              formik.errors.presenter_firstName && formik.touched.presenter_firstName
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.firstName}
+          {formik.errors.presenter_firstName}
         </div>
       </div>
       <div className=" grow group w-full  mb-3 relative ">
         <input
-          name="lastName"
-          value={formik.values.lastName}
+          name="presenter_lastName"
+          value={formik.values.presenter_lastName}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.lastName.length > 0
+            (formik.values.presenter_lastName.length > 0
               ? " input-label-pos-active "
               : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -63,7 +63,7 @@ export default function PresenterInfoPart({ formik }) {
           className={
             " absolute top-4 right-4 rounded-2xl text-xs  pointer-events-none  group-focus-within:text-xs" +
             " " +
-            `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
+            `${formik.values.presenter_lastName.length > 0 ? "text-xs" : ""}`
           }
         >
           سمت معرف
@@ -73,25 +73,25 @@ export default function PresenterInfoPart({ formik }) {
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.lastName && formik.touched.lastName
+              formik.errors.presenter_lastName && formik.touched.presenter_lastName
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.lastName}
+          {formik.errors.presenter_lastName}
         </div>
       </div>
       <div className=" grow group w-full  mb-3 relative ">
         <input
-          name="lastName"
-          value={formik.values.lastName}
+          name="presenter_phone_number"
+          value={formik.values.presenter_phone_number}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.lastName.length > 0
+            (formik.values.presenter_phone_number.length > 0
               ? " input-label-pos-active "
               : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -101,7 +101,7 @@ export default function PresenterInfoPart({ formik }) {
           className={
             " absolute top-4 right-4 rounded-2xl text-xs  pointer-events-none  group-focus-within:text-xs" +
             " " +
-            `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
+            `${formik.values.presenter_phone_number.length > 0 ? "text-xs" : ""}`
           }
         >
           شماره تماس معرف
@@ -111,14 +111,14 @@ export default function PresenterInfoPart({ formik }) {
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.lastName && formik.touched.lastName
+              formik.errors.presenter_phone_number && formik.touched.presenter_phone_number
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.lastName}
+          {formik.errors.presenter_phone_number}
         </div>
       </div>
     </div>

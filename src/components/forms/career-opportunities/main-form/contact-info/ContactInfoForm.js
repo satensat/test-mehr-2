@@ -28,13 +28,13 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
       <div className=" flex flex-col md:flex-row w-full gap-6 items-center  mt-2 ">
           <div className="grow mb-3 relative group w-full ">
             <input
-              name="firstName"
-              value={formik.values.firstName}
+              name="mobile_phone"
+              value={formik.values.mobile_phone}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
               className={
-                (formik.values.firstName.length > 0
+                (formik.values.mobile_phone.length > 0
                   ? " input-label-pos-active "
                   : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -44,7 +44,7 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
               className={
                 " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
                 " " +
-                `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
+                `${formik.values.mobile_phone.length > 0 ? "text-xs" : ""}`
               }
             >
               شماره تماس همراه
@@ -54,25 +54,25 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.firstName && formik.touched.firstName
+                  formik.errors.mobile_phone && formik.touched.mobile_phone
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.firstName}
+              {formik.errors.mobile_phone}
             </div>
           </div>
           <div className=" grow group w-full  mb-3 relative ">
             <input
-              name="lastName"
-              value={formik.values.lastName}
+              name="postal_code"
+              value={formik.values.postal_code}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
               className={
-                (formik.values.lastName.length > 0
+                (formik.values.postal_code.length > 0
                   ? " input-label-pos-active "
                   : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -82,7 +82,7 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
               className={
                 " absolute top-4 right-4 rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
                 " " +
-                `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
+                `${formik.values.postal_code.length > 0 ? "text-xs" : ""}`
               }
             >
             کد پستی
@@ -92,27 +92,27 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.lastName && formik.touched.lastName
+                  formik.errors.postal_code && formik.touched.postal_code
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.lastName}
+              {formik.errors.postal_code}
             </div>
           </div>
         </div>
         <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
           <div className="grow mb-3 relative group w-full ">
             <input
-              name="firstName"
-              value={formik.values.firstName}
+              name="fixed_number"
+              value={formik.values.fixed_number}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
               className={
-                (formik.values.firstName.length > 0
+                (formik.values.fixed_number.length > 0
                   ? " input-label-pos-active "
                   : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -122,7 +122,7 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
               className={
                 " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
                 " " +
-                `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
+                `${formik.values.fixed_number.length > 0 ? "text-xs" : ""}`
               }
             >
              شماره تماس ثابت
@@ -132,25 +132,25 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.firstName && formik.touched.firstName
+                  formik.errors.fixed_number && formik.touched.fixed_number
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.firstName}
+              {formik.errors.fixed_number}
             </div>
           </div>
           <div className=" grow group w-full  mb-3 relative ">
             <input
-              name="lastName"
-              value={formik.values.lastName}
+              name="email"
+              value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
               className={
-                (formik.values.lastName.length > 0
+                (formik.values.email.length > 0
                   ? " input-label-pos-active "
                   : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -160,7 +160,7 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
               className={
                 " absolute top-4 right-4 rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
                 " " +
-                `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
+                `${formik.values.email.length > 0 ? "text-xs" : ""}`
               }
             >
           ایمیل
@@ -170,14 +170,14 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.lastName && formik.touched.lastName
+                  formik.errors.email && formik.touched.email
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.lastName}
+              {formik.errors.email}
             </div>
           </div>
         </div>
