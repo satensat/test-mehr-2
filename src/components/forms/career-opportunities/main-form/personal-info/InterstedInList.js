@@ -49,8 +49,8 @@ export default function IntrestedInList({ formik }) {
   const handleChangeInputAutoComplete = (event) => {
     console.log(event);
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((intrested_jobs) =>
-      intrested_jobs.name.includes(event.target.value)
+    const filteredList = listItemsSource.filter((job) =>
+      job.name.includes(event.target.value)
     );
     console.log(filteredList);
     setFilteredList(filteredList);
@@ -58,8 +58,8 @@ export default function IntrestedInList({ formik }) {
   };
   const handleEnterKeyPress = (event) => {
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((intrested_jobs) =>
-      intrested_jobs.name.includes(event.target.value)
+    const filteredList = listItemsSource.filter((job) =>
+      job.name.includes(event.target.value)
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
@@ -110,7 +110,7 @@ export default function IntrestedInList({ formik }) {
           }
           onClick={() => {
             setStatusList(true);
-            // formik.setTouched("",true)
+            formik.setFieldTouched(`intrested_jobs`,true)
           }}
         >
           <label

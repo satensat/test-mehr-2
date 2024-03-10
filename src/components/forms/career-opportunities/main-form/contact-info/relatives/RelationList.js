@@ -16,7 +16,7 @@ const listOfRelative = [
   { name: "خواهر" },
   { name: "سایر" },
 ];
-export default function RelativeList({ formik }) {
+export default function RelativeList({ formik, checkValueName }) {
   const [statusList, setStatusList] = useState(false);
   const handleCloseList = () => {
     setStatusList(false);
@@ -49,7 +49,10 @@ export default function RelativeList({ formik }) {
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("relative", filteredList[0].name);
+      formik.setFieldValue(
+        `${checkValueName}_relative.type`,
+        filteredList[0].name
+      );
       setTextInput(filteredList[0].name);
       setStatusList(false);
     }
@@ -92,7 +95,10 @@ export default function RelativeList({ formik }) {
             onKeyDown={handleEnterKeyPress}
             onChange={(e) => handleChangeInputAutoComplete(e)}
             onBlur={formik.handleBlur}
-            onFocus={() => setStatusList(true)}
+            onFocus={() => {
+              setStatusList(true);
+              formik.setFieldTouched(`${checkValueName}_relative.type`,true)
+            }}
             className={
               (textInput.length > 0 ? " input-label-pos-active " : " ") +
               " w-full px-4 relative  z-[2]  placeholder-gray    placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
@@ -109,9 +115,12 @@ export default function RelativeList({ formik }) {
                     value={item.name}
                     name={item.name}
                     onClick={() => {
-                      formik.setFieldValue("relative", item.name);
+                      formik.setFieldValue(
+                        `${checkValueName}_relative.type`,
+                        item.name
+                      );
                       setTextInput(item.name);
-                      console.log(formik)
+                      console.log(formik);
                       setStatusList(false);
                     }}
                     className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl text-right "
@@ -131,7 +140,8 @@ export default function RelativeList({ formik }) {
           "w-full mb-3 text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            formik.errors.relative && formik.touched.relative
+            formik.errors[`${checkValueName}_relative`]?.type &&
+            formik.touched[`${checkValueName}_relative`]?.type
               ? // &&
                 // formik.errors.relative.name &&
                 // formik.touched.relative.name
@@ -141,7 +151,7 @@ export default function RelativeList({ formik }) {
         }
       >
         <DangerIcon />
-        {formik.errors.relative}
+        {formik.errors[`${checkValueName}_relative`]?.type}
       </div>
     </div>
   );

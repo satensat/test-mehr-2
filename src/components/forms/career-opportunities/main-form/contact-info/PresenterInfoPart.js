@@ -9,13 +9,13 @@ export default function PresenterInfoPart({ formik }) {
         </div>
       <div className="grow mb-3 relative group w-full ">
         <input
-          name="presenter_firstName"
-          value={formik.values.presenter_firstName}
+          name="referral_name"
+          value={formik.values.referral_name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.presenter_firstName.length > 0
+            (formik.values.referral_name.length > 0
               ? " input-label-pos-active "
               : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -25,7 +25,7 @@ export default function PresenterInfoPart({ formik }) {
           className={
             " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
             " " +
-            `${formik.values.presenter_firstName.length > 0 ? "text-xs" : ""}`
+            `${formik.values.referral_name.length > 0 ? "text-xs" : ""}`
           }
         >
           نام معرف
@@ -35,25 +35,25 @@ export default function PresenterInfoPart({ formik }) {
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.presenter_firstName && formik.touched.presenter_firstName
+              formik.errors.referral_name && formik.touched.referral_name
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.presenter_firstName}
+          {formik.errors.referral_name}
         </div>
       </div>
       <div className=" grow group w-full  mb-3 relative ">
         <input
-          name="presenter_lastName"
-          value={formik.values.presenter_lastName}
+          name="referral_position"
+          value={formik.values.referral_position}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.presenter_lastName.length > 0
+            (formik.values.referral_position.length > 0
               ? " input-label-pos-active "
               : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -63,7 +63,7 @@ export default function PresenterInfoPart({ formik }) {
           className={
             " absolute top-4 right-4 rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
             " " +
-            `${formik.values.presenter_lastName.length > 0 ? "text-xs" : ""}`
+            `${formik.values.referral_position.length > 0 ? "text-xs" : ""}`
           }
         >
           سمت معرف
@@ -73,25 +73,25 @@ export default function PresenterInfoPart({ formik }) {
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.presenter_lastName && formik.touched.presenter_lastName
+              formik.errors.referral_position && formik.touched.referral_position
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.presenter_lastName}
+          {formik.errors.referral_position}
         </div>
       </div>
       <div className=" grow group w-full  mb-3 relative ">
         <input
-          name="presenter_phone_number"
-          value={formik.values.presenter_phone_number}
+          name="referral_phone"
+          value={formik.values.referral_phone}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           type="text"
           className={
-            (formik.values.presenter_phone_number.length > 0
+            (formik.values.referral_phone.length > 0
               ? " input-label-pos-active "
               : " ") +
             " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -101,7 +101,7 @@ export default function PresenterInfoPart({ formik }) {
           className={
             " absolute top-4 right-4 rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
             " " +
-            `${formik.values.presenter_phone_number.length > 0 ? "text-xs" : ""}`
+            `${formik.values.referral_phone.length > 0 ? "text-xs" : ""}`
           }
         >
           شماره تماس معرف
@@ -111,14 +111,14 @@ export default function PresenterInfoPart({ formik }) {
             "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              formik.errors.presenter_phone_number && formik.touched.presenter_phone_number
+              formik.errors.referral_phone && formik.touched.referral_phone
                 ? " opacity-100 "
                 : " opacity-0 "
             }`
           }
         >
           <DangerIcon />
-          {formik.errors.presenter_phone_number}
+          {formik.errors.referral_phone}
         </div>
       </div>
     </div>

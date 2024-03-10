@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ContactInfoForm from "./ContactInfoForm";
 
 const validationSchema = yup.object().shape({
-  mobile_phone: yup
+  phone_number: yup
     .string()
     .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه را صحیح وارد کنید.")
     .required("  شماره همراه را وارد کنید."),
@@ -36,76 +36,89 @@ const validationSchema = yup.object().shape({
     .string()
     .max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد.")
     .required("آدرس کامل  را وارد نمایید."),
-  salary: yup
-    .number()
-    .required("لطفاً مبلغ حقوق خود را وارد کنید")
-    .min(1000, "مبلغ حقوق باید بیشتر از ۱۰۰۰ تومان باشد")
-    .positive("مبلغ حقوق باید مثبت باشد")
-    .integer("لطفاً یک عدد صحیح وارد کنید"),
   city: yup.string().required("شهر را وارد نمایید."),
   province: yup.string().required("شهر را وارد نمایید."),
-  presenter_firstName: yup
+  referral_name: yup
     .string()
     .max(225, "نام معرف را وارد کنید.")
     .required("نام معرف را وارد کنید."),
-  presenter_lastName: yup
+  referral_position: yup
     .string()
-    .max(225, "نام خانوادگی معرف نباید بیشتر از 225 کاراکتر باشد.")
-    .required("نام خانوادگی را وارد کنید."),
-  presenter_phone_number: yup
-    .string()
-    .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه معرف را صحیح وارد کنید.")
-    .required("  شماره همراه معرف را وارد کنید."),
-  first_relative_type: yup
-    .string()
-    .required("نسبت معرف را مشخص کنیذ")
-    .oneOf(
-      ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
-      "لطفا از موارد پیشنهادی انتخاب کنید."
-    ),
-  first_relative_firstName: yup
-    .string()
-    .max(225, "نام معرف را وارد کنید.")
-    .required("نام معرف را وارد کنید."),
-  first_relative_lastName: yup
-    .string()
-    .max(225, "نام خانوادگی معرف نباید بیشتر از 225 کاراکتر باشد.")
-    .required("نام خانوادگی را وارد کنید."),
-  first_relative_phone_number: yup
+    .max(225, "سمت معرف نباید بیشتر از 225 کاراکتر باشد.")
+    .required("سمت را وارد کنید."),
+  referral_phone: yup
     .string()
     .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه معرف را صحیح وارد کنید.")
-    .required("  شماره همراه معرف را وارد کنید."),
-  first_relative_address: yup
-    .string()
-    .max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد.")
-    .required("آدرس کامل  را وارد نمایید."),
-  second_relative: yup.object({
-    type: yup
-      .string()
-      // .required("نسبت معرف را مشخص کنیذ")
-      .oneOf(
-        ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
-        "لطفا از موارد پیشنهادی انتخاب کنید."
-      ),
-    firstName: yup.string().max(225, "نام معرف را وارد کنید."),
-    // .required("نام معرف را وارد کنید."),
-    lastName: yup
-      .string()
-      .max(225, "نام خانوادگی معرف نباید بیشتر از 225 کاراکتر باشد."),
-    // .required("نام خانوادگی را وارد کنید."),
-    phone_number: yup
-      .string()
-      .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه معرف را صحیح وارد کنید."),
-    // .required("  شماره همراه معرف را وارد کنید."),
-    address: yup.string().max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد."),
-    // .required("آدرس کامل  را وارد نمایید."),
-  }).test(
-    'is-optional',
-    `county is required`,
-    function({ firstName,lastName, phone_number ,address,type}) {
-      return firstName === '' && lastName === '' && phone_number === '' && address === '' && type === '' ? false : true
-    }
-  ),
+    .required("شماره همراه معرف را وارد کنید."),
+  first_relative: yup
+    .object()
+    .shape({
+      type: yup
+        .string()
+        .required("نسبت  را مشخص کنید.")
+        .oneOf(
+          ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
+          "لطفا از موارد پیشنهادی انتخاب کنید."
+        ),
+        first_name: yup
+        .string()
+        .max(225, "نام را وارد کنید.")
+        .required("نام را وارد کنید."),
+        last_name: yup
+        .string()
+        .max(225, "نام خانوادگی نباید بیشتر از 225 کاراکتر باشد.")
+        .required("نام خانوادگی را وارد کنید."),
+      phone_number: yup
+        .string()
+        .matches(
+          /^(\+98|0)?9\d{9}$/,
+          "شماره تلفن همراه را صحیح وارد کنید."
+        )
+        .required("  شماره همراه را وارد کنید."),
+      address: yup
+        .string()
+        .max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد.")
+        .required("آدرس کامل  را وارد نمایید."),
+    })
+    .required("مشخصات و نشانی یکی از بستگان الزامی است."),
+  second_relative: yup
+    .object({
+      type: yup
+        .string()
+        // .required("نسبت را مشخص کنیذ")
+        .oneOf(
+          ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
+          "لطفا از موارد پیشنهادی انتخاب کنید."
+        ),
+      first_name: yup.string().max(225, "نام را وارد کنید."),
+      // .required("نام را وارد کنید."),
+      last_name: yup
+        .string()
+        .max(225, "نام خانوادگی  نباید بیشتر از 225 کاراکتر باشد."),
+      // .required("نام خانوادگی را وارد کنید."),
+      phone_number: yup
+        .string()
+        .matches(
+          /^(\+98|0)?9\d{9}$/,
+          "شماره تلفن همراه را صحیح وارد کنید."
+        ),
+      // .required("  شماره همراه را وارد کنید."),
+      address: yup.string().max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد."),
+      // .required("آدرس کامل را وارد نمایید."),
+    })
+    // .test(
+    //   "is-optional",
+    //   `county is required`,
+    //   function ({ first_name, last_name, phone_number, address, type }) {
+    //     return first_name === "" &&
+    //     last_name === "" &&
+    //       phone_number === "" &&
+    //       address === "" &&
+    //       type === ""
+    //       ? false
+    //       : true;
+    //   }
+    // ),
 });
 
 // second_relative_type: yup
@@ -272,27 +285,35 @@ export default function ContactInfoFormWrapper({
 
   const formik = useFormik({
     initialValues: {
-      mobile_phone: "",
+      phone_number: "",
       postal_code: "",
       fixed_number: "",
       email: "",
       address: "",
-      salary: "",
       city: "",
       province: "",
-      presenter_firstName: "",
-      presenter_lastName: "",
-      presenter_phone_number: "",
-      first_relative_type: "",
-      first_relative_firstName: "",
-      first_relative_lastName: "",
-      first_relative_phone_number: "",
-      first_relative_address: "",
-      second_relative_type: "",
-      second_relative_firstName: "",
-      second_relative_lastName: "",
-      second_relative_phone_number: "",
-      second_relative_address: "",
+      referral_name: "",
+      referral_position: "",
+      referral_phone: "",
+      first_relative: {
+        type: "",
+        first_name: "",
+        last_name: "",
+        phone_number: "",
+        address: "",
+      },
+      second_relative: {
+        type: "",
+        first_name: "",
+        last_name: "",
+        phone_number: "",
+        address: "",
+      },
+      // second_relative_type: "",
+      // second_relative_firstName: "",
+      // second_relative_lastName: "",
+      // second_relative_phone_number: "",
+      // second_relative_address: "",
     },
     onSubmit: (values) => {
       setMainData({});
