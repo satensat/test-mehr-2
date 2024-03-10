@@ -110,7 +110,7 @@ export default function DocumentAddComponent({
       <div className="flex flex-row items-center gap-2">
         <DocumentTextIcon />
         <div className="font-bold text-sm leading-6 text-[#242424]">
-          سابقه تحصیلی
+        مدارک
         </div>
       </div>
       <div className=" flex flex-col items-start gap-2  ">
@@ -155,7 +155,7 @@ export default function DocumentAddComponent({
                 >
                   فایل آپلودی
                 </label>
-                <div></div>
+           
                 <button
                   className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%]  cursor-pointer"
                   onClick={openFilePickerDocumentPic}

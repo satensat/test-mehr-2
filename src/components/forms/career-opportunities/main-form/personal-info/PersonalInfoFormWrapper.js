@@ -42,16 +42,16 @@ const validationSchema = yup.object({
         })
     )
     .required("تصویر پرسنلی الزامی است."),
-    salary: yup.number()
+    requested_salary: yup.number('لطفاً عدد وارد کنید')
     .required('لطفاً مبلغ حقوق خود را وارد کنید')
     .min(1000, 'مبلغ حقوق باید بیشتر از ۱۰۰۰ تومان باشد')
     .positive('مبلغ حقوق باید مثبت باشد')
     .integer('لطفاً یک عدد صحیح وارد کنید'),
-  firstName: yup
+  first_name: yup
     .string()
     .max(225, "نام را وارد کنید.")
     .required("نام را وارد کنید."),
-  lastName: yup
+  last_name: yup
     .string()
     .max(225, "نام خانوادگی  نباید بیشتر از 225 کاراکتر باشد.")
     .required("نام خانوادگی را وارد کنید."),
@@ -59,7 +59,7 @@ const validationSchema = yup.object({
     .string()
     .max(225, "نام پدر را وارد کنید.")
     .required("نام پدر را وارد کنید."),
-  nationalId: yup
+  national_code: yup
     .string()
     .min(10, "کد ملی نباید کمتر از ۱۰ عدد داشته باشد.")
     .max(10, "کد ملی نباید بیشتر از ۱۰ عدد داشته باشد.")
@@ -67,19 +67,38 @@ const validationSchema = yup.object({
     .matches(/^[0-9]+$/, "کد ملی باید فقط شامل اعداد باشد.")
     .required("کد ملی را وارد کنید."),
   birth_day: yup.string().trim().required(" تاریخ تولد را وارد کنید."),
-  city: yup.string().required("شهر را وارد نمایید."),
+  birth_city: yup.string().required("شهر را وارد نمایید."),
   gender: yup.string().required("جنسیت را وارد انتخاب کنید."),
   // gender: yup.boolean().required("جنسیت را وارد انتخاب کنید."),
-  maritalStatus: yup.string().required("وضعیت تاهل را وارد انتخاب کنید."),
+  is_married: yup.boolean().required("وضعیت تاهل را انتخاب کنید."),
   nationality:yup.string().required("ملیت را وارد نمایید."),
   religion: yup.string().required("دین خود را وارد انتخاب کنید."),
-  interstedIn: [],
-  militaryStatus: yup.string().required("وضعیت خدمت سربازی را وارد انتخاب کنید."),
-  militaryDate: yup.string().trim().required(" تاریخ پایان خدمت را وارد کنید."),
-  interests:  yup
+  military: yup.string().required("وضعیت خدمت سربازی را وارد انتخاب کنید."),
+  military_end_date: yup.string().trim().required(" تاریخ پایان خدمت را وارد کنید."),
+  intrested_fields:   yup
   .string()
   .max(225, "حوزه های علاقه مندی خود را تا 225 کارامتر وارد کنید.")
-  .required("حوزه های علاقه مندی خود را وارد کنید."),
+  // .required("حوزه های علاقه مندی خود را وارد کنید."), 
+  // yup
+  // .array()
+  // .min(1, " تصویر پرسنلی خود را وارد کنید. ")
+  // .max(1, "تنها یک تصویر پرسنلی باید وارد کنید.")
+  // .of(
+  //   // yup
+  //   //   .object({
+  //   //     name:yup.string().oneOf(
+  //   //       ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
+  //   //       "لطفا از موارد پیشنهادی انتخاب کنید."
+  //   //     )
+  //   //   })
+  //   //   .required(" تصویر پرسنلی الزامی است.")
+  // yup
+  // .string()
+  // )
+  // yup
+  // .string()
+  // .max(225, "حوزه های علاقه مندی خود را تا 225 کارامتر وارد کنید.")
+  // .required("حوزه های علاقه مندی خود را وارد کنید."),
 });
 
 export default function PersonalInfoFormWrapper({
@@ -108,49 +127,27 @@ export default function PersonalInfoFormWrapper({
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      intrested_jobs:[],
+      first_name: "",
+      last_name: "",
       degree: "",
-      nationalId: "",
+      national_code: "",
       father_name: "",
       birth_day: "",
       personalPic: [],
       religion: "",
-      interstedIn: [],
-      maritalStatus: "",
-      militaryStatus: "",
+      is_married: "",
+      military: "",
       gender: "",
-      salary: "",
-      city: "",
-      is_owner: "",
-      militaryDate: "",
-      interests: "",
+      requested_salary: "",
+      birth_city: "",
+      
+      military_end_date: "",
+      intrested_fields: "",
     },
     onSubmit: (values) => {
       setMainData({
-        ...mainData,
-        applicator: mainData?.phone_number,
-        name: values.name,
-        province: values.province,
-        city: values.city,
-        is_owner: values.is_owner,
-        area: values.area,
-        business_type: {
-          is_distribution: values.business_type.is_distribution,
-          is_manufacturing: values.business_type.is_manufacturing,
-          is_technical: values.business_type.is_technical,
-          is_service: values.business_type.is_service,
-        },
-        number_of_staff: values.number_of_staff,
-        address: values.address,
-        reception_status: values.reception_status,
-        repair_features: values.repair_features,
-        workplace_features: {
-          sofa: values.workplace_features.sofa,
-          network: values.workplace_features.network,
-          fixed_number: values.workplace_features.fixed_number,
-          reception_feature: values.workplace_features.reception_feature,
-        },
+
       });
       secondFormDoneToThirdForm();
       window.scrollTo({

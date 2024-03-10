@@ -17,7 +17,7 @@ export default function BirthdayDatePicker({ formik, mainData }) {
     return test;
   };
   return (
-    <div className="mb-3 grow  flex flex-col items-center w-full">
+    <div className="mb-3 grow  flex flex-col items-start w-full">
       <div
         onBlur={() => formik.setFieldTouched("birth_day")}
         className={

@@ -8,7 +8,7 @@ import SkillsList from "./SkillsList";
 
 const validationSchema = yup
   .object({
-    skill: yup.string().required("مهارت را انتخاب کنید."),
+    title: yup.string().required("مهارت را وارد کنید."),
     skillLevel: yup.string().required("سطح مهارت را انتخاب کنید."),
   })
   .required();
@@ -20,11 +20,11 @@ export default function SkillAddComponent({
 }) {
   const formikLanguage = useFormik({
     initialValues: {
-      skill: "",
+      title: "",
       skillLevel: "",
     },
     onSubmit: (values, actions) => {
-      const valueWithId={...values,id:Date.now()}
+      const valueWithId={...values,timeAdd:Date.now()}
       setlistOfSkills((prev) => [...prev, valueWithId]);
       //   formik.setvalues()
       actions.resetForm();
@@ -33,7 +33,7 @@ export default function SkillAddComponent({
   });
 
   const handleDeleteItem=(input, index)=>{
-    const filteredItem=listOfSkills.filter((item)=>item.id!==input.id);
+    const filteredItem=listOfSkills.filter((item)=>item.timeAdd!==input.timeAdd);
     setlistOfSkills(filteredItem)
   }
   return (
@@ -76,7 +76,7 @@ export default function SkillAddComponent({
                 {item.skillLevel}
               </div>
               <div className="text-[#242424] leading-6 text-sm flex-grow">
-                {item.skill}
+                {item.title}
               </div>
                 </div>
               <button

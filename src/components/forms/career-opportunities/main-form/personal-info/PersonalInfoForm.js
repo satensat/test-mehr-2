@@ -22,15 +22,15 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
         </button>
         اطلاعات فردی
       </div>
-      <div className="px-3 pb-3  flex flex-col w-full gap-3  ">
+      <div className="px-3 pb-3  flex flex-col w-full gap-1  ">
         <PersonalPicture formik={formik} />
         {/* ------------------------------------------------------------------------------------------ */}
-        <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
+        <div className=" flex flex-col mt-2 md:flex-row w-full gap-6 items-center">
           <InterstedInList formik={formik} />
           <div className={"grow group  mt-1  mb-3 relative  w-full "}>
             <input
-              name="salary"
-              value={formik.values.salary}
+              name="requested_salary"
+              value={formik.values.requested_salary}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
@@ -45,7 +45,7 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                 " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
                 " " +
                 `${
-                  formik.touched.salary
+                  formik.touched.requested_salary
                     ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                     : ""
                 }`
@@ -58,27 +58,27 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.salary && formik.touched.salary
+                  formik.errors.requested_salary && formik.touched.requested_salary
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.salary}
+              {formik.errors.requested_salary}
             </div>
           </div>
         </div>
         <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
           <div className="grow mb-3 relative group w-full ">
             <input
-              name="firstName"
-              value={formik.values.firstName}
+              name="first_name"
+              value={formik.values.first_name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
               className={
-                (formik.values.firstName.length > 0
+                (formik.values.first_name.length > 0
                   ? " input-label-pos-active "
                   : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -88,7 +88,7 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
               className={
                 " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
                 " " +
-                `${formik.values.firstName.length > 0 ? "text-xs" : ""}`
+                `${formik.values.first_name.length > 0 ? "text-xs" : ""}`
               }
             >
               نام
@@ -98,25 +98,25 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.firstName && formik.touched.firstName
+                  formik.errors.first_name && formik.touched.first_name
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.firstName}
+              {formik.errors.first_name}
             </div>
           </div>
           <div className=" grow group w-full  mb-3 relative ">
             <input
-              name="lastName"
-              value={formik.values.lastName}
+              name="last_name"
+              value={formik.values.last_name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
               className={
-                (formik.values.lastName.length > 0
+                (formik.values.last_name.length > 0
                   ? " input-label-pos-active "
                   : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -126,7 +126,7 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
               className={
                 " absolute top-4 right-4 rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
                 " " +
-                `${formik.values.lastName.length > 0 ? "text-xs" : ""}`
+                `${formik.values.last_name.length > 0 ? "text-xs" : ""}`
               }
             >
               نام خانوادگی
@@ -136,14 +136,14 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.lastName && formik.touched.lastName
+                  formik.errors.last_name && formik.touched.last_name
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.lastName}
+              {formik.errors.last_name}
             </div>
           </div>
         </div>
@@ -189,13 +189,13 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
 
           <div className="group  w-full mb-3 grow   relative ">
             <input
-              name="nationalId"
-              value={formik.values.nationalId}
+              name="national_code"
+              value={formik.values.national_code}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
               className={
-                (formik.values.nationalId.length > 0
+                (formik.values.national_code.length > 0
                   ? " input-label-pos-active "
                   : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -205,7 +205,7 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
               className={
                 " absolute top-4 right-4 rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
                 " " +
-                `${formik.values.nationalId.length > 0 ? "text-xs" : ""}`
+                `${formik.values.national_code.length > 0 ? "text-xs" : ""}`
               }
             >
               کد ملی
@@ -215,27 +215,27 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.nationalId && formik.touched.nationalId
+                  formik.errors.national_code && formik.touched.national_code
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.nationalId}
+              {formik.errors.national_code}
             </div>
           </div>
         </div>
         <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
           <div className="group   mb-3 grow w-full  relative ">
             <input
-              name="city"
-              value={formik.values.city}
+              name="birth_city"
+              value={formik.values.birth_city}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
               className={
-                (formik.values.city.length > 0
+                (formik.values.birth_city.length > 0
                   ? " input-label-pos-active "
                   : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -245,7 +245,7 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
               className={
                 " absolute top-4 right-4 rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
                 " " +
-                `${formik.values.city.length > 0 ? "text-xs" : ""}`
+                `${formik.values.birth_city.length > 0 ? "text-xs" : ""}`
               }
             >
               شهر محل تولد
@@ -255,14 +255,14 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.city && formik.touched.city
+                  formik.errors.birth_city && formik.touched.birth_city
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.city}
+              {formik.errors.birth_city}
             </div>
           </div>
 
@@ -323,14 +323,15 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                       <div
                         className={`${formStyles.containerRadioTick} `}
                         onClick={() =>
-                          formik.setFieldValue("maritalStatus", "SINGLE")
+                          // formik.setFieldValue("is_married", "SINGLE")
+                          formik.setFieldValue("is_married",false)
                         }
                       >
                         <input
                           type="radio"
-                          checked={formik.values.maritalStatus === "SINGLE"}
+                          checked={formik.values.is_married ===false}
                           onChange={() =>
-                            formik.setFieldValue("maritalStatus", "SINGLE")
+                            formik.setFieldValue("is_married",false)
                           }
                         />
                         <div className={formStyles.checkmarkRadio}></div>
@@ -347,14 +348,15 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                       <div
                         className={`${formStyles.containerRadioTick} `}
                         onClick={() =>
-                          formik.setFieldValue("maritalStatus", "MARRIED")
+                          // formik.setFieldValue("is_married", "MARRIED")
+                          formik.setFieldValue("is_married", true)
                         }
                       >
                         <input
                           type="radio"
-                          checked={formik.values.maritalStatus === "MARRIED"}
+                          checked={formik.values.is_married === true}
                           onChange={() =>
-                            formik.setFieldValue("maritalStatus", "MARRIED")
+                            formik.setFieldValue("is_married", true)
                           }
                         />
                         <div className={formStyles.checkmarkRadio}></div>
@@ -372,14 +374,14 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                 "w-full mb-3  text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.maritalStatus && formik.touched.maritalStatus
+                  formik.errors.is_married && formik.touched.is_married
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.maritalStatus}
+              {formik.errors.is_married}
             </div>
           </div>
           <div className="flex flex-col w-full  md:w-[50%] ">
@@ -456,12 +458,12 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
         </div>
         <div className="w-full group relative mt-2 mb-3">
           <textarea
-            name="interests"
-            value={formik.values.interests}
+            name="intrested_fields"
+            value={formik.values.intrested_fields}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={
-              (formik.values.interests.length > 0
+              (formik.values.intrested_fields.length > 0
                 ? " input-label-pos-active "
                 : " ") +
               " min-h-32 w-full px-4 placeholder-gray resize-none   h-12   border border-gray-300 rounded-2xl bg-white input-label-pos pt-3"
@@ -472,7 +474,7 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
               " absolute   top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
               " " +
               `${
-                formik.values.interests.length > 0
+                formik.values.intrested_fields.length > 0
                   ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                   : ""
               }`
@@ -485,14 +487,14 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
               "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
               " " +
               `${
-                formik.errors.interests && formik.touched.interests
+                formik.errors.intrested_fields && formik.touched.intrested_fields
                   ? " opacity-100 "
                   : " opacity-0 "
               }`
             }
           >
             <DangerIcon />
-            {formik.errors.interests}
+            {formik.errors.intrested_fields}
           </div>
         </div>
       </div>

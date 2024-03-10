@@ -6,11 +6,11 @@ import DangerIcon from "@/icon2/DangerIcon";
 import formStyles from "../../formcheckbox.module.css";
 
 const listOfDocumentTypes = [
-  { name: "رزومه" },
-  { name: " نمونه کارها" },
-  { name: "گواهینامه" },
-  { name: "توصیه نامه" },
-  { name: "دیگر" },
+  { name: "رزومه",valuesStatus:"RESUME" },
+  { name: " نمونه کارها" ,valuesStatus:"SAMPLE"},
+  { name: "گواهینامه",valuesStatus:"CERTIFICATE" },
+  { name: "توصیه نامه",valuesStatus:"RECOMMENDATION" },
+  { name: "دیگر",valuesStatus:"ETC" },
 ];
 // رزومه / نمونه کارها / گواهینامه / توصیه نامه / دیگر
 
@@ -41,9 +41,9 @@ export default function TypeOfDocument({ formik }) {
     const filteredList = listItemsSource.filter((type_document) =>
       type_document.name.includes(event.target.value)
     );
-    console.log(filteredList);
+    // console.log(filteredList);
     setFilteredList(filteredList);
-    console.log(filteredList.length === 1);
+    // console.log(filteredList.length === 1);
   };
   const handleEnterKeyPress = (event) => {
     setTextInput(() => event.target.value);
@@ -52,7 +52,7 @@ export default function TypeOfDocument({ formik }) {
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("type_document", filteredList[0].name);
+      formik.setFieldValue("type_document", filteredList[0].valuesStatus);
       setTextInput(filteredList[0].name);
       setStatusList(false);
     }
@@ -109,10 +109,10 @@ export default function TypeOfDocument({ formik }) {
                 return (
                   <button
                     key={item.name}
-                    value={item.name}
+                    value={item.valuesStatus}
                     name={item.name}
                     onClick={() => {
-                      formik.setFieldValue("type_document", item.name);
+                      formik.setFieldValue("type_document", item.valuesStatus);
                       setTextInput(item.name);
                       setStatusList(false);
                     }}

@@ -86,7 +86,7 @@ export default function RelativesInfoForm({formik,title,checkValueName}) {
           {formik.errors[`${checkValueName}_relative_lastName`]}
         </div>
       </div>
-      <div className="w-full group relative ">
+      <div className="w-full group relative mb-3 ">
         <textarea
           name={`${checkValueName}_relative_address`}
           value={formik.values[`${checkValueName}_relative_address`]}

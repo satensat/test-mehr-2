@@ -6,11 +6,11 @@ import DangerIcon from "@/icon2/DangerIcon";
 import formStyles from "../formcheckbox.module.css";
 
 const listOfReligion = [
-  { name: "مسلمان " },
-  { name: "زرتشتی " },
-  { name: "کلیمی" },
-  { name: "مسیحی " },
-  { name: "سایر" },
+  { name: "مسلمان ",valueStatus:"MUSLIM" },
+  { name: "زرتشتی ",valueStatus:"CHRISTIAN" },
+  { name: "کلیمی" ,valueStatus:"KLIMI"},
+  { name: "مسیحی ",valueStatus:"ZOROASTRIAN" },
+  { name: "سایر",valueStatus:"ETC" },
 ];
 export default function ReligionList({ formik }) {
   const [statusList, setStatusList] = useState(false);
@@ -45,7 +45,7 @@ export default function ReligionList({ formik }) {
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("religion", filteredList[0].name);
+      formik.setFieldValue("religion", filteredList[0].valueStatus);
       setTextInput(filteredList[0].name);
       setStatusList(false);
     }
@@ -97,15 +97,15 @@ export default function ReligionList({ formik }) {
             name="religion"
           ></input>
           {statusList ? (
-            <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+            <div className="flex flex-col bg-[#F7F7F7] border-[#e5e5e5] border-[2px] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
               {filteredList.map((item, index) => {
                 return (
                   <button
                     key={item.name}
-                    value={item.name}
+                    value={item.valueStatus}
                     name={item.name}
                     onClick={() => {
-                      formik.setFieldValue("religion", item.name);
+                      formik.setFieldValue("religion", item.valueStatus);
                       setTextInput(item.name);
                       setStatusList(false);
                     }}

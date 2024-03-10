@@ -8,10 +8,10 @@ import formStyles from "../../formcheckbox.module.css";
 
 
 const listOfSkillLevel = [
-  { name: "مبتدی" },
-  { name: "متوسط" },
-  { name: "پیشرفته" },
-  { name: "کارشناس" },
+  { name: "مبتدی",valueStatus:"BEGINNER" },
+  { name: "متوسط",valueStatus:"MEDIUM" },
+  { name: "پیشرفته",valueStatus:"PROFESSIONA" },
+  { name: "کارشناس",valueStatus:"EXPERT" },
 ];
 export default function SkillLevel({ formik }) {
     const [statusList, setStatusList] = useState(false);
@@ -53,7 +53,7 @@ export default function SkillLevel({ formik }) {
       );
       setFilteredList(filteredList);
       if (event.key === "Enter") {
-        formik.setFieldValue("skillLevel", filteredList[0].name);
+        formik.setFieldValue("skillLevel", filteredList[0].valueStatus);
         setTextInput(filteredList[0].name);
         setStatusList(false);
       }
@@ -105,15 +105,15 @@ export default function SkillLevel({ formik }) {
               name="skillLevel"
             ></input>
             {statusList ? (
-              <div className="flex flex-col bg-[#fff] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+              <div className="flex flex-col bg-[#fff] border-[#e5e5e5] border-[2px] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
                 {filteredList.map((item, index) => {
                   return (
                     <button
                       key={item.name}
-                      value={item.name}
+                      value={item.valueStatus}
                       name={item.name}
                       onClick={() => {
-                        formik.setFieldValue("skillLevel", item.name);
+                        formik.setFieldValue("skillLevel", item.valueStatus);
                         setTextInput(item.name);
                         setStatusList(false);
                       }}

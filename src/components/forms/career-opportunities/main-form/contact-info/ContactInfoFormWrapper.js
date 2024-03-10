@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import ContactInfoForm from "./ContactInfoForm";
 
-const validationSchema = yup.object({
+const validationSchema = yup.object().shape({
   mobile_phone: yup
     .string()
     .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه را صحیح وارد کنید.")
@@ -79,100 +79,183 @@ const validationSchema = yup.object({
     .string()
     .max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد.")
     .required("آدرس کامل  را وارد نمایید."),
-  second_relative_type: yup
-    .string()
-    .required("نسبت معرف را مشخص کنیذ")
-    .oneOf(
-      ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
-      "لطفا از موارد پیشنهادی انتخاب کنید."
-    ),
-  second_relative_firstName:yup
-  .string()
-  .when(
-    [
-      "second_relative_lastName",
-      "second_relative_phone_number",
-      "second_relative_address",
-    ],
-    {
-      is: (
-        second_relative_lastName,
-        second_relative_phone_number,
-        second_relative_address
-      ) =>
-        !second_relative_lastName &&
-        !second_relative_phone_number &&
-        !second_relative_address,
-      then:()=> yup
-    .string()
-    .max(225, "نام معرف را وارد کنید.")
-    .required("نام معرف را وارد کنید."),}),
-  second_relative_lastName:yup
-  .string()
-  .when(
-    [
-      "second_relative_firstName",
-      "second_relative_phone_number",
-      "second_relative_address",
-    ],
-    {
-      is: (
-        second_relative_firstName,
-        second_relative_phone_number,
-        second_relative_address
-      ) =>
-        !second_relative_firstName &&
-        !second_relative_phone_number &&
-        !second_relative_address,
-      then:()=> yup
-    .string()
-    .max(225, "نام خانوادگی معرف نباید بیشتر از 225 کاراکتر باشد.")
-    .required("نام خانوادگی را وارد کنید."),}),
-  second_relative_phone_number:yup
-  .string()
-  .when(
-    [
-      "second_relative_firstName",
-      "second_relative_lastName",
-      "second_relative_address",
-    ],
-    {
-      is: (
-        second_relative_firstName,
-        second_relative_lastName,
-        second_relative_address
-      ) =>
-        !second_relative_firstName &&
-        !second_relative_lastName &&
-        !second_relative_address,
-      then:()=>  yup
-    .string()
-    .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه معرف را صحیح وارد کنید.")
-    .required("  شماره همراه معرف را وارد کنید."),}),
-  second_relative_address: yup
-    .string()
-    .when(
-      [
-        "second_relative_firstName",
-        "second_relative_lastName",
-        "second_relative_phone_number",
-      ],
-      {
-        is: (
-          second_relative_firstName,
-          second_relative_lastName,
-          second_relative_phone_number
-        ) =>
-          !second_relative_firstName &&
-          !second_relative_lastName &&
-          !second_relative_phone_number,
-        then:()=> yup
-          .string()
-          .max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد.")
-          .required("آدرس کامل  را وارد نمایید."),
-      }
-    ),
+  second_relative: yup.object({
+    type: yup
+      .string()
+      // .required("نسبت معرف را مشخص کنیذ")
+      .oneOf(
+        ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
+        "لطفا از موارد پیشنهادی انتخاب کنید."
+      ),
+    firstName: yup.string().max(225, "نام معرف را وارد کنید."),
+    // .required("نام معرف را وارد کنید."),
+    lastName: yup
+      .string()
+      .max(225, "نام خانوادگی معرف نباید بیشتر از 225 کاراکتر باشد."),
+    // .required("نام خانوادگی را وارد کنید."),
+    phone_number: yup
+      .string()
+      .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه معرف را صحیح وارد کنید."),
+    // .required("  شماره همراه معرف را وارد کنید."),
+    address: yup.string().max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد."),
+    // .required("آدرس کامل  را وارد نمایید."),
+  }).test(
+    'is-optional',
+    `county is required`,
+    function({ firstName,lastName, phone_number ,address,type}) {
+      return firstName === '' && lastName === '' && phone_number === '' && address === '' && type === '' ? false : true
+    }
+  ),
 });
+
+// second_relative_type: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_firstName",
+//     "second_relative_lastName",
+//     "second_relative_phone_number",
+//     "second_relative_address",
+//   ],
+//   {
+//     is: (
+//       second_relative_lastName,
+//       second_relative_phone_number,
+//       second_relative_address
+//     ) =>
+//       !second_relative_lastName &&
+//       !second_relative_phone_number &&
+//       !second_relative_address,
+//     then: () =>
+//       yup
+//         .string()
+//         .required("نسبت معرف را مشخص کنیذ")
+//         .oneOf(
+//           ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
+//           "لطفا از موارد پیشنهادی انتخاب کنید."
+//         ),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+// second_relative_firstName: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_lastName",
+//     "second_relative_type",
+//     "second_relative_phone_number",
+//     "second_relative_address",
+//   ],
+//   {
+//     is: (
+//       second_relative_type,
+//       second_relative_firstName,
+//       second_relative_lastName,
+//       second_relative_phone_number,
+//       second_relative_address
+//     ) =>
+//       !second_relative_type &&
+//       !second_relative_firstName &&
+//       !second_relative_lastName &&
+//       !second_relative_phone_number &&
+//       !second_relative_address,
+//     then: () =>
+//       yup
+//         .string()
+//         .max(225, "نام معرف را وارد کنید.")
+//         .required("نام معرف را وارد کنید."),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+// second_relative_lastName: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_type",
+//     "second_relative_firstName",
+//     "second_relative_phone_number",
+//     "second_relative_address",
+//   ],
+//   {
+//     is: (
+//       second_relative_type,
+//       second_relative_firstName,
+//       second_relative_phone_number,
+//       second_relative_address
+//     ) =>
+//       !second_relative_type &&
+//       !second_relative_firstName &&
+//       !second_relative_phone_number &&
+//       !second_relative_address,
+//     then: () =>
+//       yup
+//         .string()
+//         .max(225, "نام خانوادگی معرف نباید بیشتر از 225 کاراکتر باشد.")
+//         .required("نام خانوادگی را وارد کنید."),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+// second_relative_phone_number: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_type",
+//     "second_relative_firstName",
+//     "second_relative_lastName",
+//     "second_relative_address",
+//   ],
+//   {
+//     is: (
+//       second_relative_type,
+//       second_relative_firstName,
+//       second_relative_lastName,
+//       second_relative_address
+//     ) =>
+//       !second_relative_type &&
+//       !second_relative_firstName &&
+//       !second_relative_lastName &&
+//       !second_relative_address,
+//     then: () =>
+//       yup
+//         .string()
+//         .matches(
+//           /^(\+98|0)?9\d{9}$/,
+//           "شماره تلفن همراه معرف را صحیح وارد کنید."
+//         )
+//         .required("  شماره همراه معرف را وارد کنید."),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+// second_relative_address: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_type",
+//     "second_relative_firstName",
+//     "second_relative_lastName",
+//     "second_relative_phone_number",
+//   ],
+//   {
+//     is: (
+//       second_relative_type,
+//       second_relative_firstName,
+//       second_relative_lastName,
+//       second_relative_phone_number
+//     ) =>
+//       !second_relative_type &&
+//       !second_relative_firstName &&
+//       !second_relative_lastName &&
+//       !second_relative_phone_number,
+//     then: () =>
+//       yup
+//         .string()
+//         .max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد.")
+//         .required("آدرس کامل  را وارد نمایید."),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+
+// ['second_relative_type', 'second_relative_firstName','second_relative_lastName','second_relative_phone_number','second_relative_address']
 
 export default function ContactInfoFormWrapper({
   activeTab,
@@ -224,9 +307,7 @@ export default function ContactInfoFormWrapper({
           `http://192.168.10.195:8090/v1/api/after/sale/shop/informations/`,
           {
             method: "POST",
-            body: JSON.stringify({
-              
-            }),
+            body: JSON.stringify({}),
             headers: {
               "content-type": "application/json",
             },

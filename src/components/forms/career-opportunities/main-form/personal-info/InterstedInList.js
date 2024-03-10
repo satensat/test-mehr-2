@@ -4,7 +4,7 @@ import ArrowDownIcon from "@/icon/ArrowDown";
 import ClickOutside from "../ClickOutside";
 import DangerIcon from "@/icon2/DangerIcon";
 import formStyles from "../formcheckbox.module.css";
-import CloseModal from "@/icon/CloseModal";
+
 const listOfJobs = [
   { id: "1", name: "کارشناس فروش ", selected: false },
   { id: "2", name: "کارشناس فنی و تعمیرات ", selected: false },
@@ -30,7 +30,7 @@ const listOfJobs = [
   { id: "22", name: "مترجم زبان", selected: false },
 ];
 
-export default function InterstedInList({ formik }) {
+export default function IntrestedInList({ formik }) {
   const [statusList, setStatusList] = useState(false);
   const handleCloseList = () => {
     setStatusList(false);
@@ -49,8 +49,8 @@ export default function InterstedInList({ formik }) {
   const handleChangeInputAutoComplete = (event) => {
     console.log(event);
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((interstedIn) =>
-      interstedIn.name.includes(event.target.value)
+    const filteredList = listItemsSource.filter((intrested_jobs) =>
+      intrested_jobs.name.includes(event.target.value)
     );
     console.log(filteredList);
     setFilteredList(filteredList);
@@ -58,12 +58,12 @@ export default function InterstedInList({ formik }) {
   };
   const handleEnterKeyPress = (event) => {
     setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((interstedIn) =>
-      interstedIn.name.includes(event.target.value)
+    const filteredList = listItemsSource.filter((intrested_jobs) =>
+      intrested_jobs.name.includes(event.target.value)
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("interstedIn", filteredList[0].name);
+      formik.setFieldValue("intrested_fields", filteredList[0].name);
       setTextInput(filteredList[0].name);
       setStatusList(false);
     }
@@ -75,13 +75,24 @@ export default function InterstedInList({ formik }) {
       ...updatedItems[index],
       selected: !updatedItems[index]?.selected,
     };
-    if(updatedItems[index].selected){
+    // if(updatedItems[index].selected){
 
-      formik.setFieldValue("interstedIn", [...formik.values.interstedIn,updatedItems[index]]);
-    }else{
-      const filteredFormik=formik.values.interstedIn.filter((item,index)=>item.name===updatedItems[index].name)
-    }
+    //   formik.setFieldValue("intrested_fields", [...formik.values.intrested_fields,updatedItems[index]]);
+    // }else{
+    //   const filteredFormik=formik.values.intrested_fields.filter((item,index)=>item.name===updatedItems[index].name);
+    //   formik.setFieldValue("intrested_fields", [...filteredFormik]);
+    // }
     setFilteredList(updatedItems);
+  };
+
+  const allSelectedCount = (arrayTest) => {
+    let counter = 0;
+    arrayTest.forEach((item) => {
+      if (item.selected === true) {
+        counter++;
+      }
+    });
+    return counter;
   };
   return (
     <div className="flex flex-col grow w-full">
@@ -97,17 +108,21 @@ export default function InterstedInList({ formik }) {
             "  " +
             `${statusList ? " z-[2]  " : "  z-[1] "}`
           }
-          onClick={() => setStatusList(true)}
+          onClick={() => {
+            setStatusList(true);
+            // formik.setTouched("",true)
+          }}
         >
           <label
-            htmlFor="interstedIn"
+            htmlFor="intrested_jobs"
             className={
-              " absolute  z-[3] top-4 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
+              " absolute z-[3]      right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[24px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
               " " +
               `${
-                formik.values.interstedIn?.length > 0
-                  ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
-                  : ""
+                // formik.values.intrested_jobs?.length > 0
+                allSelectedCount(filteredList) > 0
+                  ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff] w-fit lg:w-fit  md:w-fit  top-4  lg:top-4 md:top-4"
+                  : "  w-fit lg:w-fit md:w-[70%] md:group-focus-within:w-fit  md:group-focus-within:top-4 top-4  lg:top-4 md:top-1 "
               }`
             }
           >
@@ -125,8 +140,8 @@ export default function InterstedInList({ formik }) {
               (textInput.length > 0 ? " input-label-pos-active " : " ") +
               " w-full px-4 relative  z-[2]    h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos   "
             }
-            id="interstedIn"
-            name="interstedIn"
+            id="intrested_jobs"
+            name="intrested_jobs"
           ></input> */}
           <div
             className={
@@ -140,7 +155,7 @@ export default function InterstedInList({ formik }) {
               readOnly
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              name="interstedIn"
+              name="intrested_jobs"
               type="text"
               className={
                 (true ? " input-label-pos-active " : " ") +
@@ -148,18 +163,20 @@ export default function InterstedInList({ formik }) {
               }
             />
             <div
-              className=" grow flex flex-row flex-nowrap  items-center gap-2  overflow-x-auto h-12 w-full z-[5] py-3  font-costumFaNum  "
+              className=" grow flex flex-row flex-nowrap  items-center gap-2  overflow-x-auto h-12 w-full z-[5] py-3 pr-2  font-costumFaNum  "
               onClick={() => setStatusList(true)}
             >
-              {
-                formik.values.interstedIn?.length>0 &&  formik.values.interstedIn?.length+"  مورد انتخاب شده"
+              {allSelectedCount(filteredList) > 0 &&
+                allSelectedCount(filteredList) + "  مورد انتخاب شده"}
+              {/* {
+                formik.values.intrested_jobs?.length>0 &&  formik.values.intrested_jobs?.length+"  مورد انتخاب شده"
 
-                // formik.values.interstedIn?.map((item) => {
+                // formik.values.intrested_jobs?.map((item) => {
                 // if (item.selected) {
                 //   return <div key={item.name} className="w-fit" >{item.name + "،"}</div>;
                 // }
                 // })
-              }
+              } */}
             </div>
             <button
               className="w-fit h-fit  cursor-pointer p-2 "
@@ -171,7 +188,7 @@ export default function InterstedInList({ formik }) {
             </button>
           </div>
           {statusList ? (
-            <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+            <div className="flex flex-col bg-[#F7F7F7] border-[#e5e5e5] border-[2px] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
               {filteredList.map((item, index) => {
                 return (
                   <button
@@ -198,6 +215,7 @@ export default function InterstedInList({ formik }) {
                             // onChange={() =>
                             //   formik.setFieldValue("is_owner", item.name)
                             // }
+                            readOnly
                           />
                           <div className={formStyles.checkmarkRadio}></div>
                         </div>
@@ -220,17 +238,17 @@ export default function InterstedInList({ formik }) {
           "w-full mb-3 text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            formik.errors.interstedIn && formik.touched.interstedIn
+            formik.errors.intrested_jobs && formik.touched.intrested_jobs
               ? // &&
-                // formik.errors.interstedIn.name &&
-                // formik.touched.interstedIn.name
+                // formik.errors.intrested_jobs.name &&
+                // formik.touched.intrested_jobs.name
                 " opacity-100 "
               : " opacity-0 "
           }`
         }
       >
         <DangerIcon />
-        {formik.errors.interstedIn}
+        {formik.errors.intrested_jobs}
       </div>
     </div>
   );

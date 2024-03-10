@@ -1,17 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ArrowDownIcon from "@/icon/ArrowDown";
-import ClickOutside from "../../ClickOutside";
+// import ArrowDownIcon from "@/icon/ArrowDown";
+// import ClickOutside from "../../ClickOutside";
 import DangerIcon from "@/icon2/DangerIcon";
-import formStyles from "../../formcheckbox.module.css";
+// import formStyles from "../../formcheckbox.module.css";
 
-const listOfSkills = [
-  { name: "فارسی" },
-  { name: "فارسی" },
-  { name: "فارسی" },
-  { name: "فارسی" },
-  { name: "فارسی" },
-];
+// const listOfSkills = [
+//   { name: "فارسی" },
+//   { name: "فارسی" },
+//   { name: "فارسی" },
+//   { name: "فارسی" },
+//   { name: "فارسی" },
+// ];
 export default function SkillsList({ formik }) {
     // const [statusList, setStatusList] = useState(false);
     // const handleCloseList = () => {
@@ -63,13 +63,13 @@ export default function SkillsList({ formik }) {
       <div className="flex flex-col grow w-full md:w-[50%] ">
           <div className="group w-full  mb-3 grow    relative ">
             <input
-              name="skill"
-              value={formik.values.skill}
+              name="title"
+              value={formik.values.title}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
               className={
-                (formik.values.skill?.length > 0
+                (formik.values.title?.length > 0
                   ? " input-label-pos-active "
                   : " ") +
                 " w-full px-4 placeholder-gray  h-12 resize-none  border border-gray-300 rounded-2xl bg-white input-label-pos"
@@ -79,7 +79,7 @@ export default function SkillsList({ formik }) {
               className={
                 " absolute top-4 right-4 rounded-2xl text-sm pointer-events-none group-focus-within:text-xs" +
                 " " +
-                `${formik.values.skill?.length > 0 ? "text-xs" : ""}`
+                `${formik.values.title?.length > 0 ? "text-xs" : ""}`
               }
             >
               مهارت
@@ -89,14 +89,14 @@ export default function SkillsList({ formik }) {
                 "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
                 " " +
                 `${
-                  formik.errors.skill && formik.touched.skill
+                  formik.errors.title && formik.touched.title
                     ? " opacity-100 "
                     : " opacity-0 "
                 }`
               }
             >
               <DangerIcon />
-              {formik.errors.skill}
+              {formik.errors.title}
             </div>
           </div>
       </div>

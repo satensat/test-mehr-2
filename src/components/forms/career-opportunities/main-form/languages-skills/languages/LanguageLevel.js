@@ -7,10 +7,10 @@ import formStyles from "../../formcheckbox.module.css";
 
 
 const listOfLanguageLevel = [
-  { name: "مبتدی" },
-  { name: "متوسط" },
-  { name: "حرفه ای" },
-  { name: "زبان مادری" },
+  { name: "مبتدی" ,valueStatus:"BEGINNER"},
+  { name: "متوسط",valueStatus:"MEDIUM" },
+  { name: "حرفه ای",valueStatus:"FLUENT" },
+  { name: "زبان مادری",valueStatus:"MOTHER_TONGUE " },
 ];
 export default function LanguageLevel({ formik }) {
     const [statusList, setStatusList] = useState(false);
@@ -104,7 +104,7 @@ export default function LanguageLevel({ formik }) {
               name="LanguageLevel"
             ></input>
             {statusList ? (
-              <div className="flex flex-col bg-[#fff] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+              <div className="flex flex-col bg-[#fff] border-[#e5e5e5] border-[2px] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
                 {filteredList.map((item, index) => {
                   return (
                     <button

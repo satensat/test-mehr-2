@@ -101,7 +101,7 @@ export default function RelativeList({ formik }) {
             name="relative"
           ></input>
           {statusList ? (
-            <div className="flex flex-col bg-[#F7F7F7] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
+            <div className="flex flex-col bg-[#F7F7F7] border-[#e5e5e5] border-[2px] absolute z-[1] left-0 right-0 top-[39px] pt-3   rounded-b-3xl cursor-pointer max-h-[180px] overflow-y-auto  ">
               {filteredList.map((item, index) => {
                 return (
                   <button
@@ -111,6 +111,7 @@ export default function RelativeList({ formik }) {
                     onClick={() => {
                       formik.setFieldValue("relative", item.name);
                       setTextInput(item.name);
+                      console.log(formik)
                       setStatusList(false);
                     }}
                     className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl text-right "

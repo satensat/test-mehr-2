@@ -24,7 +24,7 @@ export default function LanguageAddComponent({
       LanguageLevel: "",
     },
     onSubmit: (values, actions) => {
-      const valueWithId={...values,id:Date.now()}
+      const valueWithId={...values,timeAdd:Date.now()}
       setlistOfLanguages((prev) => [...prev, valueWithId]);
       //   formik.setvalues()
       actions.resetForm();
@@ -32,7 +32,7 @@ export default function LanguageAddComponent({
     validationSchema,
   });
   const handleDeleteItem=(input, index)=>{
-    const filteredItem=listOfLanguages.filter((item)=>item.id!==input.id);
+    const filteredItem=listOfLanguages.filter((item)=>item.timeAdd!==input.timeAdd);
     setlistOfLanguages(filteredItem)
   }
   return (

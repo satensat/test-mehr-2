@@ -23,7 +23,7 @@ export default function PresenterInfoPart({ formik }) {
         />
         <label
           className={
-            " absolute top-4 right-4 rounded-2xl  pointer-events-none text-xs group-focus-within:text-xs" +
+            " absolute top-4 right-4 rounded-2xl  pointer-events-none text-sm group-focus-within:text-xs" +
             " " +
             `${formik.values.presenter_firstName.length > 0 ? "text-xs" : ""}`
           }
@@ -61,7 +61,7 @@ export default function PresenterInfoPart({ formik }) {
         />
         <label
           className={
-            " absolute top-4 right-4 rounded-2xl text-xs  pointer-events-none  group-focus-within:text-xs" +
+            " absolute top-4 right-4 rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
             " " +
             `${formik.values.presenter_lastName.length > 0 ? "text-xs" : ""}`
           }
@@ -99,7 +99,7 @@ export default function PresenterInfoPart({ formik }) {
         />
         <label
           className={
-            " absolute top-4 right-4 rounded-2xl text-xs  pointer-events-none  group-focus-within:text-xs" +
+            " absolute top-4 right-4 rounded-2xl text-sm  pointer-events-none  group-focus-within:text-xs" +
             " " +
             `${formik.values.presenter_phone_number.length > 0 ? "text-xs" : ""}`
           }
