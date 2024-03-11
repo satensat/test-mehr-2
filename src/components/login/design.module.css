@@ -1,3 +1,20 @@
-.container{
-    background-image: conic-gradient(from 90deg, #0C3C37, 13625C);
+.container {
+  background-image: conic-gradient(from 180deg, #0c3c37, #13625c) !important;
+  overflow: hidden;
+  position: relative;
+}
+.container::before {
+  content: "";
+  background: url(/home/Vector.svg) no-repeat;
+  position: absolute;
+  opacity: 0.25;
+  background-repeat: no-repeat;
+  filter: brightness(0) invert(1);
+  width: 826px;
+  height: 826px;
+  transform: rotate(270deg) translate(0px, -50%);
+  background-size: contain;
+  left: 50%;
+  bottom: 0;
+  transform-origin: center;
 }

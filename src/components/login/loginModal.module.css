@@ -1,0 +1,62 @@
+.backgroundImage {
+  position: relative;
+  overflow: hidden;
+}
+
+.backgroundImage::before {
+  content: "";
+  background: url("/compare/Patterns.svg") no-repeat;
+  position: absolute;
+  background-repeat: no-repeat;
+  filter: brightness(0) invert(1);
+  width: 208px;
+  height: 208px;
+  transform: rotateY(180deg);
+  background-size: contain;
+  background-position: center;
+  top: 0px;
+  right: -114px;
+  z-index: 0;
+  opacity: 0.7;
+  filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  -webkit-filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  -moz-filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  -o-filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  -ms-filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+}
+
+.backgroundImage::after {
+  content: "";
+  background: url("/compare/Patterns.svg") no-repeat;
+  position: absolute;
+  background-repeat: no-repeat;
+  filter: brightness(0) invert(1);
+  width: 208px;
+  height: 208px;
+  transform: rotateY(180deg);
+  background-size: contain;
+  background-position: center;
+  top: 0px;
+  left: -114px;
+  z-index: 0;
+  opacity: 0.7;
+  filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  -webkit-filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  -moz-filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  -o-filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  -ms-filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+  filter: invert(64%) sepia(51%) saturate(5970%) hue-rotate(160deg)
+    brightness(93%) contrast(101%);
+}
