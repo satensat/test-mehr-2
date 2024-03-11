@@ -137,7 +137,7 @@ export default function ProgressBarAndform() {
 
   return (
     <div className="py-3 w-full  h-fit ">
-      <div className="min-h-[70px] flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
+      <div className="hidden md:flex   min-h-[70px]  flex-col  after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative   ">
         <div
           className={
             "mx-auto md:w-[90%] flex flex-row justify-between w-full " +
@@ -246,7 +246,7 @@ export default function ProgressBarAndform() {
           </div>
         </div>
       </div>
-      <div className=" px-3  flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
+      <div className="md:hidden px-3  flex flex-col after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative">
         <div className="flex flex-row items-center w-full pb-3">
           <div className={"      " + stylesMobile.loader_container}>
             <svg

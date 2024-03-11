@@ -60,20 +60,17 @@ const validationSchema = yup.object().shape({
           ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
           "لطفا از موارد پیشنهادی انتخاب کنید."
         ),
-        first_name: yup
+      first_name: yup
         .string()
         .max(225, "نام را وارد کنید.")
         .required("نام را وارد کنید."),
-        last_name: yup
+      last_name: yup
         .string()
         .max(225, "نام خانوادگی نباید بیشتر از 225 کاراکتر باشد.")
         .required("نام خانوادگی را وارد کنید."),
       phone_number: yup
         .string()
-        .matches(
-          /^(\+98|0)?9\d{9}$/,
-          "شماره تلفن همراه را صحیح وارد کنید."
-        )
+        .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه را صحیح وارد کنید.")
         .required("  شماره همراه را وارد کنید."),
       address: yup
         .string()
@@ -81,45 +78,241 @@ const validationSchema = yup.object().shape({
         .required("آدرس کامل  را وارد نمایید."),
     })
     .required("مشخصات و نشانی یکی از بستگان الزامی است."),
-  second_relative: yup
-    .object({
+
+  secind_relative: yup
+    .object()
+    .shape({
       type: yup
         .string()
-        // .required("نسبت را مشخص کنیذ")
+
         .oneOf(
           ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
           "لطفا از موارد پیشنهادی انتخاب کنید."
         ),
       first_name: yup.string().max(225, "نام را وارد کنید."),
-      // .required("نام را وارد کنید."),
+
       last_name: yup
         .string()
-        .max(225, "نام خانوادگی  نباید بیشتر از 225 کاراکتر باشد."),
-      // .required("نام خانوادگی را وارد کنید."),
+        .max(225, "نام خانوادگی نباید بیشتر از 225 کاراکتر باشد."),
+
       phone_number: yup
         .string()
-        .matches(
-          /^(\+98|0)?9\d{9}$/,
-          "شماره تلفن همراه را صحیح وارد کنید."
-        ),
-      // .required("  شماره همراه را وارد کنید."),
+        .matches(/^(\+98|0)?9\d{9}$/, "شماره تلفن همراه را صحیح وارد کنید."),
+
       address: yup.string().max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد."),
-      // .required("آدرس کامل را وارد نمایید."),
     })
-    // .test(
-    //   "is-optional",
-    //   `county is required`,
-    //   function ({ first_name, last_name, phone_number, address, type }) {
-    //     return first_name === "" &&
-    //     last_name === "" &&
-    //       phone_number === "" &&
-    //       address === "" &&
-    //       type === ""
-    //       ? false
-    //       : true;
-    //   }
-    // ),
+    .required("مشخصات و نشانی یکی از بستگان الزامی است."),
 });
+
+export default function ContactInfoFormWrapper({
+  activeTab,
+  setActiveTab,
+  mainData,
+  setMainData,
+  secondFormDoneToThirdForm,
+}) {
+  ////----------------------loading state for send data button to go next step
+
+  const [loadingButton, setLoadingButton] = useState(false);
+
+  const [listOfLanguages, setlistOfLanguages] = useState([]);
+
+  const formik = useFormik({
+    initialValues: {
+      phone_number: "",
+      postal_code: "",
+      fixed_number: "",
+      email: "",
+      address: "",
+      city: "",
+      province: "",
+      referral_name: "",
+      referral_position: "",
+      referral_phone: "",
+      first_relative: {
+        type: "",
+        first_name: "",
+        last_name: "",
+        phone_number: "",
+        address: "",
+      },
+      second_relative: {
+        type: undefined,
+        first_name: undefined,
+        last_name: undefined,
+        phone_number: undefined,
+        address: undefined,
+      },
+      // second_relative_type: "",
+      // second_relative_firstName: "",
+      // second_relative_lastName: "",
+      // second_relative_phone_number: "",
+      // second_relative_address: "",
+    },
+    onSubmit: (values) => {
+      setMainData({});
+      secondFormDoneToThirdForm();
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+      try {
+        const res = fetch(
+          `http://192.168.10.195:8090/v1/api/after/sale/shop/informations/`,
+          {
+            method: "POST",
+            body: JSON.stringify({}),
+            headers: {
+              "content-type": "application/json",
+            },
+          }
+        )
+          .then((response) =>
+            response
+              .json()
+              .then((data) => ({ status: response.status, body: data }))
+          )
+          .then((detail) => {
+            console.log(detail);
+            if (detail.status == "400") {
+              setToast(true);
+              const featureEntries = Object.entries(detail.body);
+              {
+                featureEntries.map((item) => setMessage(item[1]));
+              }
+            }
+            if (detail.status == "200" || detail.status == "201") {
+              setMessage(
+                "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
+              );
+              setSubmitted(true);
+              setMainData({});
+              secondFormDoneToThirdForm();
+              window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    validationSchema,
+  });
+  return (
+    <>
+      {activeTab === "ContactInfoForm" && (
+        <ContactInfoForm
+          activeTab={activeTab}
+          formik={formik}
+          loadingButton={loadingButton}
+          setLoadingButton={setLoadingButton}
+          listOfLanguages={listOfLanguages}
+          setlistOfLanguages={setlistOfLanguages}
+          secondFormDoneToThirdForm={secondFormDoneToThirdForm}
+          mainData={mainData}
+          setMainData={setMainData}
+          setActiveTab={setActiveTab}
+        />
+      )}
+    </>
+  );
+}
+
+// .test(
+//   "is-optional",
+//   `county is required`,
+//   function ({ first_name, last_name, phone_number, address, type }) {
+//     return first_name === "" &&
+//     last_name === "" &&
+//       phone_number === "" &&
+//       address === "" &&
+//       type === ""
+//       ? false
+//       : true;
+//   }
+// ),
+
+// second_relative: yup.object().shape({
+//   type: yup
+//     .string()
+//     .when(["first_name", "last_name", "phone_number", "address"], {
+//       is: (first_name, last_name, phone_number, address) =>
+//         !first_name && !last_name && !phone_number && !address,
+//       then: () =>
+//         yup
+//           .string()
+//           .required("نسبت  را مشخص کنید.")
+//           .oneOf(
+//             ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
+//             "لطفا از موارد پیشنهادی انتخاب کنید."
+//           ),
+//       otherwise: () => yup.string(),
+//     }),
+//   first_name: yup
+//     .string()
+//     .when(["last_name", "type", "phone_number", "address"], {
+//       is: (type, last_name, phone_number, address) =>
+//         !type && !last_name && !phone_number && !address,
+//       then: () =>
+//         yup
+//           .string()
+//           .max(225, "نام را وارد کنید.")
+//           .required("نام را وارد کنید."),
+//       otherwise: () => yup.string(),
+//     }),
+//   last_name: yup
+//     .string()
+//     .when(["type", "first_name", "phone_number", "address"], {
+//       is: (type, first_name, phone_number, address) =>
+//         !type && !first_name && !phone_number && !address,
+//       then: () =>
+//         yup
+//           .string()
+//           .max(225, "نام خانوادگی نباید بیشتر از 225 کاراکتر باشد.")
+//           .required("نام خانوادگی را وارد کنید."),
+//       otherwise: () => yup.string(),
+//     }),
+
+//   phone_number: yup
+//     .string()
+//     .when(["type", "first_name", "last_name", "address"], {
+//       is: (type, first_name, last_name, address) =>
+//         !type && !first_name && !last_name && !address,
+//       then: () =>
+//         yup
+//           .string()
+//           .matches(
+//             /^(\+98|0)?9\d{9}$/,
+//             "شماره تلفن همراه را صحیح وارد کنید."
+//           )
+//           .required("  شماره همراه را وارد کنید."),
+//       otherwise: () => yup.string(),
+//     }),
+// address: yup
+//   .string()
+//   .when(["type", "first_name", "last_name", "phone_number"], {
+//     is: (type, first_name, last_name, phone_number) =>
+//       !type && !first_name && !last_name && !phone_number,
+//     then: () =>
+//       yup
+//         .string()
+//         .max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد.")
+//         .required("آدرس کامل را وارد نمایید."),
+//     otherwise: () => yup.string(),
+//   }),
+// }),
+// [
+//   ["first_name", "last_name", "phone_number", "address"],
+//   ["last_name", "type", "phone_number", "address"],
+//   ["type", "first_name", "phone_number", "address"],
+//   ["type", "first_name", "last_name", "address"],
+//   ["type", "first_name", "last_name", "phone_number"],
+// ]
 
 // second_relative_type: yup
 // .string()
@@ -132,13 +325,15 @@ const validationSchema = yup.object().shape({
 //   ],
 //   {
 //     is: (
-//       second_relative_lastName,
-//       second_relative_phone_number,
-//       second_relative_address
+// second_relative_firstName,
+// second_relative_lastName,
+// second_relative_phone_number,
+// second_relative_address
 //     ) =>
-//       !second_relative_lastName &&
-//       !second_relative_phone_number &&
-//       !second_relative_address,
+// !second_relative_firstName &&
+// !second_relative_lastName &&
+// !second_relative_phone_number &&
+// !second_relative_address,
 //     then: () =>
 //       yup
 //         .string()
@@ -162,13 +357,11 @@ const validationSchema = yup.object().shape({
 //   {
 //     is: (
 //       second_relative_type,
-//       second_relative_firstName,
 //       second_relative_lastName,
 //       second_relative_phone_number,
 //       second_relative_address
 //     ) =>
 //       !second_relative_type &&
-//       !second_relative_firstName &&
 //       !second_relative_lastName &&
 //       !second_relative_phone_number &&
 //       !second_relative_address,
@@ -270,148 +463,190 @@ const validationSchema = yup.object().shape({
 
 // ['second_relative_type', 'second_relative_firstName','second_relative_lastName','second_relative_phone_number','second_relative_address']
 
-export default function ContactInfoFormWrapper({
-  activeTab,
-  setActiveTab,
-  mainData,
-  setMainData,
-  secondFormDoneToThirdForm,
-}) {
-  ////----------------------loading state for send data button to go next step
+// second_relative_type: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_firstName",
+//     "second_relative_lastName",
+//     "second_relative_phone_number",
+//     "second_relative_address",
+//   ],
+//   {
+//     is: (
+//       second_relative_firstName,
+//       second_relative_lastName,
+//       second_relative_phone_number,
+//       second_relative_address
+//     ) =>
+//       !second_relative_firstName &&
+//       !second_relative_lastName &&
+//       !second_relative_phone_number &&
+//       !second_relative_address,
+//     then: () =>
+//       yup
+//         .string()
+//         .required("نسبت معرف را مشخص کنیذ")
+//         .oneOf(
+//           ["پدر", "مادر", "فرزند", "همسر", "برادر", "خواهر", "سایر"],
+//           "لطفا از موارد پیشنهادی انتخاب کنید."
+//         ),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+// second_relative_firstName: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_lastName",
+//     "second_relative_type",
+//     "second_relative_phone_number",
+//     "second_relative_address",
+//   ],
+//   {
+//     is: (
+//       second_relative_type,
+//       second_relative_lastName,
+//       second_relative_phone_number,
+//       second_relative_address
+//     ) =>
+//       !second_relative_type &&
+//       !second_relative_lastName &&
+//       !second_relative_phone_number &&
+//       !second_relative_address,
+//     then: () =>
+//       yup
+//         .string()
+//         .max(225, "نام معرف را وارد کنید.")
+//         .required("نام معرف را وارد کنید."),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+// second_relative_lastName: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_type",
+//     "second_relative_firstName",
+//     "second_relative_phone_number",
+//     "second_relative_address",
+//   ],
+//   {
+//     is: (
+//       second_relative_type,
+//       second_relative_firstName,
+//       second_relative_phone_number,
+//       second_relative_address
+//     ) =>
+//       !second_relative_type &&
+//       !second_relative_firstName &&
+//       !second_relative_phone_number &&
+//       !second_relative_address,
+//     then: () =>
+//       yup
+//         .string()
+//         .max(225, "نام خانوادگی معرف نباید بیشتر از 225 کاراکتر باشد.")
+//         .required("نام خانوادگی را وارد کنید."),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+// second_relative_phone_number: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_type",
+//     "second_relative_firstName",
+//     "second_relative_lastName",
+//     "second_relative_address",
+//   ],
+//   {
+//     is: (
+//       second_relative_type,
+//       second_relative_firstName,
+//       second_relative_lastName,
+//       second_relative_address
+//     ) =>
+//       !second_relative_type &&
+//       !second_relative_firstName &&
+//       !second_relative_lastName &&
+//       !second_relative_address,
+//     then: () =>
+//       yup
+//         .string()
+//         .matches(
+//           /^(\+98|0)?9\d{9}$/,
+//           "شماره تلفن همراه معرف را صحیح وارد کنید."
+//         )
+//         .required("  شماره همراه معرف را وارد کنید."),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+// second_relative_address: yup
+// .string()
+// .when(
+//   [
+//     "second_relative_type",
+//     "second_relative_firstName",
+//     "second_relative_lastName",
+//     "second_relative_phone_number",
+//   ],
+//   {
+//     is: (
+//       second_relative_type,
+//       second_relative_firstName,
+//       second_relative_lastName,
+//       second_relative_phone_number
+//     ) =>
+//       !second_relative_type &&
+//       !second_relative_firstName &&
+//       !second_relative_lastName &&
+//       !second_relative_phone_number,
+//     then: () =>
+//       yup
+//         .string()
+//         .max(225, "آدرس  نباید بیشتر از 225 کاراکتر باشد.")
+//         .required("آدرس کامل  را وارد نمایید."),
+//     otherwise: () => yup.string(),
+//   }
+// ),
+// },
+// [
+// [
+// "second_relative_first_name",
+// "second_relative_last_name",
+// "second_relative_phone_number",
+// "second_relative_address",
+// ],
+// [
+// "second_relative_last_name",
+// "second_relative_type",
+// "second_relative_phone_number",
+// "second_relative_address",
+// ],
+// [
+// "second_relative_type",
+// "second_relative_first_name",
+// "second_relative_phone_number",
+// "second_relative_address",
+// ],
+// [
+// "second_relative_type",
+// "second_relative_first_name",
+// "second_relative_last_name",
+// "second_relative_address",
+// ],
+// [
+// "second_relative_type",
+// "second_relative_first_name",
+// "second_relative_last_name",
+// "second_relative_phone_number",
+// ],
+// ]
 
-  const [loadingButton, setLoadingButton] = useState(false);
-
-  const [listOfLanguages, setlistOfLanguages] = useState([]);
-
-  const formik = useFormik({
-    initialValues: {
-      phone_number: "",
-      postal_code: "",
-      fixed_number: "",
-      email: "",
-      address: "",
-      city: "",
-      province: "",
-      referral_name: "",
-      referral_position: "",
-      referral_phone: "",
-      first_relative: {
-        type: "",
-        first_name: "",
-        last_name: "",
-        phone_number: "",
-        address: "",
-      },
-      second_relative: {
-        type: "",
-        first_name: "",
-        last_name: "",
-        phone_number: "",
-        address: "",
-      },
-      // second_relative_type: "",
-      // second_relative_firstName: "",
-      // second_relative_lastName: "",
-      // second_relative_phone_number: "",
-      // second_relative_address: "",
-    },
-    onSubmit: (values) => {
-      setMainData({});
-      secondFormDoneToThirdForm();
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
-      try {
-        const res = fetch(
-          `http://192.168.10.195:8090/v1/api/after/sale/shop/informations/`,
-          {
-            method: "POST",
-            body: JSON.stringify({}),
-            headers: {
-              "content-type": "application/json",
-            },
-          }
-        )
-          .then((response) =>
-            response
-              .json()
-              .then((data) => ({ status: response.status, body: data }))
-          )
-          .then((detail) => {
-            console.log(detail);
-            if (detail.status == "400") {
-              setToast(true);
-              const featureEntries = Object.entries(detail.body);
-              {
-                featureEntries.map((item) => setMessage(item[1]));
-              }
-            }
-            if (detail.status == "200" || detail.status == "201") {
-              setMessage(
-                "پیام شما با موفقیت ثبت شد، در صورت نیاز همکاران با شما ارتباط میگیرند."
-              );
-              setSubmitted(true);
-              setMainData({
-                ...mainData,
-                secondForm: {
-                  applicator: mainData?.varificationForm?.phone_number,
-                  name: values.name,
-                  province: values.province.id,
-                  city: values.city.id,
-                  is_owner: values.is_owner,
-                  area: values.area,
-                  business_type: {
-                    is_distribution: values.business_type.is_distribution,
-                    is_manufacturing: values.business_type.is_manufacturing,
-                    is_technical: values.business_type.is_technical,
-                    is_service: values.business_type.is_service,
-                  },
-                  number_of_staff: values.number_of_staff,
-                  address: values.address,
-                  reception_status: values.reception_status,
-                  repair_features: values.repair_features,
-                  workplace_features: {
-                    sofa: values.workplace_features.sofa,
-                    network: values.workplace_features.network,
-                    fixed_number: values.workplace_features.fixed_number,
-                    reception_feature:
-                      values.workplace_features.reception_feature,
-                  },
-                },
-              });
-              secondFormDoneToThirdForm();
-              window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-              });
-            }
-          })
-          .catch((err) => console.log(err));
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    validationSchema,
-  });
-  return (
-    <>
-      {activeTab === "ContactInfoForm" && (
-        <ContactInfoForm
-          activeTab={activeTab}
-          formik={formik}
-          loadingButton={loadingButton}
-          setLoadingButton={setLoadingButton}
-          listOfLanguages={listOfLanguages}
-          setlistOfLanguages={setlistOfLanguages}
-          secondFormDoneToThirdForm={secondFormDoneToThirdForm}
-          mainData={mainData}
-          setMainData={setMainData}
-          setActiveTab={setActiveTab}
-        />
-      )}
-    </>
-  );
-}
+// [
+//   ["second_relative.first_name", "second_relative.last_name", "second_relative.phone_number", "second_relative.address"],
+//   ["second_relative.last_name", "second_relative.type", "second_relative.phone_number", "second_relative.address"],
+//   ["second_relative.type", "second_relative.first_name", "second_relative.phone_number", "second_relative.address"],
+//   ["second_relative.type", "second_relative.first_name", "second_relative.last_name", "second_relative.address"],
+//   ["second_relative.type", "second_relative.first_name", "second_relative.last_name", "second_relative.phone_number"],
+// ]

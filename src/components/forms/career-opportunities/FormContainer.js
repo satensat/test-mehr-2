@@ -9,7 +9,7 @@ export default function FormContainer() {
   return (
     <div
       className={
-        "md:bg-[#13625C]  md:py-6  flex flex-row items-start justify-center  md:bg-[url('/forms/Noise.svg')] rounded-3xl -z-0 " +
+        "md:bg-[#13625C] shadow-G1  md:py-6  flex flex-row items-start justify-center  md:bg-[url('/forms/Noise.svg')] rounded-3xl -z-0 " +
         " " +
         styles.containerFormGreen
       }

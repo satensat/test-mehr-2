@@ -25,7 +25,7 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
         اطلاعات تماس
       </div>
       <div className="px-3 pb-3  flex flex-col w-full   ">
-      <div className=" flex flex-col md:flex-row w-full gap-6 items-center  mt-2 ">
+      <div className=" flex flex-col md:flex-row w-full md:gap-6 items-center  mt-2 ">
           <div className="grow mb-3 relative group w-full ">
             <input
               name="phone_number"
@@ -103,7 +103,7 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
             </div>
           </div>
         </div>
-        <div className=" flex flex-col md:flex-row w-full gap-6 items-center">
+        <div className=" flex flex-col md:flex-row w-full md:gap-6 items-center">
           <div className="grow mb-3 relative group w-full ">
             <input
               name="fixed_number"
@@ -182,7 +182,7 @@ export default function ContactInfoForm({ formik, mainData ,loadingButton, listO
           </div>
         </div>
 
-        <div className=" flex flex-col md:flex-row w-full gap-6 items-center  mt-2 ">
+        <div className=" flex flex-col md:flex-row w-full md:gap-6 items-center  mt-2 ">
           <PlacePart formik={formik}/>
           <PresenterInfoPart formik={formik} />
         </div>

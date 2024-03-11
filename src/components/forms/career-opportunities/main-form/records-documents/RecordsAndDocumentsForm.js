@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EducationalBackgroundAddComponent from "./educational-background/EducationalBackgroundAddComponent";
 import WorkExperienceAddComponent from "./work-experience/WorkExperienceAddComponent";
 import DocumentAddComponent from "./documentsPart/DocumentAddComponent";
+import TickSquare from "@/icon2/TickSquare";
 
 export default function RecordsAndDocumentsForm({
   formik,
@@ -56,14 +57,14 @@ export default function RecordsAndDocumentsForm({
           <button
             onClick={formik.handleSubmit}
             className={
-              "group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] " +
+              "group transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl  text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] gap-1 " +
               " " +
               `${loadingButton ? "pointer-events-none" : " "}`
             }
           >
-            مرحله بعد
-            <div className="transition ease-in-out duration-500  group-hover:scale-110  brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
-              <ArrowOpinion />
+           ثبت و ارسال
+            <div className="transition ease-in-out duration-500   brightness-0 invert  group-hover:brightness-0 group-hover:invert-0">
+              <TickSquare />
             </div>
             {loadingButton && <ButtonCoverLoader />}
           </button>
