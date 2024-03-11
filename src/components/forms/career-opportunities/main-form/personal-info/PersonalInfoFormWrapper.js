@@ -42,11 +42,12 @@ const validationSchema = yup.object({
         })
     )
     .required("تصویر پرسنلی الزامی است."),
-    requested_salary: yup.number('لطفاً عدد وارد کنید')
-    .required('لطفاً مبلغ حقوق خود را وارد کنید')
-    .min(1000, 'مبلغ حقوق باید بیشتر از ۱۰۰۰ تومان باشد')
-    .positive('مبلغ حقوق باید مثبت باشد')
-    .integer('لطفاً یک عدد صحیح وارد کنید'),
+  requested_salary: yup
+    .number("لطفاً عدد وارد کنید")
+    .required("لطفاً مبلغ حقوق خود را وارد کنید")
+    .min(1000, "مبلغ حقوق باید بیشتر از ۱۰۰۰ تومان باشد")
+    .positive("مبلغ حقوق باید مثبت باشد")
+    .integer("لطفاً یک عدد صحیح وارد کنید"),
   first_name: yup
     .string()
     .max(225, "نام را وارد کنید.")
@@ -71,14 +72,25 @@ const validationSchema = yup.object({
   gender: yup.string().required("جنسیت را وارد انتخاب کنید."),
   // gender: yup.boolean().required("جنسیت را وارد انتخاب کنید."),
   is_married: yup.boolean().required("وضعیت تاهل را انتخاب کنید."),
-  nationality:yup.string().required("ملیت را وارد نمایید."),
+  nationality: yup.string().required("ملیت را وارد نمایید."),
   religion: yup.string().required("دین خود را وارد انتخاب کنید."),
-  military: yup.string().required("وضعیت خدمت سربازی را وارد انتخاب کنید."),
-  military_end_date: yup.string().trim().required(" تاریخ پایان خدمت را وارد کنید."),
-  intrested_fields:   yup
-  .string()
-  .max(225, "حوزه های علاقه مندی خود را تا 225 کارامتر وارد کنید.")
-  // .required("حوزه های علاقه مندی خود را وارد کنید."), 
+  military: yup.string().when(["gender"], {
+    is: "MALE",
+    then: () => yup.string().required("وضعیت خدمت سربازی را وارد انتخاب کنید."),
+    otherwise: () => yup.string(),
+  }),
+  military_end_date:yup.string().when(["military"], {
+    is: "END",
+    then: () =>  yup
+    .string()
+    .trim()
+    .required(" تاریخ پایان خدمت را وارد کنید."),
+    otherwise: () => yup.string(),
+  }),
+  intrested_fields: yup
+    .string()
+    .max(225, "حوزه های علاقه مندی خود را تا 225 کارامتر وارد کنید."),
+  // .required("حوزه های علاقه مندی خود را وارد کنید."),
   // yup
   // .array()
   // .min(1, " تصویر پرسنلی خود را وارد کنید. ")
@@ -100,7 +112,21 @@ const validationSchema = yup.object({
   // .max(225, "حوزه های علاقه مندی خود را تا 225 کارامتر وارد کنید.")
   // .required("حوزه های علاقه مندی خود را وارد کنید."),
 });
-
+// yup
+//     .string()
+//     .when(["type", "first_name", "last_name", "address"], {
+//       is: (type, first_name, last_name, address) =>
+//         !type && !first_name && !last_name && !address,
+//       then: () =>
+//         yup
+//           .string()
+//           .matches(
+//             /^(\+98|0)?9\d{9}$/,
+//             "شماره تلفن همراه را صحیح وارد کنید."
+//           )
+//           .required("  شماره همراه را وارد کنید."),
+//       otherwise: () => yup.string(),
+//     }),
 export default function PersonalInfoFormWrapper({
   activeTab,
   setActiveTab,
@@ -127,7 +153,7 @@ export default function PersonalInfoFormWrapper({
 
   const formik = useFormik({
     initialValues: {
-      intrested_jobs:[],
+      intrested_jobs: [],
       first_name: "",
       last_name: "",
       degree: "",
@@ -141,14 +167,12 @@ export default function PersonalInfoFormWrapper({
       gender: "",
       requested_salary: "",
       birth_city: "",
-      
+
       military_end_date: "",
       intrested_fields: "",
     },
     onSubmit: (values) => {
-      setMainData({
-
-      });
+      setMainData({});
       secondFormDoneToThirdForm();
       window.scrollTo({
         top: 0,
@@ -254,28 +278,28 @@ export default function PersonalInfoFormWrapper({
   return (
     <>
       {activeTab === "PersonalInfoForm" && (
-      <PersonalInfoForm
-        activeTab={activeTab}
-        formik={formik}
-        filteredCities={filteredCities}
-        setFilteredCities={setFilteredCities}
-        loadingButton={loadingButton}
-        setLoadingButton={setLoadingButton}
-        provinceListItemsSource={provinceListItemsSource}
-        setProvinceListitemsSource={setProvinceListitemsSource}
-        cityListItemsSource={cityListItemsSource}
-        setCityListitemsSource={setCityListitemsSource}
-        provinceInput={provinceInput}
-        setProvinceInput={setProvinceInput}
-        cityListInput={cityListInput}
-        setCityInput={setCityInput}
-        filteredProvinces={filteredProvinces}
-        setFilteredProvinces={setFilteredProvinces}
-        secondFormDoneToThirdForm={secondFormDoneToThirdForm}
-        mainData={mainData}
-        setMainData={setMainData}
-        setActiveTab={setActiveTab}
-      />
+        <PersonalInfoForm
+          activeTab={activeTab}
+          formik={formik}
+          filteredCities={filteredCities}
+          setFilteredCities={setFilteredCities}
+          loadingButton={loadingButton}
+          setLoadingButton={setLoadingButton}
+          provinceListItemsSource={provinceListItemsSource}
+          setProvinceListitemsSource={setProvinceListitemsSource}
+          cityListItemsSource={cityListItemsSource}
+          setCityListitemsSource={setCityListitemsSource}
+          provinceInput={provinceInput}
+          setProvinceInput={setProvinceInput}
+          cityListInput={cityListInput}
+          setCityInput={setCityInput}
+          filteredProvinces={filteredProvinces}
+          setFilteredProvinces={setFilteredProvinces}
+          secondFormDoneToThirdForm={secondFormDoneToThirdForm}
+          mainData={mainData}
+          setMainData={setMainData}
+          setActiveTab={setActiveTab}
+        />
       )}
     </>
   );

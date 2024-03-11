@@ -92,6 +92,7 @@ export default function RelativeList({ formik, checkValueName }) {
           </div>
           <input
             value={textInput}
+            autoComplete="off"
             onKeyDown={handleEnterKeyPress}
             onChange={(e) => handleChangeInputAutoComplete(e)}
             onBlur={formik.handleBlur}
