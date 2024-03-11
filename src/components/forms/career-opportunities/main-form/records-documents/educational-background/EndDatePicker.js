@@ -216,7 +216,7 @@ export default function EndDatePicker({ formik }) {
         <ClickOutside
           onClick={handleCloseList}
           className={
-            " flex flex-row mx-auto mt-1  w-[50%] grow   " +
+            " flex flex-row mx-auto  w-[50%] grow   " +
             `${formik.values.not_end ? " pointer-events-none   " : "  "}`
           }
         >

@@ -66,7 +66,7 @@ export default function FieldOfStudy({ formik }) {
     <div className="flex flex-col grow w-full md:w-[50%] ">
       <ClickOutside
         onClick={handleCloseList}
-        className={" w-full flex flex-row mx-auto mt-1   "}
+        className={" w-full flex flex-row mx-auto   "}
       >
         <div
           className={

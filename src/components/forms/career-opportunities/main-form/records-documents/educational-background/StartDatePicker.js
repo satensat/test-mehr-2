@@ -183,7 +183,7 @@ export default function StartDatePicker({ formik }) {
     <div className="flex flex-col grow w-full md:w-[50%] font-costumFaNum">
       <ClickOutside
         onClick={handleCloseList}
-        className={" w-full flex flex-row mx-auto mt-1   "}
+        className={" w-full flex flex-row mx-auto   "}
       >
         <div
           className={

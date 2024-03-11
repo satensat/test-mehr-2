@@ -8,15 +8,15 @@ import formStyles from "../../formcheckbox.module.css";
 // زیر دیپلم / دیپلم / فوق دیپلم / کارشناسی / کارشناسی ارشد / پزشک / دکتری / بالاتر از دکتری  
 
 const listOfGrades=[
-  { name: "زیر دیپلم" },
-  { name: "دیپلم" },
-  { name: "فوق دیپلم" },
-  { name: "کارشناسی" },
-  { name: "کارشناسی ارشد" },
-  { name: "فنی خرفه ای" },
-  { name: "پزشک" },
-  { name: " دکتری" },
-  { name: "بالاتر از دکتری" },
+  { name: "زیر دیپلم" ,valueStatus:"1"},
+  { name: "دیپلم" ,valueStatus:"2"},
+  { name: "فوق دیپلم" ,valueStatus:"3"},
+  { name: "کارشناسی" ,valueStatus:"4"},
+  { name: "کارشناسی ارشد" ,valueStatus:"5"},
+  { name: "فنی خرفه ای" ,valueStatus:"6"},
+  { name: "پزشک" ,valueStatus:"7"},
+  { name: " دکتری" ,valueStatus:"8"},
+  { name: "بالاتر از دکتری" ,valueStatus:"9"},
 ]
 export default function GradePart({ formik }) {
   const [statusList, setStatusList] = useState(false);
@@ -38,7 +38,12 @@ export default function GradePart({ formik }) {
   }, []);
   useEffect(() => {
     
-      setTextInput(formik.values.grade);
+    const textObj=listOfGrades.find((item)=>item.valueStatus===formik.values.grade);
+    if (textObj?.name) {
+      setTextInput(textObj?.name);
+    } else {
+      setTextInput("");
+    }
  
   }, [formik.values.grade]);
   const handleChangeInputAutoComplete = (event) => {
@@ -58,7 +63,7 @@ export default function GradePart({ formik }) {
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("grade", filteredList[0].name);
+      formik.setFieldValue("grade", filteredList[0].valueStatus);
       setTextInput(filteredList[0].name);
       setStatusList(false);
     }
@@ -68,7 +73,7 @@ export default function GradePart({ formik }) {
     <div className="flex flex-col grow w-full md:w-[50%] ">
       <ClickOutside
         onClick={handleCloseList}
-        className={" w-full flex flex-row mx-auto mt-1   "}
+        className={" w-full flex flex-row mx-auto   "}
       >
         <div
           className={
@@ -91,7 +96,7 @@ export default function GradePart({ formik }) {
               }`
             }
           >
-            نوع دانشگاه
+            مقطع تحصیلی
           </label>
           <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
             <ArrowDownIcon />
@@ -116,10 +121,10 @@ export default function GradePart({ formik }) {
                 return (
                   <button
                     key={item.name}
-                    value={item.name}
+                    value={item.valueStatus}
                     name={item.name}
                     onClick={() => {
-                      formik.setFieldValue("grade", item.name);
+                      formik.setFieldValue("grade", item.valueStatus);
                       setTextInput(item.name);
                       setStatusList(false);
                     }}

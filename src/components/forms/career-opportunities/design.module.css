@@ -12,10 +12,11 @@
   filter: brightness(0) invert(1);
   width: 534px;
   height: 537px;
-  transform: translate(0, -50%);
+  /* transform: translate(0, -50%); */
   background-size: contain;
   background-position: center;
-  top: 50%;
+  /* top: 50%; */
+  top: 0;
   right: -220px;
   /* right:-20%; */
   z-index: -1;
@@ -30,10 +31,12 @@
   filter: brightness(0) invert(1);
   width: 534px;
   height: 537px;
-  transform: translate(0, -50%);
+  /* transform: translate(0, -50%); */
   background-size: contain;
   background-position: center;
-  top: 50%;
+  /* top: 50%; */
+  top: 0;
+
   left: -220px;
   /* left: -20%; */
   z-index: -1;

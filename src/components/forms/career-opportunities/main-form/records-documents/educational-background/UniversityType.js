@@ -8,15 +8,15 @@ import formStyles from "../../formcheckbox.module.css";
 // دولتی/ خصوصی / آزاد / پیام نور / جامع  علمی کاربردی / فنی خرفه ای / پردیس بین المللی / غیر ایرانی / سایر
 
 const listOfUniVersityType = [
-  { name: "دولتی" },
-  { name: "خصوصی" },
-  { name: "آزاد" },
-  { name: "پیام نور" },
-  { name: "جامع  علمی کاربردی" },
-  { name: "فنی خرفه ای" },
-  { name: "پردیس بین المللی" },
-  { name: "غیر ایرانی" },
-  { name: "سایر" },
+  { name: "دولتی", valueStatus: "1" },
+  { name: "خصوصی", valueStatus: "2" },
+  { name: "آزاد", valueStatus: "3" },
+  { name: "پیام نور", valueStatus: "4" },
+  { name: "جامع  علمی کاربردی", valueStatus: "5" },
+  { name: "فنی خرفه ای", valueStatus: "6" },
+  { name: "پردیس بین المللی", valueStatus: "7" },
+  { name: "غیر ایرانی", valueStatus: "8" },
+  { name: "سایر", valueStatus: "9" },
 ];
 export default function UniversityType({ formik }) {
   const [statusList, setStatusList] = useState(false);
@@ -37,7 +37,19 @@ export default function UniversityType({ formik }) {
     setFilteredList(listOfUniVersityType);
   }, []);
   useEffect(() => {
-    setTextInput(formik.values.university_type);
+    const textObj = listOfUniVersityType.find(
+      (item) => item.valueStatus === formik.values.university_type
+    );
+    if (textObj?.name) {
+      setTextInput(textObj?.name);
+    } else {
+      setTextInput("");
+    }
+    if (textObj?.name) {
+      setTextInput(textObj?.name);
+    } else {
+      setTextInput("");
+    }
   }, [formik.values.university_type]);
   const handleChangeInputAutoComplete = (event) => {
     console.log(event);
@@ -56,7 +68,7 @@ export default function UniversityType({ formik }) {
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("university_type", filteredList[0].name);
+      formik.setFieldValue("university_type", filteredList[0].valueStatus);
       setTextInput(filteredList[0].name);
       setStatusList(false);
     }
@@ -66,7 +78,7 @@ export default function UniversityType({ formik }) {
     <div className="flex flex-col grow w-full md:w-[50%] ">
       <ClickOutside
         onClick={handleCloseList}
-        className={" w-full flex flex-row mx-auto mt-1   "}
+        className={" w-full flex flex-row mx-auto   "}
       >
         <div
           className={
@@ -114,10 +126,10 @@ export default function UniversityType({ formik }) {
                 return (
                   <button
                     key={item.name}
-                    value={item.name}
+                    value={item.valueStatus}
                     name={item.name}
                     onClick={() => {
-                      formik.setFieldValue("university_type", item.name);
+                      formik.setFieldValue("university_type", item.valueStatus);
                       setTextInput(item.name);
                       setStatusList(false);
                     }}

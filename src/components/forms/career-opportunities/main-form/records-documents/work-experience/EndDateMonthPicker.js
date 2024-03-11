@@ -135,18 +135,18 @@ import formStyles from "../../formcheckbox.module.css";
 
 
 const monthsHijri = [
-  "فروردین",
-  "اُردیبهشت",
-  "خرداد",
-  "تیر",
-  "مرداد",
-  "شهریور",
-  "مهر",
-  "آبان",
-  "آذر",
-  "دی",
-  "بهمن",
-  "اسفند",
+  {name:"فروردین",valueStatus:"1"},
+  {name:"اردیبهشت",valueStatus:"2"},
+  {name:"خرداد",valueStatus:"3"},
+  {name:"تیر",valueStatus:"4"},
+  {name:"مرداد",valueStatus:"5"},
+  {name:"شهریور",valueStatus:"6"},
+  {name:"مهر",valueStatus:"7"},
+  {name:"آبان",valueStatus:"8"},
+  {name:"آذر",valueStatus:"9"},
+  {name:"دی",valueStatus:"10"},
+  {name:"بهمن",valueStatus:"11"},
+  {name:"اسفند",valueStatus:"12"},
 ];
 export default function EndDateMonthPicker({ formik }) {
   const [statusList, setStatusList] = useState(false);
@@ -167,13 +167,18 @@ export default function EndDateMonthPicker({ formik }) {
     setFilteredList(monthsHijri);
   }, []);
   useEffect(() => {
-    setTextInput(formik.values.end_date_month);
+    const textObj=monthsHijri.find((item)=>item.valueStatus===formik.values.end_date_month);
+    if (textObj?.name) {
+      setTextInput(textObj?.name);
+    } else {
+      setTextInput("");
+    }
   }, [formik.values.end_date_month]);
   const handleChangeInputAutoComplete = (event) => {
     // console.log(event);
     setTextInput(() => event.target.value);
     const filteredList = listItemsSource.filter((end_date_month) =>
-      end_date_month.includes(event.target.value)
+      end_date_month.name.includes(event.target.value)
     );
     // console.log(filteredList);
     setFilteredList(filteredList);
@@ -182,12 +187,12 @@ export default function EndDateMonthPicker({ formik }) {
   const handleEnterKeyPress = (event) => {
     setTextInput(() => event.target.value);
     const filteredList = listItemsSource.filter((end_date_month) =>
-      end_date_month.includes(event.target.value)
+      end_date_month.name.includes(event.target.value)
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("end_date_month", filteredList[0]);
-      setTextInput(filteredList[0]);
+      formik.setFieldValue("end_date_month", filteredList[0].valueStatus);
+      setTextInput(filteredList[0].name);
       setStatusList(false);
     }
   };
@@ -252,16 +257,16 @@ export default function EndDateMonthPicker({ formik }) {
                   return (
                     <button
                       key={item}
-                      value={item}
+                      value={item.valueStatus}
                       name={item}
                       onClick={() => {
-                        formik.setFieldValue("end_date_month", item);
-                        setTextInput(item);
+                        formik.setFieldValue("end_date_month", item.valueStatus);
+                        setTextInput(item.name);
                         setStatusList(false);
                       }}
                       className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl text-right "
                     >
-                      {item}
+                      {item.name}
                     </button>
                   );
                 })}

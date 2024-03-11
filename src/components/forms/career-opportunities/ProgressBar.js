@@ -137,7 +137,7 @@ export default function ProgressBarAndform() {
 
   return (
     <div className="py-3 w-full  h-fit ">
-      <div className="hidden md:flex   min-h-[70px]  flex-col  after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative   ">
+      <div className="hidden md:flex   min-h-[70px]  flex-col  after:content-['']   after:h-[1px] after:w-full   after:bg-[#E6E6E6] after:mt-auto relative  px-3 ">
         <div
           className={
             "mx-auto md:w-[90%] flex flex-row justify-between w-full " +

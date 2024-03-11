@@ -34,6 +34,7 @@ export default function IntrestedInList({ formik }) {
   const [statusList, setStatusList] = useState(false);
   const handleCloseList = () => {
     setStatusList(false);
+    formik.setFieldTouched(`intrested_jobs`, true);
   };
 
   const [listItemsSource, setListitemsSource] = useState([]);
@@ -47,27 +48,27 @@ export default function IntrestedInList({ formik }) {
     setFilteredList(listOfJobs);
   }, []);
   const handleChangeInputAutoComplete = (event) => {
-    console.log(event);
+    // console.log(event);
     setTextInput(() => event.target.value);
     const filteredList = listItemsSource.filter((job) =>
       job.name.includes(event.target.value)
     );
-    console.log(filteredList);
+    // console.log(filteredList);
     setFilteredList(filteredList);
-    console.log(filteredList.length === 1);
+    // console.log(filteredList.length === 1);
   };
-  const handleEnterKeyPress = (event) => {
-    setTextInput(() => event.target.value);
-    const filteredList = listItemsSource.filter((job) =>
-      job.name.includes(event.target.value)
-    );
-    setFilteredList(filteredList);
-    if (event.key === "Enter") {
-      formik.setFieldValue("intrested_fields", filteredList[0].name);
-      setTextInput(filteredList[0].name);
-      setStatusList(false);
-    }
-  };
+  // const handleEnterKeyPress = (event) => {
+  //   setTextInput(() => event.target.value);
+  //   const filteredList = listItemsSource.filter((job) =>
+  //     job.name.includes(event.target.value)
+  //   );
+  //   setFilteredList(filteredList);
+  //   if (event.key === "Enter") {
+  //     formik.setFieldValue("intrested_jobs", filteredList[0].name);
+  //     setTextInput(filteredList[0].name);
+  //     setStatusList(false);
+  //   }
+  // };
 
   const handleChangeSelected = (item, index) => {
     const updatedItems = [...filteredList];
@@ -75,13 +76,13 @@ export default function IntrestedInList({ formik }) {
       ...updatedItems[index],
       selected: !updatedItems[index]?.selected,
     };
-    // if(updatedItems[index].selected){
+    // console.log(updatedItems[index])
+    // console.log(updatedItems[index].selected)
 
-    //   formik.setFieldValue("intrested_fields", [...formik.values.intrested_fields,updatedItems[index]]);
-    // }else{
-    //   const filteredFormik=formik.values.intrested_fields.filter((item,index)=>item.name===updatedItems[index].name);
-    //   formik.setFieldValue("intrested_fields", [...filteredFormik]);
-    // }
+    const testArraySelected=updatedItems.filter(item=>item.selected===true)
+    // console.log(testArraySelected)
+    formik.setFieldValue("intrested_jobs", testArraySelected);
+    formik.setFieldTouched("intrested_jobs", true);
     setFilteredList(updatedItems);
   };
 
@@ -110,7 +111,7 @@ export default function IntrestedInList({ formik }) {
           }
           onClick={() => {
             setStatusList(true);
-            formik.setFieldTouched(`intrested_jobs`,true)
+            formik.setFieldTouched(`intrested_jobs`, true);
           }}
         >
           <label

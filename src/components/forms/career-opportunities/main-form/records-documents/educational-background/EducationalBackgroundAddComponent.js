@@ -172,7 +172,7 @@ export default function EducationalBackgroundAddComponent({
               `${openForm ? "   h-auto " : "   h-0 overflow-hidden "}`
             }
           >
-            <div className="flex flex-col grow w-full  md:flex-row items-center md:gap-6 ">
+            <div className="flex flex-col grow w-full  md:flex-row items-start md:gap-6 ">
               <div className="group w-full  mb-3 grow  relative md:w-[50%] ">
                 <input
                   name="name"
@@ -216,7 +216,7 @@ export default function EducationalBackgroundAddComponent({
               </div>
               <UniversityType formik={formikEducation} />
             </div>
-            <div className="flex flex-col grow w-full  md:flex-row items-center md:gap-6 ">
+            <div className="flex flex-col grow w-full  md:flex-row items-start md:gap-6 ">
               <FieldOfStudy formik={formikEducation} />
               <div className="group w-full  mb-3 grow  md:w-[50%] relative ">
                 <input

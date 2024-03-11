@@ -55,7 +55,7 @@ export default function ReligionList({ formik }) {
     <div className="flex flex-col grow w-full">
       <ClickOutside
         onClick={handleCloseList}
-        className={" w-full flex flex-row mx-auto mt-1   "}
+        className={" w-full flex flex-row mx-auto    "}
       >
         <div
           className={

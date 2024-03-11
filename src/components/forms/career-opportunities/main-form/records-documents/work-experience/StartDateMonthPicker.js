@@ -132,21 +132,19 @@ import ClickOutside from "../../ClickOutside";
 import DangerIcon from "@/icon2/DangerIcon";
 import formStyles from "../../formcheckbox.module.css";
 
-
-
 const monthsHijri = [
-  "فروردین",
-  "اردیبهشت",
-  "خرداد",
-  "تیر",
-  "مرداد",
-  "شهریور",
-  "مهر",
-  "آبان",
-  "آذر",
-  "دی",
-  "بهمن",
-  "اسفند",
+  { name: "فروردین", valueStatus: "1" },
+  { name: "اردیبهشت", valueStatus: "2" },
+  { name: "خرداد", valueStatus: "3" },
+  { name: "تیر", valueStatus: "4" },
+  { name: "مرداد", valueStatus: "5" },
+  { name: "شهریور", valueStatus: "6" },
+  { name: "مهر", valueStatus: "7" },
+  { name: "آبان", valueStatus: "8" },
+  { name: "آذر", valueStatus: "9" },
+  { name: "دی", valueStatus: "10" },
+  { name: "بهمن", valueStatus: "11" },
+  { name: "اسفند", valueStatus: "12" },
 ];
 export default function StartDateMonthPicker({ formik }) {
   const [statusList, setStatusList] = useState(false);
@@ -167,13 +165,21 @@ export default function StartDateMonthPicker({ formik }) {
     setFilteredList(monthsHijri);
   }, []);
   useEffect(() => {
-    setTextInput(formik.values.start_date_month);
+    const textObj = monthsHijri.find(
+      (item) => item.valueStatus === formik.values.start_date_month
+    );
+    // console.log(textObj.name)
+    if (textObj?.name) {
+      setTextInput(textObj?.name);
+    } else {
+      setTextInput("");
+    }
   }, [formik.values.start_date_month]);
   const handleChangeInputAutoComplete = (event) => {
     // console.log(event);
     setTextInput(() => event.target.value);
     const filteredList = listItemsSource.filter((start_date_month) =>
-      start_date_month.includes(event.target.value)
+      start_date_month.name.includes(event.target.value)
     );
     // console.log(filteredList);
     setFilteredList(filteredList);
@@ -182,12 +188,12 @@ export default function StartDateMonthPicker({ formik }) {
   const handleEnterKeyPress = (event) => {
     setTextInput(() => event.target.value);
     const filteredList = listItemsSource.filter((start_date_month) =>
-      start_date_month.includes(event.target.value)
+      start_date_month.name.includes(event.target.value)
     );
     setFilteredList(filteredList);
     if (event.key === "Enter") {
-      formik.setFieldValue("start_date_month", filteredList[0]);
-      setTextInput(filteredList[0]);
+      formik.setFieldValue("start_date_month", filteredList[0].valueStatus);
+      setTextInput(filteredList[0].name);
       setStatusList(false);
     }
   };
@@ -197,9 +203,7 @@ export default function StartDateMonthPicker({ formik }) {
       <div className="flex flex-row w-full gap-3 items-center">
         <ClickOutside
           onClick={handleCloseList}
-          className={
-            " flex flex-row mx-auto mt-1  w-[50%] grow   " 
-          }
+          className={" flex flex-row mx-auto mt-1  w-[50%] grow   "}
         >
           <div
             className={
@@ -220,15 +224,13 @@ export default function StartDateMonthPicker({ formik }) {
                     ? " text-xs  -translate-y-[24px]  px-[5px] bg-[#fff]  "
                     : ""
                 }` +
-                " " 
+                " "
               }
             >
               ماه شروع
             </label>
             <div className="w-fit h-fit absolute top-[50%] left-4 translate-y-[-50%] pointer-events-none  z-[3]">
-              <ArrowDownIcon
-                
-              />
+              <ArrowDownIcon />
             </div>
             <input
               value={textInput}
@@ -250,16 +252,19 @@ export default function StartDateMonthPicker({ formik }) {
                   return (
                     <button
                       key={item}
-                      value={item}
+                      value={item.valueStatus}
                       name={item}
                       onClick={() => {
-                        formik.setFieldValue("start_date_month", item);
-                        setTextInput(item);
+                        formik.setFieldValue(
+                          "start_date_month",
+                          item.valueStatus
+                        );
+                        setTextInput(item.name);
                         setStatusList(false);
                       }}
                       className=" px-3 py-2 hover:bg-[#ebeaea] last:rounded-b-3xl text-right "
                     >
-                      {item}
+                      {item.name}
                     </button>
                   );
                 })}

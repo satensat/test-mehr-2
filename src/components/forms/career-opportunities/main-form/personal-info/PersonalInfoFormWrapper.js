@@ -42,6 +42,19 @@ const validationSchema = yup.object({
         })
     )
     .required("تصویر پرسنلی الزامی است."),
+  intrested_jobs: yup
+    .array()
+    .min(1, "یک مورد را انتخاب کنید.")
+    .of(
+      yup
+        .object()
+        .shape({
+          id: yup.string(),
+          name: yup.string(),
+          selected: yup.boolean(),
+        })
+    )
+    .required("یک مورد را انتخاب کنید."),
   requested_salary: yup
     .number("لطفاً عدد وارد کنید")
     .required("لطفاً مبلغ حقوق خود را وارد کنید")
@@ -79,12 +92,9 @@ const validationSchema = yup.object({
     then: () => yup.string().required("وضعیت خدمت سربازی را وارد انتخاب کنید."),
     otherwise: () => yup.string(),
   }),
-  military_end_date:yup.string().when(["military"], {
+  military_end_date: yup.string().when(["military"], {
     is: "END",
-    then: () =>  yup
-    .string()
-    .trim()
-    .required(" تاریخ پایان خدمت را وارد کنید."),
+    then: () => yup.string().trim().required(" تاریخ پایان خدمت را وارد کنید."),
     otherwise: () => yup.string(),
   }),
   intrested_fields: yup
