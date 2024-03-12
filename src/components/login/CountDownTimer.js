@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
-const CountDownTimer = ({ startTimer,setEnablePhoneSend,setsStartTimer }) => {
+const CountDownTimer = ({ startTimer,setTimerAgainStart,setStartTimer }) => {
   const [time, setTime] = useState({ minutes: 0, seconds: 0 });
   useEffect(() => {
     if (startTimer) {
@@ -12,8 +12,8 @@ const CountDownTimer = ({ startTimer,setEnablePhoneSend,setsStartTimer }) => {
     const interval = setInterval(() => {
       if (time.minutes === 0 && time.seconds === 0) {
         clearInterval(interval);
-        setEnablePhoneSend(true);
-        setsStartTimer(false)
+        setTimerAgainStart(true);
+        setStartTimer(false)
       } else {
         setTime((prevTime) => {
           if (prevTime.seconds === 0) {
@@ -26,7 +26,7 @@ const CountDownTimer = ({ startTimer,setEnablePhoneSend,setsStartTimer }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [time,setEnablePhoneSend,setsStartTimer]);
+  }, [time,setTimerAgainStart,setStartTimer]);
 
   return (
     <div>

@@ -1,234 +1,141 @@
 "use client";
-import React, { useState } from "react";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import ArrowOpinion from "@/icon/ArrowOpinion";
+import React, { useState, useRef } from "react";
 import CountDownTimer from "./CountDownTimer";
 import DangerIcon from "@/icon2/DangerIcon";
 import ButtonCoverLoader from "./ButtonCoverLoader";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-function processDone(massage) {
-  toast.success(massage, {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-}
-
-function processFail(massage) {
-  toast.error(massage, {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-}
-
-const validationSchemaLoginCode = yup.object({
-  code: yup.string().trim().required(" کد ورود را وارد کنید."),
-});
 
 export default function FormLoginCode({
   formik,
-  disabledCodeSend,
-  setDisabledCodeSend,
+  loadingCodeSend,
+  setStartTimer,
+  startTimer,
+  timerAgainStart,
+  setTimerAgainStart,
+  sendCodeAgain,
 }) {
+  const [inputs, setInputs] = useState(["", "", "", "", "", ""]);
+  const inputRefs = useRef([]);
 
+  const handleChange = (index, value) => {
+    const newInputs = [...inputs];
+    newInputs[index] = value;
+    setInputs(newInputs);
+    formik.setFieldValue("code", newInputs.join(""));
+    if (value.length === 1 && index < inputs.length - 1) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
 
-  const formikLoginCode = useFormik({
-    initialValues: {
-      code: "",
-    },
-    onSubmit: (values) => {
-      setMainData({
-        phone_number: formik.values.phone_number,
-        code: values.code,
-      });
-      processDone("احراز هویت با موفقیت انجام شد.");
-      verificationToFirstFormDone();
-      // try {
-      //   console.log({
-      //     phone_number: formik.values.phone_number,
-      //     code: values.code,
-      //   });
-      //   const res = fetch(
-      //     `http://192.168.10.195:8090/v1/api/after/sale/applicators/confirm/`,
-      //     {
-      //       method: "POST",
-      //       body: JSON.stringify({
-      //         phone_number: formik.values.phone_number,
-      //         code: values.code,
-      //       }),
-      //       headers: {
-      //         "content-type": "application/json",
-      //       },
-      //     }
-      //   )
-      //     .then((response) =>
-      //       response
-      //         .json()
-      //         .then((data) => ({ status: response.status, body: data }))
-      //     )
-      //     .then((detail) => {
-      //       console.log(detail.status);
-      //       console.log(detail.body);
-      //       if (detail.status == "400") {
-      //         // setToast(true);
-      //         if (detail.body.phone_number) {
-      //           // setToast(true);
-      //           // setMessage({
-      //           //   type: "danger",
-      //           //   content: detail.body.phone_number,
-      //           // });
-      //           processFail(detail.body.phone_number);
-      //         }
-      //         if (detail.body.code) {
-      //           // setToast(true);
-      //           // setMessage({
-      //           //   type: "danger",
-      //           //   content: detail.body.code,
-      //           // });
-      //           processFail(detail.body.code);
-      //         }
-      //       }
-      //       if (detail.status == "200" || detail.status == "201") {
-      //         // setToast(true);
-      //         // setMessage({
-      //         //   type: "success",
-      //         //   content: "احراز هویت با موفقیت انجام شد.",
-      //         // });
-      //
-      //         processDone("احراز هویت با موفقیت انجام شد.");
-      //         verificationToFirstFormDone();
-      //         setMainData({
-      //           phone_number: formik.values.phone_number,
-      //           code: values.code,
-      //         });
-      //         // if(detail.body.phone_number===formik.values.phone_number){
-      //         //   setMainData({
-      //         //     ...detail.body
-      //         //   });
-      //         // }else{
-      //         //   setMainData({
-      //         //       phone_number: formik.values.phone_number,
-      //         //       code: values.code,
-      //         //   });
-      //         // }
-      //       }
-      //     })
-      //     .catch((err) => console.log(err));
-      // } catch (error) {
-      //   console.log(error);
-      // }
-    },
-    validationSchema: validationSchemaLoginCode,
-  });
+  const handleKeyPress = (event, index) => {
+    if (event.key === "Backspace" && index > 0 && inputs[index] === "") {
+      inputRefs.current[index - 1].focus();
+    }
+  };
 
   return (
     <form className="flex flex-col items-center justify-center w-full mt-3">
-      <div className="w-[80%]  relative  ">
-        <input
-          name="code"
-          disabled={disabledCodeSend}
-          value={formikLoginCode.values.code}
-          onChange={formikLoginCode.handleChange}
-          onBlur={formikLoginCode.handleBlur}
-          placeholder={
-            // (
-            //  formikLoginCode.values.code.length > 0 &&
-            // disabledCodeSend &&
-            // formikLoginCode.touched.code)
-            disabledCodeSend ? "" : "کد پیامک شده را وارد نمایید."
-          }
-          type="text"
-          className={
-            (formikLoginCode.values.code.length > 0
-              ? " input-label-pos-active "
-              : " ") +
-            " w-full px-4   h-10 resize-none  border rounded-2xl bg-white input-label-pos" +
-            " " +
-            `${
-              formikLoginCode.errors.code && formikLoginCode.touched.code
-                ? " border-[#DF2040] "
-                : "  border-gray-300  "
-            }` +
-            " " +
-            `${
-              disabledCodeSend
-                ? " cursor-not-allowed  placeholder-opacity-0  "
-                : " placeholder-gray "
-            }`
-          }
-        />
-        <label
-          className={
-            "text-[#525252]   absolute  z-[3] top-3 right-4 text-sm pointer-events-none group-focus-within:text-xs   group-focus-within:-translate-y-[22px] rounded-3xl  group-focus-within:px-[5px] transition-all duration-[0.4s] group-focus-within:bg-[#fff] " +
-            " " +
-            `${
-              formikLoginCode.values?.code?.length > 0
-                ? " text-xs  -translate-y-[22px]  px-[5px] bg-[#fff]  "
-                : ""
-            }` +
-            " " +
-            `${disabledCodeSend ? " text-[#ababab]  " : ""}`
-          }
-        >
-          کد ورود یکبار مصرف
-        </label>
-
-        <div
-          className={
-            "text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
-            " " +
-            `${
-              formikLoginCode.errors.code && formikLoginCode.touched.code
-                ? " opacity-100 "
-                : " opacity-0 "
-            }`
-          }
-        >
-          <DangerIcon />
-          {formikLoginCode.errors.code}
-        </div>
+      <div
+        dir="ltr"
+        className="w-full  relative flex flex-row items-center gap-3 justify-center text-left  "
+        onBlur={() => formik.setFieldTouched("code", true)}
+      >
+        {inputs.map((value, index) => (
+          <input
+            name={`code-${index}`}
+            key={index}
+            // value={formik.values.code}
+            // onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+            type="text"
+            ref={(el) => (inputRefs.current[index] = el)}
+            maxLength={1}
+            value={value}
+            onChange={(e) => handleChange(index, e.target.value)}
+            onKeyDown={(e) => handleKeyPress(e, index)}
+            className={
+              "  px-4 w-[45px] text-center  h-10 resize-none  border rounded-2xl bg-white " +
+              " " +
+              `${
+                formik.errors.code && formik.touched.code
+                  ? " border-[#DF2040] "
+                  : "  border-[#ABABAB]  "
+              }` +
+              " "
+            }
+          />
+        ))}
       </div>
-      {/* <div className="w-full flex flex-col  before:content-['']   before:h-[1px] before:w-full   before:bg-[#E6E6E6] before:mb-3 items-center ">
-      <button
-        type="submit"
-        onClick={formikLoginCode.handleSubmit}
+      <div
         className={
-          "  transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl   " +
+          "text-mainRed text-xs pt-1 flex w-full flex-row gap-1 items-center transition-all duration-500 " +
           " " +
           `${
-            disabledCodeSend
-              ? " bg-[#E6E6E6] cursor-not-allowed text-[#696969] "
-              : "group text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] cursor-pointer "
-          }` +
-          " " +
-          `${loadingButton ? "pointer-events-none" : " "}`
+            formik.errors.code && formik.touched.code
+              ? " opacity-100 "
+              : " opacity-0 "
+          }`
         }
       >
-        مرحله بعد
-        <div
+        <DangerIcon />
+        {formik.errors.code}
+      </div>
+      <div
+        className={
+          "px-3 py-1  flex-row items-center font-costumFaNum  bg-[#F7F7F7]  rounded-xl w-full  " +
+          `${timerAgainStart ? " hidden " : "  flex "}`
+        }
+      >
+        <div className="text-[#242424] leading-5 text-xs text-center font-normal flex flex-row gap-2 py-1 px-3">
+          <div className=" w-[35px]">
+            <CountDownTimer
+              startTimer={startTimer}
+              setStartTimer={setStartTimer}
+              setTimerAgainStart={setTimerAgainStart}
+            />
+          </div>
+          دقیقه مانده تا
+        </div>
+        <div className="text-[#ABABAB]  font-bold leading-6 text-sm py-1 px-3">
+          دریافت مجدد کد ورود
+        </div>
+      </div>
+      <button
+        onClick={ sendCodeAgain}
+        type="button"
+        className={
+          "px-3 py-2  flex-row items-center font-costumFaNum  transition ease-in-out duration-500  bg-[#F7F7F7]  rounded-xl w-full text-[#13625C]  font-bold leading-6 text-sm justify-center hover:bg-mainGreen1  hover:text-[#fff] " +
+          `${timerAgainStart ? " flex " : "  hidden "}`
+        }
+      >
+        دریافت مجدد کد ورود
+      </button>
+      <div className="w-full flex flex-row items-center justify-center mx-auto mt-3 ">
+        <button
+          type="submit"
+          onClick={formik.handleSubmit}
+          disabled={!(formik.isValid && formik.dirty)}
           className={
-            "transition ease-in-out duration-500  group-hover:scale-110    group-hover:brightness-0 group-hover:invert-0 " +
+            " flex-grow transition ease-in-out duration-500 h-fit  flex flex-row justify-center items-center  px-4 py-2 text-base font-bold leading-6  rounded-xl  relative " +
             " " +
-            `${disabledCodeSend ? "  " : " brightness-0 invert "}`
+            // `${
+            //   !(formik.isValid && formik.dirty)
+            //     ? " bg-[#E6E6E6] cursor-not-allowed text-[#696969] "
+            //     : "   "
+            // }` +
+            " " +
+            `${
+              loadingCodeSend
+                ? " text-white  bg-mainGreen1   "
+                : !(formik.isValid && formik.dirty)
+                ? " bg-[#F7F7F7] cursor-not-allowed text-[#696969] "
+                : "    text-white  bg-mainGreen1    hover:bg-mainYellow  hover:text-[#000] cursor-pointer "
+            }`
           }
         >
-          <ArrowOpinion color={disabledCodeSend ? "#696969" : ""} />
-        </div>
-        {loadingButton && <ButtonCoverLoader />}
-      </button>
-    </div> */}
+          تایید
+          {loadingCodeSend && <ButtonCoverLoader />}
+        </button>
+      </div>
     </form>
   );
 }

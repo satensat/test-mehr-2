@@ -8,45 +8,12 @@ import DangerIcon from "@/icon2/DangerIcon";
 import ButtonCoverLoader from "./ButtonCoverLoader";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import TickCircle from "@/icon2/TickCircle";
 
-function processDone(massage) {
-  toast.success(massage, {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-}
-
-function processFail(massage) {
-  toast.error(massage, {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-}
-
-export default function FormPhoneOrEmail({
-  formik,
-  disabledCodeSend,
-  setDisabledCodeSend,
-  enablePhoneSend,
-  setEnablePhoneSend,
-  startTimer,
-  setsStartTimer,
-}) {
+export default function FormPhoneOrEmail({ formik, loadingPhoneOrEmailSend }) {
   return (
-    <form className="w-full flex flex-col mb-1">
-      <div className="w-full flex flex-col items-center justify-center ">
-        <div className="w-[80%] flex-grow  relative group  ">
+    <form className="w-full flex flex-col ">
+      <div className="w-full flex flex-col items-center justify-center  mb-3">
+        <div className="w-full flex-grow  relative group  ">
           <input
             name="phone_number"
             value={formik.values.phone_number}
@@ -81,52 +48,48 @@ export default function FormPhoneOrEmail({
           </label>
         </div>
 
-        {!enablePhoneSend ? (
-          <div
-            className={
-              "w-[80%] leading-5  text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 text-[#696969] " +
-              " " +
-              `${!enablePhoneSend ? " opacity-100 " : " opacity-0 "}`
-            }
-          >
-            <TickCircle />
-            زیمآ‌تیقفوم مایپ نتم
-          </div>
-        ) : (
-          <div
-            className={
-              "w-[80%] text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
-              " " +
-              `${
-                formik.errors.phone_number && formik.touched.phone_number
-                  ? " opacity-100 "
-                  : " opacity-0 "
-              }`
-            }
-          >
-            <DangerIcon />
-            {formik.errors.phone_number}
-          </div>
-        )}
-      </div>
-      <div className="w-[80%] flex flex-row items-center justify-center mx-auto  ">
-        <button
-          type="submit"
-          onClick={formik.handleSubmit}
-          disabled={!enablePhoneSend}
+        <div
           className={
-            " flex-grow transition ease-in-out duration-500  flex flex-row justify-center items-center  px-3 py-1 text-sm not-italic font-bold leading-6  rounded-xl   " +
+            "w-full text-mainRed text-xs pt-1 flex  flex-row gap-1 items-center transition-all duration-500 " +
             " " +
             `${
-              !enablePhoneSend
-                ? " bg-[#E6E6E6] cursor-wait text-[#696969] "
-                : " text-white  bg-mainGreen1 h-fit   hover:bg-mainYellow  hover:text-[#000] cursor-pointer "
+              formik.errors.phone_number && formik.touched.phone_number
+                ? " opacity-100 "
+                : " opacity-0 "
             }`
           }
         >
-          دریافت کد ورود یکبار مصرف
+          <DangerIcon />
+          {formik.errors.phone_number}
+        </div>
+      </div>
+      <div className="w-full flex flex-row items-center justify-center mx-auto  ">
+        <button
+          type="submit"
+          onClick={formik.handleSubmit}
+          disabled={!(formik.isValid && formik.dirty)}
+          className={
+            " flex-grow transition ease-in-out duration-500 h-fit  flex flex-row justify-center items-center  px-4 py-2 text-base font-bold leading-6  rounded-xl  relative " +
+            " " +
+            // `${
+            //   !(formik.isValid && formik.dirty)
+            //     ? " bg-[#E6E6E6] cursor-not-allowed text-[#696969] "
+            //     : "   "
+            // }` +
+            " " +
+            `${
+              loadingPhoneOrEmailSend
+                ? " text-white  bg-mainGreen1   "
+                : !(formik.isValid && formik.dirty)
+                ? " bg-[#E6E6E6] cursor-not-allowed text-[#696969] "
+                : "    text-white  bg-mainGreen1    hover:bg-mainYellow  hover:text-[#000] cursor-pointer "
+            }`
+          }
+        >
+          ورود
+          {loadingPhoneOrEmailSend && <ButtonCoverLoader />}
         </button>
-        <div className="px-3 py-1 flex flex-col items-center  ">
+        {/* <div className="px-3 py-1 flex flex-col items-center  ">
           <div className="text-[#808080] leading-4 text-[10px] text-center font-bold ">
             دریافت مجدد پس از:
           </div>
@@ -140,7 +103,7 @@ export default function FormPhoneOrEmail({
             </div>
             دقیقه دیگر
           </div>
-        </div>
+        </div> */}
       </div>
     </form>
   );
