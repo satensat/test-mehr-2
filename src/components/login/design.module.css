@@ -1,7 +1,8 @@
 .container {
-  background-image: conic-gradient(from 180deg, #0c3c37, #13625c) !important;
+  background-image: conic-gradient(from 180deg, #0c3c37, #13625c) ;
   overflow: hidden;
   position: relative;
+z-index: 2;
 }
 .container::before {
   content: "";
@@ -10,11 +11,59 @@
   opacity: 0.25;
   background-repeat: no-repeat;
   filter: brightness(0) invert(1);
-  width: 826px;
-  height: 826px;
+  width: 1446px;
+  height: 1446px;
   transform: rotate(270deg) translate(0px, -50%);
   background-size: contain;
   left: 50%;
   bottom: 0;
+  z-index: -1;
   transform-origin: center;
+}
+/* width: 826px;
+height: 826px;
+
+  width: 1446px;
+  height: 1446px;
+  
+    width: 1239px;
+  height: 1239px;
+
+  width: 1058px;
+  height: 1058px;
+*/
+@media (min-width: 992px) {
+  .container::before {
+    width: 1058px;
+    height: 1058px;
+  }
+}
+
+.bigger{
+  animation: bigger 1s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes bigger {
+  0% {
+      transform: scale(1.0);
+  }
+  100% {
+      transform: scale(1.2);
+  }
+}
+
+.bigger_mirror{
+  animation: bigger-mirror 1s ease-in-out infinite;
+  transform-origin: center;
+  transform: scale(-1,0);
+}
+
+@keyframes bigger-mirror {
+  0% {
+      transform: scale(-1.0);
+  }
+  100% {
+      transform: scale(-1.2);
+  }
 }

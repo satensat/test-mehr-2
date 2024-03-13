@@ -24,7 +24,7 @@ export default function FormPhoneOrEmail({ formik, loadingPhoneOrEmailSend }) {
               (formik.values.phone_number.length > 0
                 ? " input-label-pos-active "
                 : " ") +
-              " w-full px-3   h-[40px] resize-none  border  rounded-2xl bg-white " +
+              " w-full px-3   h-[40px] resize-none  border  rounded-xl bg-white " +
               " " +
               `${
                 formik.errors.phone_number && formik.touched.phone_number

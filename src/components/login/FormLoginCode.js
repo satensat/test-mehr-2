@@ -33,10 +33,10 @@ export default function FormLoginCode({
   };
 
   return (
-    <form className="flex flex-col items-center justify-center w-full mt-3">
+    <form className="flex flex-col items-center justify-center w-full mt-3 ">
       <div
         dir="ltr"
-        className="w-full  relative flex flex-row items-center gap-3 justify-center text-left  "
+        className="w-full  relative flex flex-row items-center gap-2 md:gap-3 justify-center text-left  "
         onBlur={() => formik.setFieldTouched("code", true)}
       >
         {inputs.map((value, index) => (
@@ -53,7 +53,7 @@ export default function FormLoginCode({
             onChange={(e) => handleChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyPress(e, index)}
             className={
-              "  px-4 w-[45px] text-center  h-10 resize-none  border rounded-2xl bg-white " +
+              "   w-[38px] md:w-[45px] text-center  h-10 resize-none  border rounded-xl bg-white " +
               " " +
               `${
                 formik.errors.code && formik.touched.code
@@ -67,7 +67,7 @@ export default function FormLoginCode({
       </div>
       <div
         className={
-          "text-mainRed text-xs pt-1 flex w-full flex-row gap-1 items-center transition-all duration-500 " +
+          "text-mainRed text-xs  flex  flex-row gap-1 items-center transition-all duration-500 font-costumFaNum  w-[268px] md:w-full my-2  " +
           " " +
           `${
             formik.errors.code && formik.touched.code
@@ -81,11 +81,11 @@ export default function FormLoginCode({
       </div>
       <div
         className={
-          "px-3 py-1  flex-row items-center font-costumFaNum  bg-[#F7F7F7]  rounded-xl w-full  " +
+          "md:px-3 py-1  flex-row items-center justify-center font-costumFaNum  bg-[#F7F7F7]  rounded-xl w-full cursor-pointer  " +
           `${timerAgainStart ? " hidden " : "  flex "}`
         }
       >
-        <div className="text-[#242424] leading-5 text-xs text-center font-normal flex flex-row gap-2 py-1 px-3">
+        <div className="text-[#242424] leading-5 text-xs text-center font-normal flex flex-row gap-1 md:gap-2 py-1 md:px-3 pl-2 pr-3">
           <div className=" w-[35px]">
             <CountDownTimer
               startTimer={startTimer}
@@ -95,7 +95,7 @@ export default function FormLoginCode({
           </div>
           دقیقه مانده تا
         </div>
-        <div className="text-[#ABABAB]  font-bold leading-6 text-sm py-1 px-3">
+        <div className="text-[#ABABAB]  font-bold leading-6 text-sm py-1 pl-3 pr-2 md:px-3">
           دریافت مجدد کد ورود
         </div>
       </div>

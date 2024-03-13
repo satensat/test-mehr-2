@@ -32,8 +32,8 @@ const validationSchemaLoginCode = yup.object({
   code: yup
     .string()
     .matches(/^\d+$/, "کد ورود را به درستی کنید.")
-    .min(6, "کد ورود باید دقیقاً 6 کاراکتر باشد.")
-    .max(6, "کد ورود باید دقیقاً 6 کاراکتر باشد.")
+    .min(6, "کد ورود باید دقیقاً 6 کاراکتر داشته باشد.")
+    .max(6, "کد ورود باید دقیقاً 6 کاراکتر داشته باشد.")
     .required("کد را وارد کنید."),
 });
 export default function LoginFullPage() {
@@ -76,7 +76,7 @@ export default function LoginFullPage() {
 
   useEffect(() => {
     setAllSteps(stepLogin);
-    setCurrentStep(stepLogin.step_three);
+    setCurrentStep(stepLogin.step_one);
   }, [stepLogin]);
   // ----------------------------------disabled code send button ----------------------
   // getted from props
@@ -98,10 +98,23 @@ export default function LoginFullPage() {
 
   // ----------------------------------  phone send or email send loader ----------------------
 
-  const [doneAllSteps, setDoneAllSteps] = useState(true);
+  const [doneAllSteps, setDoneAllSteps] = useState(false);
 
-  // ----------------------------------  formik for phone number or email address  ----------------------
+  // ------------(----------------------  formik for phone number or email address  ----------------------
+  const goBackStep = () => {
+    console.log("pppp")
+    console.log(currentStep.valueStep)
+    switch (currentStep.valueStep) {
+      case "1":
+        break;
+      case "2":
+        setCurrentStep(stepLogin.step_one);
 
+        break;
+      default:
+        break;
+    }
+  };
   const formik = useFormik({
     initialValues: {
       phone_number: "",
@@ -173,12 +186,12 @@ export default function LoginFullPage() {
       code: "",
     },
     onSubmit: (values) => {
-      setMainData({
-        phone_number: formik.values.phone_number,
-        code: values.code,
-      });
-      processDone("احراز هویت با موفقیت انجام شد.");
-      verificationToFirstFormDone();
+      // setMainData({
+      //   phone_number: formik.values.phone_number,
+      //   code: values.code,
+      // });
+      setCurrentStep(stepLogin.step_three);
+      setDoneAllSteps(true);
       // try {
       //   console.log({
       //     phone_number: formik.values.phone_number,
@@ -258,9 +271,12 @@ export default function LoginFullPage() {
   });
   return (
     <div className={"w-full h-[100vh] py-12 " + styles.container}>
-      <div className="flex flex-col gap-[10px] mx-auto md:w-[30%] ">
+      <div className="flex flex-col gap-[10px] mx-auto md:w-[45%] lg:w-[28%] md:min-w-[405px] px-3 min-w-[296px] z-[20] ">
         {!doneAllSteps && (
-          <button className="group w-fit transition ease-in-out duration-500 text-center rounded-xl font-bold text-sm leading-6 text-mainGreen1 flex flex-row  items-center px-3 py-1 bg-[#fff] hover:text-white gap-1 hover:bg-mainYellow">
+          <button
+            onClick={() => goBackStep()}
+            className="group w-fit transition ease-in-out duration-500 text-center rounded-xl font-bold text-sm leading-6 text-mainGreen1 flex flex-row  items-center px-3 py-1 bg-[#fff] hover:text-white gap-1 hover:bg-mainYellow cursor-pointer "
+          >
             <div className="transition ease-in-out duration-500  group-hover:brightness-0 group-hover:invert rotate-[-90deg] ">
               <ArrowDownIcon color={"#13625C"} width={"16"} height={"16"} />
             </div>
@@ -293,29 +309,33 @@ export default function LoginFullPage() {
             <div
               className={"w-full flex flex-row justify-center items-center   "}
             >
-              <Image
-                src={"/login/Frame1537.svg"}
-                width={215}
-                height={128}
-                alt={"logo mehrtrade"}
-                className="w-[75px]  -scale-x-[1] "
-              />
+              {doneAllSteps && (
+                <Image
+                  src={"/login/Frame1537.svg"}
+                  width={215}
+                  height={128}
+                  alt={"logo mehrtrade"}
+                  className={"w-[75px]  -scale-x-[1] " + "styles.bigger_mirror"}
+                />
+              )}
               <Image
                 src={"/Logo-big.svg"}
                 width={215}
                 height={128}
                 alt={"logo mehrtrade"}
               />
-              <Image
-                src={"/login/Frame1537.svg"}
-                width={215}
-                height={128}
-                alt={"logo mehrtrade"}
-                className="w-[75px]"
-              />
+              {doneAllSteps && (
+                <Image
+                  src={"/login/Frame1537.svg"}
+                  width={215}
+                  height={128}
+                  alt={"logo mehrtrade"}
+                  className={"w-[75px]   " + "styles.bigger"}
+                />
+              )}
             </div>
             {currentStep.valueStep === "1" && (
-              <div className="flex flex-col w-[80%] px-3">
+              <div className="flex flex-col w-full md:w-[90%] px-3">
                 <div className="text-[#525252] leading-6 text-sm font-bold pb-3 text-center ">
                   شماره همراه یا ایمیل خود را وارد کنید.
                 </div>
@@ -327,7 +347,7 @@ export default function LoginFullPage() {
             )}
 
             {currentStep.valueStep === "2" && (
-              <div className="flex flex-col w-[80%] px-3">
+              <div className="flex flex-col w-full md:w-[90%] px-3">
                 <div className="text-[#525252] leading-6 text-sm font-bold pb-1 text-center ">
                   کد ارسال شده را وارد کنید.
                 </div>
@@ -347,7 +367,7 @@ export default function LoginFullPage() {
             )}
 
             {currentStep.valueStep === "3" && (
-              <div className="flex flex-col w-[80%] px-3">
+              <div className="flex flex-col w-[90%] px-3">
                 <div className="text-[#007f70] leading-8 text-lg font-extrabold pb-3 text-center ">
                   کاربر عزیز خوش‌آمدید!
                 </div>
