@@ -84,7 +84,7 @@ const validationSchema = yup.object({
   birth_city: yup.string().required("شهر را وارد نمایید."),
   gender: yup.string().required("جنسیت را وارد انتخاب کنید."),
   // gender: yup.boolean().required("جنسیت را وارد انتخاب کنید."),
-  is_married: yup.boolean().required("وضعیت تاهل را انتخاب کنید."),
+  is_married: yup.string().required("وضعیت تاهل را انتخاب کنید."),
   nationality: yup.string().required("ملیت را وارد نمایید."),
   religion: yup.string().required("دین خود را وارد انتخاب کنید."),
   military: yup.string().when(["gender"], {

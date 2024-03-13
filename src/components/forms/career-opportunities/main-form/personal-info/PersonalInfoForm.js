@@ -324,14 +324,14 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                         className={`${formStyles.containerRadioTick} `}
                         onClick={() =>
                           // formik.setFieldValue("is_married", "SINGLE")
-                          formik.setFieldValue("is_married",false)
+                          formik.setFieldValue("is_married","SINGLE")
                         }
                       >
                         <input
                           type="radio"
-                          checked={formik.values.is_married ===false}
+                          checked={formik.values.is_married ==="SINGLE"}
                           onChange={() =>
-                            formik.setFieldValue("is_married",false)
+                            formik.setFieldValue("is_married","SINGLE")
                           }
                         />
                         <div className={formStyles.checkmarkRadio}></div>
@@ -349,14 +349,14 @@ export default function PersonalInfoForm({ formik, mainData ,loadingButton }) {
                         className={`${formStyles.containerRadioTick} `}
                         onClick={() =>
                           // formik.setFieldValue("is_married", "MARRIED")
-                          formik.setFieldValue("is_married", true)
+                          formik.setFieldValue("is_married", "MARRIED")
                         }
                       >
                         <input
                           type="radio"
-                          checked={formik.values.is_married === true}
+                          checked={formik.values.is_married === "MARRIED"}
                           onChange={() =>
-                            formik.setFieldValue("is_married", true)
+                            formik.setFieldValue("is_married", "MARRIED")
                           }
                         />
                         <div className={formStyles.checkmarkRadio}></div>
